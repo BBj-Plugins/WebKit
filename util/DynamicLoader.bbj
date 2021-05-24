@@ -1,0 +1,61 @@
+
+class public DynamicLoader
+
+    field private static BBjHtmlView InjHtml!
+    
+
+    method private DynamicLoader()
+    methodend
+    
+    method public static BBjHtmlView getInjHtml()
+        methodret #InjHtml!
+    methodend
+
+    method public static void init()
+      if DynamicLoader.getInjHtml() = null() then
+      sg! =  BBjAPI().openSysGui("X0")
+      
+      window! =sg!.addWindow(sg!.getAvailableContext(),0,0,0,0,"Loading...",$01101083$)
+      inj_html! = CAST(BBjHtmlView,window!.addHtmlView(64190,0,0,0,0,""))
+      inj_html!.setNoEdge(1)
+      DynamicLoader.setInjHtml(inj_html!)
+      
+      
+    methodend
+    
+    method public static void addLocalCSS(BBjString cssfile$)
+      if #getInjHtml() = null() then
+        DynamicLoader.init()
+      fi
+
+      ch=unt
+      open (ch)cssfile$
+      read record (ch,siz=128000)style$
+      close (ch)
+      
+      style! = style$
+      style! = style!.replaceAll("\r","")
+      style! = style!.replaceAll("\n","")
+      
+      script$ = "var styl  = $doc.createElement('style');"
+      script$ = script$ + "styl.textContent = """+style!+""";"
+      script$ = script$ + "$doc.head.appendChild(styl);"
+      #InjHtml!.executeScript(script$)
+    methodend
+
+
+
+    method public static void addStyleURL(BBjString url$)
+      if #getInjHtml() = null() then
+        DynamicLoader.init()
+      fi
+      script$ = script$ + "var link =  $doc.createElement('link');"
+      script$ = script$ + "link.setAttribute('rel','stylesheet');"
+      script$ = script$ + "link.setAttribute('href','"+url$+"');"
+      script$ = script$ + "$doc.head.appendChild(link);"
+      #InjHtml!.executeScript(script$)
+    methodend
+
+
+classend
+

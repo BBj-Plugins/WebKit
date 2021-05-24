@@ -1,0 +1,67 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+rem BBjGridExWidget Package
+
+class public IconTile extends BBjWebWidget
+
+    field private BBjStaticText TextCtrl!
+    field private BBjStaticText IconCtrl!
+    field private BBjString Text$
+    field private BBjString ToolTip$
+    field private BBjString Icon$
+
+    method public IconTile(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public IconTile(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        declare BBjChildWindow btn!
+        btn! = #getCanvas()
+        
+        if f_init!>0 then
+            btn!.addPanelStyle("menutile")
+            btn!.setStyle("width","fit-content")
+            btn!.setStyle("width","-moz-fit-content")
+            btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")    
+            
+            #IconCtrl! = btn!.addStaticText(100,0,0,200,22,#Icon$)
+            #IconCtrl!.addStyle("material-icons")
+            #TextCtrl! = btn!.addStaticText(101,0,0,200,22,#Text$)
+            #TextCtrl!.addStyle("tilelabel")
+        FI
+        
+    methodend
+    
+    
+    method public void setText(BBjString Text$)
+        #Text$= Text$
+        #TextCtrl!.setText(Text$)
+    methodend
+
+    method public void setToolTip(BBjString Text$)
+        #ToolTip$= Text$
+        #getCanvas().setToolTipText(Text$)
+    methodend
+    
+    rem /**
+    rem  * see https://fonts.google.com/icons?selected=Material+Icons
+    rem  */
+    method public void setIcon(BBjString icon$)
+        #Icon$= icon$
+        #IconCtrl!.setText(icon$)
+    methodend
+    
+    method public void onClick(BBjMouseDownEvent ev!)   
+        #super!.fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getID())
+    methodend
+    
+classend

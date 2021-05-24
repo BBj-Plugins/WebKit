@@ -1,0 +1,126 @@
+class public MenuItem
+
+    field private BBjNumber NodeId
+    field private BBjString Caption!
+    field private BBjString IconFileName!
+    field private BBjString ToolTip!
+    field private MenuItem  Parent!
+    field private BBjVector Children! = new BBjVector()
+
+    field private Object    NotifyObj!
+    field private BBjString NotifyMethod$
+    field private Object    NotifyPayload!
+
+
+    method private MenuItem()
+    methodend
+
+
+    method public MenuItem(MenuItem parentItem!, BBjNumber nodeId, BBjString caption!, BBjString toolTip!, BBjString iconFilename!)
+
+        #NodeId = nodeId
+        #Caption! = caption!
+        #ToolTip! = toolTip!
+        #IconFileName! = iconFilename!
+
+        #Parent! = parentItem!
+        if #Parent! <> null() then
+            #Parent!.addChild(#this!)
+        fi
+
+    methodend
+
+    method public BBjNumber getNodeId()
+        methodret #NodeId
+    methodend
+
+
+    method public BBjString getCaption()
+        methodret #Caption!
+    methodend
+
+    method public BBjString getToolTip()
+        methodret #ToolTip!
+    methodend
+
+
+    method public BBjString getIcon()
+        methodret #IconFileName!
+    methodend
+
+
+    method public BBjImage getImage()
+
+        if #IconFileName! <> null() and #IconFileName! <> "" then
+            img! = BBjAPI().getSysGui().getImageManager().loadImageFromFile(#IconFileName!,err=*next)
+        fi
+        methodret img!
+
+    methodend
+
+
+    method public MenuItem getParent()
+
+        methodret #Parent!
+
+    methodend
+
+
+    method public BBjVector getChildren()
+
+        methodret #Children!
+
+    methodend
+
+
+    method public void addChild(MenuItem item!)
+
+        #Children!.addItem(item!)
+
+    methodend
+
+classend
+
+
+rem ##################################################################################################
+rem class Menu
+rem ##################################################################################################
+
+class public Menu
+
+    field private java.util.HashMap menuMap! = new java.util.HashMap()
+    field private MenuItem RootItem!
+
+
+    method public Menu()
+        #RootItem! = new MenuItem(null(),0, "root", "","")
+    methodend
+
+
+    method public MenuItem addMenuItem(MenuItem parentItem!, BBjNumber nodeId, BBjString caption!, BBjString toolTip!, BBjString iconFilename!)
+        item! = new MenuItem(parentItem!, nodeId, caption!, toolTip!, iconFilename!)
+        #menuMap!.put(nodeID,item!)
+        methodret item!
+    methodend
+
+    method public MenuItem getRoot()
+        methodret #RootItem!
+    methodend
+
+    method public BBjVector getChildren(MenuItem item!)
+        if item! = null() then
+            methodret #RootItem!.getChildren()
+        else
+            methodret item!.getChildren()
+        fi
+    methodend
+    
+    method public MenuItem getItem(BBjNumber nodeId)
+        methodret CAST(MenuItem,#menuMap!.get(nodeId))
+    methodend
+
+classend
+
+
+
+

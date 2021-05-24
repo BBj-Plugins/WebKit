@@ -1,0 +1,95 @@
+use ::WebKit/widgets/IconTile.bbj::IconTile
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+
+class public PortalFrame
+
+    field private BBjTopLevelWindow window!
+    field private BBjChildWindow Drawer!
+    
+    field public BBjString Username!
+    field public Menu Menu!
+    
+    field private Boolean drawerOpen! = Boolean.FALSE
+    field private java.util.HashMap win_list! = new java.util.HashMap()
+    
+    
+    method public Boolean doModal()
+
+            sysgui! =BBjAPI().openSysGui("X0")
+            
+            #window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Customer Portal",$01101083$))
+
+            cw_top! = #window!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            cw_top!.setNoEdge(1)
+            cw_top!.addStyle("topbar")
+            
+            menu_btn! = cw_top!.addChildWindow(99,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            menu_btn!.addStyle("menutoggle")
+            
+            IconCtrl! = menu_btn!.addStaticText(100,0,0,200,22,"menu")
+            IconCtrl!.addStyle("material-icons")
+            IconCtrl!.addStyle("tilelabel")
+            menu_btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onToggleMenu")
+            
+            
+            logo! = cw_top!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
+            logo!.addPanelStyle("logo")            
+
+            #Drawer! = #window!.addChildWindow(101,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            #Drawer!.addStyle("drawermenu")
+            #Drawer!.addStyle("drawerclosed")
+            
+            main! = #window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            main!.addStyle("mainarea")
+            main!.setClientEdge(0)
+            main!.setNoEdge(1)    
+             
+            menuitems! = #Menu!.getChildren(#Menu!.getRoot()) 
+            it! = menuitems!.iterator()
+            while it!.hasNext()
+                declare auto MenuItem menuitem!
+                menuitem! = it!.next()
+                id% = menuitem!.getNodeId()
+                btn! = new IconTile(#Drawer!,id%)
+                btn!.setText(menuitem!.getCaption())
+                btn!.setIcon(menuitem!.getIcon())
+                btn!.setToolTip(menuitem!.getToolTip())
+                btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,"menu_click")
+            wend
+            
+            
+                account_name! = cw_top!.addStaticText(1221,0,0,200,80,#Username!)
+                account_name!.addStyle("account")
+                
+                avatar! = cw_top!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+                avatar!.addStyle("avatar")
+            
+            process_events
+            
+                menu_click:
+                    ev! = BBjAPI().getLastEvent()
+                    nodeId=num(str(ev!.getObject()))
+                    item!=#Menu!.getItem(nodeId)
+                    a=msgbox(item!.getCaption(),0,"Clicked on")
+                    return
+    methodend
+    
+
+    method public void onToggleMenu(BBjEvent ev!)
+    rem drawer_status 0=open, 1=closed
+    if #drawerOpen! then
+         #drawerOpen!=Boolean.FALSE
+         #Drawer!.addStyle("drawerclosed")
+         #Drawer!.removeStyle("draweropen")
+    else
+         #drawerOpen!=Boolean.TRUE
+         #Drawer!.addStyle("draweropen")
+         #Drawer!.removeStyle("drawerclosed")
+    fi
+    methodend
+return
+
+classend
+
+

@@ -1,0 +1,38 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+
+class public BBjWebWidget extends BBjWidget
+
+REM IMPORTANT DISCLAIMER: The BBjControl Interface is a BBj-internal Interface that is
+REM subject to change at any time. The BBjWidget class will be updated to compensate
+REM for future BBjControl changes, so BASIS recommends that you always use BBjWidget
+REM as the starting point for your UI component development projects (and NOT reference 
+REM the BBjControl Interface directly in your code). 
+
+
+    method public BBjWebWidget()
+    methodend
+
+    method protected void create(BBjWindow wnd!, BBjNumber id!)
+        #super!.setCanvas(wnd!.addChildWindow(id!,1,1,1,1,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
+        #redraw(BBjAPI.TRUE)
+    methodend
+    
+    method protected void create(BBjChildWindow wnd!)
+        #setCanvas(wnd!)
+        #redraw(BBjAPI.TRUE)
+    methodend
+    
+    method public void setStyle(BBjString x!,BBjString y!)
+        #getCanvas().setStyle(x!,y!)
+    methodend
+    
+    method public void setPanelStyle(BBjString x!,BBjString y!)
+        #getCanvas().setPanelStyle(x!,y!)
+    methodend
+
+    method public void addPanelStyle(BBjString x!)
+        #getCanvas().addPanelStyle(x!)
+    methodend
+    
+classend

@@ -1,0 +1,94 @@
+use ::widgets/BBjWebWidget.bbj::BBjWebWidget
+rem BBjGridExWidget Package
+
+class public TilesList extends BBjWebWidget
+
+    field private BBjVector TileItems!
+    field private BBjVector TileControls!
+
+    method public static int ON_TILE_CLICK()
+        methodret 9876
+    methodend
+
+    method public TilesList(BBjChildWindow wnd!)
+        #super!.create(wnd!)
+    methodend
+
+    method public TilesList(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        area! = #getCanvas()
+        
+        if f_init!>0 then
+
+            area!.setStyle("float","left")
+            area!.setStyle("padding","0 0 0 5px")
+            area!.setStyle("position","relative")
+            area!.setStyle("float","left")
+            area!.setStyle("border-right","1px #f8f7f3 solid")
+            
+            area!.setPanelStyle("overflow-y","auto")
+            area!.setPanelStyle("float","left")
+            area!.setPanelStyle("position","relative")
+            area!.setPanelStyle("margin-left","-5px")
+            
+        FI
+        
+    methodend
+
+    method private void renderTiles()
+            
+            if (#TileControls! <> null() )
+                it! = #TileControls!.iterator()
+                while it!.hasNext()
+                    it!.next().destroy()
+                wend
+            fi
+            
+            #TileControls! = new BBjVector()
+            
+            if #TileItems!<>null() then
+                area! = #getCanvas()
+                it! = #TileItems!.iterator()
+                i=0
+                while it!.hasNext()
+                    item! =  CAST(BBjChildWindow,area!.addChildWindow(1000+i,0,0,100,80,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
+                    i=i+1
+                    item!.setStyle("box-shadow","0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)")
+                    item!.setStyle("margin","5px")
+                    item!.setStyle("display","flex")
+    
+                    item!.addStaticText(200+i,0,0,1,1,str(it!.next()))
+                    item!.setStyle("width","calc( 100% - 20px )")
+                    item!.setStyle("height","85px")
+                    item!.setPanelStyle("padding","5px")
+                    item!.setCallback( BBjAPI.ON_MOUSE_DOWN,#this!,"onTileClick")
+                    
+                    #TileControls!.add(item!)
+                wend
+            fi
+    methodend
+    
+    method public void onTileClick(BBjMouseDownEvent ev!)
+        id!= ev!.getControl().getID()-1000
+        #fireEvent(#ON_TILE_CLICK(), id!)
+    methodend
+    
+    
+    method public void setTileItems(BBjVector items!)
+        #TileItems! = items!
+        #renderTiles()
+    methodend
+    
+
+    
+classend
+

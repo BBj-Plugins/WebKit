@@ -28,14 +28,9 @@ class public LoginDialog
 
             sysgui! =BBjAPI().openSysGui("X0")
             
-            window! = sysgui!.addWindow(25,25,1200,750,"Login",$01101083$)
+            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Login",$01101083$)
             window!.addStyle("wallpaper")
             #window! = CAST(BBjTopLevelWindow, window!)
-            
-            inj_html! = window!.addHtmlView(998,0,0,0,0,"")
-            inj_html!.setNoEdge(1)
-            inj_html!.setCallback(BBjAPI.ON_PAGE_LOADED,#this!,"onPageLoaded")
-            
             
             
             logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
@@ -118,25 +113,6 @@ class public LoginDialog
                 
     methodend
     
-    method public void onPageLoaded( BBjPageLoadedEvent ev!)    
-                
-                ch=unt
-                open (ch)"WebKit/css/webkit.css"
-                read record (ch,siz=128000)style$
-                close (ch)
-                
-                style! = style$
-                style! = style!.replaceAll("\r","")
-                style! = style!.replaceAll("\n","")
-                
-                script$ = "var styl  = $doc.createElement('style');"
-                script$ = script$ + "styl.textContent = """+style!+""";"
-                script$ = script$ + "$doc.head.appendChild(styl);"
-                inj_html! = ev!.getControl()
-                inj_html!.executeScript(script$)
-                inj_html!.destroy()
-                
-    methodend
     
     method public static void clearRememberToken()
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
@@ -174,7 +150,7 @@ class public SampleAuthProvider implements IAuthProvider
     method public Boolean checkToken(BBjString token!)
            token$ = com.basis.api.admin.BBjAdminFactory.renewAuthToken(token!,err=invalid)
            #token! = token$
-           adm! = com.basis.api.admin.BBjAdminFactory.getBBjAdmin(token!)
+           adm! = com.basis.api.admin.BBjAdminFactory.getBBjAdmin(token!,err=invalid)
            X$=adm!.getUser()
            #user!= X$
            
@@ -197,7 +173,7 @@ classend
 token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
 if token$>"" then 
     if msgbox("Clear Remember Token?",36,"Token") = 6 then
-        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember","")
+        LoginDialog.clearRememberToken()
     fi
 fi
 
