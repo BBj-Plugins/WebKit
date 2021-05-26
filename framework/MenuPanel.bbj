@@ -62,12 +62,13 @@ class public MenuPanel extends BBjWebWidget
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
+        
         nodeId=num(str(ev!.getObject()))
         item!=#Menu!.getItem(nodeId)
         if item!.hasChildren() then
             #setParentNode(nodeId)
         else
-            a=msgbox(item!.getCaption(),0,"Clicked on panel entry")
+            #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getObject())
         fi
     methodend    
 classend

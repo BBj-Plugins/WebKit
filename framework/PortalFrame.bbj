@@ -4,6 +4,9 @@ use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/MenuPanel.bbj::MenuPanel
 use ::WebKit/framework/EmbedPanel.bbj::EmbedPanel
 use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::WebKit/framework/LoginDialog.bbj::LoginDialog
+
+use java.util.HashMap
 
 class public PortalFrame
 
@@ -15,7 +18,7 @@ class public PortalFrame
     field public Menu Menu!
     
     field private Boolean drawerOpen! = Boolean.FALSE
-    field private java.util.HashMap win_list! = new java.util.HashMap()
+    field private HashMap win_list! = new HashMap()
     field private BBjWebWidget curr_win! 
     field private MenuPanel menuPanel!
     
@@ -26,12 +29,15 @@ class public PortalFrame
             sysgui! =BBjAPI().openSysGui("X0")
             
             #window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Customer Portal",$01101083$))
-
-            cw_top! = #window!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            
+            rem add one invisible button to force the BASIS variables to be loaded for CSS            
+            #window!.addButton(1000,0,0,0,0,"TEST",$0010$ )
+            
+            cw_top! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             cw_top!.setNoEdge(1)
             cw_top!.addStyle("topbar")
             
-            menu_btn! = cw_top!.addChildWindow(99,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            menu_btn! = cw_top!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             menu_btn!.addStyle("menutoggle")
             
             IconCtrl! = menu_btn!.addStaticText(100,0,0,200,22,"menu")
@@ -40,14 +46,14 @@ class public PortalFrame
             menu_btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onToggleMenu")
             
             
-            logo! = cw_top!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
+            logo! = cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
             logo!.addPanelStyle("logo")            
 
-            #Drawer! = #window!.addChildWindow(101,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            #Drawer! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             #Drawer!.addStyle("drawermenu")
             #Drawer!.addStyle("drawerclosed")
             
-            main! = #window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             main!.addStyle("mainarea")
             #Main! = cast(BBjChildWindow,main!)
              
@@ -64,13 +70,20 @@ class public PortalFrame
                 btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             wend
 
-            account_name! = cw_top!.addStaticText(1221,0,0,200,80,#Username!)
+            avatar_area! = cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            account_name! = avatar_area!.addStaticText(1221,0,0,200,80,#Username!)
             account_name!.addStyle("account")
             
-            avatar! = cw_top!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            avatar! = avatar_area!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             avatar!.addStyle("avatar")
+            avatar_area!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onAvatarAreaClick")
+            
+            BBjAPI().setCustomEventCallback("logout","logout")
             
             process_events
+            
+            logout:
+                methodret 1
             
     methodend
     
@@ -88,6 +101,7 @@ class public PortalFrame
             if (#menuPanel! = null()) then
                 #menuPanel! = new MenuPanel(#Main!)
                 #menuPanel!.setMenu(#Menu!)
+                #menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             fi
             #menuPanel!.setParentNode(nodeId)
             #menuPanel!.setVisible(1)
@@ -122,6 +136,13 @@ class public PortalFrame
                 fi
             fi
         fi
+    methodend
+    
+    method public void onAvatarAreaClick(BBjEvent ev!)
+        
+        LoginDialog.clearRememberToken()
+        BBjAPI().postCustomEvent("logout","")
+        
     methodend
                 
     method public void onEmbedPanelClose(BBjCustomEvent ev!)

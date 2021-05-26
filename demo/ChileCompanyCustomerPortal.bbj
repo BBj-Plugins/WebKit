@@ -8,17 +8,14 @@ use ::WebKit/model/Menu.bbj::MenuItem
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
-REM token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
-REM if token$>"" then 
-REM     if msgbox("Clear Remember Token?",36,"Token") = 6 then
-REM         LoginDialog.clearRememberToken()
-REM     fi
-REM fi
+
 
 DynamicLoader.init()
 DynamicLoader.addLocalCSS("WebKit/css/webkit.css")
 DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 DynamicLoader.addLocalCSS("WebKit/demo/assets/demo.css")
+
+startover: 
 
 login! = new LoginDialog(new SampleAuthProvider())
 login!.setAllowRemember(Boolean.TRUE)
@@ -48,8 +45,12 @@ i!.setStartType(2); rem 1 = DWC Program
 i! = m!.addMenuItem(m!.getRoot(),200,"Menu 2","This is menu item two","home")
 
 s1! = m!.addMenuItem(i!,210,"Menu 2.1","This is Submenu Item 2.1","face")
-s2! = m!.addMenuItem(i!,220,"Menu 2.2","This is Submenu Item 2.2","face")
 
+sx! = m!.addMenuItem(i!,230,"Demo BUI","BUI","music_note")
+sx!.setProgram("BBjGridExWidget/demo/Demo.bbj")
+sx!.setStartType(1); rem 1 = BUI Program
+
+s2! = m!.addMenuItem(i!,220,"Menu 2.2","This is Submenu Item 2.2","face")
 s3! = m!.addMenuItem(s2!,221,"Menu 2.2.1","This is Submenu Item 2.2.1","home")
 s3! = m!.addMenuItem(s2!,222,"Menu 2.2.2","This is Submenu Item 2.2.2","rowing")
 
@@ -69,4 +70,4 @@ portal!.setMenu(m!)
 
 portal!.doModal()
 
-release
+goto startover

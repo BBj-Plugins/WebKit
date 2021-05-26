@@ -10,21 +10,6 @@ body
 }
 
 
-
-.totalamt {
-        position: fixed;
-        bottom:12px;
-        left: 140px;
-}
-
-.checkout {
-		position: fixed;
-        bottom:10px;
-        right: 15px;
-        width: 120px;
-        height: 40px;
-}
-
 .card {
 	  width  : 350px;
 	  height : 400px;
@@ -73,12 +58,6 @@ body
         height: calc( 100vh - 250px );
 }
 
-.qtyontile {
-    color: green;
-	font-size: 35px;
-    padding-top: 15px;
-    padding-right: 10px;
-}
 
 .gridview {
         width: calc( 100vw - 150px ) !important;
@@ -110,7 +89,7 @@ body
 
 .errormsg {
 	font-size:12px;
-	color:red;
+	color:var(--basis-color-warning-80,red);
 	
 }
 
@@ -140,7 +119,7 @@ body
 }
 
 .menutile:hover {
-	background-color: blueviolet;
+	background-color: var(--basis-color-primary-50);
 }
 
 .menutile.submenu{
@@ -151,11 +130,12 @@ body
 }
 
 .menutile.submenu:hover {
-    background-color: #4BB92C;
+    background-color: var(--basis-color-primary-50);
+    color:white;
 }
 
 .tileselected {
-	background-color:#4BB92C;
+	background-color:var(--basis-color-primary-50);
 }
 
 .tilesheadline {
