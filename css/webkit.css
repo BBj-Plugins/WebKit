@@ -134,7 +134,7 @@ body
 
 .menutile .tilelabel {
 	font-family:Nunito, sans-serif;
-    font-size:18px;
+    font-size:14px;
     font-style:normal;
     font-weight:600;      
 }
@@ -143,8 +143,37 @@ body
 	background-color: blueviolet;
 }
 
+.menutile.submenu{
+   color:#1a1a1a;
+   margin-right:20px;
+   margin-top:20px;
+   background-color:#f1f1f1; 
+}
+
+.menutile.submenu:hover {
+    background-color: #4BB92C;
+}
+
 .tileselected {
 	background-color:#4BB92C;
+}
+
+.tilesheadline {
+	font-size: xx-large;
+	color: #1a1a1a;
+}
+
+.tilesheadline:after {
+  content: '';
+  display: block;
+  width: calc( 100% - 40px );
+  height: 2px;
+  background: #000;
+  right: 0;
+}
+
+.menupanel {
+	display: grid;
 }
 
 .logincontainer {
@@ -162,6 +191,7 @@ body
 	height:calc( 100vh - 64px );
 	position:absolute;
 	left:120px;
+	margin: 10px;
 }
 
 .menuclient {
@@ -223,7 +253,17 @@ body
 }
 
 
+.embedframe {
 
+	width:calc( 100% - 20px);
+    height:calc( 100vh - 200px );
+    margin-top:20px;
+    border-width:0px !important;
+	
+}
+iframe{
+	border-width:0px !important;
+}
 
 
 @media screen and (max-width: 600px) {

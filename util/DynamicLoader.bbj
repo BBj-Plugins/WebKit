@@ -15,7 +15,8 @@ class public DynamicLoader
       if DynamicLoader.getInjHtml() = null() then
       sg! =  BBjAPI().openSysGui("X0")
       
-      window! =sg!.addWindow(sg!.getAvailableContext(),0,0,0,0,"Loading...",$01101083$)
+      
+      window! =sg!.addWindow(sg!.getAvailableContext(),0,0,0,0,"",$01101083$)
       inj_html! = CAST(BBjHtmlView,window!.addHtmlView(64190,0,0,0,0,""))
       inj_html!.setNoEdge(1)
       DynamicLoader.setInjHtml(inj_html!)
@@ -49,12 +50,13 @@ class public DynamicLoader
       if #getInjHtml() = null() then
         DynamicLoader.init()
       fi
-      script$ = script$ + "var link =  $doc.createElement('link');"
+      script$ = "var link =  $doc.createElement('link');"
       script$ = script$ + "link.setAttribute('rel','stylesheet');"
       script$ = script$ + "link.setAttribute('href','"+url$+"');"
       script$ = script$ + "$doc.head.appendChild(link);"
       #InjHtml!.executeScript(script$)
     methodend
+    
 
 
 classend

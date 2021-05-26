@@ -60,6 +60,7 @@ class public IconTile extends BBjWebWidget
         #IconCtrl!.setText(icon$)
     methodend
     
+   
     method public void onClick(BBjMouseDownEvent ev!)   
         #super!.fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getID())
     methodend

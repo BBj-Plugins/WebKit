@@ -7,10 +7,8 @@ class public MenuItem
     field private MenuItem  Parent!
     field private BBjVector Children! = new BBjVector()
 
-    field private Object    NotifyObj!
-    field private BBjString NotifyMethod$
-    field private Object    NotifyPayload!
-
+    field private BBjNumber StartType
+    field private BBjString Program$
 
     method private MenuItem()
     methodend
@@ -27,7 +25,6 @@ class public MenuItem
         if #Parent! <> null() then
             #Parent!.addChild(#this!)
         fi
-
     methodend
 
     method public BBjNumber getNodeId()
@@ -66,6 +63,10 @@ class public MenuItem
     methodend
 
 
+    method public Boolean hasChildren()
+        methodret #Children!.size()>0
+    methodend
+
     method public BBjVector getChildren()
 
         methodret #Children!
@@ -77,6 +78,22 @@ class public MenuItem
 
         #Children!.addItem(item!)
 
+    methodend
+    
+    method public void setStartType(BBjNumber startType)
+        #StartType= startType
+    methodend
+    
+    method public void setProgram(BBjString program$)
+        #Program$ = program$
+    methodend
+    
+    method public BBjNumber getStartType()
+        methodret #StartType
+    methodend
+    
+    method public BBjString getProgram()
+        methodret #Program$
     methodend
 
 classend

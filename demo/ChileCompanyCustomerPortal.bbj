@@ -3,6 +3,8 @@ use ::WebKit/framework/LoginDialog.bbj::SampleAuthProvider
 use ::WebKit/framework/PortalFrame.bbj::PortalFrame
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
@@ -28,13 +30,35 @@ fi
 
 
 declare Menu m!
+declare MenuItem i!
 m! = new Menu()
-i! = m!.addMenuItem(m!.getRoot(),100,"Menu 1","This is menu item one","face")
+i! = m!.addMenuItem(m!.getRoot(),100,"Home","Go to the Home - Dashboard","home")
+i!.setProgram("::WebKit/demo/ChileCompanyDashboardPanel.bbj::ChileCompanyDashboardPanel")
+i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
+
+i! = m!.addMenuItem(m!.getRoot(),101,"CD-Store BUI","CD BUI","music_note")
+i!.setProgram("BBjGridExWidget/demo/CD-Store.bbj")
+i!.setStartType(1); rem 1 = BUI Program
+
+i! = m!.addMenuItem(m!.getRoot(),102,"CD-Store DWC","CD DWC","music_note")
+i!.setProgram("BBjGridExWidget/demo/CD-Store.bbj")
+i!.setStartType(2); rem 1 = DWC Program
+
+
 i! = m!.addMenuItem(m!.getRoot(),200,"Menu 2","This is menu item two","home")
+
+s1! = m!.addMenuItem(i!,210,"Menu 2.1","This is Submenu Item 2.1","face")
+s2! = m!.addMenuItem(i!,220,"Menu 2.2","This is Submenu Item 2.2","face")
+
+s3! = m!.addMenuItem(s2!,221,"Menu 2.2.1","This is Submenu Item 2.2.1","home")
+s3! = m!.addMenuItem(s2!,222,"Menu 2.2.2","This is Submenu Item 2.2.2","rowing")
+
+
+s2! = m!.addMenuItem(i!,103,"Menu 2.3","This is Submenu Item 2.3","face")
+
+
 i! = m!.addMenuItem(m!.getRoot(),300,"Menu 3","This is menu item three","rowing")
 
-i! = m!.getChildren(m!.getRoot()).get(0)
-? i!.getCaption()
 
 
 portal! = new PortalFrame()

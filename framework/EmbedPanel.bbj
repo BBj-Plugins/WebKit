@@ -1,0 +1,117 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+
+
+class public EmbedPanel extends BBjWebWidget
+
+    field private BBjStaticText Headline!
+    field private BBjHtmlView HtmlView!
+
+    method public EmbedPanel(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public EmbedPanel(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        declare BBjChildWindow canvas!
+        
+        
+        if f_init!>0 then
+            canvas! = #getCanvas()    
+            #Headline! = canvas!.addStaticText(100,0,0,0,0,"Embedding")
+            #Headline!.addStyle("tilesheadline")
+            #HtmlView! = canvas!.addHtmlView(101,0,0,300,300,"TEST")
+            #HtmlView!.setStyle("border-style","none !important")
+            #HtmlView!.addStyle("embedframe")    
+            #HtmlView!.setRaisedEdge(0)
+            #HtmlView!.setClientEdge(0)
+            
+        FI
+        
+    methodend
+    
+    method public void loadBUI(BBjString title$,BBjString pgm$)
+        #Headline!.setText(title$)
+        appname$=#publishStub()
+        uid$ = java.util.UUID.randomUUID().toString()
+        url$="http://localhost:8888/apps/"+appname$+"?launch="+uid$
+        BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
+        #Headline!.setText(url$)
+        #HtmlView!.setUrl(url$)
+    methodend    
+
+    method public void loadDWC(BBjString title$,BBjString pgm$)
+        #Headline!.setText(title$)
+        appname$=#publishStub()
+        uid$ = java.util.UUID.randomUUID().toString()
+        url$="http://localhost:8888/webapp/"+appname$+"?launch="+uid$
+        BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
+        #Headline!.setText(url$)
+        #HtmlView!.setUrl(url$)
+    methodend    
+    
+    
+    method private BBjString publishStub()
+        source$=BBjAPI().getFileSystem().resolvePath("WebKit/framework/EmbedPanel.bbj")
+        path$=dsk("")+dir("")
+        config$ = BBjAPI().getConfig().getCurrentCommandLineObject().getConfigFile()
+        classpath! = BBjAPI().getConfig().getCurrentCommandLineObject().getOriginalClasspathName()
+        
+        
+        appname$ = "EmbedPanel"
+
+        bbjHome! = System.getProperty("basis.BBjHome")
+        
+        appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
+        appConfig! = appServer!.makeEmptyAppConfig()
+        appConfig!.setProgramName(source$)
+        
+        appConfig!.setConfigFile(config$)
+        if classpath! <> null() then
+            appConfig!.setClasspathName(classpath!)
+        fi
+        appConfig!.setWorkingDirectory(path$)
+        app! = appConfig!.buildApplication(appname$)
+        published = appServer!.isPublished(app!)
+        if (published) then
+            appServer!.unpublish(appname$)
+        fi
+        appServer!.publish(app!)        
+        methodret appname$
+    methodend
+        
+classend
+
+
+
+
+rem launch stub for program
+
+REM later we'll need error handling
+rem seterr launch_err
+
+launch_id$ = clientenv("launch")
+pgm$ = BBjAPI().getGlobalNamespace().getValue(launch_id$)
+
+REM later we need to clean up
+REM BBjAPI().getGlobalNamespace().removeValue(launch_id$)
+
+bui! = BBjAPI().getBuiManager()
+action! = bui!.urlAction("about:blank")
+REM action! = bui!.msgAction("Terminated!")
+bui!.setEndAction(action!)
+
+run pgm$
+
+launch_err:
+    a=msgbox("Error launching...",0,"Error!")
+    release

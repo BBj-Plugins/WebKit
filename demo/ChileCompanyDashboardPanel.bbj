@@ -1,0 +1,32 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+
+class public ChileCompanyDashboardPanel extends BBjWebWidget
+
+    method public ChileCompanyDashboardPanel(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public ChileCompanyDashboardPanel(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+    
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        declare BBjChildWindow canvas!
+        
+        
+        if f_init!>0 then
+            canvas! = #getCanvas()    
+            Headline! = canvas!.addStaticText(100,0,0,0,0,"Dashboard")
+            Headline!.addStyle("tilesheadline")            
+        FI
+        
+    methodend    
+
+classend

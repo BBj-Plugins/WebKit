@@ -1,17 +1,24 @@
 use ::WebKit/widgets/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/framework/MenuPanel.bbj::MenuPanel
+use ::WebKit/framework/EmbedPanel.bbj::EmbedPanel
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
 
 class public PortalFrame
 
     field private BBjTopLevelWindow window!
     field private BBjChildWindow Drawer!
+    field private BBjChildWindow Main!
     
     field public BBjString Username!
     field public Menu Menu!
     
     field private Boolean drawerOpen! = Boolean.FALSE
     field private java.util.HashMap win_list! = new java.util.HashMap()
+    field private BBjWebWidget curr_win! 
+    field private MenuPanel menuPanel!
+    
     
     
     method public Boolean doModal()
@@ -42,8 +49,7 @@ class public PortalFrame
             
             main! = #window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             main!.addStyle("mainarea")
-            main!.setClientEdge(0)
-            main!.setNoEdge(1)    
+            #Main! = cast(BBjChildWindow,main!)
              
             menuitems! = #Menu!.getChildren(#Menu!.getRoot()) 
             it! = menuitems!.iterator()
@@ -55,26 +61,71 @@ class public PortalFrame
                 btn!.setText(menuitem!.getCaption())
                 btn!.setIcon(menuitem!.getIcon())
                 btn!.setToolTip(menuitem!.getToolTip())
-                btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,"menu_click")
+                btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             wend
+
+            account_name! = cw_top!.addStaticText(1221,0,0,200,80,#Username!)
+            account_name!.addStyle("account")
             
-            
-                account_name! = cw_top!.addStaticText(1221,0,0,200,80,#Username!)
-                account_name!.addStyle("account")
-                
-                avatar! = cw_top!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-                avatar!.addStyle("avatar")
+            avatar! = cw_top!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            avatar!.addStyle("avatar")
             
             process_events
             
-                menu_click:
-                    ev! = BBjAPI().getLastEvent()
-                    nodeId=num(str(ev!.getObject()))
-                    item!=#Menu!.getItem(nodeId)
-                    a=msgbox(item!.getCaption(),0,"Clicked on")
-                    return
     methodend
     
+
+    method public void onMenuItemClick(BBjCustomEvent ev!)
+    
+        if #curr_win! <> null() then
+            #curr_win!.setVisible(0)
+            #curr_win!=null()
+        fi
+    
+        nodeId=num(str(ev!.getObject()))
+        item!=#Menu!.getItem(nodeId)
+        if item!.hasChildren() then
+            if (#menuPanel! = null()) then
+                #menuPanel! = new MenuPanel(#Main!)
+                #menuPanel!.setMenu(#Menu!)
+            fi
+            #menuPanel!.setParentNode(nodeId)
+            #menuPanel!.setVisible(1)
+            #curr_win! = #menuPanel! 
+        else
+        
+            if #win_list!.containsKey(nodeId) then
+                #curr_win!= CAST(BBjWebWidget,#win_list!.get(nodeId))
+                #curr_win!.setVisible(1)
+            else
+                pgm$ = item!.getProgram()
+                if pgm$>"" then
+                    starttype = item!.getStartType()
+                    switch starttype
+                        case 0
+                            x! = eval("new "+pgm$+"(#Main!)")
+                            #curr_win! = CAST(BBjWebWidget,x!)
+                            break
+                            
+                        case 1
+                            x! = new EmbedPanel(#Main!)
+                            x!.loadBUI(item!.getCaption(),pgm$)
+                            #curr_win! = CAST(BBjWebWidget,x!)
+                            break
+                        case 2
+                            x! = new EmbedPanel(#Main!)
+                            x!.loadDWC(item!.getCaption(),pgm$)
+                            #curr_win! = CAST(BBjWebWidget,x!)
+                            break
+                        case default
+                            rem ignore
+                            break
+                    swend
+                    #win_list!.put(nodeId,#curr_win!)
+                fi
+            fi
+        fi
+    methodend
 
     method public void onToggleMenu(BBjEvent ev!)
     rem drawer_status 0=open, 1=closed
@@ -91,5 +142,6 @@ class public PortalFrame
 return
 
 classend
+
 
 
