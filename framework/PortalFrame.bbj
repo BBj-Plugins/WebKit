@@ -77,7 +77,7 @@ class public PortalFrame
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
     
-        if #curr_win! <> null() then
+        if #curr_win! <> null() and !#curr_win!.isDestroyed() then
             #curr_win!.setVisible(0)
             #curr_win!=null()
         fi
@@ -108,14 +108,11 @@ class public PortalFrame
                             break
                             
                         case 1
-                            x! = new EmbedPanel(#Main!)
-                            x!.loadBUI(item!.getCaption(),pgm$)
-                            #curr_win! = CAST(BBjWebWidget,x!)
-                            break
                         case 2
                             x! = new EmbedPanel(#Main!)
-                            x!.loadDWC(item!.getCaption(),pgm$)
+                            x!.start(item!)
                             #curr_win! = CAST(BBjWebWidget,x!)
+                            x!.setCallback(BBjAPI().ON_CLOSE,#this!,"onEmbedPanelClose")
                             break
                         case default
                             rem ignore
@@ -125,6 +122,15 @@ class public PortalFrame
                 fi
             fi
         fi
+    methodend
+                
+    method public void onEmbedPanelClose(BBjCustomEvent ev!)
+        item! = ev!.getObject()
+        nodeId = item!.getNodeId()
+        if #win_list!.containsKey(nodeId) then
+            #win_list!.remove(nodeId)
+        fi
+         
     methodend
 
     method public void onToggleMenu(BBjEvent ev!)

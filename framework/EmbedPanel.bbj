@@ -1,4 +1,6 @@
 use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::WebKit/model/Menu.bbj::MenuItem
+
 
 
 
@@ -6,7 +8,7 @@ class public EmbedPanel extends BBjWebWidget
 
     field private BBjStaticText Headline!
     field private BBjHtmlView HtmlView!
-
+    field private MenuItem MenuItem!
     method public EmbedPanel(BBjWindow wnd!)
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
@@ -27,35 +29,49 @@ class public EmbedPanel extends BBjWebWidget
         
         if f_init!>0 then
             canvas! = #getCanvas()    
-            #Headline! = canvas!.addStaticText(100,0,0,0,0,"Embedding")
+            #Headline! = canvas!.addStaticText(100,0,0,0,0,"")
             #Headline!.addStyle("tilesheadline")
             #HtmlView! = canvas!.addHtmlView(101,0,0,300,300,"TEST")
             #HtmlView!.setStyle("border-style","none !important")
             #HtmlView!.addStyle("embedframe")    
             #HtmlView!.setRaisedEdge(0)
             #HtmlView!.setClientEdge(0)
+
             
         FI
         
     methodend
     
-    method public void loadBUI(BBjString title$,BBjString pgm$)
+    method public void start(MenuItem MenuItem!)
+        #MenuItem! = MenuItem!
+        pgm$ = MenuItem!.getProgram()
+        title$= MenuItem!.getCaption()
         #Headline!.setText(title$)
+        starttype = MenuItem!.getStartType()
+        if pgm$>"" then
+            if starttype=1 then 
+                #loadBUI(title$,pgm$)
+            else
+                #loadDWC(title$,pgm$)
+            fi
+        fi
+    methodend
+    
+    method public void loadBUI(BBjString title$,BBjString pgm$)
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()
         url$="http://localhost:8888/apps/"+appname$+"?launch="+uid$
         BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
-        #Headline!.setText(url$)
+        BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
     methodend    
 
     method public void loadDWC(BBjString title$,BBjString pgm$)
-        #Headline!.setText(title$)
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()
         url$="http://localhost:8888/webapp/"+appname$+"?launch="+uid$
         BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
-        #Headline!.setText(url$)
+        BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
     methodend    
     
@@ -88,6 +104,15 @@ class public EmbedPanel extends BBjWebWidget
         appServer!.publish(app!)        
         methodret appname$
     methodend
+    
+    method public void onEmbeddedCommand(BBjNamespaceEvent ev!)
+        command$ = ev!.getNewValue()
+        switch command$
+            case "close"
+                #fireEvent(BBjAPI.ON_CLOSE,#MenuItem!)
+                #destroy()
+        swend
+    methodend
         
 classend
 
@@ -99,19 +124,31 @@ rem launch stub for program
 REM later we'll need error handling
 rem seterr launch_err
 
-launch_id$ = clientenv("launch")
-pgm$ = BBjAPI().getGlobalNamespace().getValue(launch_id$)
+uid$ = clientenv("launch")
+close$ = clientenv("close",err=*next)
+if close$>"" then goto close_app
+pgm$ = BBjAPI().getGlobalNamespace().getValue(uid$)
 
 REM later we need to clean up
 REM BBjAPI().getGlobalNamespace().removeValue(launch_id$)
 
 bui! = BBjAPI().getBuiManager()
-action! = bui!.urlAction("about:blank")
-REM action! = bui!.msgAction("Terminated!")
+
+appname$=bui!.getApplicationName()
+
+REM action! = bui!.appAction(appname$)
+action! = bui!.urlAction("http://localhost:8888/apps/"+appname$+"?close=1&launch="+uid$)
 bui!.setEndAction(action!)
+
 
 run pgm$
 
 launch_err:
-    a=msgbox("Error launching...",0,"Error!")
-    release
+    a=msgbox("error launching")
+
+close_app:
+    BBjAPI().getGlobalNamespace().setValue(uid$,"close")
+release
+    
+
+
