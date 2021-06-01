@@ -15,6 +15,7 @@ class public PortalFrame
     field private BBjChildWindow Main!
     
     field public BBjString Username!
+    field public BBjString Title!
     field public Menu Menu!
     
     field private Boolean drawerOpen! = Boolean.FALSE
@@ -28,7 +29,7 @@ class public PortalFrame
 
             sysgui! =BBjAPI().openSysGui("X0")
             
-            #window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Customer Portal",$01101083$))
+            #window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,#Title!,$01101083$))
             
             rem add one invisible button to force the BASIS variables to be loaded for CSS            
             #window!.addButton(1000,0,0,0,0,"TEST",$0010$ )
