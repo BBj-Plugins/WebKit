@@ -1,5 +1,5 @@
 enter source$
-appname$ = source$(1,pos("."=source$)-1)
+appname$ = source$(1,pos("."=source$,1,pos("."=source$,1,0))-1)
 path$=""
 while pos("/"=appname$)>0
     path$=path$+appname$(1,pos("/"=appname$)-1)+"/"
@@ -11,8 +11,8 @@ while pos("\"=appname$)>0
 wend
 
 bbjHome! = System.getProperty("basis.BBjHome")
-config$ = bbjhome! + "/cfg/config.bbx"
 
+config$ = BBjAPI().getConfig().getCurrentCommandLineObject().getConfigFile()
 classpath! = BBjAPI().getConfig().getCurrentCommandLineObject().getOriginalClasspathName()
 
 appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
