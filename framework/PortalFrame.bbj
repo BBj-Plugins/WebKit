@@ -117,8 +117,13 @@ class public PortalFrame
                     starttype = item!.getStartType()
                     switch starttype
                         case 0
-                            x! = eval("new "+pgm$+"(#Main!)")
-                            #curr_win! = CAST(BBjWebWidget,x!)
+                            x! = null()
+                            x! = eval("new "+pgm$+"(#Main!)",err=*next)
+                            if x! = null() then
+                                a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
+                            else 
+                                #curr_win! = CAST(BBjWebWidget,x!)
+                            fi
                             break
                             
                         case 1
@@ -132,7 +137,9 @@ class public PortalFrame
                             rem ignore
                             break
                     swend
-                    #win_list!.put(nodeId,#curr_win!)
+                    if #curr_win! <> null() then
+                        #win_list!.put(nodeId,#curr_win!)
+                    fi
                 fi
             fi
         fi
