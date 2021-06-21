@@ -1,0 +1,135 @@
+
+class public ClientUtil
+
+    field private static BBjHtmlView InjHtml!
+    
+
+    method private ClientUtil()
+    methodend
+    
+    method public static BBjHtmlView getInjHtml()
+        methodret #InjHtml!
+    methodend
+
+    method public static void init()
+      if ClientUtil.getInjHtml() = null() then
+          sg! =  BBjAPI().openSysGui("X0")
+          
+          
+          window! =sg!.addWindow(sg!.getAvailableContext(),0,0,0,0,"",$01101083$)
+          window!.setStyle("position","fixed")
+                window!.setStyle("left","-20px")
+                window!.setStyle("top","0px")
+                window!.setStyle("width","0px")
+                window!.setStyle("height","0px")
+          inj_html! = CAST(BBjHtmlView,window!.addHtmlView(64190,0,0,0,0,""))
+          inj_html!.setNoEdge(1)
+          ClientUtil.setInjHtml(inj_html!)
+      fi
+      
+    methodend
+    
+    method public static void addLocalCSS(BBjString cssfile$)
+      if #getInjHtml() = null() then
+        ClientUtil.init()
+      fi
+
+      ch=unt
+      open (ch)cssfile$
+      read record (ch,siz=128000)style$
+      close (ch)
+      
+      style! = style$
+      style! = style!.replaceAll("\r","")
+      style! = style!.replaceAll("\n","")
+      
+      script$ = "var styl  = $doc.createElement('style');"
+      script$ = script$ + "styl.textContent = """+style!+""";"
+      script$ = script$ + "$doc.head.appendChild(styl);"
+      ret! = #InjHtml!.executeScript(script$)
+    methodend
+
+    method public static void addLocalJavascript(BBjString jsfile$)
+      if #getInjHtml() = null() then
+        ClientUtil.init()
+      fi
+
+      ch=unt
+      open (ch)jsfile$
+      read record (ch,siz=128000)js$
+      close (ch)
+      
+    
+      ret! = #InjHtml!.injectScript(js$,0)
+      ret! = #InjHtml!.injectScript(js$,1)
+    methodend
+
+
+    method public static void addStyleURL(BBjString url$)
+      if #getInjHtml() = null() then
+        ClientUtil.init()
+      fi
+      script$ = "var link =  $doc.createElement('link');"
+      script$ = script$ + "link.setAttribute('rel','stylesheet');"
+      script$ = script$ + "link.setAttribute('href','"+url$+"');"
+      script$ = script$ + "$doc.head.appendChild(link);"
+      ret! = #InjHtml!.executeScript(script$)
+    methodend
+    
+    method public static void addJavascriptURL(BBjString url$)
+      if #getInjHtml() = null() then
+        ClientUtil.init()
+      fi
+      script$ = "var link =  $doc.createElement('script');"
+      script$ = script$ + "link.setAttribute('type','text/javascript');"
+      script$ = script$ + "link.setAttribute('src','"+url$+"');"
+      script$ = script$ + "$doc.head.appendChild(link);"
+      ret! = #InjHtml!.executeScript(script$)
+    methodend    
+    
+    method public static void executeJavascript(BBjString script$)
+      if #getInjHtml() = null() then
+        ClientUtil.init()
+      fi
+      ret! = #InjHtml!.executeScript(script$)
+    methodend        
+    
+    rem /**
+    rem  * Computes the best locale for the application by matching the supportedLocales! with 
+    rem  * the locales that the browser has communicated using the navigator.languages variable
+    rem  * If no match is found, the first of the supportedLocales! will be returned
+    rem  * @param  BBjString supportedLocales!: a comma-separated list of locales that the application supports, e.g. en,de_DE,de_AT,es_MX,es
+    rem  * 
+    rem  */
+    method public static BBjString computeClientLocale(BBjString supportedLocales!)
+        
+        browser_locales! = BBjAPI().getThinClient().getClientLocales()
+        tmp$=","+supportedLocales!+","
+        it! = browser_locales!.iterator()
+        while it!.hasNext()
+            loc$ = it!.next()
+            if pos(","+loc$+","=tmp$)>0 then
+                methodret loc$
+            fi
+            
+            rem do an auto-fallback to the main language, if a dialect was provided
+            rem this might be a little against the RFC as the header may bring the 
+            rem main language in a later preference position, but just to be sure...
+            if len(loc$)=5 then 
+                loc$=loc$(1,2)
+                    if pos(","+loc$+","=tmp$)>0 then
+                        methodret loc$
+                    fi
+            fi
+            
+        wend
+        
+        loc$=loc$(2)
+        methodret loc$(1,pos(","=loc$)-1) 
+    
+    methodend
+        
+    
+
+classend
+
