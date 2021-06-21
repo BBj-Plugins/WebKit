@@ -1,4 +1,4 @@
-use ::widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
 rem BBjGridExWidget Package
 
 class public Card extends BBjWebWidget

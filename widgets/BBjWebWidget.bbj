@@ -26,6 +26,10 @@ REM the BBjControl Interface directly in your code).
     method public void setStyle(BBjString x!,BBjString y!)
         #getCanvas().setStyle(x!,y!)
     methodend
+
+    method public void setDockStyle(BBjString x!,BBjString y!)
+        #getCanvas().setDockStyle(x!,y!)
+    methodend
     
     method public void setPanelStyle(BBjString x!,BBjString y!)
         #getCanvas().setPanelStyle(x!,y!)

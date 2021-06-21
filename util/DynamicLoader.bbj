@@ -1,0 +1,10 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+rem DynamicLoader is deprecated and will be removed before release!
+class public DynamicLoader extends ClientUtil
+    
+    method public void DynamicLoader()
+        a=msgbox("Class DynamicLoader is deprecated and will be removed before release!")
+    methodend
+
+classend
