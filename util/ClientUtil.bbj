@@ -1,8 +1,7 @@
-
 class public ClientUtil
 
     field private static BBjHtmlView InjHtml!
-    
+    field private static BBjString alreadyLoaded$
 
     method private ClientUtil()
     methodend
@@ -14,8 +13,6 @@ class public ClientUtil
     method public static void init()
       if ClientUtil.getInjHtml() = null() then
           sg! =  BBjAPI().openSysGui("X0")
-          
-          
           window! =sg!.addWindow(sg!.getAvailableContext(),0,0,0,0,"",$01101083$)
           window!.setStyle("position","fixed")
                 window!.setStyle("left","-20px")
@@ -30,6 +27,13 @@ class public ClientUtil
     methodend
     
     method public static void addLocalCSS(BBjString cssfile$)
+    
+      if pos(cssfile$+$0a$=#alreadyLoaded$)>0 then 
+            a=msgbox("Schon da")
+            methodret
+      fi
+      #alreadyLoaded$=#alreadyLoaded$+cssfile$+$0a$
+    
       if #getInjHtml() = null() then
         ClientUtil.init()
       fi
@@ -50,6 +54,13 @@ class public ClientUtil
     methodend
 
     method public static void addLocalJavascript(BBjString jsfile$)
+    
+      if pos(jsfile$+$0a$=#alreadyLoaded$)>0 then 
+            methodret
+      fi
+      #alreadyLoaded$=#alreadyLoaded$+jsfile$+$0a$
+
+    
       if #getInjHtml() = null() then
         ClientUtil.init()
       fi
@@ -66,6 +77,12 @@ class public ClientUtil
 
 
     method public static void addStyleURL(BBjString url$)
+    
+      if pos(url$+$0a$=#alreadyLoaded$)>0 then 
+            methodret
+      fi
+      #alreadyLoaded$=#alreadyLoaded$+url$+$0a$
+          
       if #getInjHtml() = null() then
         ClientUtil.init()
       fi
@@ -77,6 +94,12 @@ class public ClientUtil
     methodend
     
     method public static void addJavascriptURL(BBjString url$)
+    
+      if pos(url$+$0a$=#alreadyLoaded$)>0 then 
+            methodret
+      fi
+      #alreadyLoaded$=#alreadyLoaded$+url$+$0a$
+          
       if #getInjHtml() = null() then
         ClientUtil.init()
       fi
