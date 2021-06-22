@@ -383,3 +383,10 @@ iframe{
 
 
 
+/* Workaround until we have our own Tab Control: */
+.smart-container {
+    overflow-y: auto;
+    height: calc( 100% - 23px ) !important;
+    background-color: white;
+    margin:10px;
+}
