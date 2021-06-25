@@ -24,6 +24,10 @@ if classpath! <> null() then
     appConfig!.setClasspathName(classpath!)
 fi
 appConfig!.setWorkingDirectory(path$)
+
+appConfig!.setDwcEnabled(1)
+appConfig!.setBuiEnabled(0)
+
 app! = appConfig!.buildApplication(appname$)
 published = appServer!.isPublished(app!)
 if (published) then
