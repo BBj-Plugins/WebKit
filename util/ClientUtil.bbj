@@ -29,7 +29,6 @@ class public ClientUtil
     method public static void addLocalCSS(BBjString cssfile$)
     
       if pos(cssfile$+$0a$=#alreadyLoaded$)>0 then 
-            a=msgbox("Schon da")
             methodret
       fi
       #alreadyLoaded$=#alreadyLoaded$+cssfile$+$0a$
@@ -90,7 +89,7 @@ class public ClientUtil
       script$ = script$ + "link.setAttribute('rel','stylesheet');"
       script$ = script$ + "link.setAttribute('href','"+url$+"');"
       script$ = script$ + "$doc.head.appendChild(link);"
-      ret! = #InjHtml!.executeScript(script$)
+      #InjHtml!.executeScript(script$)
     methodend
     
     method public static void addJavascriptURL(BBjString url$)
@@ -107,14 +106,14 @@ class public ClientUtil
       script$ = script$ + "link.setAttribute('type','text/javascript');"
       script$ = script$ + "link.setAttribute('src','"+url$+"');"
       script$ = script$ + "$doc.head.appendChild(link);"
-      ret! = #InjHtml!.executeScript(script$)
+      #InjHtml!.executeScript(script$)
     methodend    
     
     method public static void executeJavascript(BBjString script$)
       if #getInjHtml() = null() then
         ClientUtil.init()
       fi
-      ret! = #InjHtml!.executeScript(script$)
+      #InjHtml!.executeScript(script$)
     methodend        
     
     rem /**
@@ -152,7 +151,26 @@ class public ClientUtil
     
     methodend
         
-    
+    method public static void setUrlAnchor(BBjString anchor$, BBjString title!)   
+        script$="var cur_route = window.location.href;"
+        script$=script$+"cur_route=cur_route.substring(0,cur_route.indexOf('#'));"
+        script$=script$+"cur_route=cur_route+'#"+anchor$+"';"
+        script$=script$+"window.history.pushState('"+anchor$+"', '"+title!+"', cur_route);"
+        #InjHtml!.executeScript(script$)
+    methodend
+
+
+    method public static BBjString getUrlAnchor()   
+        script$="window.location.href"
+        anchor$ = #InjHtml!.executeScript(script$)
+        if pos("#"=anchor$)>0 then
+            anchor$ = anchor$(pos("#"=anchor$)+1)
+            anchor$=java.net.URLDecoder.decode(anchor$, java.nio.charset.StandardCharsets.UTF_8.name())
+        else
+            anchor$ = ""
+        fi
+        methodret anchor$
+    methodend    
 
 classend
 

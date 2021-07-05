@@ -140,6 +140,18 @@ class public Menu
     method public MenuItem getItem(BBjNumber nodeId)
         methodret CAST(MenuItem,#menuMap!.get(nodeId))
     methodend
+    
+    method public MenuItem getItem(BBjString Caption!)
+        it! = #menuMap!.keySet().iterator()
+        while it!.hasNext()
+            item! = #menuMap!.get(it!.next())
+            
+            if item!.getCaption() = Caption! then
+                methodret item!
+            fi
+        wend
+        methodret null()
+    methodend
 
 classend
 

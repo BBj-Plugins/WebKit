@@ -5,6 +5,8 @@ use ::WebKit/framework/MenuPanel.bbj::MenuPanel
 use ::WebKit/framework/EmbedPanel.bbj::EmbedPanel
 use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
 use ::WebKit/framework/LoginDialog.bbj::LoginDialog
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
 
 use java.util.HashMap
 
@@ -81,6 +83,13 @@ class public PortalFrame
             
             BBjAPI().setCustomEventCallback("logout","logout")
             
+            
+            anchor$ = ClientUtil.getUrlAnchor()
+            if anchor$>"" then
+                #navigateTo(anchor$)
+            fi
+
+            
             process_events
             
             logout:
@@ -88,38 +97,48 @@ class public PortalFrame
             
     methodend
     
+    method public void navigateTo(BBjString anchor$)
+        item! = #Menu!.getItem(anchor$)
+        if item! <> null() then
+            #navigateTo(item!)
+        fi
+   methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
-    
+        nodeId=num(str(ev!.getObject()))
+        item!=#Menu!.getItem(nodeId)
+        #navigateTo(item!)
+   methodend
+
+   method public void navigateTo(MenuItem item!)
         if #curr_win! <> null() and !#curr_win!.isDestroyed() then
             #curr_win!.setVisible(0)
             #curr_win!=null()
         fi
-    
-        nodeId=num(str(ev!.getObject()))
-        item!=#Menu!.getItem(nodeId)
+                
         if item!.hasChildren() then
             if (#menuPanel! = null()) then
                 #menuPanel! = new MenuPanel(#Main!)
                 #menuPanel!.setMenu(#Menu!)
                 #menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             fi
-            #menuPanel!.setParentNode(nodeId)
+            #menuPanel!.setParentNode(item!.getNodeId())
             #menuPanel!.setVisible(1)
             #curr_win! = #menuPanel! 
         else
         
-            if #win_list!.containsKey(nodeId) then
-                #curr_win!= CAST(BBjWebWidget,#win_list!.get(nodeId))
+            if #win_list!.containsKey(item!.getNodeId()) then
+                #curr_win!= CAST(BBjWebWidget,#win_list!.get(item!.getNodeId()))
                 #curr_win!.setVisible(1)
             else
                 pgm$ = item!.getProgram()
                 if pgm$>"" then
                     starttype = item!.getStartType()
+                    
                     switch starttype
                         case 0
                             x! = null()
-                            x! = eval("new "+pgm$+"(#Main!)",err=*next)
+                            x! = eval("new "+pgm$+"(#Main!)")
                             if x! = null() then
                                 a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
                             else 
@@ -139,11 +158,13 @@ class public PortalFrame
                             break
                     swend
                     if #curr_win! <> null() then
-                        #win_list!.put(nodeId,#curr_win!)
+                        #win_list!.put(item!.getNodeId(),#curr_win!)
                     fi
+                    
                 fi
             fi
         fi
+        ClientUtil.setUrlAnchor(item!.getCaption(),item!.getCaption())
     methodend
     
     method public void onAvatarAreaClick(BBjEvent ev!)
