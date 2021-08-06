@@ -1,0 +1,27 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+class public CircularAvatar extends BBjWebWidget
+
+    field private BBjChildWindow window!
+    
+    field private BBjString imagePath!
+    
+    method public CircularAvatar(BBjWindow parent!, BBjString radius!, BBjString imagePath!)
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.addPanelStyle("circularAvatarPanelStyle")
+        #window!.setPanelStyle("width", radius!)
+        #window!.setPanelStyle("height", radius!)
+        #imagePath! = imagePath!
+        #setCanvas(#window!)
+        #redraw(1)
+    methodend
+    
+    
+    method public void redraw(Boolean init!)
+        if init! then 
+            #window!.setPanelStyle("background-image","url("+ #imagePath! + ")")
+            #window!.setPanelStyle("background-repeat","no-repeat")
+        endif
+    methodend
+
+classend

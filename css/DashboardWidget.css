@@ -1,0 +1,26 @@
+.dashboardWidgetPanelStyle{
+    height: 48px;
+    margin: 5px 0px;
+    display: grid;
+    grid-template-columns: 24px auto;
+}
+
+.dashboardIconStyle {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    align-self: center;
+    height: 24px;
+    height: 24px;
+}
+
+.dashboardTextStyle {
+    grid-row-start: 1;
+    grid-column-start: 2;
+    align-self: center;
+    margin-left: 19px;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+}

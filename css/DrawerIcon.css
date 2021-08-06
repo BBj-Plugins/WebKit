@@ -1,0 +1,9 @@
+.drawerIconPanelStyle {
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    /* TODO make this a var wich can be overridden */
+    background-color: #F1F1F1;
+    background-repeat: no-repeat;
+    background-position: center;
+}

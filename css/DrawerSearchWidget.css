@@ -1,0 +1,30 @@
+.drawerSearchWidgetPanelStyle {
+    height: 46px;
+    border: solid;
+    border-width: 1px;
+    border-color: #DDE0E1;
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: 58px auto;
+}
+
+.drawerSearchWidgetIconStyle {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    width: 24px;
+    height: 24px;
+    align-self: center;
+    justify-self: center;
+}
+
+.drawerSearchWidgetTextStyle {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    font-family: 'Lato-Bold';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #333E40;
+    padding-left: 4px;
+    align-self: center;
+}

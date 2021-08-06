@@ -1,0 +1,75 @@
+@keyframes drawerAnimationClose{
+    from {
+        width: 300px;
+    }
+    to {
+        width: 104px;
+    }
+}
+
+@keyframes drawerAnimationOpen{
+    from {
+        width: 104px;
+    }
+    to {
+        width: 300px;
+    }
+}
+
+@keyframes drawerMobileAnimationClose {
+    from {
+        width: 300px;
+    }
+    to {
+        width: 0px;
+    }
+}
+
+@keyframes drawerMobileAnimationOpen {
+    from {
+        width: 0px;
+    }
+    to {
+        width: 300px;
+    }
+}
+
+.drawerPanelStyle{
+    height: 100vh;
+    background-color: white;
+    z-index: 99;
+    width: 300px;
+}
+
+.drawerAnimationOpen {
+    animation-name: drawerAnimationOpen;
+    animation-duration: 1.15s;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    animation-timing-function: ease-in;
+}
+.drawerAnimationClose{
+    animation-name: drawerAnimationClose;
+    animation-duration: 1.15s;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    animation-timing-function: ease-out;
+}
+
+@media screen and (max-width: 425px) {
+    .drawerAnimationClose{
+        animation-name: drawerMobileAnimationClose;
+    }
+    .drawerAnimationOpen{
+        animation-name: drawerMobileAnimationOpen;
+    }
+}
+
+.drawerTilesTextHeaderStyle{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #A1A5A7;
+}

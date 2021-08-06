@@ -1,0 +1,28 @@
+
+
+class public DrawerMenuTileEntry 
+
+    field private BBjNumber id!
+    
+    field private BBjString title!
+    
+    field private BBjString iconPath!
+
+    method public DrawerMenuTileEntry(BBjNumber id!, BBjString title!, BBjString iconPath!)
+        #id! = id!
+        #title! = title!
+        #iconPath! = iconPath!
+    methodend
+    
+    method public BBjNumber getID()
+        methodret #id!
+    methodend
+    
+    method public BBjString getTitle()
+        methodret #title!
+    methodend
+    
+    method public BBjString getIconPath()
+        methodret #iconPath!
+    methodend
+classend

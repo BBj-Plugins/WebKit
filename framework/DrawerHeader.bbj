@@ -1,0 +1,44 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+use ::WebKit/framework/DrawerIcon.bbj::DrawerIcon
+
+class public DrawerHeader extends BBjWebWidget 
+    
+    field private BBjChildWindow window!
+    
+    field private BBjString logo!
+    
+    field public static BBjNumber ON_DRAWER_ICON_PUSH = DrawerIcon.getON_DRAWER_ICON_PUSH()
+    
+    method public DrawerHeader(BBjWindow parent!, BBjString logo!)
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.setDockStyle("padding-top","37px")
+        #window!.setDockStyle("padding-left","40px")
+        #window!.setDockStyle("padding-right","36px")
+        #window!.setPanelStyle("display","grid")
+        #setCanvas(#window!)
+        #logo!= logo!
+        #redraw(1)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        declare BBjImageCtrl logo!
+        declare DrawerIcon iconBtn!
+        if init!
+            REM TODO
+            logo! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#logo!)
+            REM if set to fit-content it jumps from 64px to 66 when clicking on the dashboard
+            logo!.setStyle("height","64px")
+            logo!.setStyle("width","fit-content")
+            logo!.setStyle("grid-row-start","1")
+            logo!.setStyle("grid-column-start","1")
+            
+            iconBtn! = new DrawerIcon(#window!)
+            iconBtn!.setCallback(DrawerIcon.ON_DRAWER_ICON_PUSH,#this!,"onDrawerIconPush")
+        endif    
+    methodend
+    
+    method public void onDrawerIconPush(BBjCustomEvent event!)
+        #fireEvent(#ON_DRAWER_ICON_PUSH,"")
+    methodend
+classend

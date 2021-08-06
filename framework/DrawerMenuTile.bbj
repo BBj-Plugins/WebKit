@@ -1,0 +1,42 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+class public DrawerMenuTile extends BBjWebWidget 
+
+    field private BBjChildWindow window!
+    
+    field private BBjString iconPath!
+    
+    field private BBjString titleText!
+    
+    field private BBjNumber id!
+    
+    field public static BBjNumber ON_DRAWER_TILE_PRESSED = 155555
+    
+    method public DrawerMenuTile(BBjWindow parent!,BBjNumber id! ,BBjString icon!, BBjString title!)
+         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+         #window!.addPanelStyle("drawerMenuTilePanelStyle")
+         #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDrawerMenuTile")
+         #id! = id!
+         #titleText! = title!
+         #iconPath! = icon!
+         #setCanvas(#window!)
+         #redraw(1)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        declare BBjImageCtrl icon!
+        declare BBjStaticText title!
+        if init! then 
+            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#iconPath!)
+            icon!.addStyle("drawerMenuTileIconStyle")
+            
+            title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#titleText!)
+            title!.addStyle("drawerMenuTileTextStyle")
+        endif
+    methodend
+    
+    method public void onDrawerMenuTile(BBjMouseDownEvent event!)
+        a = msgbox(str(#id!))
+        #fireEvent(#ON_DRAWER_TILE_PRESSED, #id!)
+    methodend
+classend

@@ -1,0 +1,126 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+use ::WebKit/framework/DrawerHeader.bbj::DrawerHeader
+use ::WebKit/framework/DashboardWidget.bbj::DashboardWidget
+use ::WebKit/framework/DrawerSearchWidget.bbj::DrawerSearchWidget
+use ::WebKit/framework/DrawerMenuTile.bbj::DrawerMenuTile
+use ::WebKit/framework/Divider.bbj::Divider
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/framework/DrawerFooter.bbj::DrawerFooter
+
+class public Drawer extends BBjWebWidget 
+    
+    field private BBjChildWindow window!
+    
+    field private Boolean open! = 0
+    
+    field private BBjVector tiles! = new BBjVector()
+    
+    field private BBjChildWindow tilesWrapper!
+    
+    field private BBjChildWindow optionalControl!
+    
+    method public Drawer(BBjWindow parent!, BBjVector tiles!)
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.addPanelStyle("drawerPanelStyle")
+        #tiles! = tiles!
+        #setCanvas(#window!)
+        #redraw(1)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        declare DrawerHeader header!
+        declare DashboardWidget dashboard!
+        declare DrawerSearchWidget searchWidget!
+        declare Divider topDivider!
+        declare Divider bottomDivider!
+        declare BBjChildWindow tilesWrapper!
+        declare DrawerFooter footer!
+        declare BBjChildWindow footerWrapper!
+        declare BBjString templateRows!
+       rem  "WebKit/demo/assets/prodin_logo.png"
+       
+       rem 12px drawertile space
+       
+       templateRows! = "40px"
+       
+        if init! 
+            #open! = 1
+            header! = new DrawerHeader(#window!,"WebKit/demo/assets/prodin_logo.png")
+            header!.setDockStyle("margin-bottom","25px")
+            header!.setCallback(DrawerHeader.ON_DRAWER_ICON_PUSH,#this!,"onDrawerIconPush")
+            
+            dashboard! = new DashboardWidget(#window!)
+            searchWidget! = new DrawerSearchWidget(#window!)
+            
+            topDivider! = new Divider(#window!)
+            topDivider!.setColor("#DDE0E1")
+            
+            rem TODO figure the scrolling part out
+            #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #tilesWrapper!.setPanelStyle("display","grid")
+            #tilesWrapper!.setPanelStyle("overflow","auto")
+            #tilesWrapper!.setPanelStyle("height","calc(100vh - 381px)")
+            
+            bottomDivider! = new Divider(#window!)
+            bottomDivider!.setColor("#DDE0E1")
+            
+            footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            footerWrapper!.setPanelStyle("height","117px")
+            footerWrapper!.setPanelStyle("display","grid")
+            
+            footer! = new DrawerFooter(footerWrapper!,#window! ,"David Williams","Art Director")
+            footer!.setDockStyle("align-self","center")
+            footer!.setDockStyle("margin-left","40px")
+            
+            
+            declare DrawerMenuTileEntry entry!
+            declare BBjChildWindow spacer!
+            
+            for i = 0 to #tiles!.size() -1
+                entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
+                tile! = new DrawerMenuTile(#tilesWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
+                templateRows! = templateRows! + " 48px" 
+                if i <> #tiles!.size() -1 then 
+                    templateRows! = templateRows! + " 12px"
+                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                    spacer!.setDockStyle("height","12px")
+                endif
+            next i
+REM             a = msgbox(templateRows!)
+            #tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+            
+        endif
+    methodend
+    
+    method public BBjChildWindow getOptionalControlAboveTiles()
+        if #optionalControl! = null() then
+            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        endif
+        methodret #optionalControl!
+    methodend
+    
+    method public void onDrawerIconPush(BBjCustomEvent event!)
+        if #isOpen() then 
+            #closeDrawer()
+        else
+            #openDrawer()
+        endif    
+    methodend
+    
+    method public void closeDrawer()
+        #window!.removePanelStyle("drawerAnimationOpen")
+        #window!.addPanelStyle("drawerAnimationClose")
+        #open! = !#open!
+    methodend
+    
+    method public void openDrawer()
+        #window!.removePanelStyle("drawerAnimationClose")
+        #window!.addPanelStyle("drawerAnimationOpen")
+        #open! = !#open!
+    methodend
+    
+    method public Boolean isOpen()
+        methodret #open!
+    methodend
+classend

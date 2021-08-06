@@ -1,0 +1,25 @@
+.drawerMenuTilePanelStyle{
+    display: grid;
+    grid-template-columns: 64px auto;
+    height: 48px;
+}
+
+.drawerMenuTileIconStyle {
+    width: 24px;
+    height: 24px;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    justify-self: end;
+    align-self: center;
+}
+
+.drawerMenuTileTextStyle {
+    padding-left: 17px;
+    align-self: center;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #333E40;
+}
