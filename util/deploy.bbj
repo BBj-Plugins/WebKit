@@ -1,6 +1,5 @@
 enter source$
 appname$ = source$(1,pos("."=source$,1,pos("."=source$,1,0))-1)
-path$=""
 while pos("/"=appname$)>0
     path$=path$+appname$(1,pos("/"=appname$)-1)+"/"
     appname$=appname$(pos("/"=appname$)+1)
@@ -9,7 +8,8 @@ while pos("\"=appname$)>0
     path$=path$+appname$(1,pos("\"=appname$)-1)+"/"
     appname$=appname$(pos("\"=appname$)+1)
 wend
-
+REM do not push 
+path$= DSK("") + DIR("")
 bbjHome! = System.getProperty("basis.BBjHome")
 
 config$ = BBjAPI().getConfig().getCurrentCommandLineObject().getConfigFile()
