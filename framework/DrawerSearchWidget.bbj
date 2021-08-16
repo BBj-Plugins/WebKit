@@ -3,12 +3,15 @@ use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
 class public DrawerSearchWidget extends BBjWebWidget
 
     field private BBjChildWindow window!
+   
+    field private BBjChildWindow parent!
     
     method public DrawerSearchWidget(BBjWindow parent!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerSearchWidgetPanelStyle")
         #window!.setDockStyle("margin","6px 21px 30px 26px")
         #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSearchPressed")
+REM         #parent! = drawer!
         #setCanvas(#window!)
         #redraw(1)
     methodend

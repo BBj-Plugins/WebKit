@@ -1,0 +1,50 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+
+class public Overlay extends BBjWebWidget
+
+    field private BBjChildWindow overlay!
+    
+    field private BBjChildWindow overlayWrapper!
+    
+    field private BBjChildWindow parent!
+    
+    field private Boolean isOpen! = 0
+    
+    field public static BBjNumber ON_OVERLAY_DISSMISSED = 400777
+    
+    method public Overlay(BBjWindow parent!, BBjChildWindow overlay!)
+        #overlay! = overlay!
+        #parent! = cast(BBjChildWindow, parent!)
+        #setCanvas(#overlay!)
+        #redraw(1)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if init! then
+            #isOpen! = 1
+            #overlayWrapper! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #overlayWrapper!.setDockStyle("height","100vh")
+            #overlayWrapper!.setDockStyle("width","100vw")
+            #overlayWrapper!.setDockStyle("position","absolute")
+            #overlayWrapper!.setDockStyle("top","0px")
+            #overlayWrapper!.setPanelStyle("height","100vh")
+            #overlayWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onOverlayDissmiss")
+        endif
+    methodend
+    
+    method public void onOverlayDissmiss(BBjMouseDownEvent event!)
+        #overlayWrapper!.destroy()
+        #overlay!.destroy()
+        #isOpen! = 0
+        #fireEvent(#ON_OVERLAY_DISSMISSED,"")
+    methodend
+    
+    method public Boolean isOpen()
+        methodret #isOpen!
+    methodend
+    
+    method public void setBackgroundColor(BBjString color!)
+        #overlayWrapper!.setDockStyle("background-color",color!)
+    methodend
+classend
