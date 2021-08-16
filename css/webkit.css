@@ -158,12 +158,12 @@ body
 }
 
 .logincontainer {
-	width:320px;
+	width:310px;
 	height:280px;
 	background-color:white;
 	position: fixed;
-	left:calc( 50vw - 175px );
-	top:calc( 50vh - 120px );
+	left:calc( 50vw - 180px );
+	top:calc( 50vh - 100px );
 	padding: 20px;
 }
 

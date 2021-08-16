@@ -1,7 +1,7 @@
 use ::WebKit/framework/LoginDialog.bbj::LoginDialog
 use ::WebKit/framework/LoginDialog.bbj::SampleAuthProvider
 use ::WebKit/framework/PortalFrame.bbj::PortalFrame
-use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 
@@ -10,10 +10,10 @@ if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
 
 
-DynamicLoader.init()
-DynamicLoader.addLocalCSS("WebKit/css/webkit.css")
-DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
-DynamicLoader.addLocalCSS("WebKit/demo/assets/demo.css")
+ClientUtil.init()
+ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
+ClientUtil.addLocalCSS("WebKit/demo/assets/demo.css")
 
 startover: 
 

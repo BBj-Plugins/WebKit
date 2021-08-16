@@ -1,3 +1,10 @@
+use ::AuthKit/profile/GoogleAccountProfile.bbj::GoogleAccountProfile
+use ::AuthKit/profile/MicrosoftAccountProfile.bbj::MicrosoftAccountProfile
+use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
+
+
+use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
+use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 
 class public LoginDialog
 
@@ -6,6 +13,11 @@ class public LoginDialog
     
     field public BBjString User$ = ""
     field public Boolean AllowRemember! = Boolean.FALSE
+    
+    field public Boolean LoginWithMicrosoft! = Boolean.FALSE
+    field public Boolean LoginWithGoogle! = Boolean.FALSE
+    
+    field private AccountProfile Profile!
     
     method private LoginDialog()
     methodend
@@ -80,14 +92,37 @@ class public LoginDialog
             fi
             
             btn_login! = main!.addButton(1,0,0,250,25,"Login")
-            btn_login!.setAttribute("theme","success")
+            btn_login!.setAttribute("theme","primary")
             btn_login!.setAttribute("size","xl")
             btn_login!.setStyle("grid-column","1 / span 2")
             btn_login!.setStyle("grid-row","8")
-            
             btn_login!.addStyle("loginbtn")
-            
             btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
+            
+            if #LoginWithGoogle! OR #LoginWithMicrosoft! then
+                sociallogin! = main!.addChildWindow(main!.getAvailableControlID(),1,1,1,1,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                sociallogin!.setDockStyle("grid-column","1 / span 2")
+                sociallogin!.setDockStyle("grid-row","10")
+                
+                sociallogin!.setPanelStyle("display","grid")                
+                sociallogin!.setPanelStyle("grid-template-columns","140px 140px")
+                sociallogin!.setPanelStyle("gap","8%")
+            fi
+            
+            if #LoginWithGoogle! then
+                googlewidget! = new GoogleLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
+                googlewidget!.setStyle("height","45px")
+                googlewidget!.setStyle("width","145px")
+                googlewidget!.setDockStyle("grid-column","1")
+                googlewidget!.setCallback(GoogleLoginWidget.ON_LOGIN,"onGoogleLogin")
+
+                microsoftwidget! = new MicrosoftLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
+                microsoftwidget!.setStyle("height","45px")
+                microsoftwidget!.setStyle("width","145px")
+                microsoftwidget!.setDockStyle("grid-column","2")
+                microsoftwidget!.setCallback(MicrosoftLoginWidget.ON_LOGIN,"onMicrosoftLogin")
+                
+            fi
 
             
             process_events
@@ -110,9 +145,26 @@ class public LoginDialog
                     main!.getControl(99).setVisible(1)
                 fi
                 return
+           
+           onGoogleLogin:
+           onMicrosoftLogin:
+                ev! = BBjAPI().getLastEvent()
+                profile! = ev!.getObject()
+                if #authProvider!.checkLoginWithAccountProfile(profile!) then
+                    #User$ = str(profile!.getFullName())
+                    #Profile! = CAST(AccountProfile,profile!)
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                fi
+                return
+  
+
                 
     methodend
     
+    method public AccountProfile getProfile()
+        methodret #Profile!
+    methodend
     
     method public static void clearRememberToken()
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
@@ -128,23 +180,45 @@ interface public IAuthProvider
     method public Boolean checkLogin(BBjString Username!, BBjString Password!)
     method public BBjString getToken()
     method public BBjString getUser()
+    method public AccountProfile getProfile()
     method public Boolean checkToken(BBjString token!)
+    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
     
 interfaceend
+
+class public BBjUser extends AccountProfile
+
+    method public BBjUser(BBjString username!)
+        #FirstName!     = ""
+        #LastName!      = username!
+        #FullName!      = username!
+        #EMail!         = ""
+        #Locale!        = stbl("!LOCALE")
+        #PictureUrl!    = null()
+        #AuthProvider!  = "BBj"    
+    methodend
+
+classend
 
 
 class public SampleAuthProvider implements IAuthProvider 
 
     field private BBjString token!
-    field private BBjString user!
+    field private AccountProfile profile!
 
     method public Boolean checkLogin(BBjString Username!, BBjString Password!)
            #token! = com.basis.api.admin.BBjAdminFactory.getAuthToken(Username!, Password!,err=invalid)
-           #user! = Username!
+           #profile!= new BBjUser(Username!)
            methodret Boolean.TRUE
            
            invalid:
                 methodret Boolean.FALSE
+    methodend
+
+    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
+           rem for this sample accept all external profiles
+           #profile!= profile!
+           methodret Boolean.TRUE
     methodend
     
     method public Boolean checkToken(BBjString token!)
@@ -152,8 +226,7 @@ class public SampleAuthProvider implements IAuthProvider
            #token! = token$
            adm! = com.basis.api.admin.BBjAdminFactory.getBBjAdmin(token!,err=invalid)
            X$=adm!.getUser()
-           #user!= X$
-           
+           #profile!= new BBjUser(x$)
            methodret Boolean.TRUE
            
            invalid:
@@ -165,7 +238,11 @@ class public SampleAuthProvider implements IAuthProvider
     methodend
     
     method public BBjString getUser()
-            methodret #user!
+            methodret #profile!.getFullName()
+    methodend
+    
+    method public AccountProfile getProfile()
+            methodret #profile!
     methodend
     
 classend
