@@ -24,6 +24,8 @@ class public QuickSearch extends BBjWebWidget
     field private BBjString suggestionMask!
     field private BBjVector suggestionItems! = new BBjVector()
     
+    field private DataRow selectedItem!
+    
     REM TODO
     field public static BBjNumber ON_SUFFIX_CLICK = 700001
     field public static BBjNumber ON_EDIT_FINISHED = 700002
@@ -78,7 +80,7 @@ REM     methodend
         
         #suggestionsWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #suggestionsWindow!.setPanelStyle("height",#suggestionHeight!)
-        #suggestionsWindow!.setPanelStyle("overflow","scroll")
+        #suggestionsWindow!.setPanelStyle("overflow","auto")
         #suggestionsWindow!.setDockStyle("grid-column-start","1")
         #suggestionsWindow!.setDockStyle("display","grid")
         #suggestionsWindow!.setDockStyle("z-index","99")
@@ -88,7 +90,8 @@ REM     methodend
         endif
         
         #suggestionsWindow!.setDockStyle("background-color","white")
-        #suggestionsWindow!.setDockStyle("border","solid")
+        #suggestionsWindow!.setDockStyle("border","1px solid grey")
+        
         
         if suggestions!.size() = 0 then 
             methodret
@@ -155,6 +158,8 @@ REM         item!.selectItem()
         data! = item!.getData()
         
         #fireEvent(#ON_ITEM_SELECT,data!)
+        #selectedItem! = data!
+        
         #suggestionsWindow!.destroy()
         #suggestionsWindow! = null()
         #suggestionItems!.clear()
@@ -193,6 +198,10 @@ REM         item!.selectItem()
     method public BBjImageCtrl getIconControl()
         methodret #icon!
     methodend
+    
+    method public DataRow getSelectedItem()
+        methodret #selectedItem!
+    methodend
 classend
 
 class public QuickSearchSuggestionItem extends BBjWebWidget
@@ -221,9 +230,11 @@ class public QuickSearchSuggestionItem extends BBjWebWidget
     method public void redraw(Boolean init!)
         if init!
             #window! = #getCanvas()
+            #window!.setPanelStyle("cursor","pointer")
             #window!.setTabTraversable(1)
             #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSuggestionItemClick")
             #text! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#content!)
+            #text!.setStyle("margin-left","3px")
         else
             #text!.setText(#content!)
         FI
@@ -273,7 +284,7 @@ class public QuickSearchSuggestionItem extends BBjWebWidget
     method public void selectItem()
         #selected! = 1
         #text!.setStyle("color","white")
-        #window!.setStyle("background-color","blue")
+        #window!.setStyle("background-color","var(--bbj-color-primary-50)")
     methodend
 
     method public void deselectItem()
