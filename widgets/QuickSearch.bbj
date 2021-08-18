@@ -23,12 +23,13 @@ class public QuickSearch extends BBjWebWidget
     field private BBjString suggestionHeight! = "250px"
     field private BBjString suggestionMask!
     field private BBjVector suggestionItems! = new BBjVector()
+    field private BBjNumber selectedSuggestionItem = 0
     
     field private DataRow selectedItem!
     
     REM TODO
     field public static BBjNumber ON_SUFFIX_CLICK = 700001
-    field public static BBjNumber ON_EDIT_FINISHED = 700002
+    field public static BBjNumber ON_FETCH_SUGGESTIONS = 700002
     field public static BBjNumber ON_ITEM_SELECT = 700003
     
     method public QuickSearch(BBjChildWindow wnd!)
@@ -41,7 +42,10 @@ class public QuickSearch extends BBjWebWidget
     
     method public void redraw(Boolean init!)
         if init! then 
-            #window! = #getCanvas()
+            rem workaround for ON_INPUT_KEYPRESS not yet implemented in DWC
+            #window! = #getCanvas().addChildWindow(777,1,1,1,1,"",$20100800$,BBjAPI().getSysGui().getAvailableContext())
+            #window! .setCallback(BBjAPI.ON_KEYPRESS,#this!,"onKeyPress")
+            
             #window!.setPanelStyle("display","grid")
             #window!.setPanelStyle("grid-template-columns","max-content max-content")
            
@@ -53,10 +57,50 @@ REM             #inputE!.setCallback(BBjAPI.ON_INPUT_KEYPRESS,#this!,"onKeyPress
         endif
     methodend
     
-REM     method public void onKeyPress(BBjInputKeypressEvent event!)
-REM         a = msgbox("HIII")
-REM         a = msgbox(str(event!.getKeyCode()))
-REM     methodend
+    method public void onKeyPress(BBjKeypressEvent event!)
+    
+        if event!.getKeyCode() = 13 then
+            rem enter
+            item! = cast(QuickSearchSuggestionItem,#suggestionItems!.get(#selectedSuggestionItem))
+            data! = item!.getData()
+            
+            #fireEvent(#ON_ITEM_SELECT,data!)
+            #selectedItem! = CAST(DataRow,data!)
+            
+            
+            #suggestionsWindow!.destroy()
+            #suggestionsWindow! = null()
+            #suggestionItems!.clear()
+            
+        fi
+        
+        if event!.getKeyCode() = 301 then
+            rem up
+            o = #selectedSuggestionItem
+            n = max(0,o-1)
+            if n<>o then
+                item! = #suggestionItems!.get(o)
+                item!.deselectItem()
+                item! = #suggestionItems!.get(n)
+                item!.selectItem()
+                #selectedSuggestionItem = n
+            fi
+        fi
+        if event!.getKeyCode() = 302 then
+            rem down
+            o = #selectedSuggestionItem
+            n = min(#suggestionItems!.size(),o+1)
+            if n<>o then
+                item! = #suggestionItems!.get(o)
+                item!.deselectItem()
+                item! = #suggestionItems!.get(n)
+                item!.selectItem()
+                #selectedSuggestionItem = n
+            fi
+            
+        fi
+        
+    methodend
     
     method public void onEditModify(BBjEditModifyEvent event!)
         if event!.getText().isEmpty() then
@@ -71,7 +115,7 @@ REM     methodend
     methodend
     
     method public void onTimerTimeout(BBjTimerEvent event!)
-        #fireEvent(#ON_EDIT_FINISHED,#inputE!.getText())
+        #fireEvent(#ON_FETCH_SUGGESTIONS,#inputE!.getText())
         BBjAPI().removeTimer(500)
     methodend
     
@@ -128,6 +172,7 @@ REM     methodend
                 suggestionItem!.selectItem()
             endif
         next i
+        #selectedSuggestionItem = 0
     methodend
     
     method public void setSuffixIcon(BBjString path!)
@@ -283,13 +328,13 @@ class public QuickSearchSuggestionItem extends BBjWebWidget
 
     method public void selectItem()
         #selected! = 1
-        #text!.setStyle("color","white")
-        #window!.setStyle("background-color","var(--bbj-color-primary-50)")
+        #text!.setStyle("color","var(--bbj-color-white)",err=*next)
+        #window!.setStyle("background-color","var(--bbj-color-primary-50)",err=*next)
     methodend
 
     method public void deselectItem()
         #selected! = 0
-        #text!.removeStyle("color")
-        #text!.removeStyle("background-color")
+        #text!.setStyle("color","var(--bbj-color-black-50)",err=*next)
+        #window!.setStyle("background-color","var(--bbj-color-white)",err=*next)
     methodend
 classend
