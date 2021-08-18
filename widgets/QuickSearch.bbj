@@ -1,0 +1,196 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::widgets/QuickSearchSuggestionItem.bbj::QuickSearchSuggestionItem
+
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
+
+class public QuickSearch extends BBjWebWidget
+
+    field private BBjInputE inputE!
+    
+    field private BBjChildWindow iconWrapper!
+    
+    field private BBjChildWindow suggestionsWindow!
+    
+    field private BBjImageCtrl icon!
+    
+    field private BBjChildWindow window!
+    
+    field private BBjNumber time! = 0.5
+    field private BBjString suggestionHeight! = "250px"
+    field private BBjString suggestionMask!
+    field private BBjString suggestionfieldName!
+    field private BBjVector suggestionItems! = new BBjVector()
+    
+    REM TODO
+    field public static BBjNumber ON_SUFFIX_CLICK = 700001
+    field public static BBjNumber ON_EDIT_FINISHED = 700002
+    field public static BBjNumber ON_ITEM_SELECT = 700003
+    
+    method public QuickSearch(BBjChildWindow wnd!)
+        #super!.create(wnd!)
+    methodend
+
+    method public QuickSearch(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if init! then 
+            #window! = #getCanvas()
+            #window!.setPanelStyle("display","grid")
+            #window!.setPanelStyle("grid-template-columns","max-content max-content")
+           
+            #inputE! = #window!.addInputE(#window!.getAvailableControlID(),0,0,0,0,"")
+            #inputE!.setStyle("grid-column-start","1")
+            #inputE!.setStyle("grid-row-start","1")
+            #inputE!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onEditModify")
+REM             #inputE!.setCallback(BBjAPI.ON_INPUT_KEYPRESS,#this!,"onKeyPress")
+        endif
+    methodend
+    
+REM     method public void onKeyPress(BBjInputKeypressEvent event!)
+REM         a = msgbox("HIII")
+REM         a = msgbox(str(event!.getKeyCode()))
+REM     methodend
+    
+    method public void onEditModify(BBjEditModifyEvent event!)
+        if event!.getText().isEmpty() then
+            if #suggestionsWindow! = null() then 
+                methodret
+            endif
+            #suggestionsWindow!.destroy()
+            #suggestionsWindow! = null()
+            methodret
+        endif
+        BBjAPI().createTimer(500,#time!,#this!,"onTimerTimeout")
+    methodend
+    
+    method public void onTimerTimeout(BBjTimerEvent event!)
+        #fireEvent(#ON_EDIT_FINISHED,#inputE!.getText())
+        BBjAPI().removeTimer(500)
+    methodend
+    
+    method private void createSuggestions(ResultSet suggestions!)
+        declare QuickSearchSuggestionItem suggestionItem!
+        
+        #suggestionsWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #suggestionsWindow!.setPanelStyle("height",#suggestionHeight!)
+        #suggestionsWindow!.setPanelStyle("overflow","scroll")
+        #suggestionsWindow!.setDockStyle("grid-column-start","1")
+        #suggestionsWindow!.setDockStyle("display","grid")
+        
+        if #iconWrapper! <> null() then 
+            #suggestionsWindow!.setDockStyle("grid-column-end","3")
+        endif
+        
+        #suggestionsWindow!.setDockStyle("background-color","white")
+        #suggestionsWindow!.setDockStyle("border","solid")
+        
+        if suggestions!.size() = 0 then 
+            methodret
+        endif    
+        #buildQuickSearchItems(suggestions!)
+    methodend
+    
+    method private void updateSuggestions(ResultSet suggestions!)
+        declare QuickSearchSuggestionItem suggestionItem!
+        
+        if #suggestionItems!.size() > 0 then
+            for i = 0 to #suggestionItems!.size() -1 
+                declare QuickSearchSuggestionItem oldItem!
+                oldItem! = cast(QuickSearchSuggestionItem,#suggestionItems!.get(i))
+                oldItem!.destroy()
+            next i
+            #suggestionItems!.clear()
+        endif
+        
+        if suggestions!.size() = 0 then 
+            methodret
+        endif
+        
+        #buildQuickSearchItems(suggestions!)
+    methodend
+    
+    method private void buildQuickSearchItems(ResultSet suggestions!)
+        for i = 0 to suggestions!.size() -1 
+            suggestionItem! = new QuickSearchSuggestionItem(#suggestionsWindow!,#suggestionsWindow!.getAvailableControlID(),i)
+            suggestionItem!.setCallback(QuickSearchSuggestionItem.ON_SUGGESTION_ITEM_CLICK,#this!,"onSuggestionItemClick")
+            suggestionItem!.setData(suggestions!.get(i),#suggestionMask!,#suggestionfieldName!)
+            #suggestionItems!.add(suggestionItem!)
+            if i = 0 
+                suggestionItem!.selectItem()
+            endif
+        next i
+    methodend
+    
+    method public void setSuffixIcon(BBjString path!)
+        if #iconWrapper! = null() then 
+            #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #iconWrapper!.setDockStyle("grid-column-start","2")
+            #iconWrapper!.setDockStyle("grid-row-start","1")
+            #iconWrapper!.setDockStyle("height","fit-content")
+            #iconWrapper!.setDockStyle("width","fit-content")
+            #iconWrapper!.setDockStyle("align-self","center")
+            #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSuffixIconClick")
+        endif
+        #icon! = #iconWrapper!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,path!)
+    methodend
+    
+    method public void onSuffixIconClick(BBjMouseDownEvent event!)
+        #fireEvent(#ON_SUFFIX_CLICK,"")
+    methodend
+    
+    method public void onSuggestionItemClick(BBjCustomEvent event!)
+        declare DataRow data!
+        declare BBjNumber index!
+        declare QuickSearchSuggestionItem item!
+        
+        index! = cast(BBjNumber,event!.getObject())
+        item! = cast(QuickSearchSuggestionItem,#suggestionItems!.get(index!))
+REM         item!.selectItem()
+        data! = item!.getData()
+        
+        #fireEvent(#ON_ITEM_SELECT,data!)
+        #suggestionsWindow!.destroy()
+        #suggestionsWindow! = null()
+        #suggestionItems!.clear()
+    methodend
+    
+    method public void setSuggestions(ResultSet suggestions!)
+        REM TODO
+        if #suggestionsWindow! <> null() then 
+            #updateSuggestions(suggestions!)
+        else 
+            #createSuggestions(suggestions!)
+        endif
+    methodend
+    
+    method public void setSuggestionDisplayField(BBjString fieldName!)
+        #suggestionfieldName! = fieldName!
+    methodend
+    
+    method public void setSuggestionMask(BBjString mask!)
+        #suggestionMask! = mask!
+    methodend
+    
+    method public void setTimeoutTime(BBjNumber time!)
+        #time! = time!
+    methodend
+    
+    method public void setSuggestionHeight(BBjString height!)
+        #suggestionHeight! = height!
+    methodend
+    
+    method public BBjInputE getInputField()
+        methodret #inputE!
+    methodend
+    
+    method public BBjChildWindow getIconWrapper()
+        methodret #iconWrapper!
+    methodend
+    
+    method public BBjImageCtrl getIconControl()
+        methodret #icon!
+    methodend
+classend
