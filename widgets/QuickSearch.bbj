@@ -1,8 +1,11 @@
 use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
-use ::widgets/QuickSearchSuggestionItem.bbj::QuickSearchSuggestionItem
 
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
+
+use java.util.regex.Matcher
+use java.util.regex.Pattern
+use java.util.Arrays
 
 class public QuickSearch extends BBjWebWidget
 
@@ -19,7 +22,6 @@ class public QuickSearch extends BBjWebWidget
     field private BBjNumber time! = 0.5
     field private BBjString suggestionHeight! = "250px"
     field private BBjString suggestionMask!
-    field private BBjString suggestionfieldName!
     field private BBjVector suggestionItems! = new BBjVector()
     
     REM TODO
@@ -79,6 +81,7 @@ REM     methodend
         #suggestionsWindow!.setPanelStyle("overflow","scroll")
         #suggestionsWindow!.setDockStyle("grid-column-start","1")
         #suggestionsWindow!.setDockStyle("display","grid")
+        #suggestionsWindow!.setDockStyle("z-index","99")
         
         if #iconWrapper! <> null() then 
             #suggestionsWindow!.setDockStyle("grid-column-end","3")
@@ -116,7 +119,7 @@ REM     methodend
         for i = 0 to suggestions!.size() -1 
             suggestionItem! = new QuickSearchSuggestionItem(#suggestionsWindow!,#suggestionsWindow!.getAvailableControlID(),i)
             suggestionItem!.setCallback(QuickSearchSuggestionItem.ON_SUGGESTION_ITEM_CLICK,#this!,"onSuggestionItemClick")
-            suggestionItem!.setData(suggestions!.get(i),#suggestionMask!,#suggestionfieldName!)
+            suggestionItem!.setData(suggestions!.get(i),#suggestionMask!)
             #suggestionItems!.add(suggestionItem!)
             if i = 0 
                 suggestionItem!.selectItem()
@@ -166,11 +169,8 @@ REM         item!.selectItem()
         endif
     methodend
     
-    method public void setSuggestionDisplayField(BBjString fieldName!)
-        #suggestionfieldName! = fieldName!
-    methodend
-    
     method public void setSuggestionMask(BBjString mask!)
+        rem \[{2}\w*\]{2}
         #suggestionMask! = mask!
     methodend
     
@@ -192,5 +192,93 @@ REM         item!.selectItem()
     
     method public BBjImageCtrl getIconControl()
         methodret #icon!
+    methodend
+classend
+
+class public QuickSearchSuggestionItem extends BBjWebWidget
+
+    field private BBjChildWindow window!
+    field private BBjStaticText text!
+    field private BBjString content! = ""
+    field private DataRow dr!
+    field public static BBjNumber ON_SUGGESTION_ITEM_CLICK = 700004
+    field private Boolean selected! = 0
+    field private BBjNumber index!
+
+    method public QuickSearchSuggestionItem(BBjChildWindow wnd!)
+        #super!.create(wnd!)
+    methodend
+
+    method public QuickSearchSuggestionItem(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+
+    method public QuickSearchSuggestionItem(BBjWindow wnd!, BBjInt id!, BBjNumber index!)
+        #super!.create(wnd!,id!)
+        #index! = index!
+    methodend
+
+    method public void redraw(Boolean init!)
+        if init!
+            #window! = #getCanvas()
+            #window!.setTabTraversable(1)
+            #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSuggestionItemClick")
+            #text! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#content!)
+        else
+            #text!.setText(#content!)
+        FI
+    methodend
+
+    method public void onSuggestionItemClick(BBjMouseDownEvent event!)
+        #fireEvent(#ON_SUGGESTION_ITEM_CLICK,#index!)
+    methodend
+
+    method public void setData(DataRow dr!, BBjString mask!)
+        declare Pattern pattern!
+        declare Matcher matcher!
+        declare BBjVector fields!
+        
+        #dr! = dr!
+        fields! = new BBjVector()
+        pattern! = Pattern.compile("(\[{2}\w*\]{2})")
+        matcher! = pattern!.matcher(mask!)
+        while matcher!.find()
+            declare BBjString field!
+
+            field! = matcher!.group()
+            field! = field!.replaceAll("\[","")
+            field! = field!.replaceAll("\]","")
+            fields!.add(field!)
+        wend
+
+        #content! = mask!.replaceAll("\[","")
+        #content! = #content!.replaceAll("\]","")
+        
+        for i = 0 to fields!.size() -1
+            #content! = #content!.replaceAll(str(fields!.get(i)),#dr!.getFieldAsString(str(fields!.get(i))))
+        next i
+        #redraw(0)
+    methodend
+
+    method public DataRow getData()
+        methodret #dr!
+    methodend
+
+    method public void destroy()
+        if !#window!.isDestroyed()
+            #window!.destroy()
+        FI
+    methodend
+
+    method public void selectItem()
+        #selected! = 1
+        #text!.setStyle("color","white")
+        #window!.setStyle("background-color","blue")
+    methodend
+
+    method public void deselectItem()
+        #selected! = 0
+        #text!.removeStyle("color")
+        #text!.removeStyle("background-color")
     methodend
 classend
