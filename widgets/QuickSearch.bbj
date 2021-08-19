@@ -256,11 +256,11 @@ REM         item!.selectItem()
         #getInputField().setPlaceholder(text$)
     methodend
     
-    method public BBjString getText()
+    method public String getText()
         methodret #getInputField().getText()
     methodend    
 
-    method public BBjString getPlaceholder()
+    method public String getPlaceholder()
         methodret #getInputField().getPlaceholder()
     methodend    
         
