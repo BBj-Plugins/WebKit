@@ -26,6 +26,10 @@ bbjutils!.copyFileToWebServer("WebKit/demo/assets/prodin_login_background_phone.
 bbjutils!.copyFileToWebServer("WebKit/demo/assets/drawer_icon_open.png","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/assets/drawer_icon_close.png","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/assets/drawerAvatar.png","prodinRes")
+bbjutils!.copyFileToWebServer("WebKit/demo/assets/user.png","prodinRes")
+bbjutils!.copyFileToWebServer("WebKit/demo/assets/eye.png","prodinRes")
+bbjutils!.copyFileToWebServer("WebKit/demo/assets/eye-off.png","prodinRes")
+
 
 declare ProdinDemo prodin!
 

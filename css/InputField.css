@@ -8,16 +8,27 @@
     grid-row-start: 2;
     grid-column-start: 1;
     grid-column-end: 3;
+    font-family: 'Lato';
 }
 
 .inputFieldStyleInputWrapper::part(input-wrapper) {
-    --bbj-font-family-sams: 'Lato';
     --bbj-focus-ring-default: none;
     background: white;
     border: none;
     border-bottom: 1px solid #DDE0E1;
     width: 100%;
     height: 34px;
+}
+
+/* TODO replace wiht vars later */
+.inputFieldStyleInputWrapperFocused::part(input-wrapper){
+    --bbj-focus-ring-default: none;
+    background: white;
+    border: none;
+    border-bottom: 1px solid #9B0058;
+    width: 100%;
+    height: 34px;
+}
 }
 
 .inputFieldLabelStyle {
@@ -30,6 +41,6 @@
     grid-row-start: 1;
 }
 
-.inputFieldIconStyle {
-    font-family: 'feather-icon';
+.inputFieldStyleInput::part(input){
+    color: rgba(51, 62, 64, 0.8);
 }

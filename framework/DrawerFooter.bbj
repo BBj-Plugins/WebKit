@@ -59,12 +59,9 @@ class public DrawerFooter extends BBjWebWidget
     methodend
     
     method public void onFooterPressed(BBjMouseDownEvent event!)
-        if #overlay! = null() then 
-            #createOverlay()
-        endif
+        #createOverlay()
         #overlayWidget! = new Overlay(#parent!,#overlay!)
         #overlayWidget!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmiss")
-        #overlayWidget!.setBackgroundColor("grey")
     methodend
     
     method private void createOverlay()
@@ -140,6 +137,6 @@ class public DrawerFooter extends BBjWebWidget
     methodend
     
     method public void onOverlayDissmiss(BBjCustomEvent event!)
-        REM FIND USE FOR THIS 
+        #overlay!.destroy()
     methodend
 classend

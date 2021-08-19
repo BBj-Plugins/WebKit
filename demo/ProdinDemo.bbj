@@ -11,6 +11,8 @@ class public ProdinDemo
     field private BBjTopLevelWindow mainWindow!
     
     field private Drawer drawer!
+    
+    field private BBjChildWindow loginWrapper!
 
     method public ProdinDemo()
     methodend
@@ -20,50 +22,52 @@ class public ProdinDemo
             #sysGui! = BBjAPI().openSysGui("X0")
         
             #mainWindow! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750,"Prodin Demo",$01101083$)
-REM             #mainWindow!.addPanelStyle("mainWndPanelStyle")
             #mainWindow!.setStyle("width","100vw")
             #mainWindow!.setStyle("height","100vh")
             #mainWindow!.setStyle("background-color","#F1F1F1")
             #mainWindow!.setStyle("display","grid")
             
-            declare BBjVector menuTiles!
-            declare TilesTextHeader header!
+            #loginWrapper! = #mainWindow!.addChildWindow(#mainWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
             
-            menuTiles! = new BBjVector()
-            
-            menuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/assets/users.png"))
-            menuTiles!.add(new DrawerMenuTileEntry(2,"Tasks","WebKit/demo/assets/tasks.png"))
-            menuTiles!.add(new DrawerMenuTileEntry(3,"Quotations","WebKit/demo/assets/proposals.png"))
-            menuTiles!.add(new DrawerMenuTileEntry(4,"Products","WebKit/demo/assets/shopping-cart.png"))
-            menuTiles!.add(new DrawerMenuTileEntry(5,"Customers","WebKit/demo/assets/users.png"))
-            menuTiles!.add(new DrawerMenuTileEntry(6,"Tasks","WebKit/demo/assets/tasks.png"))
-            menuTiles!.add(new DrawerMenuTileEntry(7,"Quotations","WebKit/demo/assets/proposals.png"))
-            menuTiles!.add(new DrawerMenuTileEntry(8,"Products","WebKit/demo/assets/shopping-cart.png"))
-            
-            #drawer! = new Drawer(#mainWindow!,menuTiles!)
-            
-            
-            header! = new TilesTextHeader(#drawer!.getOptionalControlAboveTiles(),"Browse")
-            header!.setDockStyle("grid-row-start","1")
-            header!.setDockStyle("margin-bottom","8px")
-            header!.setDockStyle("margin-top","24px")
-            header!.setDockStyle("margin-left","40px")
-            header!.addTextStyle("drawerTilesTextHeaderStyle")
-            header!.setTextStyle("display","block")
-           
-            REM TODO needs to be inside the login later on
-            
-REM             declare BBjChildWindow loginWrapper!
-REM             
-REM             loginWrapper! = #mainWindow!.addChildWindow(#mainWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-REM             loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
-REM             
-REM             declare LoginWidget login!
-REM             login! = new LoginWidget(loginWrapper!)
-REM             login!.setDockStyle("justify-self","center")
-REM             login!.setDockStyle("align-self","center")
+            declare LoginWidget login!
+            login! = new LoginWidget(#loginWrapper!)
+            login!.setCallback(LoginWidget.ON_LOGIN,#this!,"onLogin")
+            login!.setDockStyle("justify-self","center")
+            login!.setDockStyle("align-self","center")
         endif
         
         process_events
+    methodend
+    
+    
+    method private void initializeDrawer()
+        declare BBjVector menuTiles!
+        declare TilesTextHeader header!
+
+        menuTiles! = new BBjVector()
+        menuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/assets/users.png"))
+        menuTiles!.add(new DrawerMenuTileEntry(2,"Tasks","WebKit/demo/assets/tasks.png"))
+        menuTiles!.add(new DrawerMenuTileEntry(3,"Quotations","WebKit/demo/assets/proposals.png"))
+        menuTiles!.add(new DrawerMenuTileEntry(4,"Products","WebKit/demo/assets/shopping-cart.png"))
+        menuTiles!.add(new DrawerMenuTileEntry(5,"Customers","WebKit/demo/assets/users.png"))
+        menuTiles!.add(new DrawerMenuTileEntry(6,"Tasks","WebKit/demo/assets/tasks.png"))
+        menuTiles!.add(new DrawerMenuTileEntry(7,"Quotations","WebKit/demo/assets/proposals.png"))
+        menuTiles!.add(new DrawerMenuTileEntry(8,"Products","WebKit/demo/assets/shopping-cart.png"))
+    
+        #drawer! = new Drawer(#mainWindow!,menuTiles!)
+        
+        header! = new TilesTextHeader(#drawer!.getOptionalControlAboveTiles(),"Browse")
+        header!.setDockStyle("grid-row-start","1")
+        header!.setDockStyle("margin-bottom","8px")
+        header!.setDockStyle("margin-top","24px")
+        header!.setDockStyle("margin-left","40px")
+        header!.addTextStyle("drawerTilesTextHeaderStyle")
+        header!.setTextStyle("display","block")
+    methodend
+    
+    method public void onLogin(BBjCustomEvent event!)
+        #loginWrapper!.destroy()
+        #initializeDrawer()
     methodend
 classend

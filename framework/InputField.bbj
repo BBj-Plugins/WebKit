@@ -3,90 +3,156 @@ use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
 class public InputField extends BBjWebWidget 
     
     field private BBjChildWindow window!
+    field private BBjStaticText label!
+    field private BBjInputE inputField!
+    field private BBjEditBox passwordField!
+    field private BBjImageCtrl suffixIcon!
+    field private BBjChildWindow iconWrapper!
     
-    field private BBjString label!
+    field private Boolean isPasswordField! = 0
+    field private BBjString suffixIconPath!
     
-    field private BBjString placeholder!
+    field public static BBjNumber ON_SUFFIX_PRESSED = 520000
     
-    field private Boolean passwordField!
-
-    method public InputField(BBjWindow parent!)
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #window!.addPanelStyle("inputFieldPanelStyle")
-        #setCanvas(#window!)
-        #label! = ""
-        #placeholder! = ""
-        #redraw(1)
+    REM ask stephan if alsways both constructors should be provided
+    method public InputField(BBjChildWindow wnd!)
+        #super!.create(wnd!)
     methodend
     
-    method public InputField(BBjWindow parent!, Boolean passwordField!, BBjString label!, BBjString placeholder!)
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #window!.addPanelStyle("inputFieldPanelStyle")
-        #setCanvas(#window!)
-        #label! = label!
-        #placeholder! = placeholder!
-        #passwordField! = passwordField!
-        #redraw(1)
+    method public InputField(BBjChildWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
+        #suffixIconPath! = suffixIcon!
+        #super!.create(wnd!,id!)
+    methodend
+    
+    
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
+        #isPasswordField! = isPasswordField!
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
+        #isPasswordField! = isPasswordField!
+        #suffixIconPath! = suffixIcon!
+        #super!.create(wnd!,id!)
     methodend
     
     method public void redraw(Boolean init!)
-        declare BBjStaticText label!
-        declare BBjInputE inputE!
-        declare BBjChildWindow iconWrapper!
-        declare BBjStaticText icon!
-        declare BBjEditBox editBox!
-        
         if init! then
-            label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#label!)
-            label!.addStyle("inputFieldLabelStyle")
-            if #passwordField! then 
-                editBox! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
-                editBox!.setPlaceholder(#placeholder!)
-                editBox!.addStyle("inputFieldStyle")
-                editBox!.addStyle("inputFieldStyleInputWrapper")
-                editBox!.setLeftMargin(0)
-                editBox!.setPasswordVisible(0)
-            else 
-                inputE! = #window!.addInputE(#window!.getAvailableControlID(),0,0,0,0)
-                inputE!.setPlaceholder(#placeholder!)
-                inputE!.addStyle("inputFieldStyle")
-                inputE!.addStyle("inputFieldStyleInputWrapper")
-                inputE!.setLeftMargin(0)
-            endif
-            iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            iconWrapper!.setDockStyle("grid-row-start","2")
-            iconWrapper!.setDockStyle("grid-column-start","2")
-            iconWrapper!.setDockStyle("height","fit-content")
-            iconWrapper!.setDockStyle("width","fit-content")
-            iconWrapper!.setDockStyle("align-self","end")
-            iconWrapper!.setDockStyle("justify-self","end")
-            iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+            #window! = #getCanvas()
+            #window!.addPanelStyle("inputFieldPanelStyle")
             
-            icon! = iconWrapper!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"\f203")
-            icon!.addStyle("inputFieldIconStyle")
-        else 
-            REM TODO doesent work cause null
-            label!.setText(#label!)
-            inputE!.setPlaceholder(#placeholder!)
+            #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+            #label!.addStyle("inputFieldLabelStyle")
+                
+            if #isPasswordField! then
+                #createPasswordField(1)
+            else 
+                #inputField! = #window!.addInputE(#window!.getAvailableControlID(),0,0,0,0)
+                #inputField!.addStyle("inputFieldStyle")
+                #inputField!.addStyle("inputFieldStyleInputWrapper")
+                #inputField!.addStyle("inputFieldStyleInput")
+                #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
+                #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
+                #inputField!.setLeftMargin(0)
+            endif
+            if #suffixIconPath! <> null() then 
+                #createSuffixIcon()
+            endif
+        endif
+    methodend
+    
+    method private void createPasswordField(Boolean init!)
+        if !init! then 
+            #inputField!.destroy()
+        endif
+        
+        #passwordField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
+        #passwordField!.addStyle("inputFieldStyle")
+        #passwordField!.addStyle("inputFieldStyleInputWrapper")
+        #passwordField!.addStyle("inputFieldStyleInput")
+        #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
+        #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
+        #passwordField!.setLeftMargin(0)
+        #passwordField!.setPasswordVisible(0)
+    methodend
+    
+    method private void createSuffixIcon()
+        #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #iconWrapper!.setDockStyle("grid-row-start","2")
+        #iconWrapper!.setDockStyle("grid-column-start","2")
+        #iconWrapper!.setDockStyle("height","fit-content")
+        #iconWrapper!.setDockStyle("width","fit-content")
+        #iconWrapper!.setDockStyle("align-self","end")
+        #iconWrapper!.setDockStyle("justify-self","end")
+        #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+       
+        if #suffixIcon! <> null() then
+            #suffixIcon!.destroy()
+            #suffixIcon! = null()
+        endif 
+     
+        #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
+    methodend
+    
+    method public void onFocusGained(BBjGainedFocusEvent event!)
+        #label!.setStyle("color","#9B0058")
+        if #isPasswordField! then
+            #passwordField!.removeStyle("inputFieldStyleInputWrapper")
+            #passwordField!.addStyle("inputFieldStyleInputWrapperFocused")
+        else
+            #inputField!.removeStyle("inputFieldStyleInputWrapper")
+            #inputField!.addStyle("inputFieldStyleInputWrapperFocused")
+        endif
+    methodend
+    
+    method public void onFocusLost(BBjLostFocusEvent event!)
+        #label!.setStyle("color","#333E40")
+        if #isPasswordField! then
+            #passwordField!.removeStyle("inputFieldStyleInputWrapperFocused")
+            #passwordField!.addStyle("inputFieldStyleInputWrapper")
+        else
+            #inputField!.removeStyle("inputFieldStyleInputWrapperFocused")
+            #inputField!.addStyle("inputFieldStyleInputWrapper")
         endif
     methodend
     
     method public void onIconPressed(BBjMouseDownEvent event!)
-        a = msgbox("This should be an icon!")
+        #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
     methodend
     
     method public void setLabel(BBjString label!)
-        #label! = label!
-        #redraw(0)
+        #label!.setText(label!)
     methodend
     
     method public void setPlaceHolder(BBjString placeholder!)
-        #placeholder! = placeholder!
-        #redraw(0)
+        if #isPasswordField! then 
+            #passwordField!.setPlaceholder(placeholder!)
+        else 
+            #inputField!.setPlaceholder(placeholder!)
+        endif    
+    methodend
+    
+    method public void setPasswordVisible(Boolean visible!)
+        if #passwordField! = null() then methodret
+        #passwordField!.setPasswordVisible(visible!)
+    methodend
+    
+    method public Boolean isPasswordVisible()
+        if #passwordField! = null() then methodret 0
+        methodret #passwordField!.isPasswordVisible()
+    methodend
+    
+    method public void setSuffixIcon(BBjString suffixIcon!)
+        #suffixIconPath! = suffixIcon!
+        #createSuffixIcon()
     methodend
     
     method public void setPasswordField(Boolean enabled!)
-        #passwordField! = enabled!
-        #redraw(0)
+        #isPasswordField! = 1
+        #createPasswordField(0)
     methodend
 classend

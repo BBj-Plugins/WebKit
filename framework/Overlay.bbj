@@ -35,7 +35,6 @@ class public Overlay extends BBjWebWidget
     
     method public void onOverlayDissmiss(BBjMouseDownEvent event!)
         #overlayWrapper!.destroy()
-        #overlay!.destroy()
         #isOpen! = 0
         #fireEvent(#ON_OVERLAY_DISSMISSED,"")
     methodend

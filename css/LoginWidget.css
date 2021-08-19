@@ -8,11 +8,6 @@
     src: url('http://localhost:8888/files/prodinRes/Lato-Bold.ttf');
 }
 
-@font-face {
-    font-family: 'feather-icon';
-    src: url('http://localhost:8888/files/prodinRes/feather-icons.ttf');
-}
-
 .loginWidgetPanelStyle {
     width: 460px;
     height: 531px;

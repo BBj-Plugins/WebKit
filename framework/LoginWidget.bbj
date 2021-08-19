@@ -6,6 +6,10 @@ class public LoginWidget extends BBjWebWidget
     
     field private BBjChildWindow window!
     
+    field public static BBjNumber ON_LOGIN = 800001
+    
+    field private InputField password! 
+    
     method public LoginWidget(BBjWindow parent!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("loginWidgetPanelStyle")
@@ -18,7 +22,6 @@ class public LoginWidget extends BBjWebWidget
         declare BBjChildWindow content!
         declare BBjImageCtrl logo!
         declare InputField username!
-        declare InputField password!
         declare BBjButton loginBtn!
         declare BBjCheckBox rememberMe!
         declare BBjChildWindow linkWrapper!
@@ -33,11 +36,17 @@ class public LoginWidget extends BBjWebWidget
         logo!.setStyle("height","fit-content")
         logo!.setStyle("width","fit-content")
         
-        username! = new InputField(content!,0,"Username","name@company.com")
+        username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/demo/assets/user.png")
+        username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
+        username!.setLabel("Username")
+        username!.setPlaceHolder("name@company.com")
         username!.setDockStyle("margin-top","50px")
         
-        password! = new InputField(content!,1,"Password","Your password")
-        password!.setDockStyle("margin-top","28px")
+        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/demo/assets/eye.png",1)
+        #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
+        #password!.setLabel("Password")
+        #password!.setPlaceHolder("Your Password")
+        #password!.setDockStyle("margin-top","28px")
         
         rememberMe! = content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,"Keep me signed in")
         rememberMe!.setStyle("margin-top","32px")
@@ -45,10 +54,11 @@ class public LoginWidget extends BBjWebWidget
         rememberMe!.addStyle("loginWidgetCheckBoxLabel")
         rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
         rememberMe!.addStyle("loginWidgetCheckBoxControl")
-        REM TODO ask hyyan hwo this works
+        REM TODO use theming or ask sebatian how he did this in the p360
 REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
         
-        loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Company Overview")
+        loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
+        loginBtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onLoginBtnPressed")
         loginBtn!.setStyle("margin-top","40px")
         loginBtn!.addStyle("loginWidgetBtnStyle")
         loginBtn!.addStyle("loginWidgetBtnLabel")
@@ -63,6 +73,24 @@ REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
         
         forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
         forgotPW!.addStyle("loginWidgetForgotPWStlye")
+    methodend
+    
+    method public void onUserIconPressed(BBjCustomEvent event!)
+        a = msgbox("UserIcon Pressed")
+    methodend
+    
+    method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+        if #password!.isPasswordVisible() then 
+            #password!.setPasswordVisible(0)
+            #password!.setSuffixIcon("WebKit/demo/assets/eye.png")
+        else
+            #password!.setPasswordVisible(1)
+            #password!.setSuffixIcon("WebKit/demo/assets/eye-off.png")
+        endif    
+    methodend
+    
+    method public void onLoginBtnPressed(BBjButtonPushEvent event!)
+        #fireEvent(#ON_LOGIN,"")
     methodend
     
     method public void forgotPassword(BBjMouseDownEvent event!)
