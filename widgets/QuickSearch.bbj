@@ -33,7 +33,7 @@ class public QuickSearch extends BBjWebWidget
     field public static BBjNumber ON_ITEM_SELECT = 700003
     
     method public QuickSearch(BBjChildWindow wnd!)
-        #super!.create(wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
     method public QuickSearch(BBjWindow wnd!, BBjInt id!)
