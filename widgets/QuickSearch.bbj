@@ -89,7 +89,7 @@ REM             #inputE!.setCallback(BBjAPI.ON_INPUT_KEYPRESS,#this!,"onKeyPress
         if event!.getKeyCode() = 302 then
             rem down
             o = #selectedSuggestionItem
-            n = min(#suggestionItems!.size(),o+1)
+            n = min(#suggestionItems!.size()-1,o+1)
             if n<>o then
                 item! = #suggestionItems!.get(o)
                 item!.deselectItem()
