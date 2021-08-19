@@ -311,7 +311,7 @@ class public QuickSearchSuggestionItem extends BBjWebWidget
         #content! = #content!.replaceAll("\]","")
         
         for i = 0 to fields!.size() -1
-            #content! = #content!.replaceAll(str(fields!.get(i)),#dr!.getFieldAsString(str(fields!.get(i))))
+            #content! = #content!.replaceAll(str(fields!.get(i)),cvs(#dr!.getFieldAsString(str(fields!.get(i))),3))
         next i
         #redraw(0)
     methodend
