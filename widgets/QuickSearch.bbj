@@ -247,6 +247,23 @@ REM         item!.selectItem()
     method public DataRow getSelectedItem()
         methodret #selectedItem!
     methodend
+    
+    method public void setText(BBjString text$)
+        #getInputField().setText(text$)
+    methodend    
+    
+    method public void setPlaceholder(BBjString text$)
+        #getInputField().setPlaceholder(text$)
+    methodend
+    
+    method public BBjString getText()
+        methodret #getInputField().getText()
+    methodend    
+
+    method public BBjString getPlaceholder()
+        methodret #getInputField().getPlaceholder()
+    methodend    
+        
 classend
 
 class public QuickSearchSuggestionItem extends BBjWebWidget

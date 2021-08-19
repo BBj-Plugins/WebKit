@@ -24,7 +24,7 @@ quicksearch! = new QuickSearch(wnd!,wnd!.getAvailableControlID())
 quicksearch!.setCallback(QuickSearch.ON_FETCH_SUGGESTIONS,"onFetchSuggestions")
 quicksearch!.setCallback(QuickSearch.ON_SUFFIX_CLICK,"onSuffixClick")
 quicksearch!.setCallback(QuickSearch.ON_ITEM_SELECT,"onItemSelect")
-quicksearch!.getInputField().setPlaceholder("Type")
+quicksearch!.setPlaceholder("Type")
 quicksearch!.setSuffixIcon("WebKit/demo/assets/search.svg")
 quicksearch!.getIconControl().setStyle("height","24px")
 quicksearch!.getIconControl().setStyle("margin-left","15px")
@@ -74,6 +74,6 @@ return
 onItemSelect:
     declare DataRow dr!
     dr! = cast(DataRow,cast(BBjCustomEvent,BBjAPI().getLastEvent()).getObject())
-    quicksearch!.getInputField().setPlaceholder(dr!.getFieldAsString("code")+":"+dr!.getFieldAsString("name"))
-    quicksearch!.getInputField().setText("")
+    quicksearch!.setPlaceholder(dr!.getFieldAsString("code")+":"+dr!.getFieldAsString("name"))
+    quicksearch!.setText("")
 return
