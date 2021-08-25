@@ -34,6 +34,10 @@
     }
 }
 
+:root {
+    --drawer-animation-duration: 0.6s;
+}
+
 .drawerPanelStyle{
     height: 100vh;
     background-color: white;
@@ -41,16 +45,16 @@
     width: 300px;
 }
 
-.drawerAnimationOpen {
+.drawerOpen .drawerAnimationOpen {
     animation-name: drawerAnimationOpen;
-    animation-duration: 1.15s;
+    animation-duration: var(--drawer-animation-duration);
     animation-fill-mode: forwards;
     animation-play-state: running;
     animation-timing-function: ease-in;
 }
-.drawerAnimationClose{
+.drawerClosed .drawerAnimationClose{
     animation-name: drawerAnimationClose;
-    animation-duration: 1.15s;
+    animation-duration: var(--drawer-animation-duration);
     animation-fill-mode: forwards;
     animation-play-state: running;
     animation-timing-function: ease-out;

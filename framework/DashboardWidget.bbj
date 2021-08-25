@@ -9,7 +9,8 @@ class public DashboardWidget extends BBjWebWidget
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDashBoardPressed")
         #window!.addPanelStyle("dashboardWidgetPanelStyle")
-        #window!.setDockStyle("margin-left","43px")
+        #window!.addPanelStyle("dashboardWndAnimationOpen")
+        #window!.addPanelStyle("dashboardWndAnimationClose")
         #setCanvas(#window!)
         #redraw(1)
     methodend
@@ -20,15 +21,15 @@ class public DashboardWidget extends BBjWebWidget
         declare BBjChildWindow iconWrapper!
         
         if init! then 
-            iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            iconWrapper!.setDockStyle("grid-row-start","1")
-            iconWrapper!.setDockStyle("grid-column-start","1")
-            iconWrapper!.setDockStyle("align-self","center")
-            
-            icon! = iconWrapper!.addImageCtrl(iconWrapper!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/dashboard.png")
+            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/dashboard.png")
             icon!.addStyle("dashboardIconStyle")
+            icon!.addStyle("dashboardIconAnimationOpen")
+            icon!.addStyle("dashboardIconAnimationClose")
+            
             text! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"My Dashboard")
             text!.addStyle("dashboardTextStyle")
+            text!.addStyle("dashboardTextAnimationOpen")
+            text!.addStyle("dashboardTextAnimationClose")
         endif
     methodend
     

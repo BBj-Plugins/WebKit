@@ -1,0 +1,37 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+class public DrawerOpenIcon extends BBjWebWidget
+
+    field private BBjChildWindow window!
+    
+    field public static BBjNumber ON_DRAWER_OPEN_ICON_PUSH = 144445
+    
+    method public DrawerOpenIcon(BBjChildWindow wnd!,BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public DrawerOpenIcon(BBjChildWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if init! then 
+            #window! = #getCanvas()
+            #window!.addPanelStyle("drawerOpenIconPanelStyle")
+            #window!.addPanelStyle("drawerClosedOpenIconStyle")
+            #window!.addPanelStyle("openIconAnimationOpen")
+            #window!.addPanelStyle("openIconAnimationClose")
+            #window!.setStyle("left","91px")
+            #window!.setStyle("top","88px")
+            #window!.setStyle("position","absolute")
+            REM does help with not clicking the dashboard instead of this icon
+            #window!.setStyle("z-index","101")
+            #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPush")
+            #window!.setPanelStyle("background-image","url(/files/prodinRes/" + "drawer_icon_open.png" +")")
+        endif
+    methodend
+    
+    method public void onIconPush(BBjMouseDownEvent event!)
+        #fireEvent(#ON_DRAWER_OPEN_ICON_PUSH,"")
+    methodend
+classend

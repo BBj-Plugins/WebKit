@@ -1,15 +1,16 @@
 use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
 
-class public DrawerIcon extends BBjWebWidget
+class public DrawerCloseIcon extends BBjWebWidget
     
     field private BBjChildWindow window!
     
-    field public static BBjNumber ON_DRAWER_ICON_PUSH = 144444
+    field public static BBjNumber ON_DRAWER_CLOSE_ICON_PUSH = 144444
 
-    method public DrawerIcon(BBjWindow parent!)
+    method public DrawerCloseIcon(BBjWindow parent!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPush")
-        #window!.addPanelStyle("drawerIconPanelStyle")
+        #window!.addPanelStyle("drawerIconClosePanelStyle")
+        #window!.addPanelStyle("drawerIconPanelClosedStyle")
         #setCanvas(#window!)
         #redraw(1)
     methodend
@@ -18,18 +19,15 @@ class public DrawerIcon extends BBjWebWidget
         declare BBjImageCtrl icon!
         
         if init! then 
-            #window!.setPanelStyle("background-image","url(http://localhost:8888/files/prodinRes/" + "drawer_icon_close.png" +")")
+            #window!.setPanelStyle("background-image","url(/files/prodinRes/" + "drawer_icon_close.png" +")")
             #window!.setDockStyle("grid-row-start","1")
             #window!.setDockStyle("grid-column-start","2")
             #window!.setDockStyle("align-self","center")
             #window!.setDockStyle("justify-self","right")
-REM             icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/drawer_icon_close.png")
-REM             icon!.setStyle("height","fit-content")
-REM             icon!.setStyle("width","fit-content")
         endif
     methodend
     
     method public void onIconPush(BBjMouseDownEvent event!)
-        #fireEvent(#ON_DRAWER_ICON_PUSH,"")
+        #fireEvent(#ON_DRAWER_CLOSE_ICON_PUSH,"")
     methodend
 classend

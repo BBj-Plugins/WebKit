@@ -58,6 +58,7 @@ class public ProdinDemo
         #drawer! = new Drawer(#mainWindow!,menuTiles!)
         
         header! = new TilesTextHeader(#drawer!.getOptionalControlAboveTiles(),"Browse")
+        
         header!.setDockStyle("grid-row-start","1")
         header!.setDockStyle("margin-bottom","8px")
         header!.setDockStyle("margin-top","24px")

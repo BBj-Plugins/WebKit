@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'Lato';
-    src: url('http://localhost:8888/files/prodinRes/Lato-Regular.ttf');
+    src: url('/files/prodinRes/Lato-Regular.ttf');
 }
 
 @font-face {
     font-family: 'Lato-Bold';
-    src: url('http://localhost:8888/files/prodinRes/Lato-Bold.ttf');
+    src: url('/files/prodinRes/Lato-Bold.ttf');
 }
 
 .loginWidgetPanelStyle {
@@ -22,7 +22,7 @@
 }
 
 .loginWrapperPanelStyle{
-    background-image: url('http://localhost:8888/files/prodinRes/prodin_login_background_desktop.png');
+    background-image: url('/files/prodinRes/prodin_login_background_desktop.png');
     background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
@@ -111,12 +111,12 @@
     }
 
     .loginWrapperPanelStyle{
-        background-image: url('http://localhost:8888/files/prodinRes/prodin_login_background_phone.png');
+        background-image: url('/files/prodinRes/prodin_login_background_phone.png');
     }
 }
 
 @media screen and(max-width:800px){
     .loginWrapperPanelStyle {
-       background-image: url('http://localhost:8888/files/prodinRes/prodin_login_background_tablet.png');
+       background-image: url('/files/prodinRes/prodin_login_background_tablet.png');
     }
 }

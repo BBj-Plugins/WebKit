@@ -341,8 +341,7 @@ iframe{
         bottom: 60px;
 	}
 	
-.tileslist{
-
+.tileslist {
         width: calc( 100vw - 10px );
         height: calc( 100vh - 320px );
 }

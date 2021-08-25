@@ -7,6 +7,7 @@ use ::WebKit/framework/DrawerMenuTile.bbj::DrawerMenuTile
 use ::WebKit/framework/Divider.bbj::Divider
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/framework/DrawerFooter.bbj::DrawerFooter
+use ::WebKit/framework/DrawerOpenIcon.bbj::DrawerOpenIcon
 
 class public Drawer extends BBjWebWidget 
     
@@ -23,6 +24,9 @@ class public Drawer extends BBjWebWidget
     method public Drawer(BBjWindow parent!, BBjVector tiles!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerPanelStyle")
+REM         #window!.addPanelStyle("drawerOpen")
+        #window!.addPanelStyle("drawerAnimationOpen")
+        #window!.addPanelStyle("drawerAnimationClose")
         #tiles! = tiles!
         #setCanvas(#window!)
         #redraw(1)
@@ -38,6 +42,7 @@ class public Drawer extends BBjWebWidget
         declare DrawerFooter footer!
         declare BBjChildWindow footerWrapper!
         declare BBjString templateRows!
+        declare DrawerOpenIcon drawerOpenIcon!
        rem  "WebKit/demo/assets/prodin_logo.png"
        
        rem 12px drawertile space
@@ -46,9 +51,11 @@ class public Drawer extends BBjWebWidget
        
         if init! 
             #open! = 1
-            header! = new DrawerHeader(#window!,"WebKit/demo/assets/prodin_logo.png")
-            header!.setDockStyle("margin-bottom","25px")
-            header!.setCallback(DrawerHeader.ON_DRAWER_ICON_PUSH,#this!,"onDrawerIconPush")
+            header! = new DrawerHeader(#window!,"WebKit/demo/assets/prodin_logo.png","WebKit/demo/assets/prodin_logo_small.png")
+            header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
+            
+            drawerOpenIcon! = new DrawerOpenIcon(#window!)
+            drawerOpenIcon!.setCallback(DrawerOpenIcon.ON_DRAWER_OPEN_ICON_PUSH,#this!,"openDrawer")
             
             dashboard! = new DashboardWidget(#window!)
             searchWidget! = new DrawerSearchWidget(#window!)
@@ -56,7 +63,6 @@ class public Drawer extends BBjWebWidget
             topDivider! = new Divider(#window!)
             topDivider!.setColor("#DDE0E1")
             
-            rem TODO figure the scrolling part out
             #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             #tilesWrapper!.setPanelStyle("display","grid")
             #tilesWrapper!.setPanelStyle("overflow","auto")
@@ -71,7 +77,7 @@ class public Drawer extends BBjWebWidget
             
             footer! = new DrawerFooter(footerWrapper!,#window! ,"David Williams","Art Director")
             footer!.setDockStyle("align-self","center")
-            footer!.setDockStyle("margin-left","40px")
+REM             footer!.setDockStyle("justify-self","center")
             
             
             declare DrawerMenuTileEntry entry!
@@ -100,23 +106,15 @@ REM             a = msgbox(templateRows!)
         methodret #optionalControl!
     methodend
     
-    method public void onDrawerIconPush(BBjCustomEvent event!)
-        if #isOpen() then 
-            #closeDrawer()
-        else
-            #openDrawer()
-        endif    
-    methodend
-    
-    method public void closeDrawer()
-        #window!.removePanelStyle("drawerAnimationOpen")
-        #window!.addPanelStyle("drawerAnimationClose")
+    method public void closeDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerClosed")
+        #window!.removeStyle("drawerOpen")
         #open! = !#open!
     methodend
     
-    method public void openDrawer()
-        #window!.removePanelStyle("drawerAnimationClose")
-        #window!.addPanelStyle("drawerAnimationOpen")
+    method public void openDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerOpen")
+        #window!.removeStyle("drawerClosed")
         #open! = !#open!
     methodend
     

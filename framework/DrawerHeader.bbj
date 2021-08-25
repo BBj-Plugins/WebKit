@@ -1,6 +1,6 @@
 use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
 
-use ::WebKit/framework/DrawerIcon.bbj::DrawerIcon
+use ::WebKit/framework/DrawerCloseIcon.bbj::DrawerCloseIcon
 
 class public DrawerHeader extends BBjWebWidget 
     
@@ -8,22 +8,25 @@ class public DrawerHeader extends BBjWebWidget
     
     field private BBjString logo!
     
-    field public static BBjNumber ON_DRAWER_ICON_PUSH = DrawerIcon.getON_DRAWER_ICON_PUSH()
+    field private BBjString smallLogo!
     
-    method public DrawerHeader(BBjWindow parent!, BBjString logo!)
+    field public static BBjNumber ON_DRAWER_CLOSE_ICON_PUSH = DrawerCloseIcon.getON_DRAWER_CLOSE_ICON_PUSH()
+    
+    method public DrawerHeader(BBjWindow parent!, BBjString logo!, BBjString smallLogo!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #window!.setDockStyle("padding-top","37px")
-        #window!.setDockStyle("padding-left","40px")
-        #window!.setDockStyle("padding-right","36px")
-        #window!.setPanelStyle("display","grid")
+        #window!.addPanelStyle("drawerHeaderPanelStyle")
+        #window!.addPanelStyle("drawerHeaderPanelStyleOpen")
+        #window!.addPanelStyle("drawerHeaderPanelStyleClosed")
         #setCanvas(#window!)
         #logo!= logo!
+        #smallLogo! = smallLogo!
         #redraw(1)
     methodend
     
     method public void redraw(Boolean init!)
         declare BBjImageCtrl logo!
-        declare DrawerIcon iconBtn!
+        declare BBjImageCtrl smallLogo!
+        declare DrawerCloseIcon iconBtn!
         if init!
             REM TODO
             logo! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#logo!)
@@ -32,13 +35,19 @@ class public DrawerHeader extends BBjWebWidget
             logo!.setStyle("width","fit-content")
             logo!.setStyle("grid-row-start","1")
             logo!.setStyle("grid-column-start","1")
+            logo!.addStyle("drawerHeaderLogo")
             
-            iconBtn! = new DrawerIcon(#window!)
-            iconBtn!.setCallback(DrawerIcon.ON_DRAWER_ICON_PUSH,#this!,"onDrawerIconPush")
+            smallLogo! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#smallLogo!)
+            smallLogo!.setStyle("display","none")
+            smallLogo!.addStyle("drawerHeaderLogoSmallClosed")
+            smallLogo!.addStyle("drawerHeaderLogoSmallOpen")
+            
+            iconBtn! = new DrawerCloseIcon(#window!)
+            iconBtn!.setCallback(DrawerCloseIcon.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"onDrawerIconPush")
         endif    
     methodend
     
     method public void onDrawerIconPush(BBjCustomEvent event!)
-        #fireEvent(#ON_DRAWER_ICON_PUSH,"")
+        #fireEvent(#ON_DRAWER_CLOSE_ICON_PUSH,"")
     methodend
 classend

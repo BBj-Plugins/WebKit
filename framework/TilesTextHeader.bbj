@@ -10,6 +10,8 @@ class public TilesTextHeader extends BBjWebWidget
     
     method public TilesTextHeader(BBjWindow parent!,BBjString text!)
          #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+         #window!.addPanelStyle("tilesTextHeaderAnimationOpen")
+         #window!.addPanelStyle("tilesTextHeaderAnimationClose")
          #setCanvas(cast(BBjChildWindow,parent!))
          #text! = text!
          #redraw(1)

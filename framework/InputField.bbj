@@ -12,11 +12,12 @@ class public InputField extends BBjWebWidget
     field private Boolean isPasswordField! = 0
     field private BBjString suffixIconPath!
     
+    field private Boolean valid! = 0
+    
     field public static BBjNumber ON_SUFFIX_PRESSED = 520000
     
-    REM ask stephan if alsways both constructors should be provided
     method public InputField(BBjChildWindow wnd!)
-        #super!.create(wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!)
@@ -44,7 +45,8 @@ class public InputField extends BBjWebWidget
         if init! then
             #window! = #getCanvas()
             #window!.addPanelStyle("inputFieldPanelStyle")
-            
+REM             #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
+REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
             #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
             #label!.addStyle("inputFieldLabelStyle")
                 
@@ -96,6 +98,16 @@ class public InputField extends BBjWebWidget
         endif 
      
         #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
+    methodend
+    
+    method public void onHoverStart(BBjMouseEnterEvent event!)
+        a = msgbox("enter!")
+        #label!.setStyle("color","#9B0058")
+    methodend
+    
+    method public void onHoverEnd(BBjMouseExitEvent event!)
+        a = msgbox("exit!")
+        #label!.setStyle("color","#333E40")
     methodend
     
     method public void onFocusGained(BBjGainedFocusEvent event!)

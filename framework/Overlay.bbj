@@ -19,7 +19,7 @@ class public Overlay extends BBjWebWidget
         #setCanvas(#overlay!)
         #redraw(1)
     methodend
-    
+   
     method public void redraw(Boolean init!)
         if init! then
             #isOpen! = 1

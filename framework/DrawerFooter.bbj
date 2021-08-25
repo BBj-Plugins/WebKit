@@ -20,6 +20,9 @@ class public DrawerFooter extends BBjWebWidget
     method public DrawerFooter(BBjWindow parent!, BBjChildWindow drawer!, BBjString title!, BBjString subtitle!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerFooterPanelStyle")
+        #window!.addPanelStyle("drawerFooterPanelAnimationOpen")
+        #window!.addPanelStyle("drawerFooterPanelAnimationClose")
+        
         #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onFooterPressed")
         #title! = title!
         #subtitle! = subtitle!
@@ -36,10 +39,12 @@ class public DrawerFooter extends BBjWebWidget
         declare BBjImageCtrl icon!
         
         if init! then 
-            avatar! = new CircularAvatar(#window!,"32px","http://localhost:8888/files/prodinRes/drawerAvatar.png")
-            #window!.setPanelStyle("grid-template-columns","32px auto 24px")
+            avatar! = new CircularAvatar(#window!,"32px","/files/prodinRes/drawerAvatar.png")
             
             wrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            wrapper!.addPanelStyle("drawerFooterWrapperWindowClosed")
+            wrapper!.addPanelStyle("drawerFooterWrapperWindowSmall")
+            wrapper!.addPanelStyle("drawerFooterWrapperWindowLarge")
             wrapper!.setPanelStyle("display","grid")
             wrapper!.setPanelStyle("height","100%")
             wrapper!.setDockStyle("margin-left","12px")
