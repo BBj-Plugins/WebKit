@@ -1,0 +1,57 @@
+
+.searchOverlayEntryTitleStyle{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(51, 62, 64, 0.8);
+    padding-bottom: 2.5px;
+    padding-left: 12px;
+    grid-column-start: 2;
+    grid-row-start: 1;
+    height: fit-content;
+    align-self: end;
+}
+
+.searchOverlayEntrySubtitleStyle {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #A1A5A7;
+    padding-top: 2.5px;
+    padding-left: 12px;
+    grid-column-start: 2;
+    grid-template-rows: 2;
+    height: fit-content;
+    align-self: start;
+}
+
+.searchOverlayEntryImageWrapperPanelStyle {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #F1F1F1;
+    border-radius: 8px;
+    margin-top: 12px;
+    display: grid;
+}
+
+.searchOverlayEntryPanelStyle{
+    display: grid;
+    grid-template-columns: 50px auto;
+    grid-template-rows: 50% 50%;
+    margin-left: 16px;
+    height: 74px;
+}
+
+.searchOverlayEntryInitialsTextStyle {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    color: white;
+}
+

@@ -1,0 +1,95 @@
+use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+
+class public SearchOverlayEntry extends BBjWebWidget
+    
+    field private BBjChildWindow imageWrapper!
+    
+    field private BBjStaticText title!
+    
+    field private BBjStaticText subtitle!
+    
+    field private BBjStaticText initials!
+    
+    field private Boolean hasImage! = 0    
+    
+    method public SearchOverlayEntry(BBjChildWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public SearchOverlayEntry(BBjChildWindow wnd!,BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend 
+    
+    method public void redraw(Boolean init!)
+        declare BBjChildWindow window!
+        if init! then 
+            window! = #getCanvas()
+            window!.addPanelStyle("searchOverlayEntryPanelStyle")
+            #imageWrapper! = window!.addChildWindow(window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #imageWrapper!.setDockStyle("grid-column-start","1")
+            #imageWrapper!.setDockStyle("grid-row-start","1")
+            #imageWrapper!.setDockStyle("grid-row-end","2")
+            #imageWrapper!.addPanelStyle("searchOverlayEntryImageWrapperPanelStyle")
+            
+            #title! = window!.addStaticText(window!.getAvailableControlID(),0,0,0,0,"")
+            #title!.addStyle("searchOverlayEntryTitleStyle")
+            
+            #subtitle! = window!.addStaticText(window!.getAvailableControlID(),0,0,0,0,"")
+            #subtitle!.addStyle("searchOverlayEntrySubtitleStyle")
+        endif 
+    methodend
+    
+    method private void handleInitials()
+        declare BBjString initials!
+        if #hasImage! then methodret
+        
+        if #initials! = null() then
+            initials! = #getTitleAsInitial()
+            #initials! = #imageWrapper!.addStaticText(#imageWrapper!.getAvailableControlID(),0,0,0,0,initials!)
+            #initials!.addStyle("searchOverlayEntryInitialsTextStyle")
+            #initials!.setStyle("justify-self","center")
+            #initials!.setStyle("align-self","center")
+            #imageWrapper!.setPanelStyle("background-color","#6883BA")
+        else
+            initials! = #getTitleAsInitial()
+            #initials!.setText(initials!)
+        endif
+    methodend
+    
+    method private BBjString getTitleAsInitial()
+        declare BBjString initial!
+        declare BBjVector split!
+        
+        initial! = #title!.getText()
+        if initial!.isEmpty() then 
+            methodret ""
+        endif
+        
+        split! = new BBjVector(java.util.Arrays.asList(initial!.split(" ")))
+        initial! = cast(BBjString,split!.get(0)).substring(0,1)
+        
+        if split!.size() -1 > 1 then
+            initial! = initial! + cast(BBjString,split!.get(1)).substring(0,1)
+        endif
+        
+        methodret initial!.toUpperCase()
+    methodend 
+    
+    method public void setTitle(BBjString title!)
+        #title!.setText(title!)
+        #handleInitials()
+    methodend
+    
+    method public void setSubTitle(BBjString subtitle!)
+        #subtitle!.setText(subtitle!)
+    methodend
+    
+    method public void setImagePath(BBjString imagePath!)
+        #imageWrapper!.setPanelStyle("background-image","url("+ imagePath! +")")
+        #imageWrapper!.setPanelStyle("background-repeat","no-repeat")
+        #hasImage! = 1
+        if #initials! <> null() then 
+            #initials!.destroy()
+        endif
+    methodend
+classend

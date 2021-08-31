@@ -40,7 +40,6 @@ class public ProdinDemo
         process_events
     methodend
     
-    
     method private void initializeDrawer()
         declare BBjVector menuTiles!
         declare TilesTextHeader header!

@@ -5,9 +5,14 @@ use ::WebKit/framework/DashboardWidget.bbj::DashboardWidget
 use ::WebKit/framework/DrawerSearchWidget.bbj::DrawerSearchWidget
 use ::WebKit/framework/DrawerMenuTile.bbj::DrawerMenuTile
 use ::WebKit/framework/Divider.bbj::Divider
-use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/framework/DrawerFooter.bbj::DrawerFooter
 use ::WebKit/framework/DrawerOpenIcon.bbj::DrawerOpenIcon
+use ::WebKit/framework/DrawerSearchOverlay.bbj::DrawerSearchOverlay
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
+use com.basiscomponents.db.DataField
 
 class public Drawer extends BBjWebWidget 
     
@@ -21,10 +26,11 @@ class public Drawer extends BBjWebWidget
     
     field private BBjChildWindow optionalControl!
     
+    field private DrawerSearchOverlay searchOverlay!
+    
     method public Drawer(BBjWindow parent!, BBjVector tiles!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerPanelStyle")
-REM         #window!.addPanelStyle("drawerOpen")
         #window!.addPanelStyle("drawerAnimationOpen")
         #window!.addPanelStyle("drawerAnimationClose")
         #tiles! = tiles!
@@ -58,7 +64,10 @@ REM         #window!.addPanelStyle("drawerOpen")
             drawerOpenIcon!.setCallback(DrawerOpenIcon.ON_DRAWER_OPEN_ICON_PUSH,#this!,"openDrawer")
             
             dashboard! = new DashboardWidget(#window!)
-            searchWidget! = new DrawerSearchWidget(#window!)
+            
+            #searchOverlay! = new DrawerSearchOverlay(#window!)
+            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
+            searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
             
             topDivider! = new Divider(#window!)
             topDivider!.setColor("#DDE0E1")
@@ -93,9 +102,7 @@ REM             footer!.setDockStyle("justify-self","center")
                     spacer!.setDockStyle("height","12px")
                 endif
             next i
-REM             a = msgbox(templateRows!)
             #tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
-            
         endif
     methodend
     
@@ -104,6 +111,79 @@ REM             a = msgbox(templateRows!)
             #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         endif
         methodret #optionalControl!
+    methodend
+    
+    method public void onFetchSearchResults(BBjCustomEvent event!)
+        declare ResultSet rs!
+        declare DataRow dr!
+        
+        rs! = new ResultSet()
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Barone LLC."))
+        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/baron.png"))
+        
+        rs!.add(dr!)
+     
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Abstergo Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/abstergo.png"))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Big Kahuna Burger Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Orange"))
+        dr!.addDataField("IMAGE", new DataField(""))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Biffco Enterprise Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Toledo"))
+        dr!.addDataField("IMAGE", new DataField(""))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        rem TODO test with null()
+        dr!.addDataField("TITLE", new DataField("Binford Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Fairfield"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/binford.png"))
+         
+        rs!.add(dr!)
+        
+        declare BBjString input!
+        declare ResultSet matchedData!
+        
+        matchedData! = new ResultSet()
+        
+        input! = cast(BBjString,event!.getObject())
+        it! = rs!.iterator()
+        
+        while it!.hasNext()
+            
+           declare auto DataRow myDr!
+           declare BBjString field!
+           
+           myDr! = it!.next()
+           field! = str(myDr!.getDataField("TITLE"))
+           
+           if field!.toUpperCase() = input!.toUpperCase() or field!.toUpperCase().contains(input!.toUpperCase()) then 
+                matchedData!.add(myDr!)
+           endif
+        wend 
+        
+        #searchOverlay!.setTitleFieldname("TITLE")
+        #searchOverlay!.setSubtitleFieldname("SUBTITLE")
+        #searchOverlay!.setImagePathFieldname("IMAGE")
+        #searchOverlay!.setSuggestions(matchedData!)
     methodend
     
     method public void closeDrawer(BBjCustomEvent event!)

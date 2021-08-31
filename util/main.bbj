@@ -15,8 +15,8 @@ DynamicLoader.addLocalCSS("WebKit/css/DrawerMenuTile.css")
 DynamicLoader.addLocalCSS("WebKit/css/DrawerFooter.css")
 DynamicLoader.addLocalCSS("WebKit/css/DrawerHeader.css")
 DynamicLoader.addLocalCSS("WebKit/css/TilesTextHeader.css")
-
-
+DynamicLoader.addLocalCSS("WebKit/css/SearchOverlayEntry.css")
+DynamicLoader.addLocalCSS("WebKit/css/DrawerSearchOverlay.css")
 
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
@@ -34,8 +34,10 @@ bbjutils!.copyFileToWebServer("WebKit/demo/assets/drawerAvatar.png","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/assets/user.png","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/assets/eye.png","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/assets/eye-off.png","prodinRes")
-bbjutils!.copyFileToWebServer("WebKit/demo/assets/prodin_logo_small.png")
-
+bbjutils!.copyFileToWebServer("WebKit/demo/assets/prodin_logo_small.png","prodinRes")
+bbjutils!.copyFileToWebServer("WebKit/demo/assets/baron.png","prodinRes")
+bbjutils!.copyFileToWebServer("WebKit/demo/assets/abstergo.png","prodinRes")
+bbjutils!.copyFileToWebServer("WebKit/demo/assets/binford.png","prodinRes")
 
 declare ProdinDemo prodin!
 
