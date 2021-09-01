@@ -43,6 +43,10 @@ class public Overlay extends BBjWebWidget
         methodret #isOpen!
     methodend
     
+    method public void closeOverlay()
+        #overlayWrapper!.destroy()
+    methodend
+    
     method public void setBackgroundColor(BBjString color!)
         #overlayWrapper!.setDockStyle("background-color",color!)
     methodend

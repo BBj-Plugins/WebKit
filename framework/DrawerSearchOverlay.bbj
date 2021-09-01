@@ -17,7 +17,7 @@ class public DrawerSearchOverlay extends BBjWebWidget
     
     field private BBjChildWindow contentWrapper!
     
-    field private BBjVector searchEntrys! = new BBjVector()
+    field private ResultSet initialSuggestions!
     
     field private BBjString title!
     
@@ -34,6 +34,8 @@ class public DrawerSearchOverlay extends BBjWebWidget
     field private Boolean isMinimized! = 0
     
     field public static BBjNumber ON_FETCH_SEARCHRESULTS = 900666
+    
+    field public static BBjNumber ON_ENTRY_SELECTED = 900667
     
     method public DrawerSearchOverlay(BBjChildWindow wnd!)
         #super!.create(wnd!,wnd!.getAvailableControlID())
@@ -63,20 +65,21 @@ class public DrawerSearchOverlay extends BBjWebWidget
         
         #clearSearch()
         
-        rem after clearing search the #contetnWrapperWindow is destroyed and null
-        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperPanelStyle")
-        #contentWrapper!.setPanelStyle("overflow","auto")
+        if suggestions!.isEmpty() then 
+            #playCloseAnimation()
+            #createEmptySearchWidget()
+            rem todo display the nothing found thing
+            methodret
+        endif
         
         if #isMinimized! then 
             #playOpenAnimation()
         endif
         
-        if suggestions!.isEmpty() then 
-            #playCloseAnimation()
-            rem todo display the nothing found thing
-            methodret
-        endif
+        rem after clearing search the #contetnWrapperWindow is destroyed and null
+        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperPanelStyle")
+        #contentWrapper!.setPanelStyle("overflow","auto")
         
         rows! = ""
         for i = 0 to suggestions!.size() -1
@@ -87,10 +90,33 @@ class public DrawerSearchOverlay extends BBjWebWidget
         #contentWrapper!.setPanelStyle("grid-template-rows",rows!)
     methodend
     
+    method public void setInitialSuggestion(ResultSet rs!)
+        declare BBjString rows!
+        REM Note will at most display 5 suggestions
+        if rs! = null() or rs!.isEmpty() then 
+            methodret
+        endif
+        
+        if rs!.size() > 5 then
+            declare ResultSet sizedRs! 
+            sizedRS! = new ResultSet()
+            for i = 0 to 4 
+                sizedRS!.add(rs!.get(i))
+            next i 
+            #initialSuggestions! = sizedRs!
+         
+        else
+            #initialSuggestions! = rs!
+        endif
+         
+    methodend
+    
     method private void createSearchEntry(DataRow row!)
         declare SearchOverlayEntry entry!
         
         entry! = new SearchOverlayEntry(#contentWrapper!)
+        entry!.setCallback(SearchOverlayEntry.ON_SEARCH_ENTRY_PRESSED,#this!,"onEntryPressed")
+        entry!.setData(row!)
         entry!.setTitle(row!.getFieldAsString(#title!))
         
         if #subtitle! <> null() then
@@ -105,7 +131,6 @@ class public DrawerSearchOverlay extends BBjWebWidget
                 entry!.setImagePath(row!.getFieldAsString(#imagePath!))
             endif
         endif
-        #searchEntrys!.add(entry!)
     methodend
     
     method private void createSearchWnd()
@@ -133,6 +158,11 @@ class public DrawerSearchOverlay extends BBjWebWidget
         #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperPanelStyle")
         #contentWrapper!.setPanelStyle("overflow","auto")
+        
+        if #initialSuggestions! <> null() then 
+            #setSuggestions(#initialSuggestions!)
+        
+        endif
     methodend
     
     method public void onEditModify(BBjEditModifyEvent event!)
@@ -142,6 +172,9 @@ class public DrawerSearchOverlay extends BBjWebWidget
             if #contentWrapper! <> null() then
             rem todo implement the initial suggestion or rather quick suggestion
                 #clearSearch()
+                if #initialSuggestions! <> null() then
+                    #setInitialSuggestion(#initialSuggestions!)
+                endif
             endif  
             methodret
         endif
@@ -151,6 +184,21 @@ class public DrawerSearchOverlay extends BBjWebWidget
         else
             #fireEvent(#ON_FETCH_SEARCHRESULTS, #searchText!)
         endif
+    methodend
+    
+    method private void createEmptySearchWidget()
+        declare BBjStaticText label!
+        declare BBjStaticText interActiveLabel!
+        
+        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperEmptySearchPanelStyle")
+        
+        rem add fields to set the text
+        label! = #contentWrapper!.addStaticText(#contentWrapper!.getAvailableControlID(),0,0,0,0,"No companies found")
+        label!.addStyle("drawerSearchWidgetContentWrapperEmptySearchLabelStyle")
+        
+        interActiveLabel! = #contentWrapper!.addStaticText(#contentWrapper!.getAvailableControlID(),0,0,0,0,"Add new company")
+        interActiveLabel!.addStyle("drawerSearchWidgetContentWrapperEmptySearchInteractiveLabelStyle")
     methodend
     
     method private void playOpenAnimation()
@@ -167,7 +215,6 @@ class public DrawerSearchOverlay extends BBjWebWidget
     
     method private void clearSearch()
         if #contentWrapper! <> null() then 
-            #searchEntrys!.clear()
             #contentWrapper!.destroy()
             #contentWrapper! = null()
         endif
@@ -176,6 +223,12 @@ class public DrawerSearchOverlay extends BBjWebWidget
     method public void onTimerTimeout(BBjTimerEvent event!)
         #fireEvent(#ON_FETCH_SEARCHRESULTS, #searchText!)
         BBjAPI().removeTimer(600)
+    methodend
+    
+    method public void onEntryPressed(BBjCustomEvent event!)
+        #fireEvent(#ON_ENTRY_SELECTED,event!.getObject())
+        #overlay!.closeOverlay()
+        #searchWnd!.destroy()
     methodend
     
     method public void onOverlayDissmiss(BBjCustomEvent event!)

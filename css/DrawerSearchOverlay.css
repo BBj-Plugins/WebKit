@@ -45,6 +45,36 @@
     grid-template-columns: auto;
 }
 
+.drawerSearchWidgetContentWrapperEmptySearchPanelStyle {
+    width: 297;
+    height: 105px;
+    display: grid;
+    grid-template-rows: min-content auto;
+}
+
+.drawerSearchWidgetContentWrapperEmptySearchLabelStyle {
+    height: min-content;
+    margin-top: 19px;
+    justify-self: center;
+    font-family: 'Lato-Bold';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #333E40;
+}
+
+.drawerSearchWidgetContentWrapperEmptySearchInteractiveLabelStyle {
+    height: min-content;
+    margin-top: 9px;
+    justify-self: center;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #6883BA;
+}
+
 .drawerSearchWidgetInputWrapperPanelStyle {
     height: 49px;
     width: 100%;
@@ -80,14 +110,14 @@
 
 .drawerSearchOverlayPanelAnimationClose {
     animation-name: drawerSearchOverlayPanelAnimationSmall;
-    animation-duration: var(--drawer-animation-duration);
+    animation-duration: var(--drawer-search-animation-duration);
     animation-fill-mode: forwards;
     animation-play-state: running;
 }
 
 .drawerSearchOverlayPanelAnimationOpen {
     animation-name: drawerSearchOverlayPanelAnimationLarge;
-    animation-duration: var(--drawer-animation-duration);
+    animation-duration: var(--drawer-search-animation-duration);
     animation-fill-mode: forwards;
     animation-play-state: running;
 }

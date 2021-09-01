@@ -28,6 +28,8 @@ class public Drawer extends BBjWebWidget
     
     field private DrawerSearchOverlay searchOverlay!
     
+    field private ResultSet demoData!
+    
     method public Drawer(BBjWindow parent!, BBjVector tiles!)
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerPanelStyle")
@@ -55,7 +57,8 @@ class public Drawer extends BBjWebWidget
        
        templateRows! = "40px"
        
-        if init! 
+        if init!
+            #createDemoData()
             #open! = 1
             header! = new DrawerHeader(#window!,"WebKit/demo/assets/prodin_logo.png","WebKit/demo/assets/prodin_logo_small.png")
             header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
@@ -67,6 +70,12 @@ class public Drawer extends BBjWebWidget
             
             #searchOverlay! = new DrawerSearchOverlay(#window!)
             #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
+            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_ENTRY_SELECTED,#this!,"onDrawerSearchEntrySelected")
+            #searchOverlay!.setTitleFieldname("TITLE")
+            #searchOverlay!.setSubtitleFieldname("SUBTITLE")
+            #searchOverlay!.setImagePathFieldname("IMAGE")
+
+            #searchOverlay!.setInitialSuggestion(#demoData!)
             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
             
             topDivider! = new Divider(#window!)
@@ -86,8 +95,6 @@ class public Drawer extends BBjWebWidget
             
             footer! = new DrawerFooter(footerWrapper!,#window! ,"David Williams","Art Director")
             footer!.setDockStyle("align-self","center")
-REM             footer!.setDockStyle("justify-self","center")
-            
             
             declare DrawerMenuTileEntry entry!
             declare BBjChildWindow spacer!
@@ -113,8 +120,8 @@ REM             footer!.setDockStyle("justify-self","center")
         methodret #optionalControl!
     methodend
     
-    method public void onFetchSearchResults(BBjCustomEvent event!)
-        declare ResultSet rs!
+    method private void createDemoData()
+         declare ResultSet rs!
         declare DataRow dr!
         
         rs! = new ResultSet()
@@ -159,13 +166,17 @@ REM             footer!.setDockStyle("justify-self","center")
          
         rs!.add(dr!)
         
+        #demoData! = rs!
+    methodend
+    
+    method public void onFetchSearchResults(BBjCustomEvent event!)
         declare BBjString input!
         declare ResultSet matchedData!
         
         matchedData! = new ResultSet()
         
         input! = cast(BBjString,event!.getObject())
-        it! = rs!.iterator()
+        it! = #demoData!.iterator()
         
         while it!.hasNext()
             
@@ -180,10 +191,15 @@ REM             footer!.setDockStyle("justify-self","center")
            endif
         wend 
         
-        #searchOverlay!.setTitleFieldname("TITLE")
-        #searchOverlay!.setSubtitleFieldname("SUBTITLE")
-        #searchOverlay!.setImagePathFieldname("IMAGE")
         #searchOverlay!.setSuggestions(matchedData!)
+    methodend
+    
+    method public void onDrawerSearchEntrySelected(BBjCustomEvent event!)
+        declare auto DataRow dr!
+        
+        dr! = event!.getObject()
+        
+        a = msgbox(str(dr!.getDataField("TITLE")) + " " + str(dr!.getDataField("SUBTITLE")))
     methodend
     
     method public void closeDrawer(BBjCustomEvent event!)
