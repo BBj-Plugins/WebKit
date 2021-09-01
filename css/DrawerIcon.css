@@ -59,3 +59,9 @@
     animation-fill-mode: forwards;
     animation-play-state: running;
 }
+
+@media screen and (max-width: 425px) {
+    .drawerClosed .drawerClosedOpenIconStyle {
+        display: none !important;
+    }
+}
