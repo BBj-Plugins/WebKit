@@ -18,6 +18,8 @@ class public Drawer extends BBjWebWidget
     
     field private BBjChildWindow window!
     
+    field private BBjChildWindow shadowWindow!
+    
     field private Boolean open! = 0
     
     field private BBjVector tiles! = new BBjVector()
@@ -35,6 +37,11 @@ class public Drawer extends BBjWebWidget
         #window!.addPanelStyle("drawerPanelStyle")
         #window!.addPanelStyle("drawerAnimationOpen")
         #window!.addPanelStyle("drawerAnimationClose")
+        
+        #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #shadowWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onShadowTapped")
+        #shadowWindow!.addPanelStyle("drawerMobileShadowPanelStyle")
+        #shadowWindow!.addStyle("drawerShadow")
         #tiles! = tiles!
         #setCanvas(#window!)
         #redraw(1)
@@ -201,6 +208,11 @@ class public Drawer extends BBjWebWidget
         
         a = msgbox(str(dr!.getDataField("TITLE")) + " " + str(dr!.getDataField("SUBTITLE")))
     methodend
+    
+    method public void onShadowTapped(BBjMouseDownEvent event!)
+        #shadowWindow!.removeStyle("drawerShadow")
+        #closeDrawer(null())
+    methodend   
     
     method public void closeDrawer(BBjCustomEvent event!)
         #window!.addStyle("drawerClosed")
