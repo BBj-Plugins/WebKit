@@ -5,6 +5,8 @@ use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
 use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
+use ::AuthKit/totp/TOTP.bbj::TOTP
+
 
 class public LoginDialog
 
@@ -58,7 +60,7 @@ class public LoginDialog
             main!.addStyle("logincontainer")
             
             
-            st! = main!.addStaticText(98,0,0,0,0,"<html><h2>Please login:</h2></html>")
+            st! = main!.addStaticText(98,0,0,0,0,"<html><h2>Please log in</h2></html>")
             
             st!.setStyle("grid-column","1 / span 2")
             st!.setStyle("grid-row","1")
@@ -123,7 +125,7 @@ class public LoginDialog
                 microsoftwidget!.setCallback(MicrosoftLoginWidget.ON_LOGIN,"onMicrosoftLogin")
                 
             fi
-
+            ipe_username!.focus()
             
             process_events
             
@@ -132,7 +134,11 @@ class public LoginDialog
                 pass$=ipe_password!.getText()
                 
                 if #authProvider!.checkLogin(user$,pass$) then
-
+                
+                    rem check MFA
+                    TotpDl! = new MfaTotpDialog("FS5W5DII7UEEWK4EAY7LYN5EDS7RJPNN") 
+                    TotpDl!.doModal()
+                    
                     #User$ = user$
                     if cb_remember! <> null() AND cb_remember!.isSelected() then
                         token$ = #authProvider!.getToken()
@@ -173,7 +179,96 @@ class public LoginDialog
 classend
 
 
+class public MfaTotpDialog
 
+    field private String secret!
+    field private BBjTopLevelWindow window!    
+   
+    method private MfaTotpDialog()
+    methodend
+    
+    method public MfaTotpDialog(String secret!)
+        #secret! = secret!
+    methodend
+
+    method public Boolean doModal()
+
+            sysgui! =BBjAPI().openSysGui("X0")
+            
+            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"MFA Token Required",$01101083$)
+            window!.addStyle("wallpaper")
+            #window! = CAST(BBjTopLevelWindow, window!)
+            
+            
+            logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
+            logo!.addPanelStyle("loginlogo")
+            
+            
+            ctxt = sysgui!.getAvailableContext()
+            main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            main!.addStyle("loginframe")
+            main!.setClientEdge(0)
+            main!.setNoEdge(1)    
+            
+            main!.addStyle("logincontainer")
+            
+            
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html><h2>MFA Token Required</h2></html>")
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","1")
+
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Please enter the current token of your MFA Authenticator App.</html>")
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","2")
+
+
+
+            
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"Token:")
+            st!.setStyle("grid-column","1")
+            st!.setStyle("grid-row","4")
+            
+            ipn_token! = main!.addInputE(main!.getAvailableControlID(),0,0,250,25,"","000 000")
+            ipn_token!.setStyle("grid-column","2")
+            ipn_token!.setStyle("grid-row","4")
+
+            err_msg! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Token Invalid!</html>",$0010$)
+            err_msg!.addStyle("errormsg")
+            err_msg!.setStyle("grid-column","1 / span 2")
+            err_msg!.setStyle("grid-row","6")            
+            
+            btn_login! = main!.addButton(1,0,0,250,25,"Login")
+            btn_login!.setAttribute("theme","primary")
+            btn_login!.setAttribute("size","xl")
+            btn_login!.setStyle("grid-column","1 / span 2")
+            btn_login!.setStyle("grid-row","8")
+            btn_login!.addStyle("loginbtn")
+            btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
+            
+ 
+            ipn_token!.focus()
+            
+            process_events
+            
+            login:
+                token$=ipn_token!.getText()
+                while len(token$)<6
+                    token$="0"+token$
+                wend
+                
+                curr_token$ = TOTP.getTOTPCode(#secret!)
+            
+                if curr_token$ = token$ then
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                else
+                    err_msg!.setVisible(1)
+                fi
+                return
+                
+    methodend
+
+classend
 
 interface public IAuthProvider
     
