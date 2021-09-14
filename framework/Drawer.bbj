@@ -1,4 +1,4 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
 use ::WebKit/framework/DrawerHeader.bbj::DrawerHeader
 use ::WebKit/framework/DashboardWidget.bbj::DashboardWidget
@@ -14,7 +14,7 @@ use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 use com.basiscomponents.db.DataField
 
-class public Drawer extends BBjWebWidget 
+class public Drawer extends BBjWidget 
     
     field private BBjChildWindow window!
     

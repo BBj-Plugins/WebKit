@@ -1,8 +1,8 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
 use com.basiscomponents.db.DataRow
 
-class public SearchOverlayEntry extends BBjWebWidget
+class public SearchOverlayEntry extends BBjWidget
     
     field private BBjChildWindow imageWrapper!
     

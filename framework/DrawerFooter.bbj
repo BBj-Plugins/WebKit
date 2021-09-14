@@ -1,9 +1,9 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
 use ::WebKit/framework/CircularAvatar.bbj::CircularAvatar
 use ::WebKit/framework/Overlay.bbj::Overlay
 
-class public DrawerFooter extends BBjWebWidget
+class public DrawerFooter extends BBjWidget
 
     field private BBjChildWindow window!
     

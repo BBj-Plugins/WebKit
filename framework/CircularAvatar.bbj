@@ -1,6 +1,6 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
-class public CircularAvatar extends BBjWebWidget
+class public CircularAvatar extends BBjWidget
 
     field private BBjChildWindow window!
     

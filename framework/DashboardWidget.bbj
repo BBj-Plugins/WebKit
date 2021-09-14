@@ -1,7 +1,7 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
 
-class public DashboardWidget extends BBjWebWidget
+class public DashboardWidget extends BBjWidget
     
     field private BBjChildWindow window!
     
