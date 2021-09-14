@@ -1,9 +1,9 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::AuthKit/totp/TOTP.bbj::TOTP
 use ::QRCodes/QRCodes.bbj::QRCodes
 
 
-class public AuthSecurityPanel extends BBjWebWidget
+class public AuthSecurityPanel extends BBjWidget
 
     field public BBjString TOTPAppAccount! = "myAccount"
     field public BBjString TOTPAppIssuer! = "BBj Demo"
@@ -12,10 +12,13 @@ class public AuthSecurityPanel extends BBjWebWidget
     field private BBjImageCtrl  TOTPQRCode!
     field private BBjString     TOTPSecret!
     field private BBjChildWindow TOTPPanel!
+    field private BBjButton     TOTPActivateButton!
 
     field private BBjChildWindow SMSPanel!
     field private BBjInputE      SMSCellNumber!
     field private BBjInputE      SMSTestCode!
+    field private BBjButton     SMSSendButton!
+    field private BBjButton     SMSActivateButton!
     
 
     method public AuthSecurityPanel(BBjWindow wnd!)
@@ -84,11 +87,11 @@ class public AuthSecurityPanel extends BBjWebWidget
             #TOTPTestCode! = CAST(BBjInputE,sub!.addInputE(sub!.getAvailableControlID(),0,0,0,0,"","000000"))
             #TOTPTestCode!.setStyle("margin","10px")
             
-            totp_testbtn! = sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Test and Activate")
-            totp_testbtn!.setAttribute("theme","default")
-            totp_testbtn!.setAttribute("expanse","l")
-            totp_testbtn!.setStyle("margin","10px")
-            totp_testbtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"TestAndActivateTOTP")
+            #TOTPActivateButton! = CAST(BBjButton,sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Test and Activate"))
+            #TOTPActivateButton!.setAttribute("theme","default")
+            #TOTPActivateButton!.setAttribute("expanse","l")
+            #TOTPActivateButton!.setStyle("margin","10px")
+            #TOTPActivateButton!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"TestAndActivateTOTP")
          
             cb_sms! = options_panel!.addCheckBox(options_panel!.getAvailableControlID(),0,0,0,0,"Add SMS Verification")
             cb_sms!.setCallback(BBjAPI.ON_CHECK_ON,#this!,"showSMSPanel")
@@ -112,11 +115,11 @@ class public AuthSecurityPanel extends BBjWebWidget
             #SMSCellNumber! = CAST(BBjInputE,sub!.addInputE(sub!.getAvailableControlID(),0,0,0,0,"","+00000000000000"))
             #SMSCellNumber!.setStyle("margin","10px")
             
-            sms_testbtn! = sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Send Code")
-            sms_testbtn!.setAttribute("theme","default")
-            sms_testbtn!.setAttribute("expanse","l")
-            sms_testbtn!.setStyle("margin","10px")
-            sms_testbtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"TestAndActivateSMS")
+            #SMSSendButton! = CAST(BBjButton,sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Send Code"))
+            #SMSSendButton!.setAttribute("theme","default")
+            #SMSSendButton!.setAttribute("expanse","l")
+            #SMSSendButton!.setStyle("margin","10px")
+            #SMSSendButton!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"SendTestSMS")
             
             
             sub!.addStaticText(sub!.getAvailableControlID(),0,0,0,0,"Code:")
@@ -124,11 +127,11 @@ class public AuthSecurityPanel extends BBjWebWidget
             #SMSTestCode! = CAST(BBjInputE,sub!.addInputE(sub!.getAvailableControlID(),0,0,0,0,$0001$,"000000"))
             #SMSTestCode!.setStyle("margin","10px")
             
-            sms_testbtn! = sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Verify and Activate",$0001$)
-            sms_testbtn!.setAttribute("theme","default")
-            sms_testbtn!.setAttribute("expanse","l")
-            sms_testbtn!.setStyle("margin","10px")
-            sms_testbtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"TestAndActivateSMS")
+            #SMSActivateButton! = CAST(BBjButton,sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Verify and Activate",$0001$))
+            #SMSActivateButton!.setAttribute("theme","default")
+            #SMSActivateButton!.setAttribute("expanse","l")
+            #SMSActivateButton!.setStyle("margin","10px")
+            #SMSActivateButton!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"TestAndActivateSMS")
             
                              
         FI
@@ -137,9 +140,20 @@ class public AuthSecurityPanel extends BBjWebWidget
 
     
     method public void TestAndActivateTOTP(BBjEvent ev!)
+        #TOTPTestCode!.setVisible(0)
+        #TOTPActivateButton!.setAttribute("theme","success")
+        #TOTPActivateButton!.setText("Activated")
+    methodend
+
+    method public void SendTestSMS(BBjEvent ev!)
+        #SMSSendButton!.setText("Resend")
+        #SMSActivateButton!.setEnabled(1)
+        #SMSTestCode!.setEnabled(1)
     methodend
 
     method public void TestAndActivateSMS(BBjEvent ev!)
+        #SMSActivateButton!.setAttribute("theme","success")
+        #SMSActivateButton!.setText("Activated")
     methodend
 
     

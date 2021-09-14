@@ -10,33 +10,4 @@ REM as the starting point for your UI component development projects (and NOT re
 REM the BBjControl Interface directly in your code). 
 
 
-    method public BBjWebWidget()
-    methodend
-
-    method protected void create(BBjWindow wnd!, BBjNumber id!)
-        #super!.setCanvas(wnd!.addChildWindow(id!,1,1,1,1,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
-        #redraw(BBjAPI.TRUE)
-    methodend
-    
-    method protected void create(BBjChildWindow wnd!)
-        #setCanvas(wnd!)
-        #redraw(BBjAPI.TRUE)
-    methodend
-    
-    method public void setStyle(BBjString x!,BBjString y!)
-        #getCanvas().setStyle(x!,y!)
-    methodend
-
-    method public void setDockStyle(BBjString x!,BBjString y!)
-        #getCanvas().setDockStyle(x!,y!)
-    methodend
-    
-    method public void setPanelStyle(BBjString x!,BBjString y!)
-        #getCanvas().setPanelStyle(x!,y!)
-    methodend
-
-    method public void addPanelStyle(BBjString x!)
-        #getCanvas().addPanelStyle(x!)
-    methodend
-    
 classend

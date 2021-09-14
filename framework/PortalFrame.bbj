@@ -3,7 +3,7 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/MenuPanel.bbj::MenuPanel
 use ::WebKit/framework/EmbedPanel.bbj::EmbedPanel
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
@@ -25,7 +25,7 @@ class public PortalFrame
     
     field private Boolean drawerOpen! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
-    field private BBjWebWidget curr_win! 
+    field private BBjWidget curr_win! 
     field private MenuPanel menuPanel!
 
     field private BBjPopupMenu AccountMenu!
@@ -142,7 +142,7 @@ class public PortalFrame
         else
         
             if #win_list!.containsKey(item!.getNodeId()) then
-                #curr_win!= CAST(BBjWebWidget,#win_list!.get(item!.getNodeId()))
+                #curr_win!= CAST(BBjWidget,#win_list!.get(item!.getNodeId()))
                 #curr_win!.setVisible(1)
             else
                 pgm$ = item!.getProgram()
@@ -156,7 +156,7 @@ class public PortalFrame
                             if x! = null() then
                                 a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
                             else 
-                                #curr_win! = CAST(BBjWebWidget,x!)
+                                #curr_win! = CAST(BBjWidget,x!)
                             fi
                             break
                             
@@ -164,7 +164,7 @@ class public PortalFrame
                         case 2
                             x! = new EmbedPanel(#Main!)
                             x!.start(item!)
-                            #curr_win! = CAST(BBjWebWidget,x!)
+                            #curr_win! = CAST(BBjWidget,x!)
                             x!.setCallback(BBjAPI().ON_CLOSE,#this!,"onEmbedPanelClose")
                             break
                         case default
