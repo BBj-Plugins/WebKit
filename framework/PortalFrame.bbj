@@ -3,10 +3,10 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/MenuPanel.bbj::MenuPanel
 use ::WebKit/framework/EmbedPanel.bbj::EmbedPanel
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
-
+use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
 use java.util.HashMap
 
@@ -15,17 +15,20 @@ class public PortalFrame
     field private BBjTopLevelWindow window!
     field private BBjChildWindow Drawer!
     field private BBjChildWindow Main!
+    field private BBjChildWindow AccountDisplay!
+    field private BBjChildWindow Avatar!
     
     field public BBjString Username!
     field public BBjString Title!
     field public Menu Menu!
+    field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
-    field private BBjWebWidget curr_win! 
+    field private BBjWidget curr_win! 
     field private MenuPanel menuPanel!
-    
-    
+
+    field private BBjPopupMenu AccountMenu!
     
     method public Boolean doModal()
 
@@ -73,13 +76,24 @@ class public PortalFrame
                 btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             wend
 
-            avatar_area! = cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            account_name! = avatar_area!.addStaticText(1221,0,0,200,80,#Username!)
+            #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
+            #AccountDisplay!.setCallback(BBjAPI.ON_POPUP_REQUEST,#this!,"onAvatarAreaClick")
+            
+            account_name! = #AccountDisplay!.addStaticText(1221,0,0,200,80,#Username!)
             account_name!.addStyle("account")
             
-            avatar! = avatar_area!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            avatar!.addStyle("avatar")
-            avatar_area!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onAvatarAreaClick")
+            #Avatar! = #AccountDisplay!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            #Avatar!.addStyle("avatar")
+            
+            #AccountMenu! = BBjAPI().getSysGui().addPopupMenu()
+            menu_logout!=#AccountMenu!.addMenuItem(-32027,"Logout")
+            menu_logout!.setCallback(BBjAPI.ON_POPUP_ITEM_SELECT,"onAccountLogout")
+            
+            #AccountDisplay!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onAvatarAreaClick")
+            
+            if #Profile! <> null() then
+                #Avatar!.setDockStyle("background-image","url("+#Profile!.getPictureUrl()+")")
+            fi
             
             BBjAPI().setCustomEventCallback("logout","logout")
             
@@ -89,7 +103,7 @@ class public PortalFrame
                 #navigateTo(anchor$)
             fi
 
-            
+                    
             process_events
             
             logout:
@@ -128,7 +142,7 @@ class public PortalFrame
         else
         
             if #win_list!.containsKey(item!.getNodeId()) then
-                #curr_win!= CAST(BBjWebWidget,#win_list!.get(item!.getNodeId()))
+                #curr_win!= CAST(BBjWidget,#win_list!.get(item!.getNodeId()))
                 #curr_win!.setVisible(1)
             else
                 pgm$ = item!.getProgram()
@@ -138,11 +152,11 @@ class public PortalFrame
                     switch starttype
                         case 0
                             x! = null()
-                            x! = eval("new "+pgm$+"(#Main!)")
+                            x! = eval("new "+pgm$+"(#Main!)",err=*next)
                             if x! = null() then
                                 a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
                             else 
-                                #curr_win! = CAST(BBjWebWidget,x!)
+                                #curr_win! = CAST(BBjWidget,x!)
                             fi
                             break
                             
@@ -150,7 +164,7 @@ class public PortalFrame
                         case 2
                             x! = new EmbedPanel(#Main!)
                             x!.start(item!)
-                            #curr_win! = CAST(BBjWebWidget,x!)
+                            #curr_win! = CAST(BBjWidget,x!)
                             x!.setCallback(BBjAPI().ON_CLOSE,#this!,"onEmbedPanelClose")
                             break
                         case default
@@ -168,10 +182,13 @@ class public PortalFrame
     methodend
     
     method public void onAvatarAreaClick(BBjEvent ev!)
-        
+        #AccountMenu!.show(#Avatar!,5,50)
+    methodend
+    
+    method public void onAccountLogout (BBjEvent ev!)
+        a=msgbox("logout")
         LoginDialog.clearRememberToken()
         BBjAPI().postCustomEvent("logout","")
-        
     methodend
                 
     method public void onEmbedPanelClose(BBjCustomEvent ev!)

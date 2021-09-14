@@ -1,10 +1,10 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/model/Menu.bbj::MenuItem
 
 
 
 
-class public EmbedPanel extends BBjWebWidget
+class public EmbedPanel extends BBjWidget
 
     field private BBjStaticText Headline!
     field private BBjHtmlView HtmlView!

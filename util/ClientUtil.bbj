@@ -1,5 +1,6 @@
 class public ClientUtil
 
+    field private static BBjTopLevelWindow Wnd!
     field private static BBjHtmlView InjHtml!
     field private static BBjString alreadyLoaded$
 
@@ -12,14 +13,17 @@ class public ClientUtil
 
     method public static void init()
       if ClientUtil.getInjHtml() = null() then
+          declare BBjSysGui sg!
           sg! =  BBjAPI().openSysGui("X0")
-          window! =sg!.addWindow(sg!.getAvailableContext(),0,0,0,0,"",$01101083$)
-          window!.setStyle("position","fixed")
-                window!.setStyle("left","-20px")
-                window!.setStyle("top","0px")
-                window!.setStyle("width","0px")
-                window!.setStyle("height","0px")
-          inj_html! = CAST(BBjHtmlView,window!.addHtmlView(64190,0,0,0,0,""))
+          rem create our helper window and give it a context that is likely far away from any application context IDs
+          #Wnd! =sg!.addWindow(65501,0,0,0,0,"",$01101083$)
+          sg!.setContext(sg!.getAvailableContext())
+          #Wnd!.setStyle("position","fixed")
+          #Wnd!.setStyle("left","-20px")
+          #Wnd!.setStyle("top","0px")
+          #Wnd!.setStyle("width","0px")
+          #Wnd!.setStyle("height","0px")
+          inj_html! = CAST(BBjHtmlView,#Wnd!.addHtmlView(64190,0,0,0,0,""))
           inj_html!.setNoEdge(1)
           ClientUtil.setInjHtml(inj_html!)
       fi
@@ -50,6 +54,29 @@ class public ClientUtil
       script$ = script$ + "styl.textContent = """+style!+""";"
       script$ = script$ + "$doc.head.appendChild(styl);"
       ret! = #InjHtml!.executeScript(script$)
+    methodend
+    
+    
+    method public static void loadThemeFile(BBjString themefile$)
+    
+      if #getInjHtml() = null() then
+        ClientUtil.init()
+      fi
+          
+      ch=unt
+      open (ch)themefile$
+      read record (ch,siz=256000)theme$
+      close (ch)
+      theme$ = ":root {"+$0a$+theme$+$0a$+"}"
+      
+      style! = theme$
+      style! = style!.replaceAll("\r","")
+      style! = style!.replaceAll("\n","")
+      
+      script$ = "var styl  = $doc.createElement('style');"
+      script$ = script$ + "styl.textContent = """+style!+""";"
+      script$ = script$ + "$doc.head.appendChild(styl);"
+      ret! = #InjHtml!.executeScript(script$)  
     methodend
 
     method public static void addLocalJavascript(BBjString jsfile$)

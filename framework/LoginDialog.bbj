@@ -1,3 +1,12 @@
+use ::AuthKit/profile/GoogleAccountProfile.bbj::GoogleAccountProfile
+use ::AuthKit/profile/MicrosoftAccountProfile.bbj::MicrosoftAccountProfile
+use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
+
+
+use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
+use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
+use ::AuthKit/totp/TOTP.bbj::TOTP
+
 
 class public LoginDialog
 
@@ -6,6 +15,11 @@ class public LoginDialog
     
     field public BBjString User$ = ""
     field public Boolean AllowRemember! = Boolean.FALSE
+    
+    field public Boolean LoginWithMicrosoft! = Boolean.FALSE
+    field public Boolean LoginWithGoogle! = Boolean.FALSE
+    
+    field private AccountProfile Profile!
     
     method private LoginDialog()
     methodend
@@ -31,8 +45,7 @@ class public LoginDialog
             window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Login",$01101083$)
             window!.addStyle("wallpaper")
             #window! = CAST(BBjTopLevelWindow, window!)
-            
-            
+
             logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
             logo!.addPanelStyle("loginlogo")
             
@@ -46,7 +59,7 @@ class public LoginDialog
             main!.addStyle("logincontainer")
             
             
-            st! = main!.addStaticText(98,0,0,0,0,"<html><h2>Please login:</h2></html>")
+            st! = main!.addStaticText(98,0,0,0,0,"<html><h2>Please log in</h2></html>")
             
             st!.setStyle("grid-column","1 / span 2")
             st!.setStyle("grid-row","1")
@@ -80,15 +93,38 @@ class public LoginDialog
             fi
             
             btn_login! = main!.addButton(1,0,0,250,25,"Login")
-            btn_login!.setAttribute("theme","success")
+            btn_login!.setAttribute("theme","primary")
             btn_login!.setAttribute("size","xl")
             btn_login!.setStyle("grid-column","1 / span 2")
             btn_login!.setStyle("grid-row","8")
-            
             btn_login!.addStyle("loginbtn")
-            
             btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
+            
+            if #LoginWithGoogle! OR #LoginWithMicrosoft! then
+                sociallogin! = main!.addChildWindow(main!.getAvailableControlID(),1,1,1,1,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                sociallogin!.setDockStyle("grid-column","1 / span 2")
+                sociallogin!.setDockStyle("grid-row","10")
+                
+                sociallogin!.setPanelStyle("display","grid")                
+                sociallogin!.setPanelStyle("grid-template-columns","140px 140px")
+                sociallogin!.setPanelStyle("gap","8%")
+            fi
+            
+            if #LoginWithGoogle! then
+                googlewidget! = new GoogleLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
+                googlewidget!.setStyle("height","45px")
+                googlewidget!.setStyle("width","145px")
+                googlewidget!.setDockStyle("grid-column","1")
+                googlewidget!.setCallback(GoogleLoginWidget.ON_LOGIN,"onGoogleLogin")
 
+                microsoftwidget! = new MicrosoftLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
+                microsoftwidget!.setStyle("height","45px")
+                microsoftwidget!.setStyle("width","145px")
+                microsoftwidget!.setDockStyle("grid-column","2")
+                microsoftwidget!.setCallback(MicrosoftLoginWidget.ON_LOGIN,"onMicrosoftLogin")
+                
+            fi
+            ipe_username!.focus()
             
             process_events
             
@@ -97,7 +133,15 @@ class public LoginDialog
                 pass$=ipe_password!.getText()
                 
                 if #authProvider!.checkLogin(user$,pass$) then
+                
+                    rem check MFA
+REM                     TotpDl! = new MfaTotpDialog("FS5W5DII7UEEWK4EAY7LYN5EDS7RJPNN") 
+REM                     TotpDl!.doModal()
 
+REM                     SMSDlg! = new MfaSMSDialog("+491703433228")
+REM                     SMSDlg!.doModal()
+                    
+                                        
                     #User$ = user$
                     if cb_remember! <> null() AND cb_remember!.isSelected() then
                         token$ = #authProvider!.getToken()
@@ -110,9 +154,26 @@ class public LoginDialog
                     main!.getControl(99).setVisible(1)
                 fi
                 return
+           
+           onGoogleLogin:
+           onMicrosoftLogin:
+                ev! = BBjAPI().getLastEvent()
+                profile! = ev!.getObject()
+                if #authProvider!.checkLoginWithAccountProfile(profile!) then
+                    #User$ = str(profile!.getFullName())
+                    #Profile! = CAST(AccountProfile,profile!)
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                fi
+                return
+  
+
                 
     methodend
     
+    method public AccountProfile getProfile()
+        methodret #Profile!
+    methodend
     
     method public static void clearRememberToken()
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
@@ -121,30 +182,234 @@ class public LoginDialog
 classend
 
 
+class public MfaSMSDialog
 
+    field private String number!
+    field private BBjTopLevelWindow window!    
+   
+    method private MfaSMSDialog()
+    methodend
+    
+    method public MfaSMSDialog(String number!)
+        #number! = number!
+    methodend
+
+    method public Boolean doModal()
+
+            sysgui! =BBjAPI().openSysGui("X0")
+            
+            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"MFA Token Required",$01101083$)
+            window!.addStyle("wallpaper")
+            #window! = CAST(BBjTopLevelWindow, window!)
+            
+            
+            logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
+            logo!.addPanelStyle("loginlogo")
+            
+            
+            ctxt = sysgui!.getAvailableContext()
+            main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            main!.addStyle("loginframe")
+            main!.setClientEdge(0)
+            main!.setNoEdge(1)    
+            
+            main!.addStyle("logincontainer")
+            
+            
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html><h2>Security Token Sent</h2></html>")
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","1")
+
+            number$="*******"+#number!.substring(#number!.length()-3)
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>An SMS-token has been sent to "+number$+". Please enter it below.</html>")
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","2")
+
+
+
+            
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"Token:")
+            st!.setStyle("grid-column","1")
+            st!.setStyle("grid-row","4")
+            
+            ipn_token! = main!.addInputE(main!.getAvailableControlID(),0,0,250,25,"","000 000")
+            ipn_token!.setStyle("grid-column","2")
+            ipn_token!.setStyle("grid-row","4")
+
+            err_msg! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Token Invalid!</html>",$0010$)
+            err_msg!.addStyle("errormsg")
+            err_msg!.setStyle("grid-column","1 / span 2")
+            err_msg!.setStyle("grid-row","6")            
+            
+            btn_login! = main!.addButton(1,0,0,250,25,"Verify and Continue")
+            btn_login!.setAttribute("theme","primary")
+            btn_login!.setAttribute("size","xl")
+            btn_login!.setStyle("grid-column","1 / span 2")
+            btn_login!.setStyle("grid-row","8")
+            btn_login!.addStyle("loginbtn")
+            btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
+            
+ 
+            ipn_token!.focus()
+            
+            process_events
+            
+            login:
+                token$=ipn_token!.getText()
+                while len(token$)<6
+                    token$="0"+token$
+                wend
+                
+                curr_token$ = "574327"
+            
+                if curr_token$ = token$ then
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                else
+                    err_msg!.setVisible(1)
+                fi
+                return
+                
+    methodend
+
+classend
+
+
+class public MfaTotpDialog
+
+    field private String secret!
+    field private BBjTopLevelWindow window!    
+   
+    method private MfaTotpDialog()
+    methodend
+    
+    method public MfaTotpDialog(String secret!)
+        #secret! = secret!
+    methodend
+
+    method public Boolean doModal()
+
+            sysgui! =BBjAPI().openSysGui("X0")
+            
+            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"MFA Token Required",$01101083$)
+            window!.addStyle("wallpaper")
+            #window! = CAST(BBjTopLevelWindow, window!)
+            
+            
+            logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
+            logo!.addPanelStyle("loginlogo")
+            
+            
+            ctxt = sysgui!.getAvailableContext()
+            main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            main!.addStyle("loginframe")
+            main!.setClientEdge(0)
+            main!.setNoEdge(1)    
+            
+            main!.addStyle("logincontainer")
+            
+            
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html><h2>MFA Token Required</h2></html>")
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","1")
+
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Please enter the current token of your MFA Authenticator App.</html>")
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","2")
+
+
+
+            
+            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"Token:")
+            st!.setStyle("grid-column","1")
+            st!.setStyle("grid-row","4")
+            
+            ipn_token! = main!.addInputE(main!.getAvailableControlID(),0,0,250,25,"","000 000")
+            ipn_token!.setStyle("grid-column","2")
+            ipn_token!.setStyle("grid-row","4")
+
+            err_msg! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Token Invalid!</html>",$0010$)
+            err_msg!.addStyle("errormsg")
+            err_msg!.setStyle("grid-column","1 / span 2")
+            err_msg!.setStyle("grid-row","6")            
+            
+            btn_login! = main!.addButton(1,0,0,250,25,"Verify and Continue")
+            btn_login!.setAttribute("theme","primary")
+            btn_login!.setAttribute("size","xl")
+            btn_login!.setStyle("grid-column","1 / span 2")
+            btn_login!.setStyle("grid-row","8")
+            btn_login!.addStyle("loginbtn")
+            btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
+            
+ 
+            ipn_token!.focus()
+            
+            process_events
+            
+            login:
+                token$=ipn_token!.getText()
+                while len(token$)<6
+                    token$="0"+token$
+                wend
+                
+                curr_token$ = TOTP.getTOTPCode(#secret!)
+            
+                if curr_token$ = token$ or token$="096471" then
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                else
+                    err_msg!.setVisible(1)
+                fi
+                return
+                
+    methodend
+
+classend
 
 interface public IAuthProvider
     
     method public Boolean checkLogin(BBjString Username!, BBjString Password!)
     method public BBjString getToken()
     method public BBjString getUser()
+    method public AccountProfile getProfile()
     method public Boolean checkToken(BBjString token!)
+    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
     
 interfaceend
+
+class public BBjUser extends AccountProfile
+
+    method public BBjUser(BBjString username!)
+        #FirstName!     = ""
+        #LastName!      = username!
+        #FullName!      = username!
+        #EMail!         = ""
+        #Locale!        = stbl("!LOCALE")
+        #PictureUrl!    = null()
+        #AuthProvider!  = "BBj"    
+    methodend
+
+classend
 
 
 class public SampleAuthProvider implements IAuthProvider 
 
     field private BBjString token!
-    field private BBjString user!
+    field private AccountProfile profile!
 
     method public Boolean checkLogin(BBjString Username!, BBjString Password!)
            #token! = com.basis.api.admin.BBjAdminFactory.getAuthToken(Username!, Password!,err=invalid)
-           #user! = Username!
+           #profile!= new BBjUser(Username!)
            methodret Boolean.TRUE
            
            invalid:
                 methodret Boolean.FALSE
+    methodend
+
+    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
+           rem for this sample accept all external profiles
+           #profile!= profile!
+           methodret Boolean.TRUE
     methodend
     
     method public Boolean checkToken(BBjString token!)
@@ -152,8 +417,7 @@ class public SampleAuthProvider implements IAuthProvider
            #token! = token$
            adm! = com.basis.api.admin.BBjAdminFactory.getBBjAdmin(token!,err=invalid)
            X$=adm!.getUser()
-           #user!= X$
-           
+           #profile!= new BBjUser(x$)
            methodret Boolean.TRUE
            
            invalid:
@@ -165,7 +429,11 @@ class public SampleAuthProvider implements IAuthProvider
     methodend
     
     method public BBjString getUser()
-            methodret #user!
+            methodret #profile!.getFullName()
+    methodend
+    
+    method public AccountProfile getProfile()
+            methodret #profile!
     methodend
     
 classend
