@@ -1,4 +1,4 @@
-use ::WebKit/widgets/IconTile.bbj::IconTile
+use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
