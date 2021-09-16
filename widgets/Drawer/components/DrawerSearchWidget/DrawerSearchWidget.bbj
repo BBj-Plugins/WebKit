@@ -1,6 +1,6 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/framework/Overlay.bbj::Overlay
-use ::WebKit/framework/DrawerSearchOverlay.bbj::DrawerSearchOverlay
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.bbj::DrawerSearchOverlay
 
 class public DrawerSearchWidget extends BBjWidget
 

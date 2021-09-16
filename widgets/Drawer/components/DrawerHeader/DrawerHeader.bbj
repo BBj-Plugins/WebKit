@@ -1,6 +1,6 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
-use ::WebKit/framework/DrawerCloseIcon.bbj::DrawerCloseIcon
+use ::WebKit/widgets/Drawer/components/DrawerCloseIcon/DrawerCloseIcon.bbj::DrawerCloseIcon
 
 class public DrawerHeader extends BBjWidget 
     

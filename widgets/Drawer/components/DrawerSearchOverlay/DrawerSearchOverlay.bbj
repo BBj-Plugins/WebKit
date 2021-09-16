@@ -1,6 +1,6 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/framework/Overlay.bbj::Overlay
-use ::WebKit/framework/SearchOverlayEntry.bbj::SearchOverlayEntry
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/widgets/common/SearchOverlayEntry/SearchOverlayEntry.bbj::SearchOverlayEntry
 
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
