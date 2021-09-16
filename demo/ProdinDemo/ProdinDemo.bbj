@@ -1,6 +1,6 @@
 
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-use ::WebKit/demo/ProdinDemo.bbj::ProdinDemo
+use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
