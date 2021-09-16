@@ -1,6 +1,6 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
-use ::WebKit/framework/InputField.bbj::InputField
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
 
 class public LoginWidget extends BBjWidget 
     
