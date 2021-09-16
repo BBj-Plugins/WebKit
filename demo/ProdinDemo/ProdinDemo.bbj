@@ -51,7 +51,7 @@ rem --------------------------------------------------
 
 
 
-use ::WebKit/framework/LoginWidget.bbj::LoginWidget
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 
@@ -83,9 +83,9 @@ class public ProdinDemo
             #loginWrapper! = #mainWindow!.addChildWindow(#mainWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             #loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
             
-            declare LoginWidget login!
-            login! = new LoginWidget(#loginWrapper!)
-            login!.setCallback(LoginWidget.ON_LOGIN,#this!,"onLogin")
+            declare LoginDialog login!
+            login! = new LoginDialog(#loginWrapper!)
+            login!.setCallback(LoginDialog.ON_LOGIN,#this!,"onLogin")
             login!.setDockStyle("justify-self","center")
             login!.setDockStyle("align-self","center")
         endif
