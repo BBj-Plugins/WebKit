@@ -53,7 +53,7 @@ rem --------------------------------------------------
 
 use ::WebKit/framework/LoginWidget.bbj::LoginWidget
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
-use ::WebKit/framework/TilesTextHeader.bbj::TilesTextHeader
+use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 
