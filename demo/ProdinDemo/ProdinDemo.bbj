@@ -8,17 +8,9 @@ DynamicLoader.init()
 DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 DynamicLoader.addLocalCSS("WebKit/css/LoginWidget.css")
 DynamicLoader.addLocalCSS("WebKit/css/InputField.css")
-DynamicLoader.addLocalCSS("WebKit/css/DrawerIcon.css")
-DynamicLoader.addLocalCSS("WebKit/css/Drawer.css")
 DynamicLoader.addLocalCSS("WebKit/css/DashboardWidget.css")
-DynamicLoader.addLocalCSS("WebKit/css/DrawerSearchWidget.css")
-DynamicLoader.addLocalCSS("WebKit/css/DrawerMenuTile.css")
-DynamicLoader.addLocalCSS("WebKit/css/DrawerFooter.css")
-DynamicLoader.addLocalCSS("WebKit/css/DrawerHeader.css")
 DynamicLoader.addLocalCSS("WebKit/css/TilesTextHeader.css")
 DynamicLoader.addLocalCSS("WebKit/css/SearchOverlayEntry.css")
-DynamicLoader.addLocalCSS("WebKit/css/DrawerSearchOverlay.css")
-
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 

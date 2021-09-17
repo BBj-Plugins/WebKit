@@ -1,3 +1,4 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
 class public DrawerOpenIcon extends BBjWidget
@@ -7,10 +8,12 @@ class public DrawerOpenIcon extends BBjWidget
     field public static BBjNumber ON_DRAWER_OPEN_ICON_PUSH = 144445
     
     method public DrawerOpenIcon(BBjChildWindow wnd!,BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerOpenIcon/DrawerOpenIcon.css")
         #super!.create(wnd!,id!)
     methodend
     
     method public DrawerOpenIcon(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerOpenIcon/DrawerOpenIcon.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
     

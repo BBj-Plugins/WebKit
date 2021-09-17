@@ -1,0 +1,110 @@
+
+
+@keyframes drawerSearchPanelAnimationSmall {
+    from {
+        grid-template-columns: 58px auto;
+        margin: 6px 21px 30px 26px;
+    }
+    
+    to {
+        width: 46px;
+        grid-template-columns: auto;
+        margin: 12px 0px 30px 26px;
+    }
+
+}
+
+@keyframes drawerSearchPanelAnimationLarge {
+    from {
+        width: 46px;
+        grid-template-columns: auto;
+        margin: 12px 0px 30px 26px;
+    }
+    
+    to {
+        grid-template-columns: 58px auto;
+        margin: 6px 21px 30px 26px;
+    }
+
+}
+
+@keyframes drawerSearchPanelTextAnimationSmall {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes drawerSearchPanelTextAnimationLarge {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.drawerSearchWidgetPanelStyle {
+    height: 46px;
+    border: solid;
+    border-width: 1px;
+    border-color: #DDE0E1;
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: 58px auto;
+    margin: 6px 21px 30px 26px;
+}
+
+.drawerSearchWidgetIconStyle {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    width: 24px;
+    height: 24px;
+    align-self: center;
+    justify-self: center;
+}
+
+.drawerSearchWidgetTextStyle {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    font-family: 'Lato-Bold';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #333E40;
+    padding-left: 4px;
+    align-self: center;
+}
+
+.drawerClosed .drawerSearchClosedWidgetTextStyle {
+    display: none !important;
+}
+
+.drawerOpen .searchWidgetPanelAnimationOpen {
+    animation-name: drawerSearchPanelAnimationLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .searchWidgetPanelAnimationClose {
+    animation-name: drawerSearchPanelAnimationSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.drawerOpen .searchWidgetTextAnimationOpen {
+    animation-name: drawerSearchPanelTextAnimationLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .searchWidgetTextAnimationClose {
+    animation-name: drawerSearchPanelTextAnimationSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+

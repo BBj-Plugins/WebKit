@@ -1,0 +1,140 @@
+
+@keyframes menuTilesLayoutSmall {
+    from {
+        grid-template-columns: 64px auto;
+    }
+    to {
+        grid-template-columns: auto;
+        grid-template-rows: 24px auto;
+    }
+}
+
+@keyframes menuTilesLayoutLarge {
+    from {
+        grid-template-columns: auto;
+        grid-template-rows: 24px auto;
+    }
+    to {
+        grid-template-columns: 64px auto;
+    }
+}
+
+@keyframes menuTilesIconSmall {
+    from {
+        justify-self: end;
+        align-self: center;
+    }
+
+    to {
+        justify-self: center;
+        align-self: center;
+    }
+}
+
+@keyframes menuTilesIconLarge {
+    from {
+        justify-self: center;
+        align-self: center;
+    }
+    to {
+        justify-self: end;
+        align-self: center;
+    }
+}
+
+@keyframes menuTilesTextSmall {
+    from {
+        padding-left: 17px;
+        font-size: 14px;
+        line-height: 17px;
+        opacity: 1;
+    }
+    to {
+        padding-left: 0px;
+        justify-self: center;
+        font-size: 10px;
+        line-height: 12px;
+        opacity: 0.5;
+    }
+}
+@keyframes menuTilesTextLarge {
+    from {
+        padding-left: 0px;
+        justify-self: center;
+        font-size: 10px;
+        line-height: 12px;
+        opacity: 0.5;
+    }
+    to {
+        padding-left: 17px;
+        font-size: 14px;
+        line-height: 17px;
+        opacity: 1;
+    }
+}
+
+/* .drawerOpen  .drawerMenuTilePanelStyle { */
+.drawerMenuTilePanelStyle {
+    display: grid;
+    grid-template-columns: 64px auto;
+    height: 48px;
+}
+
+.drawerMenuTileIconStyle {
+    width: 24px;
+    height: 24px;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    justify-self: end;
+    align-self: center;
+}
+
+.drawerMenuTileTextStyle {
+    padding-left: 17px;
+    align-self: center;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #333E40;
+}
+
+.drawerOpen .menuWndAnimationOpen {
+    animation-name: menuTilesLayoutLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .menuWndAnimationClose {
+    animation-name: menuTilesLayoutSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.drawerOpen .menuIconAnimationOpen {
+    animation-name: menuTilesIconLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .menuIconAnimationClose {
+    animation-name: menuTilesIconSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.drawerOpen .menuTextAnimationOpen {
+    animation-name: menuTilesTextLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .menuTextAnimationClose {
+    animation-name: menuTilesTextSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}

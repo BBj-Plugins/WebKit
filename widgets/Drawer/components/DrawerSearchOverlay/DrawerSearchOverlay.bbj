@@ -1,3 +1,4 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/widgets/common/SearchOverlayEntry/SearchOverlayEntry.bbj::SearchOverlayEntry
@@ -38,11 +39,13 @@ class public DrawerSearchOverlay extends BBjWidget
     field public static BBjNumber ON_ENTRY_SELECTED = 900667
     
     method public DrawerSearchOverlay(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
         #parent! = wnd!
     methodend
     
     method public DrawerSearchOverlay(BBjChildWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.css")
         #super!.create(wnd!,id!)
         #parent! = wnd!
     methodend

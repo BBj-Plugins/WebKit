@@ -1,0 +1,14 @@
+.drawerIconClosePanelStyle {
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    background-color: #F1F1F1;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.drawerClosed .drawerIconPanelClosedStyle {
+    display: none;
+}
+
+
