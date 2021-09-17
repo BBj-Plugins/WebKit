@@ -1,4 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 use com.basiscomponents.db.DataRow
 
@@ -19,10 +20,14 @@ class public SearchOverlayEntry extends BBjWidget
     field public static BBjNumber ON_SEARCH_ENTRY_PRESSED = 900777
     
     method public SearchOverlayEntry(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/common/SearchOverlayEntry/SearchOverlayEntry.css")
+
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
     
     method public SearchOverlayEntry(BBjChildWindow wnd!,BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/common/SearchOverlayEntry/SearchOverlayEntry.css")
+
         #super!.create(wnd!,id!)
     methodend 
     

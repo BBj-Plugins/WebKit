@@ -1,4 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public InputField extends BBjWidget 
     
@@ -17,25 +18,35 @@ class public InputField extends BBjWidget
     field public static BBjNumber ON_SUFFIX_PRESSED = 520000
     
     method public InputField(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
         #super!.create(wnd!,id!)
     methodend
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
         #suffixIconPath! = suffixIcon!
         #super!.create(wnd!,id!)
     methodend
     
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
         #isPasswordField! = isPasswordField!
         #super!.create(wnd!,id!)
     methodend
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
         #isPasswordField! = isPasswordField!
         #suffixIconPath! = suffixIcon!
         #super!.create(wnd!,id!)

@@ -6,11 +6,6 @@ if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
 DynamicLoader.init()
 DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
-DynamicLoader.addLocalCSS("WebKit/css/LoginWidget.css")
-DynamicLoader.addLocalCSS("WebKit/css/InputField.css")
-DynamicLoader.addLocalCSS("WebKit/css/DashboardWidget.css")
-DynamicLoader.addLocalCSS("WebKit/css/TilesTextHeader.css")
-DynamicLoader.addLocalCSS("WebKit/css/SearchOverlayEntry.css")
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
