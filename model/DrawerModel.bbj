@@ -7,11 +7,16 @@ class public DrawerModel
     field public BBjString TilesTextHeader!
     field public BBjVector MenuTiles!
 
+    field public BBjString DrawerOpenIcon!
+    field public BBjString DrawerCloseIcon!
+
     method public DrawerModel()
         #LogoUrl! = "WebKit/demo/assets/basislogo_white.png"
         #LogoSmallUrl! = "WebKit/demo/assets/basislogo_white_sm.png"
         #TilesTextHeader! = "Browse"
 
+        #DrawerCloseIcon! = ""
+        #DrawerCloseIcon! = ""
         #MenuTiles! = new BBjVector()
         #MenuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
     methodend

@@ -10,10 +10,12 @@ class public DrawerHeader extends BBjWidget
     field private BBjString logo!
     
     field private BBjString smallLogo!
+
+    field private BBjString closeIcon!
     
     field public static BBjNumber ON_DRAWER_CLOSE_ICON_PUSH = DrawerCloseIcon.getON_DRAWER_CLOSE_ICON_PUSH()
     
-    method public DrawerHeader(BBjWindow parent!, BBjString logo!, BBjString smallLogo!)
+    method public DrawerHeader(BBjWindow parent!, BBjString logo!, BBjString smallLogo!, BBjString closeIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerHeaderPanelStyle")
@@ -22,6 +24,7 @@ class public DrawerHeader extends BBjWidget
         #setCanvas(#window!)
         #logo!= logo!
         #smallLogo! = smallLogo!
+        #closeIcon! = closeIcon!
         #redraw(1)
     methodend
     
@@ -44,7 +47,7 @@ class public DrawerHeader extends BBjWidget
             smallLogo!.addStyle("drawerHeaderLogoSmallClosed")
             smallLogo!.addStyle("drawerHeaderLogoSmallOpen")
             
-            iconBtn! = new DrawerCloseIcon(#window!)
+            iconBtn! = new DrawerCloseIcon(#window!, #closeIcon!)
             iconBtn!.setCallback(DrawerCloseIcon.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"onDrawerIconPush")
         endif    
     methodend

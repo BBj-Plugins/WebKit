@@ -23,6 +23,8 @@ class public Drawer extends BBjWidget
     field private BBjChildWindow window!
     
     field private BBjChildWindow shadowWindow!
+
+    field private DrawerOpenIcon drawerOpenIcon!
     
     field private Boolean open! = 0
     
@@ -75,11 +77,12 @@ class public Drawer extends BBjWidget
         if init!
             #createDemoData()
             #open! = 1
-            header! = new DrawerHeader(#window!, #drawerDataModel!.getLogoUrl(), #drawerDataModel!.getLogoSmallUrl())
+            header! = new DrawerHeader(#window!, #drawerDataModel!.getLogoUrl(), #drawerDataModel!.getLogoSmallUrl(), #drawerDataModel!.getDrawerCloseIcon())
             header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
             
-            drawerOpenIcon! = new DrawerOpenIcon(#window!)
+            drawerOpenIcon! = new DrawerOpenIcon(#window!, #drawerDataModel!.getDrawerOpenIcon())
             drawerOpenIcon!.setCallback(DrawerOpenIcon.ON_DRAWER_OPEN_ICON_PUSH,#this!,"openDrawer")
+            #drawerOpenIcon! = drawerOpenIcon!
             
             dashboard! = new DashboardWidget(#window!)
             
@@ -223,6 +226,7 @@ class public Drawer extends BBjWidget
         #window!.addStyle("drawerClosed")
         #window!.removeStyle("drawerOpen")
         #open! = !#open!
+        #drawerOpenIcon!.redraw(1)
     methodend
     
     method public void openDrawer(BBjCustomEvent event!)

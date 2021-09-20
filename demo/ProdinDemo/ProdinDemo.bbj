@@ -87,6 +87,8 @@ class public ProdinDemo
         drawerDataModel!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
         drawerDataModel!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
         drawerDataModel!.setTilesTextHeader("Browse!")
+        drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
+        drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
 
         menuTiles! = new BBjVector()
         menuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
