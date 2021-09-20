@@ -1,0 +1,23 @@
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+
+class public DrawerModel
+
+    field public BBjString LogoUrl!
+    field public BBjString LogoSmallUrl!
+    field public BBjString TilesTextHeader!
+    field public BBjVector MenuTiles!
+
+    method public DrawerModel()
+        #LogoUrl! = "WebKit/demo/assets/basislogo_white.png"
+        #LogoSmallUrl! = "WebKit/demo/assets/basislogo_white_sm.png"
+        #TilesTextHeader! = "Browse"
+
+        #MenuTiles! = new BBjVector()
+        #MenuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
+    methodend
+
+    method public DrawerModel(BBjString logoUrl!, BBjString logoSmallUrl!)
+        #LogoUrl! = logoUrl!
+        #LogoSmallUrl! = logoSmallUrl!
+    methodend
+classend
