@@ -71,7 +71,7 @@ class public Drawer extends BBjWidget
         if init!
             #createDemoData()
             #open! = 1
-            header! = new DrawerHeader(#window!,"WebKit/demo/assets/prodin_logo.png","WebKit/demo/assets/prodin_logo_small.png")
+            header! = new DrawerHeader(#window!,"WebKit/demo/ProdinDemo/assets/prodin_logo.png","WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
             header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
             
             drawerOpenIcon! = new DrawerOpenIcon(#window!)

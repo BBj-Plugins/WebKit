@@ -33,17 +33,17 @@ class public LoginDialog extends BBjWidget
         content!.setDockStyle("padding","56px 44px")
         content!.addPanelStyle("loginWidgetContentPanelStyle")
         
-        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/prodin_logo.png")
+        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/ProdinDemo/assets/prodin_logo.png")
         logo!.setStyle("height","fit-content")
         logo!.setStyle("width","fit-content")
         
-        username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/demo/assets/user.png")
+        username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/demo/ProdinDemo/assets/user.png")
         username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
         username!.setLabel("Username")
         username!.setPlaceHolder("name@company.com")
         username!.setDockStyle("margin-top","50px")
         
-        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/demo/assets/eye.png",1)
+        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/demo/ProdinDemo/assets/eye.png",1)
         #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
         #password!.setLabel("Password")
         #password!.setPlaceHolder("Your Password")
@@ -83,10 +83,10 @@ REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
     method public void onShowPasswordIconPressed(BBjCustomEvent event!)
         if #password!.isPasswordVisible() then 
             #password!.setPasswordVisible(0)
-            #password!.setSuffixIcon("WebKit/demo/assets/eye.png")
+            #password!.setSuffixIcon("WebKit/demo/ProdinDemo/assets/eye.png")
         else
             #password!.setPasswordVisible(1)
-            #password!.setSuffixIcon("WebKit/demo/assets/eye-off.png")
+            #password!.setSuffixIcon("WebKit/demo/ProdinDemo/assets/eye-off.png")
         endif    
     methodend
     
