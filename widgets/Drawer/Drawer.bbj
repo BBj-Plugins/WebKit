@@ -93,16 +93,13 @@ class public Drawer extends BBjWidget
             topDivider!.setColor("#DDE0E1")
             
             #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            #tilesWrapper!.setPanelStyle("display","grid")
-            #tilesWrapper!.setPanelStyle("overflow","auto")
-            #tilesWrapper!.setPanelStyle("height","calc(100vh - 381px)")
+            #tilesWrapper!.addPanelStyle("drawerTilesWrapper")
             
             bottomDivider! = new Divider(#window!)
             bottomDivider!.setColor("#DDE0E1")
             
             footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            footerWrapper!.setPanelStyle("height","117px")
-            footerWrapper!.setPanelStyle("display","grid")
+            footerWrapper!.addPanelStyle("drawerFooterWrapper")
             
             footer! = new DrawerFooter(footerWrapper!,#window! ,"David Williams","Art Director")
             footer!.setDockStyle("align-self","center")
