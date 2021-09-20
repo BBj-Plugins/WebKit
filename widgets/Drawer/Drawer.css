@@ -36,8 +36,8 @@
 }
 
 :root {
-    --drawer-animation-duration: 0.6s;
-    --drawer-search-animation-duration: 0.4s;
+    --drawer-animation-duration: 0.15s;
+    --drawer-search-animation-duration: 0.2s;
 }
 
 .drawerPanelStyle{
