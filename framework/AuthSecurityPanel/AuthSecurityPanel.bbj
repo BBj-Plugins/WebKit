@@ -99,10 +99,7 @@ class public AuthSecurityPanel extends BBjWidget
                         
             #SMSPanel! =  CAST(BBjChildWindow,options_panel!.addChildWindow(options_panel!.getAvailableControlID(),0,0,200,80,"",$00100810$,BBjAPI().getSysGui().getAvailableContext()))
             #SMSPanel!.setDockStyle("margin-top","10px")
-            #SMSPanel!.setPanelStyle("display","grid")
-            #SMSPanel!.setPanelStyle("gap","10px")
-            #SMSPanel!.setPanelStyle("border","1px dotted")
-            #SMSPanel!.setPanelStyle("padding","10px")
+            #SMSPanel!.addPanelStyle("smsPanel")
             
             #SMSPanel!.addStaticText(#SMSPanel!.getAvailableControlID(),0,0,0,0,"Enter your Cell Phone Number and hit 'Verify'. Then enter the code you receive to activate MFA using SMS:")
 

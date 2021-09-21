@@ -73,7 +73,7 @@
     font-style: normal;
     font-size: 14px;
     line-height: 17px;
-    color: #333E40;
+    color: var(--prodin-secondary);
     padding-left: 4px;
     align-self: center;
 }
