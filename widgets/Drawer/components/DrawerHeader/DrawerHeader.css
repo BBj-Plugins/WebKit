@@ -1,5 +1,5 @@
 
-.drawerClosed .drawerHeaderLogo {
+.drawerClosed .drawerHeaderLogoClosed {
     display: none;
 }
 
@@ -35,4 +35,11 @@
     padding-left: 40px;
     padding-right: 36px;
     padding-bottom: 25px;
+}
+
+.drawerHeaderLogo {
+    height: 64px;
+    width:  fit-content;
+    grid-row-start: 1;
+    grid-column-start: 1;
 }

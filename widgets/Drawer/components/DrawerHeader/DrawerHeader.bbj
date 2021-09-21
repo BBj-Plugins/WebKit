@@ -36,11 +36,8 @@ class public DrawerHeader extends BBjWidget
             REM TODO
             logo! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#logo!)
             REM if set to fit-content it jumps from 64px to 66 when clicking on the dashboard
-            logo!.setStyle("height","64px")
-            logo!.setStyle("width","fit-content")
-            logo!.setStyle("grid-row-start","1")
-            logo!.setStyle("grid-column-start","1")
             logo!.addStyle("drawerHeaderLogo")
+            logo!.addStyle("drawerHeaderLogoClosed")
             
             smallLogo! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#smallLogo!)
             smallLogo!.setStyle("display","none")
