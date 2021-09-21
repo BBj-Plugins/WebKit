@@ -108,7 +108,7 @@ class public Drawer extends BBjWidget
             footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             footerWrapper!.addPanelStyle("drawerFooterWrapper")
             
-            footer! = new DrawerFooter(footerWrapper!,#window! ,"David Williams","Art Director")
+            footer! = new DrawerFooter(footerWrapper!,#window!,#drawerDataModel!)
             footer!.setDockStyle("align-self","center")
             
             declare DrawerMenuTileEntry entry!

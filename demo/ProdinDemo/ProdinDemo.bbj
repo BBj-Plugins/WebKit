@@ -90,6 +90,7 @@ class public ProdinDemo
         drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
         drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
 
+        drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         menuTiles! = new BBjVector()
         menuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
         menuTiles!.add(new DrawerMenuTileEntry(2,"Tasks","WebKit/demo/ProdinDemo/assets/tasks.png"))
