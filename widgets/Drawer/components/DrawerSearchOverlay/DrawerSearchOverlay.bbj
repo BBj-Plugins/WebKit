@@ -82,7 +82,6 @@ class public DrawerSearchOverlay extends BBjWidget
         rem after clearing search the #contetnWrapperWindow is destroyed and null
         #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperPanelStyle")
-        #contentWrapper!.setPanelStyle("overflow","auto")
         
         rows! = ""
         for i = 0 to suggestions!.size() -1
@@ -160,7 +159,6 @@ class public DrawerSearchOverlay extends BBjWidget
         
         #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperPanelStyle")
-        #contentWrapper!.setPanelStyle("overflow","auto")
         
         if #initialSuggestions! <> null() then 
             #setSuggestions(#initialSuggestions!)
