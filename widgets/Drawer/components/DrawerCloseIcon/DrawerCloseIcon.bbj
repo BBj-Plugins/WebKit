@@ -25,10 +25,7 @@ class public DrawerCloseIcon extends BBjWidget
         
         if init! then 
             #window!.setPanelStyle("background-image", #closeIcon!)
-            #window!.setDockStyle("grid-row-start","1")
-            #window!.setDockStyle("grid-column-start","2")
-            #window!.setDockStyle("align-self","center")
-            #window!.setDockStyle("justify-self","right")
+            #window!.addStyle("drawerCloseIcon")
         endif
     methodend
     

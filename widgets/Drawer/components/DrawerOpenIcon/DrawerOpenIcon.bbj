@@ -27,11 +27,7 @@ class public DrawerOpenIcon extends BBjWidget
             #window!.addPanelStyle("drawerClosedOpenIconStyle")
             #window!.addPanelStyle("openIconAnimationOpen")
             #window!.addPanelStyle("openIconAnimationClose")
-            #window!.setStyle("left","91px")
-            #window!.setStyle("top","88px")
-            #window!.setStyle("position","absolute")
-            REM does help with not clicking the dashboard instead of this icon
-            #window!.setStyle("z-index","101")
+            #window!.addStyle("drawerOpenIcon")
             #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPush")
             #window!.setPanelStyle("background-image", #openIcon!)
 
