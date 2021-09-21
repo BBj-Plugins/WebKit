@@ -93,3 +93,14 @@
     line-height: 14px;
     color: #A1A5A7;
 }
+
+.drawerTilesWrapper{
+    display: grid;
+    overflow: auto;
+    height: calc(100vh - 381px);
+}
+
+.drawerFooterWrapper{
+    display: grid;
+    height: 117px;
+}

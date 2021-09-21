@@ -4,17 +4,20 @@ use ::BBjWidget/BBjWidget.bbj::BBjWidget
 class public DrawerOpenIcon extends BBjWidget
 
     field private BBjChildWindow window!
+    field private BBjString openIcon!
     
     field public static BBjNumber ON_DRAWER_OPEN_ICON_PUSH = 144445
     
-    method public DrawerOpenIcon(BBjChildWindow wnd!,BBjInt id!)
+    method public DrawerOpenIcon(BBjChildWindow wnd!,BBjInt id!, BBjString openIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerOpenIcon/DrawerOpenIcon.css")
         #super!.create(wnd!,id!)
+        #openIcon! = openIcon!
     methodend
     
-    method public DrawerOpenIcon(BBjChildWindow wnd!)
+    method public DrawerOpenIcon(BBjChildWindow wnd!, BBjString openIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerOpenIcon/DrawerOpenIcon.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
+        #openIcon! = openIcon!
     methodend
     
     method public void redraw(Boolean init!)
@@ -24,13 +27,10 @@ class public DrawerOpenIcon extends BBjWidget
             #window!.addPanelStyle("drawerClosedOpenIconStyle")
             #window!.addPanelStyle("openIconAnimationOpen")
             #window!.addPanelStyle("openIconAnimationClose")
-            #window!.setStyle("left","91px")
-            #window!.setStyle("top","88px")
-            #window!.setStyle("position","absolute")
-            REM does help with not clicking the dashboard instead of this icon
-            #window!.setStyle("z-index","101")
+            #window!.addStyle("drawerOpenIcon")
             #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPush")
-            #window!.setPanelStyle("background-image","url(/files/prodinRes/" + "drawer_icon_open.png" +")")
+            #window!.setPanelStyle("background-image", #openIcon!)
+
         endif
     methodend
     

@@ -121,3 +121,47 @@
     bottom: 24px !important;
     left: 90px !important;
 }
+
+.footerIcon{
+    justify-self: end;
+    align-self: start;
+}
+
+.drawerFooterOverlayContentWrapper{
+    margin: 25px;
+    height: 74px;
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
+
+.drawerFooterOverlaySettingsPanel{
+    grid-template-columns: 24px auto;
+    display: grid;
+}
+
+.drawerFooterOverlaySettings{
+    grid-row-start: 1;
+    align-self: start;
+}
+
+.drawerFooterOverlaySettingsIcon{
+    grid-column-start: 1;
+    align-self: center;
+    height: 24px;
+}
+
+.drawerFooterOverlayLogoutPanel{
+    grid-template-columns: 24px auto;
+    display: grid;
+}
+
+.drawerFooterOverlayLogout{
+    grid-row-start: 2;
+    align-self: end;
+}
+
+.drawerFooterOverlayLogoutIcon{
+    grid-column-start: 1;
+    align-self: center;
+    height: 24px;
+}

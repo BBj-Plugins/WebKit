@@ -1,6 +1,8 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
+
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use ::WebKit/widgets/common/CircularAvatar/CircularAvatar.bbj::CircularAvatar
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 
@@ -17,8 +19,10 @@ class public DrawerFooter extends BBjWidget
     field private BBjChildWindow overlay!
     
     field private Overlay overlayWidget!
+
+    field private DrawerModel drawerDataModel!
     
-    method public DrawerFooter(BBjWindow parent!, BBjChildWindow drawer!, BBjString title!, BBjString subtitle!)
+    method public DrawerFooter(BBjWindow parent!, BBjChildWindow drawer!,DrawerModel drawerDataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerFooter/DrawerFooter.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerFooterPanelStyle")
@@ -26,8 +30,9 @@ class public DrawerFooter extends BBjWidget
         #window!.addPanelStyle("drawerFooterPanelAnimationClose")
         
         #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onFooterPressed")
-        #title! = title!
-        #subtitle! = subtitle!
+        #drawerDataModel! = drawerDataModel!
+        #title! = drawerDataModel!.getFooterTitle()
+        #subtitle! = drawerDataModel!.getFooterSubTitle()
         #parent!= drawer!
         #setCanvas(#window!)
         #redraw(1)
@@ -41,8 +46,7 @@ class public DrawerFooter extends BBjWidget
         declare BBjImageCtrl icon!
         
         if init! then 
-            avatar! = new CircularAvatar(#window!,"32px","/files/prodinRes/drawerAvatar.png")
-            
+            avatar! = new CircularAvatar(#window!, #drawerDataModel!.getAvatarSize(),#drawerDataModel!.getAvatarUrl())
             wrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             wrapper!.addPanelStyle("drawerFooterWrapperWindowClosed")
             wrapper!.addPanelStyle("drawerFooterWrapperWindowSmall")
@@ -60,8 +64,7 @@ class public DrawerFooter extends BBjWidget
             subtitle!.addStyle("drawerFooterSubtitleStyling")
             
             icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/drawer_footer_arrow_down.png")
-            icon!.setStyle("justify-self","end")
-            icon!.setStyle("align-self","start")
+            icon!.addStyle("footerIcon")
         endif
     methodend
     
@@ -87,22 +90,15 @@ class public DrawerFooter extends BBjWidget
         #overlay!.addPanelStyle("drawerFooterOverlayClosedPanelStyle")
         
         contentWrapper! = #overlay!.addChildWindow(#overlay!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        contentWrapper!.setPanelStyle("margin","25px")
-        contentWrapper!.setPanelStyle("height","74px")
-        contentWrapper!.setPanelStyle("display","grid")
-        contentWrapper!.setPanelStyle("grid-template-rows","50% 50%")
+        contentWrapper!.addPanelStyle("drawerFooterOverlayContentWrapper")
   
         settings! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         settings!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSettings")
-        settings!.setPanelStyle("grid-template-columns","24px auto")
-        settings!.setPanelStyle("display","grid")
-        settings!.setDockStyle("grid-row-start","1")
-        settings!.setDockStyle("align-self","start")
+        settings!.addPanelStyle("drawerFooterOverlaySettingsPanel")
+        settings!.addStyle("drawerFooterOverlaySettings")
         
         settingsIcon! = settings!.addImageCtrl(settings!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/sliders.png")
-        settingsIcon!.setStyle("grid-column-start","1")
-        settingsIcon!.setStyle("align-self","center")
-        settingsIcon!.setStyle("height","24px")
+        settingsIcon!.addStyle("drawerFooterOverlaySettingsIcon")
         
         settingsText! = settings!.addStaticText(settings!.getAvailableControlID(),0,0,0,0,"Settings")
         settingsText!.addStyle("drawerFooterPopUpTextStyle")
@@ -110,15 +106,11 @@ class public DrawerFooter extends BBjWidget
         
         logout! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         logout!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onLogout")
-        logout!.setPanelStyle("grid-template-columns","24px auto")
-        logout!.setPanelStyle("display","grid")
-        logout!.setDockStyle("grid-row-start","2")
-        logout!.setDockStyle("align-self","end")
+        logout!.addPanelStyle("drawerFooterOverlayLogoutPanel")
+        logout!.addStyle("drawerFooterOverlayLogout")
         
         logoutIcon! = logout!.addImageCtrl(logout!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/log-out.png")
-        logoutIcon!.setStyle("grid-column-start","1")
-        logoutIcon!.setStyle("align-self","center")
-        logoutIcon!.setStyle("height","24px")
+        logoutIcon!.addStyle("drawerFooterOverlayLogoutIcon")
         
         logoutText! = logout!.addStaticText(logout!.getAvailableControlID(),0,0,0,0,"Log Out")
         logoutText!.addStyle("drawerFooterPopUpTextStyle")

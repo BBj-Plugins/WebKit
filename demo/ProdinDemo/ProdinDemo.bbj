@@ -41,6 +41,7 @@ use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
 
 class public ProdinDemo 
 
@@ -82,6 +83,15 @@ class public ProdinDemo
         declare BBjVector menuTiles!
         declare TilesTextHeader header!
 
+        declare DrawerModel drawerDataModel!
+        drawerDataModel! = new DrawerModel()
+        drawerDataModel!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        drawerDataModel!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
+        drawerDataModel!.setTilesTextHeader("Browse!")
+        drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
+        drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
+
+        drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         menuTiles! = new BBjVector()
         menuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
         menuTiles!.add(new DrawerMenuTileEntry(2,"Tasks","WebKit/demo/ProdinDemo/assets/tasks.png"))
@@ -92,9 +102,10 @@ class public ProdinDemo
         menuTiles!.add(new DrawerMenuTileEntry(7,"Quotations","WebKit/demo/ProdinDemo/assets/proposals.png"))
         menuTiles!.add(new DrawerMenuTileEntry(8,"Products","WebKit/demo/ProdinDemo/assets/shopping-cart.png"))
     
-        #drawer! = new Drawer(#mainWindow!,menuTiles!)
+        drawerDataModel!.setMenuTiles(menuTiles!)
+        #drawer! = new Drawer(#mainWindow!, drawerDataModel!)
         
-        header! = new TilesTextHeader(#drawer!.getOptionalControlAboveTiles(),"Browse")
+        header! = new TilesTextHeader(#drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
         
         header!.setDockStyle("grid-row-start","1")
         header!.setDockStyle("margin-bottom","8px")
