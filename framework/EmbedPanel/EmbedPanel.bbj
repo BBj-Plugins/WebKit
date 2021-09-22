@@ -77,7 +77,7 @@ class public EmbedPanel extends BBjWidget
     
     
     method private BBjString publishStub()
-        source$=BBjAPI().getFileSystem().resolvePath("WebKit/framework/EmbedPanel.bbj")
+        source$=BBjAPI().getFileSystem().resolvePath("WebKit/framework/EmbedPanel/EmbedPanel.bbj")
         path$=dsk("")+dir("")
         config$ = BBjAPI().getConfig().getCurrentCommandLineObject().getConfigFile()
         classpath! = BBjAPI().getConfig().getCurrentCommandLineObject().getOriginalClasspathName()
