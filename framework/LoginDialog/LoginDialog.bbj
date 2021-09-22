@@ -1,7 +1,8 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
-
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::IAuthProvider
 use ::AuthKit/profile/GoogleAccountProfile.bbj::GoogleAccountProfile
 use ::AuthKit/profile/MicrosoftAccountProfile.bbj::MicrosoftAccountProfile
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
@@ -50,83 +51,83 @@ class public LoginDialog extends BBjWidget
     methodend
 
     method public void redraw(Boolean init!)
-    declare BBjChildWindow content!
-    declare BBjImageCtrl logo!
-    declare InputField username!
-    declare BBjButton loginBtn!
-    declare BBjCheckBox rememberMe!
-    declare BBjChildWindow linkWrapper!
-    declare BBjStaticText forgotPw!
-    
-    content! = #childWindow!.addChildWindow(#childWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-    content!.setDockStyle("height","calc(531px - 112px)")
-    content!.setDockStyle("padding","56px 44px")
-    content!.addPanelStyle("loginWidgetContentPanelStyle")
-    
-    logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/ProdinDemo/assets/prodin_logo.png")
-    logo!.setStyle("height","fit-content")
-    logo!.setStyle("width","fit-content")
-    
-    username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
-    username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
-    username!.setLabel("Username")
-    username!.setPlaceHolder("name@company.com")
-    username!.setDockStyle("margin-top","50px")
-    
-    #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1)
-    #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
-    #password!.setLabel("Password")
-    #password!.setPlaceHolder("Your Password")
-    #password!.setDockStyle("margin-top","28px")
-    
-    rememberMe! = content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,"Keep me signed in")
-    rememberMe!.setStyle("margin-top","32px")
-    rememberMe!.addStyle("loginWidgetCheckBoxStyle")
-    rememberMe!.addStyle("loginWidgetCheckBoxLabel")
-    rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
-    rememberMe!.addStyle("loginWidgetCheckBoxControl")
-    REM TODO use theming or ask sebatian how he did this in the p360
-REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
-    
-    loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
-    loginBtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onLoginBtnPressed")
-    loginBtn!.setStyle("margin-top","40px")
-    loginBtn!.addStyle("loginWidgetBtnStyle")
-    loginBtn!.addStyle("loginWidgetBtnLabel")
-    loginBtn!.addStyle("loginWidgetBtnControl")
-    
-    linkWrapper! = content!.addChildWindow(content!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-    linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"forgotPassword")
-    linkWrapper!.setDockStyle("margin-top","16px")
-    linkWrapper!.setDockStyle("justify-self","center")
-    linkWrapper!.setDockStyle("height","fit-content")
-    linkWrapper!.setDockStyle("width","fit-content")
-    
-    forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
-    forgotPW!.addStyle("loginWidgetForgotPWStlye")
-methodend
+        declare BBjChildWindow content!
+        declare BBjImageCtrl logo!
+        declare InputField username!
+        declare BBjButton loginBtn!
+        declare BBjCheckBox rememberMe!
+        declare BBjChildWindow linkWrapper!
+        declare BBjStaticText forgotPw!
+        
+        content! = #childWindow!.addChildWindow(#childWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        content!.setDockStyle("height","calc(531px - 112px)")
+        content!.setDockStyle("padding","56px 44px")
+        content!.addPanelStyle("loginWidgetContentPanelStyle")
+        
+        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        logo!.setStyle("height","fit-content")
+        logo!.setStyle("width","fit-content")
+        
+        username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
+        username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
+        username!.setLabel("Username")
+        username!.setPlaceHolder("name@company.com")
+        username!.setDockStyle("margin-top","50px")
+        
+        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1)
+        #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
+        #password!.setLabel("Password")
+        #password!.setPlaceHolder("Your Password")
+        #password!.setDockStyle("margin-top","28px")
+        
+        rememberMe! = content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,"Keep me signed in")
+        rememberMe!.setStyle("margin-top","32px")
+        rememberMe!.addStyle("loginWidgetCheckBoxStyle")
+        rememberMe!.addStyle("loginWidgetCheckBoxLabel")
+        rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
+        rememberMe!.addStyle("loginWidgetCheckBoxControl")
+        REM TODO use theming or ask sebatian how he did this in the p360
+    REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
+        
+        loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
+        loginBtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onLoginBtnPressed")
+        loginBtn!.setStyle("margin-top","40px")
+        loginBtn!.addStyle("loginWidgetBtnStyle")
+        loginBtn!.addStyle("loginWidgetBtnLabel")
+        loginBtn!.addStyle("loginWidgetBtnControl")
+        
+        linkWrapper! = content!.addChildWindow(content!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"forgotPassword")
+        linkWrapper!.setDockStyle("margin-top","16px")
+        linkWrapper!.setDockStyle("justify-self","center")
+        linkWrapper!.setDockStyle("height","fit-content")
+        linkWrapper!.setDockStyle("width","fit-content")
+        
+        forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
+        forgotPW!.addStyle("loginWidgetForgotPWStlye")
+    methodend
 
-method public void onUserIconPressed(BBjCustomEvent event!)
-    a = msgbox("UserIcon Pressed")
-methodend
+    method public void onUserIconPressed(BBjCustomEvent event!)
+        a = msgbox("UserIcon Pressed")
+    methodend
 
-method public void onShowPasswordIconPressed(BBjCustomEvent event!)
-    if #password!.isPasswordVisible() then 
-        #password!.setPasswordVisible(0)
-        #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
-    else
-        #password!.setPasswordVisible(1)
-        #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
-    endif    
-methodend
+    method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+        if #password!.isPasswordVisible() then 
+            #password!.setPasswordVisible(0)
+            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
+        else
+            #password!.setPasswordVisible(1)
+            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
+        endif    
+    methodend
 
-method public void onLoginBtnPressed(BBjButtonPushEvent event!)
-    #fireEvent(#ON_LOGIN,"")
-methodend
+    method public void onLoginBtnPressed(BBjButtonPushEvent event!)
+        #fireEvent(#ON_LOGIN,"")
+    methodend
 
-method public void forgotPassword(BBjMouseDownEvent event!)
-    a = msgbox("Forgot Password")
-methodend
+    method public void forgotPassword(BBjMouseDownEvent event!)
+        a = msgbox("Forgot Password")
+    methodend
 
     method public Boolean doModal()
 
@@ -279,263 +280,6 @@ REM                     SMSDlg!.doModal()
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
     methodend
 
-classend
-
-
-class public MfaSMSDialog
-
-    field private String number!
-    field private BBjTopLevelWindow window!    
-   
-    method private MfaSMSDialog()
-    methodend
-    
-    method public MfaSMSDialog(String number!)
-        #number! = number!
-    methodend
-
-    method public Boolean doModal()
-
-            sysgui! =BBjAPI().openSysGui("X0")
-            
-            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"MFA Token Required",$01101083$)
-            window!.addStyle("wallpaper")
-            #window! = CAST(BBjTopLevelWindow, window!)
-            
-            
-            logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
-            logo!.addPanelStyle("loginlogo")
-            
-            
-            ctxt = sysgui!.getAvailableContext()
-            main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            main!.addStyle("loginframe")
-            main!.setClientEdge(0)
-            main!.setNoEdge(1)    
-            
-            main!.addStyle("logincontainer")
-            
-            
-            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html><h2>Security Token Sent</h2></html>")
-            st!.setStyle("grid-column","1 / span 2")
-            st!.setStyle("grid-row","1")
-
-            number$="*******"+#number!.substring(#number!.length()-3)
-            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>An SMS-token has been sent to "+number$+". Please enter it below.</html>")
-            st!.setStyle("grid-column","1 / span 2")
-            st!.setStyle("grid-row","2")
-
-
-
-            
-            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"Token:")
-            st!.setStyle("grid-column","1")
-            st!.setStyle("grid-row","4")
-            
-            ipn_token! = main!.addInputE(main!.getAvailableControlID(),0,0,250,25,"","000 000")
-            ipn_token!.setStyle("grid-column","2")
-            ipn_token!.setStyle("grid-row","4")
-
-            err_msg! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Token Invalid!</html>",$0010$)
-            err_msg!.addStyle("errormsg")
-            err_msg!.setStyle("grid-column","1 / span 2")
-            err_msg!.setStyle("grid-row","6")            
-            
-            btn_login! = main!.addButton(1,0,0,250,25,"Verify and Continue")
-            btn_login!.setAttribute("theme","primary")
-            btn_login!.setAttribute("size","xl")
-            btn_login!.setStyle("grid-column","1 / span 2")
-            btn_login!.setStyle("grid-row","8")
-            btn_login!.addStyle("loginbtn")
-            btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
-            
- 
-            ipn_token!.focus()
-            
-            process_events
-            
-            login:
-                token$=ipn_token!.getText()
-                while len(token$)<6
-                    token$="0"+token$
-                wend
-                
-                curr_token$ = "574327"
-            
-                if curr_token$ = token$ then
-                    #window!.destroy()
-                    methodret Boolean.TRUE
-                else
-                    err_msg!.setVisible(1)
-                fi
-                return
-                
-    methodend
-
-classend
-
-
-class public MfaTotpDialog
-
-    field private String secret!
-    field private BBjTopLevelWindow window!    
-   
-    method private MfaTotpDialog()
-    methodend
-    
-    method public MfaTotpDialog(String secret!)
-        #secret! = secret!
-    methodend
-
-    method public Boolean doModal()
-
-            sysgui! =BBjAPI().openSysGui("X0")
-            
-            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"MFA Token Required",$01101083$)
-            window!.addStyle("wallpaper")
-            #window! = CAST(BBjTopLevelWindow, window!)
-            
-            
-            logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
-            logo!.addPanelStyle("loginlogo")
-            
-            
-            ctxt = sysgui!.getAvailableContext()
-            main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            main!.addStyle("loginframe")
-            main!.setClientEdge(0)
-            main!.setNoEdge(1)    
-            
-            main!.addStyle("logincontainer")
-            
-            
-            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html><h2>MFA Token Required</h2></html>")
-            st!.setStyle("grid-column","1 / span 2")
-            st!.setStyle("grid-row","1")
-
-            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Please enter the current token of your MFA Authenticator App.</html>")
-            st!.setStyle("grid-column","1 / span 2")
-            st!.setStyle("grid-row","2")
-
-
-
-            
-            st! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"Token:")
-            st!.setStyle("grid-column","1")
-            st!.setStyle("grid-row","4")
-            
-            ipn_token! = main!.addInputE(main!.getAvailableControlID(),0,0,250,25,"","000 000")
-            ipn_token!.setStyle("grid-column","2")
-            ipn_token!.setStyle("grid-row","4")
-
-            err_msg! = main!.addStaticText(main!.getAvailableControlID(),0,0,0,0,"<html>Token Invalid!</html>",$0010$)
-            err_msg!.addStyle("errormsg")
-            err_msg!.setStyle("grid-column","1 / span 2")
-            err_msg!.setStyle("grid-row","6")            
-            
-            btn_login! = main!.addButton(1,0,0,250,25,"Verify and Continue")
-            btn_login!.setAttribute("theme","primary")
-            btn_login!.setAttribute("size","xl")
-            btn_login!.setStyle("grid-column","1 / span 2")
-            btn_login!.setStyle("grid-row","8")
-            btn_login!.addStyle("loginbtn")
-            btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
-            
- 
-            ipn_token!.focus()
-            
-            process_events
-            
-            login:
-                token$=ipn_token!.getText()
-                while len(token$)<6
-                    token$="0"+token$
-                wend
-                
-                curr_token$ = TOTP.getTOTPCode(#secret!)
-            
-                if curr_token$ = token$ or token$="096471" then
-                    #window!.destroy()
-                    methodret Boolean.TRUE
-                else
-                    err_msg!.setVisible(1)
-                fi
-                return
-                
-    methodend
-
-classend
-
-interface public IAuthProvider
-    
-    method public Boolean checkLogin(BBjString Username!, BBjString Password!)
-    method public BBjString getToken()
-    method public BBjString getUser()
-    method public AccountProfile getProfile()
-    method public Boolean checkToken(BBjString token!)
-    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
-    
-interfaceend
-
-class public BBjUser extends AccountProfile
-
-    method public BBjUser(BBjString username!)
-        #FirstName!     = ""
-        #LastName!      = username!
-        #FullName!      = username!
-        #EMail!         = ""
-        #Locale!        = stbl("!LOCALE")
-        #PictureUrl!    = null()
-        #AuthProvider!  = "BBj"    
-    methodend
-
-classend
-
-
-class public SampleAuthProvider implements IAuthProvider 
-
-    field private BBjString token!
-    field private AccountProfile profile!
-
-    method public Boolean checkLogin(BBjString Username!, BBjString Password!)
-           #token! = com.basis.api.admin.BBjAdminFactory.getAuthToken(Username!, Password!,err=invalid)
-           #profile!= new BBjUser(Username!)
-           methodret Boolean.TRUE
-           
-           invalid:
-                methodret Boolean.FALSE
-    methodend
-
-    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
-           rem for this sample accept all external profiles
-           #profile!= profile!
-           methodret Boolean.TRUE
-    methodend
-    
-    method public Boolean checkToken(BBjString token!)
-           token$ = com.basis.api.admin.BBjAdminFactory.renewAuthToken(token!,err=invalid)
-           #token! = token$
-           adm! = com.basis.api.admin.BBjAdminFactory.getBBjAdmin(token!,err=invalid)
-           X$=adm!.getUser()
-           #profile!= new BBjUser(x$)
-           methodret Boolean.TRUE
-           
-           invalid:
-                methodret Boolean.FALSE
-    methodend
-    
-    method public BBjString getToken()
-            methodret #token!
-    methodend
-    
-    method public BBjString getUser()
-            methodret #profile!.getFullName()
-    methodend
-    
-    method public AccountProfile getProfile()
-            methodret #profile!
-    methodend
-    
 classend
 
 token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)

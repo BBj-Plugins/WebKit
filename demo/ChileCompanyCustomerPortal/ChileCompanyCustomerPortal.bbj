@@ -1,10 +1,9 @@
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
-use ::WebKit/framework/LoginDialog/LoginDialog.bbj::SampleAuthProvider
 use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
-
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
