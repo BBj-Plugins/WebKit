@@ -1,0 +1,60 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+class public DrawerMenuTile extends BBjWidget 
+
+    field private BBjChildWindow window!
+    
+    field private BBjString iconPath!
+    
+    field private BBjString titleText!
+    
+    field private BBjNumber id!
+    
+    field public static BBjNumber ON_DRAWER_TILE_PRESSED = 155555
+    
+    method public DrawerMenuTile(BBjWindow parent!,BBjNumber id! ,BBjString icon!, BBjString title!)
+         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.css")
+         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+         #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDrawerMenuTile")
+         #window!.addPanelStyle("menuWndAnimationClose")
+         #window!.addPanelStyle("menuWndAnimationOpen")
+         #id! = id!
+         #titleText! = title!
+         #iconPath! = icon!
+         #setCanvas(#window!)
+         #redraw(1)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        declare BBjImageCtrl icon!
+        declare BBjStaticText title!
+         #window!.addPanelStyle("drawerMenuTilePanelStyle")
+        if init! then 
+            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#iconPath!)
+            icon!.addStyle("drawerMenuTileIconStyle")
+            icon!.addStyle("menuIconAnimationOpen")
+            icon!.addStyle("menuIconAnimationClose")
+            
+            title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#titleText!)
+            title!.addStyle("drawerMenuTileTextStyle")
+            title!.addStyle("menuTextAnimationOpen")
+            title!.addStyle("menuTextAnimationClose")
+        endif
+    methodend
+    
+    method public void onDrawerMenuTile(BBjMouseDownEvent event!)
+        a = msgbox(str(#id!))
+        #fireEvent(#ON_DRAWER_TILE_PRESSED, #id!)
+    methodend
+    
+    method public void openAnimation()
+        #window!.removePanelStyle("menuAnimationOpen")
+        #window!.addPanelStyle("menuAnimationClose")
+    methodend
+    
+    method public void closeAnimation()
+        #window!.removePanelStyle("menuAnimationClose")
+        #window!.addPanelStyle("menuAnimationOpen")
+    methodend
+classend

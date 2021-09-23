@@ -1,0 +1,124 @@
+
+@keyframes drawerSearchOverlayPanelAnimationSmall {
+    from {
+        height: 433px;
+    }
+    to {
+        height: 155px;
+    }
+}
+
+
+@keyframes drawerSearchOverlayPanelAnimationLarge {
+    from {
+        height: 155px;
+    }
+    to {
+        height: 433px;
+    }
+}
+
+/* TODO adjust when in mini drawer form */
+.drawerSearchWidgetOverlayPanelStyle {
+    position: absolute !important;
+    left: 26px !important;
+    top: 188px !important;
+    z-index: 99 !important;
+    width: 297px;
+    height: 433px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 10px 35px var(--prodin-box-shadow-blur);
+}
+
+.drawerClosed .drawerSearchWidgetOverlayPanelStyleClosed {
+    top: 182px !important;
+}
+
+.drawerSearchWidgetContentWrapperPanelStyle {
+    width: 297px;
+    /* needs to be set via code and needs to be calculated and handled with var */
+    height: 373px;
+    overflow: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.drawerSearchWidgetContentWrapperEmptySearchPanelStyle {
+    width: 297;
+    height: 105px;
+    display: grid;
+    grid-template-rows: min-content auto;
+}
+
+.drawerSearchWidgetContentWrapperEmptySearchLabelStyle {
+    height: min-content;
+    margin-top: 19px;
+    justify-self: center;
+    font-family: 'Lato-Bold';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--prodin-secondary);
+}
+
+.drawerSearchWidgetContentWrapperEmptySearchInteractiveLabelStyle {
+    height: min-content;
+    margin-top: 9px;
+    justify-self: center;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #6883BA;
+}
+
+.drawerSearchWidgetInputWrapperPanelStyle {
+    height: 49px;
+    width: 100%;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #DDE0E1;
+    display: grid;
+    grid-template-columns: 54px auto;
+}
+
+.drawerSearchWidgetInputPrefix {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    align-self: center;
+    justify-self: center;
+    height: 24px;
+}
+
+.drawerSearchWidgetInputField {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    padding-right: 10px;
+    font-family: 'Lato';
+}
+
+.drawerSearchWidgetInputFieldStyleInputWrapper::part(input-wrapper) {
+    --bbj-focus-ring-default: none;
+    background: white;
+    border: none;
+    border-radius: 0px;
+    width: 100%;
+}
+
+.drawerSearchOverlayPanelAnimationClose {
+    animation-name: drawerSearchOverlayPanelAnimationSmall;
+    animation-duration: var(--drawer-search-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.drawerSearchOverlayPanelAnimationOpen {
+    animation-name: drawerSearchOverlayPanelAnimationLarge;
+    animation-duration: var(--drawer-search-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}

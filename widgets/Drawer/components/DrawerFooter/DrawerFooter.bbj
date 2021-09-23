@@ -1,0 +1,133 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/widgets/common/CircularAvatar/CircularAvatar.bbj::CircularAvatar
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+
+class public DrawerFooter extends BBjWidget
+
+    field private BBjChildWindow window!
+    
+    field private BBjString title!
+    
+    field private BBjString subtitle!
+    
+    field private BBjChildWindow parent!
+    
+    field private BBjChildWindow overlay!
+    
+    field private Overlay overlayWidget!
+
+    field private DrawerModel drawerDataModel!
+    
+    method public DrawerFooter(BBjWindow parent!, BBjChildWindow drawer!,DrawerModel drawerDataModel!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerFooter/DrawerFooter.css")
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.addPanelStyle("drawerFooterPanelStyle")
+        #window!.addPanelStyle("drawerFooterPanelAnimationOpen")
+        #window!.addPanelStyle("drawerFooterPanelAnimationClose")
+        
+        #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onFooterPressed")
+        #drawerDataModel! = drawerDataModel!
+        #title! = drawerDataModel!.getFooterTitle()
+        #subtitle! = drawerDataModel!.getFooterSubTitle()
+        #parent!= drawer!
+        #setCanvas(#window!)
+        #redraw(1)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        declare BBjStaticText title!
+        declare BBjStaticText subtitle!
+        declare CircularAvatar avatar!
+        declare BBjChildWindow wrapper!
+        declare BBjImageCtrl icon!
+        
+        if init! then 
+            avatar! = new CircularAvatar(#window!, #drawerDataModel!.getAvatarSize(),#drawerDataModel!.getAvatarUrl())
+            wrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            wrapper!.addPanelStyle("drawerFooterWrapperWindowClosed")
+            wrapper!.addPanelStyle("drawerFooterWrapperWindowSmall")
+            wrapper!.addPanelStyle("drawerFooterWrapperWindowLarge")
+            wrapper!.setPanelStyle("display","grid")
+            wrapper!.setPanelStyle("height","100%")
+            wrapper!.setDockStyle("margin-left","12px")
+            wrapper!.setDockStyle("height","100%")
+            wrapper!.setStyle("height","100%")
+            
+            title! = wrapper!.addStaticText(wrapper!.getAvailableControlID(),0,0,0,0,#title!)
+            title!.addStyle("drawerFooterTitleStyling")
+            
+            subtitle! = wrapper!.addStaticText(wrapper!.getAvailableControlID(),0,0,0,0,#subtitle!)
+            subtitle!.addStyle("drawerFooterSubtitleStyling")
+            
+            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/drawer_footer_arrow_down.png")
+            icon!.addStyle("footerIcon")
+        endif
+    methodend
+    
+    method public void onFooterPressed(BBjMouseDownEvent event!)
+        #createOverlay()
+        #overlayWidget! = new Overlay(#parent!,#overlay!)
+        #overlayWidget!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmiss")
+    methodend
+    
+    method private void createOverlay()
+        declare BBjChildWindow contentWrapper!
+        declare BBjChildWindow settings!
+        declare BBjChildWindow logout!
+        declare BBjImageCtrl settingsIcon!
+        declare BBjImageCtrl logoutIcon!
+        declare BBjStaticText settingsText!
+        declare BBjStaticText logoutText!
+        
+        REM TODO improve code quality and maybe add option to create more
+        
+        #overlay! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #overlay!.addPanelStyle("drawerFooterOverlayPanelStyle")
+        #overlay!.addPanelStyle("drawerFooterOverlayClosedPanelStyle")
+        
+        contentWrapper! = #overlay!.addChildWindow(#overlay!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        contentWrapper!.addPanelStyle("drawerFooterOverlayContentWrapper")
+  
+        settings! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        settings!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSettings")
+        settings!.addPanelStyle("drawerFooterOverlaySettingsPanel")
+        settings!.addStyle("drawerFooterOverlaySettings")
+        
+        settingsIcon! = settings!.addImageCtrl(settings!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/sliders.png")
+        settingsIcon!.addStyle("drawerFooterOverlaySettingsIcon")
+        
+        settingsText! = settings!.addStaticText(settings!.getAvailableControlID(),0,0,0,0,"Settings")
+        settingsText!.addStyle("drawerFooterPopUpTextStyle")
+        settingsText!.setStyle("grid-column-start","2")
+        
+        logout! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        logout!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onLogout")
+        logout!.addPanelStyle("drawerFooterOverlayLogoutPanel")
+        logout!.addStyle("drawerFooterOverlayLogout")
+        
+        logoutIcon! = logout!.addImageCtrl(logout!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/log-out.png")
+        logoutIcon!.addStyle("drawerFooterOverlayLogoutIcon")
+        
+        logoutText! = logout!.addStaticText(logout!.getAvailableControlID(),0,0,0,0,"Log Out")
+        logoutText!.addStyle("drawerFooterPopUpTextStyle")
+        logoutText!.setStyle("grid-column-start","2")
+    methodend
+    
+    method public void onSettings(BBjMouseDownEvent event!)
+        #overlayWidget!.onOverlayDissmiss(null())
+        a = msgbox("settings!!")
+    methodend
+    
+    method public void onLogout(BBjMouseDownEvent event!)
+        #overlayWidget!.onOverlayDissmiss(null())
+        a = msgbox("logout!!")
+    methodend
+    
+    method public void onOverlayDissmiss(BBjCustomEvent event!)
+        #overlay!.destroy()
+    methodend
+classend

@@ -1,0 +1,15 @@
+use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
+
+class public BBjUser extends AccountProfile
+
+    method public BBjUser(BBjString username!)
+        #FirstName!     = ""
+        #LastName!      = username!
+        #FullName!      = username!
+        #EMail!         = ""
+        #Locale!        = stbl("!LOCALE")
+        #PictureUrl!    = null()
+        #AuthProvider!  = "BBj"    
+    methodend
+
+classend

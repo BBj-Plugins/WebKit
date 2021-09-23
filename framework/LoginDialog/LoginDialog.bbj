@@ -1,0 +1,297 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::IAuthProvider
+use ::AuthKit/profile/GoogleAccountProfile.bbj::GoogleAccountProfile
+use ::AuthKit/profile/MicrosoftAccountProfile.bbj::MicrosoftAccountProfile
+use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
+
+use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
+use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
+use ::AuthKit/totp/TOTP.bbj::TOTP
+
+
+class public LoginDialog extends BBjWidget 
+
+    field public static BBjNumber ON_LOGIN = 800001
+    field private IAuthProvider authProvider!
+    field private BBjTopLevelWindow window!
+    field private BBjChildWindow childWindow!
+
+    field public BBjString User$ = ""
+    field public Boolean AllowRemember! = Boolean.FALSE
+    
+    field public Boolean LoginWithMicrosoft! = Boolean.FALSE
+    field public Boolean LoginWithGoogle! = Boolean.FALSE
+
+    field private InputField password! 
+    field private AccountProfile Profile!
+    
+    method private LoginDialog()
+    methodend
+    
+    method public LoginDialog(IAuthProvider authProvider!)
+        #authProvider! = authProvider!
+    methodend
+
+        
+    method public LoginDialog(BBjWindow parent!)
+        bbjutils! = new ::BBUtils.bbj::BBUtils()
+        DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
+
+        bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/eye.png","prodinRes")
+        bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/eye-off.png","prodinRes")
+        bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/user.png")
+
+        #childWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #childWindow!.addPanelStyle("loginWidgetPanelStyle")
+        #setCanvas(#childWindow!)
+        #redraw(1)
+    methodend
+
+    method public void redraw(Boolean init!)
+        declare BBjChildWindow content!
+        declare BBjImageCtrl logo!
+        declare InputField username!
+        declare BBjButton loginBtn!
+        declare BBjCheckBox rememberMe!
+        declare BBjChildWindow linkWrapper!
+        declare BBjStaticText forgotPw!
+        
+        content! = #childWindow!.addChildWindow(#childWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        content!.setDockStyle("height","calc(531px - 112px)")
+        content!.setDockStyle("padding","56px 44px")
+        content!.addPanelStyle("loginWidgetContentPanelStyle")
+        
+        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        logo!.setStyle("height","fit-content")
+        logo!.setStyle("width","fit-content")
+        
+        username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
+        username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
+        username!.setLabel("Username")
+        username!.setPlaceHolder("name@company.com")
+        username!.setDockStyle("margin-top","50px")
+        
+        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1)
+        #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
+        #password!.setLabel("Password")
+        #password!.setPlaceHolder("Your Password")
+        #password!.setDockStyle("margin-top","28px")
+        
+        rememberMe! = content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,"Keep me signed in")
+        rememberMe!.setStyle("margin-top","32px")
+        rememberMe!.addStyle("loginWidgetCheckBoxStyle")
+        rememberMe!.addStyle("loginWidgetCheckBoxLabel")
+        rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
+        rememberMe!.addStyle("loginWidgetCheckBoxControl")
+        REM TODO use theming or ask sebatian how he did this in the p360
+    REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
+        
+        loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
+        loginBtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onLoginBtnPressed")
+        loginBtn!.setStyle("margin-top","40px")
+        loginBtn!.addStyle("loginWidgetBtnStyle")
+        loginBtn!.addStyle("loginWidgetBtnLabel")
+        loginBtn!.addStyle("loginWidgetBtnControl")
+        
+        linkWrapper! = content!.addChildWindow(content!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"forgotPassword")
+        linkWrapper!.setDockStyle("margin-top","16px")
+        linkWrapper!.setDockStyle("justify-self","center")
+        linkWrapper!.setDockStyle("height","fit-content")
+        linkWrapper!.setDockStyle("width","fit-content")
+        
+        forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
+        forgotPW!.addStyle("loginWidgetForgotPWStlye")
+    methodend
+
+    method public void onUserIconPressed(BBjCustomEvent event!)
+        a = msgbox("UserIcon Pressed")
+    methodend
+
+    method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+        if #password!.isPasswordVisible() then 
+            #password!.setPasswordVisible(0)
+            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
+        else
+            #password!.setPasswordVisible(1)
+            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
+        endif    
+    methodend
+
+    method public void onLoginBtnPressed(BBjButtonPushEvent event!)
+        #fireEvent(#ON_LOGIN,"")
+    methodend
+
+    method public void forgotPassword(BBjMouseDownEvent event!)
+        a = msgbox("Forgot Password")
+    methodend
+
+    method public Boolean doModal()
+
+            if #AllowRemember! then
+                token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+                if token$>"" and #authProvider!.checkToken(token$) then
+                    token$ = #authProvider!.getToken()
+                    BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                    #User$ = #authProvider!.getUser()
+                    methodret Boolean.TRUE
+                fi
+            fi
+
+            sysgui! =BBjAPI().openSysGui("X0")
+            
+            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Login",$01101083$)
+            window!.addStyle("wallpaper")
+            #window! = CAST(BBjTopLevelWindow, window!)
+
+            logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
+            logo!.addPanelStyle("loginlogo")
+            
+            
+            ctxt = sysgui!.getAvailableContext()
+            main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            main!.addStyle("loginframe")
+            main!.setClientEdge(0)
+            main!.setNoEdge(1)    
+            
+            main!.addStyle("logincontainer")
+            
+            
+            st! = main!.addStaticText(98,0,0,0,0,"<html><h2>Please log in</h2></html>")
+            
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","1")
+
+            st! = main!.addStaticText(99,0,0,0,0,"<html>Check your input</html>",$0010$)
+            st!.addStyle("errormsg")
+            st!.setStyle("grid-column","1 / span 2")
+            st!.setStyle("grid-row","5")
+            
+            st! = main!.addStaticText(100,0,0,0,0,"Username:")
+            st!.setStyle("grid-column","1")
+            st!.setStyle("grid-row","3")
+            
+            ipe_username! = main!.addEditBox(101,0,0,250,25,"")
+            ipe_username!.setStyle("grid-column","2")
+            ipe_username!.setStyle("grid-row","3")
+            
+            st! = main!.addStaticText(102,0,0,0,0,"Password:")
+            st!.setStyle("grid-column","1")
+            st!.setStyle("grid-row","4")
+            
+            ipe_password! = main!.addEditBox(104,0,0,250,25,"",$0400$)
+            ipe_password!.setStyle("grid-column","2")
+            ipe_password!.setStyle("grid-row","4")
+             
+            
+            if #AllowRemember! then
+                cb_remember! = main!.addCheckBox(300,0,0,250,25,"Remember me")
+                cb_remember!.setStyle("grid-column","2")
+                cb_remember!.setStyle("grid-row","7")
+            fi
+            
+            btn_login! = main!.addButton(1,0,0,250,25,"Login")
+            btn_login!.setAttribute("theme","primary")
+            btn_login!.setAttribute("size","xl")
+            btn_login!.setStyle("grid-column","1 / span 2")
+            btn_login!.setStyle("grid-row","8")
+            btn_login!.addStyle("loginbtn")
+            btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
+            
+            if #LoginWithGoogle! OR #LoginWithMicrosoft! then
+                sociallogin! = main!.addChildWindow(main!.getAvailableControlID(),1,1,1,1,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                sociallogin!.setDockStyle("grid-column","1 / span 2")
+                sociallogin!.setDockStyle("grid-row","10")
+                
+                sociallogin!.setPanelStyle("display","grid")                
+                sociallogin!.setPanelStyle("grid-template-columns","140px 140px")
+                sociallogin!.setPanelStyle("gap","8%")
+            fi
+            
+            if #LoginWithGoogle! then
+                googlewidget! = new GoogleLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
+                googlewidget!.setStyle("height","45px")
+                googlewidget!.setStyle("width","145px")
+                googlewidget!.setDockStyle("grid-column","1")
+                googlewidget!.setCallback(GoogleLoginWidget.ON_LOGIN,"onGoogleLogin")
+
+                microsoftwidget! = new MicrosoftLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
+                microsoftwidget!.setStyle("height","45px")
+                microsoftwidget!.setStyle("width","145px")
+                microsoftwidget!.setDockStyle("grid-column","2")
+                microsoftwidget!.setCallback(MicrosoftLoginWidget.ON_LOGIN,"onMicrosoftLogin")
+                
+            fi
+            ipe_username!.focus()
+            
+            process_events
+            
+            login:
+                user$=ipe_username!.getText()
+                pass$=ipe_password!.getText()
+                
+                if #authProvider!.checkLogin(user$,pass$) then
+                
+                    rem check MFA
+REM                     TotpDl! = new MfaTotpDialog("FS5W5DII7UEEWK4EAY7LYN5EDS7RJPNN") 
+REM                     TotpDl!.doModal()
+
+REM                     SMSDlg! = new MfaSMSDialog("+491703433228")
+REM                     SMSDlg!.doModal()
+                    
+                                        
+                    #User$ = user$
+                    if cb_remember! <> null() AND cb_remember!.isSelected() then
+                        token$ = #authProvider!.getToken()
+                        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                    fi
+                    
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                else
+                    main!.getControl(99).setVisible(1)
+                fi
+                return
+           
+           onGoogleLogin:
+           onMicrosoftLogin:
+                ev! = BBjAPI().getLastEvent()
+                profile! = ev!.getObject()
+                if #authProvider!.checkLoginWithAccountProfile(profile!) then
+                    #User$ = str(profile!.getFullName())
+                    #Profile! = CAST(AccountProfile,profile!)
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                fi
+                return
+  
+
+                
+    methodend
+    
+    method public AccountProfile getProfile()
+        methodret #Profile!
+    methodend
+    
+    method public static void clearRememberToken()
+        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+    methodend
+
+classend
+
+token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+if token$>"" then 
+    if msgbox("Clear Remember Token?",36,"Token") = 6 then
+        LoginDialog.clearRememberToken()
+    fi
+fi
+
+l! = new LoginDialog(new SampleAuthProvider())
+l!.setAllowRemember(Boolean.TRUE)
+
+if l!.doModal() then
+    a=msgbox(l!.getUser(),0,"SUCCESS")
+fi
