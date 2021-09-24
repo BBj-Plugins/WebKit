@@ -17,7 +17,9 @@ class public LoginDialog extends BBjWidget
     field private IAuthProvider authProvider!
     field private BBjTopLevelWindow window!
     field private BBjChildWindow childWindow!
-
+    field private BBjChildWindow loginWrapper!
+    
+    field private BBjSysGui sysGui!
     field public BBjString User$ = ""
     field public Boolean AllowRemember! = Boolean.FALSE
     
@@ -27,30 +29,38 @@ class public LoginDialog extends BBjWidget
     field private InputField password! 
     field private InputField username! 
     field private AccountProfile Profile!
+    field private BBjString logoURL$
     
+
     method private LoginDialog()
     methodend
     
-    method public LoginDialog(IAuthProvider authProvider!)
-        #authProvider! = authProvider!
-    methodend
+    rem method public LoginDialog(IAuthProvider authProvider!)
+    rem     #authProvider! = authProvider!
+    rem methodend
 
         
-    method public LoginDialog(BBjTopLevelWindow main!, BBjWindow parent!, IAuthProvider authProvider!)
-        #window! = main!
+    method public LoginDialog(IAuthProvider authProvider!)
+      
         #authProvider! = authProvider!
         bbjutils! = new ::BBUtils.bbj::BBUtils()
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
-        rem TODO: Remove this from here
-        DynamicLoader.addLocalCSS("WebKit/demo/ProdinDemo/ProdinDemo.css")
 
-        bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/eye.png","prodinRes")
-        bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/eye-off.png","prodinRes")
-        bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/user.png")
+        #sysGui! = BBjAPI().openSysGui("X0")
+        #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750,"Prodin Demo",$01101083$)
+
+        #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
+        declare BBjWindow parent!
+        parent! = CAST(BBjWindow, #loginWrapper!)
 
         #childWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #childWindow!.addPanelStyle("loginWidgetPanelStyle")
         #setCanvas(#childWindow!)
+    methodend
+
+    method public void setLogo(BBjString logo$)
+        #logoURL$ = logo$
     methodend
 
     method public Boolean doModal2()
@@ -65,19 +75,21 @@ class public LoginDialog extends BBjWidget
             methodret Boolean.TRUE
         fi
     fi  
-        declare BBjChildWindow content!
+        
         declare BBjImageCtrl logo!
         declare BBjButton loginBtn!
         declare BBjCheckBox rememberMe!
         declare BBjChildWindow linkWrapper!
         declare BBjStaticText forgotPw!
-        
+        declare BBjChildWindow content!
+
         content! = #childWindow!.addChildWindow(#childWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         content!.setDockStyle("height","calc(531px - 112px)")
         content!.setDockStyle("padding","56px 44px")
         content!.addPanelStyle("loginWidgetContentPanelStyle")
         
-        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        rem #logoURL$ = "WebKit/demo/ProdinDemo/assets/prodin_logo.png"
+        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0, #logoURL$)
         logo!.setStyle("height","fit-content")
         logo!.setStyle("width","fit-content")
         
@@ -136,7 +148,7 @@ class public LoginDialog extends BBjWidget
                         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
                     fi
                     
-                    rem #childWindow!.destroy()
+                    #loginWrapper!.destroy()
                     methodret Boolean.TRUE
                 else
                 content!.getControl(99).setVisible(1)
@@ -328,62 +340,6 @@ REM                     SMSDlg!.doModal()
                 
     methodend
 
-    method fakeDoModal()
-        declare BBjChildWindow content!
-        declare BBjImageCtrl logo!
-        declare BBjButton loginBtn!
-        declare BBjCheckBox rememberMe!
-        declare BBjChildWindow linkWrapper!
-        declare BBjStaticText forgotPw!
-        
-        content! = #childWindow!.addChildWindow(#childWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        content!.setDockStyle("height","calc(531px - 112px)")
-        content!.setDockStyle("padding","56px 44px")
-        content!.addPanelStyle("loginWidgetContentPanelStyle")
-        
-        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/ProdinDemo/assets/prodin_logo.png")
-        logo!.setStyle("height","fit-content")
-        logo!.setStyle("width","fit-content")
-        
-        #username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
-        #username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
-        #username!.setLabel("Username")
-        #username!.setPlaceHolder("name@company.com")
-        #username!.setDockStyle("margin-top","50px")
-        
-        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1)
-        #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
-        #password!.setLabel("Password")
-        #password!.setPlaceHolder("Your Password")
-        #password!.setDockStyle("margin-top","28px")
-        
-        rememberMe! = content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,"Keep me signed in")
-        rememberMe!.setStyle("margin-top","32px")
-        rememberMe!.addStyle("loginWidgetCheckBoxStyle")
-        rememberMe!.addStyle("loginWidgetCheckBoxLabel")
-        rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
-        rememberMe!.addStyle("loginWidgetCheckBoxControl")
-        REM TODO use theming or ask sebatian how he did this in the p360
-        REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
-        
-        loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
-        loginBtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onLoginBtnPressed")
-        loginBtn!.setStyle("margin-top","40px")
-        loginBtn!.addStyle("loginWidgetBtnStyle")
-        loginBtn!.addStyle("loginWidgetBtnLabel")
-        loginBtn!.addStyle("loginWidgetBtnControl")
-        
-        linkWrapper! = content!.addChildWindow(content!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"forgotPassword")
-        linkWrapper!.setDockStyle("margin-top","16px")
-        linkWrapper!.setDockStyle("justify-self","center")
-        linkWrapper!.setDockStyle("height","fit-content")
-        linkWrapper!.setDockStyle("width","fit-content")
-        
-        forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
-        forgotPW!.addStyle("loginWidgetForgotPWStlye")
-
-    methodend
     
     method public AccountProfile getProfile()
         methodret #Profile!

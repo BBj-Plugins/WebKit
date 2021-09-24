@@ -97,7 +97,7 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    color: var(--prodin-secondary);
+    color: var(--webkit-secondary);
 }
 
 .drawerOpen .menuWndAnimationOpen {
