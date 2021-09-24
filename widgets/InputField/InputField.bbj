@@ -178,4 +178,12 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
         #isPasswordField! = 1
         #createPasswordField(0)
     methodend
+
+    method public String getText(Boolean isPasswordField!)
+    if #isPasswordField! then
+        methodret #passwordField!.getText()
+    else
+        methodret #inputField!.getText()
+    endif
+    methodend
 classend
