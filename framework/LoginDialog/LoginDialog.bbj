@@ -32,7 +32,7 @@ class public LoginDialog extends BBjWidget
     field private BBjString logoURL$
     
 
-    method private LoginDialog()
+    method public LoginDialog()
     methodend
     
     rem method public LoginDialog(IAuthProvider authProvider!)
@@ -88,7 +88,6 @@ class public LoginDialog extends BBjWidget
         content!.setDockStyle("padding","56px 44px")
         content!.addPanelStyle("loginWidgetContentPanelStyle")
         
-        rem #logoURL$ = "WebKit/demo/ProdinDemo/assets/prodin_logo.png"
         logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0, #logoURL$)
         logo!.setStyle("height","fit-content")
         logo!.setStyle("width","fit-content")
@@ -143,7 +142,7 @@ class public LoginDialog extends BBjWidget
                 
                 if #authProvider!.checkLogin(user$,pass$) then
                     #User$ = user$
-                    if cb_remember! <> null() AND cb_remember!.isSelected() then
+                    if rememberMe! <> null() AND rememberMe!.isSelected() then
                         token$ = #authProvider!.getToken()
                         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
                     fi
@@ -201,6 +200,7 @@ class public LoginDialog extends BBjWidget
 
             if #AllowRemember! then
                 token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+
                 if token$>"" and #authProvider!.checkToken(token$) then
                     token$ = #authProvider!.getToken()
                     BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
@@ -353,7 +353,7 @@ classend
 
 token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
 if token$>"" then 
-    if msgbox("Clear Remember Token?",36,"Token") = 6 then
+    if msgbox("Clear Remember Token??",36,"Token") = 6 then
         LoginDialog.clearRememberToken()
     fi
 fi

@@ -65,11 +65,9 @@ class public ProdinDemo
         if #mainWindow! = null() then   
             declare LoginDialog login!
             login! = new LoginDialog( new SampleAuthProvider())
-            rem login!.setCallback(LoginDialog.ON_LOGIN,#this!,"onLogin")
             login!.setDockStyle("justify-self","center")
             login!.setDockStyle("align-self","center")
             login!.setLogo("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
-
             login!.setAllowRemember(Boolean.TRUE)
 
             if !login!.doModal2() then
@@ -80,6 +78,17 @@ class public ProdinDemo
         endif
         process_events
     methodend
+
+    method public void initializeDrawer()
+        portal! = new PortalFrame()
+        portal!.setUsername("Johnny Lawrance")
+        portal!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        portal!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
+        menu! = #createProdinMenuData()
+        portal!.setMenu(menu!)
+        portal!.doModal()
+    methodend
+
 
     method public Menu createProdinMenuData()
         declare Menu m!
@@ -96,14 +105,4 @@ class public ProdinDemo
         methodret m!
     methodend
     
-    method public void onLogin(BBjCustomEvent event!)
-        #loginWrapper!.destroy()
-        portal! = new PortalFrame()
-        portal!.setUsername("Johnny Lawrance")
-        portal!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
-        portal!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
-        menu! = #createProdinMenuData()
-        portal!.setMenu(menu!)
-        portal!.doModal()
-    methodend
 classend
