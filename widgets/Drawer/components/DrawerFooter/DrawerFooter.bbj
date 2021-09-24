@@ -1,6 +1,6 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use ::WebKit/widgets/common/CircularAvatar/CircularAvatar.bbj::CircularAvatar
@@ -124,6 +124,8 @@ class public DrawerFooter extends BBjWidget
     
     method public void onLogout(BBjMouseDownEvent event!)
         #overlayWidget!.onOverlayDissmiss(null())
+        login! = new LoginDialog()
+        login!.clearRememberToken()
         a = msgbox("logout!!")
     methodend
     

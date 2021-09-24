@@ -73,7 +73,7 @@
     font-style: normal;
     font-size: 14px;
     line-height: 17px;
-    color: var(--prodin-secondary);
+    color: var(--webkit-secondary);
     padding-left: 4px;
     align-self: center;
 }

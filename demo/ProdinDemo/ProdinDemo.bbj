@@ -1,6 +1,7 @@
 
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
@@ -61,27 +62,33 @@ class public ProdinDemo
     methodend
     
     method public void show()
-        if #mainWindow! = null() then
-            #sysGui! = BBjAPI().openSysGui("X0")
-        
-            #mainWindow! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750,"Prodin Demo",$01101083$)
-            #mainWindow!.setStyle("width","100vw")
-            #mainWindow!.setStyle("height","100vh")
-            #mainWindow!.setStyle("background-color","#F1F1F1")
-            #mainWindow!.setStyle("display","grid")
-            
-            #loginWrapper! = #mainWindow!.addChildWindow(#mainWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            #loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
-            
+        if #mainWindow! = null() then   
             declare LoginDialog login!
-            login! = new LoginDialog(#loginWrapper!)
-            login!.setCallback(LoginDialog.ON_LOGIN,#this!,"onLogin")
+            login! = new LoginDialog("Prodin Demo", new SampleAuthProvider())
             login!.setDockStyle("justify-self","center")
             login!.setDockStyle("align-self","center")
+            login!.setLogo("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+            login!.setAllowRemember(Boolean.TRUE)
+
+            if !login!.doModal() then
+                a=msgbox("ERROR",0,"Error while logging in")
+                release
+            fi
+            #initializeDrawer()
         endif
-        
         process_events
     methodend
+
+    method public void initializeDrawer()
+        portal! = new PortalFrame()
+        portal!.setUsername("Johnny Lawrance")
+        portal!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        portal!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
+        menu! = #createProdinMenuData()
+        portal!.setMenu(menu!)
+        portal!.doModal()
+    methodend
+
 
     method public Menu createProdinMenuData()
         declare Menu m!
@@ -98,14 +105,4 @@ class public ProdinDemo
         methodret m!
     methodend
     
-    method public void onLogin(BBjCustomEvent event!)
-        #loginWrapper!.destroy()
-        portal! = new PortalFrame()
-        portal!.setUsername("Johnny Lawrance")
-        portal!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
-        portal!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
-        menu! = #createProdinMenuData()
-        portal!.setMenu(menu!)
-        portal!.doModal()
-    methodend
 classend

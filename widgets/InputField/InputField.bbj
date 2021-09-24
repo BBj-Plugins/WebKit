@@ -113,7 +113,7 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
     
     method public void onHoverStart(BBjMouseEnterEvent event!)
         a = msgbox("enter!")
-        #label!.setStyle("color","var(--prodin-primary)")
+        #label!.setStyle("color","var(--webkit-primary)")
     methodend
     
     method public void onHoverEnd(BBjMouseExitEvent event!)
@@ -122,7 +122,7 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
     methodend
     
     method public void onFocusGained(BBjGainedFocusEvent event!)
-        #label!.setStyle("color","var(--prodin-primary)")
+        #label!.setStyle("color","var(--webkit-primary)")
         if #isPasswordField! then
             #passwordField!.removeStyle("inputFieldStyleInputWrapper")
             #passwordField!.addStyle("inputFieldStyleInputWrapperFocused")
@@ -133,7 +133,7 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
     methodend
     
     method public void onFocusLost(BBjLostFocusEvent event!)
-        #label!.setStyle("color","var(--prodin-secondary)")
+        #label!.setStyle("color","var(--webkit-secondary)")
         if #isPasswordField! then
             #passwordField!.removeStyle("inputFieldStyleInputWrapperFocused")
             #passwordField!.addStyle("inputFieldStyleInputWrapper")
@@ -177,5 +177,13 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
     method public void setPasswordField(Boolean enabled!)
         #isPasswordField! = 1
         #createPasswordField(0)
+    methodend
+
+    method public String getText(Boolean isPasswordField!)
+    if #isPasswordField! then
+        methodret #passwordField!.getText()
+    else
+        methodret #inputField!.getText()
+    endif
     methodend
 classend
