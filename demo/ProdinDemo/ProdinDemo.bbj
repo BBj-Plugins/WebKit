@@ -64,7 +64,7 @@ class public ProdinDemo
     method public void show()
         if #mainWindow! = null() then   
             declare LoginDialog login!
-            login! = new LoginDialog( new SampleAuthProvider())
+            login! = new LoginDialog("Prodin Demo", new SampleAuthProvider())
             login!.setDockStyle("justify-self","center")
             login!.setDockStyle("align-self","center")
             login!.setLogo("WebKit/demo/ProdinDemo/assets/prodin_logo.png")

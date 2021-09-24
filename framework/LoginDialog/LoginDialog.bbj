@@ -40,14 +40,14 @@ class public LoginDialog extends BBjWidget
     rem methodend
 
         
-    method public LoginDialog(IAuthProvider authProvider!)
+    method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
       
         #authProvider! = authProvider!
         bbjutils! = new ::BBUtils.bbj::BBUtils()
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
 
         #sysGui! = BBjAPI().openSysGui("X0")
-        #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750,"Prodin Demo",$01101083$)
+        #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750, title$, $01101083$)
 
         #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
