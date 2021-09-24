@@ -8,12 +8,16 @@ use ::WebKit/framework/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use java.util.HashMap
 
 class public PortalFrame
 
     field private BBjTopLevelWindow window!
-    field private BBjChildWindow Drawer!
+    field private Drawer Drawer!
     field private BBjChildWindow Main!
     field private BBjChildWindow AccountDisplay!
     field private BBjChildWindow Avatar!
@@ -29,6 +33,51 @@ class public PortalFrame
     field private MenuPanel menuPanel!
 
     field private BBjPopupMenu AccountMenu!
+
+    field public BBjString LogoUrl!
+    field public BBjString LogoSmallUrl!
+
+    method private void initializeDrawer(Menu menu!)
+        declare BBjVector menuTiles!
+        declare TilesTextHeader header!
+
+        declare DrawerModel drawerDataModel!
+        drawerDataModel! = new DrawerModel()
+        drawerDataModel!.setLogoUrl(#LogoUrl!)
+        drawerDataModel!.setLogoSmallUrl(#LogoSmallUrl!)
+        drawerDataModel!.setTilesTextHeader("Browse!")
+        drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
+        drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
+
+        drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
+        menuTiles! = new BBjVector()
+
+        menuitems! = menu!.getChildren(menu!.getRoot()) 
+        it! = menuitems!.iterator()
+        while it!.hasNext()
+            declare auto MenuItem menuitem!
+            menuitem! = it!.next()
+            id% = menuitem!.getNodeId()
+            menuTiles!.add(new DrawerMenuTileEntry(id%, menuitem!.getCaption(), menuitem!.getIcon()))
+            REM btn! = new IconTile(#Drawer!,id%)
+            REM btn!.setText(menuitem!.getCaption())
+            REM btn!.setIcon(menuitem!.getIcon())
+            REM btn!.setToolTip(menuitem!.getToolTip())
+            REM btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+        wend
+    
+        drawerDataModel!.setMenuTiles(menuTiles!)
+        #Drawer! = new Drawer(#window!, drawerDataModel!)
+        
+        header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
+        
+        header!.setDockStyle("grid-row-start","1")
+        header!.setDockStyle("margin-bottom","8px")
+        header!.setDockStyle("margin-top","24px")
+        header!.setDockStyle("margin-left","40px")
+        header!.addTextStyle("drawerTilesTextHeaderStyle")
+        header!.setTextStyle("display","block")
+    methodend
     
     method public Boolean doModal()
 
@@ -39,63 +88,32 @@ class public PortalFrame
             rem add one invisible button to force the BASIS variables to be loaded for CSS            
             #window!.addButton(1000,0,0,0,0,"TEST",$0010$ )
             
-            cw_top! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            cw_top!.setNoEdge(1)
-            cw_top!.addStyle("topbar")
-            
-            menu_btn! = cw_top!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            menu_btn!.addStyle("menutoggle")
-            
-            IconCtrl! = menu_btn!.addStaticText(100,0,0,200,22,"menu")
-            IconCtrl!.addStyle("material-icons")
-            IconCtrl!.addStyle("tilelabel")
-            menu_btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onToggleMenu")
-            
-            
-            logo! = cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
-            logo!.addPanelStyle("logo")            
-
-            #Drawer! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            #Drawer!.addStyle("drawermenu")
-            #Drawer!.addStyle("drawerclosed")
+            #initializeDrawer(#Menu!)
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             main!.addStyle("mainarea")
             #Main! = cast(BBjChildWindow,main!)
              
-            menuitems! = #Menu!.getChildren(#Menu!.getRoot()) 
-            it! = menuitems!.iterator()
-            while it!.hasNext()
-                declare auto MenuItem menuitem!
-                menuitem! = it!.next()
-                id% = menuitem!.getNodeId()
-                btn! = new IconTile(#Drawer!,id%)
-                btn!.setText(menuitem!.getCaption())
-                btn!.setIcon(menuitem!.getIcon())
-                btn!.setToolTip(menuitem!.getToolTip())
-                btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
-            wend
-
-            #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
-            #AccountDisplay!.setCallback(BBjAPI.ON_POPUP_REQUEST,#this!,"onAvatarAreaClick")
-            
-            account_name! = #AccountDisplay!.addStaticText(1221,0,0,200,80,#Username!)
-            account_name!.addStyle("account")
-            
-            #Avatar! = #AccountDisplay!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            #Avatar!.addStyle("avatar")
-            
-            #AccountMenu! = BBjAPI().getSysGui().addPopupMenu()
-            menu_logout!=#AccountMenu!.addMenuItem(-32027,"Logout")
-            menu_logout!.setCallback(BBjAPI.ON_POPUP_ITEM_SELECT,"onAccountLogout")
-            
-            #AccountDisplay!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onAvatarAreaClick")
-            
-            if #Profile! <> null() then
-                #Avatar!.setDockStyle("background-image","url("+#Profile!.getPictureUrl()+")")
-            fi
-            
-            BBjAPI().setCustomEventCallback("logout","logout")
+            REM #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
+            REM #AccountDisplay!.setCallback(BBjAPI.ON_POPUP_REQUEST,#this!,"onAvatarAreaClick")
+            REM 
+            REM account_name! = #AccountDisplay!.addStaticText(1221,0,0,200,80,#Username!)
+            REM account_name!.addStyle("account")
+            REM 
+            REM #Avatar! = #AccountDisplay!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            REM #Avatar!.addStyle("avatar")
+            REM 
+            REM #AccountMenu! = BBjAPI().getSysGui().addPopupMenu()
+            REM menu_logout!=#AccountMenu!.addMenuItem(-32027,"Logout")
+            REM menu_logout!.setCallback(BBjAPI.ON_POPUP_ITEM_SELECT,"onAccountLogout")
+            REM 
+            REM #AccountDisplay!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onAvatarAreaClick")
+            REM 
+            REM if #Profile! <> null() then
+            REM     #Avatar!.setDockStyle("background-image","url("+#Profile!.getPictureUrl()+")")
+            REM fi
+            REM 
+            REM BBjAPI().setCustomEventCallback("logout","logout")
             
             
             anchor$ = ClientUtil.getUrlAnchor()
