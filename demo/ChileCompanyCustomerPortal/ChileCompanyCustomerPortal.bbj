@@ -23,7 +23,7 @@ login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
 
 login!.setAllowRemember(Boolean.TRUE)
 
-if !login!.doModal2() then
+if !login!.doModal() then
     a=msgbox("ERROR",0,"Error while logging in")
     release
 fi

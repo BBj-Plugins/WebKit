@@ -34,10 +34,6 @@ class public LoginDialog extends BBjWidget
 
     method public LoginDialog()
     methodend
-    
-    rem method public LoginDialog(IAuthProvider authProvider!)
-    rem     #authProvider! = authProvider!
-    rem methodend
 
         
     method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
@@ -63,18 +59,17 @@ class public LoginDialog extends BBjWidget
         #logoURL$ = logo$
     methodend
 
-    method public Boolean doModal2()
+    method public Boolean doModal()
 
-        
-    if #AllowRemember! then
-        token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
-        if token$>"" and #authProvider!.checkToken(token$) then
-            token$ = #authProvider!.getToken()
-            BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
-            #User$ = #authProvider!.getUser()
-            methodret Boolean.TRUE
-        fi
-    fi  
+        if #AllowRemember! then
+            token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+            if token$>"" and #authProvider!.checkToken(token$) then
+                token$ = #authProvider!.getToken()
+                BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                #User$ = #authProvider!.getUser()
+                methodret Boolean.TRUE
+            fi
+        fi  
         
         declare BBjImageCtrl logo!
         declare BBjButton loginBtn!
@@ -187,8 +182,6 @@ class public LoginDialog extends BBjWidget
         user$=#username!.getText(0)
         pass$=#password!.getText(1)
 
-        
-
         #fireEvent(#ON_LOGIN,"")
     methodend
 
@@ -196,151 +189,6 @@ class public LoginDialog extends BBjWidget
         a = msgbox("Forgot Password")
     methodend
 
-    method public Boolean doModal()
-
-            if #AllowRemember! then
-                token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
-
-                if token$>"" and #authProvider!.checkToken(token$) then
-                    token$ = #authProvider!.getToken()
-                    BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
-                    #User$ = #authProvider!.getUser()
-                    methodret Boolean.TRUE
-                fi
-            fi
-
-            sysgui! =BBjAPI().openSysGui("X0")
-            
-            window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Login",$01101083$)
-            window!.addStyle("wallpaper")
-            #window! = CAST(BBjTopLevelWindow, window!)
-
-            logo! = window!.addChildWindow(101,0,0,200,80,"",$00100800$,sysgui!.getAvailableContext())
-            logo!.addPanelStyle("loginlogo")
-            
-            
-            ctxt = sysgui!.getAvailableContext()
-            main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            main!.addStyle("loginframe")
-            main!.setClientEdge(0)
-            main!.setNoEdge(1)    
-            
-            main!.addStyle("logincontainer")
-            
-            
-            st! = main!.addStaticText(98,0,0,0,0,"<html><h2>Please log in</h2></html>")
-            
-            st!.setStyle("grid-column","1 / span 2")
-            st!.setStyle("grid-row","1")
-
-            st! = main!.addStaticText(99,0,0,0,0,"<html>Check your input</html>",$0010$)
-            st!.addStyle("errormsg")
-            st!.setStyle("grid-column","1 / span 2")
-            st!.setStyle("grid-row","5")
-            
-            st! = main!.addStaticText(100,0,0,0,0,"Username:")
-            st!.setStyle("grid-column","1")
-            st!.setStyle("grid-row","3")
-            
-            ipe_username! = main!.addEditBox(101,0,0,250,25,"")
-            ipe_username!.setStyle("grid-column","2")
-            ipe_username!.setStyle("grid-row","3")
-            
-            st! = main!.addStaticText(102,0,0,0,0,"Password:")
-            st!.setStyle("grid-column","1")
-            st!.setStyle("grid-row","4")
-            
-            ipe_password! = main!.addEditBox(104,0,0,250,25,"",$0400$)
-            ipe_password!.setStyle("grid-column","2")
-            ipe_password!.setStyle("grid-row","4")
-             
-            
-            if #AllowRemember! then
-                cb_remember! = main!.addCheckBox(300,0,0,250,25,"Remember me")
-                cb_remember!.setStyle("grid-column","2")
-                cb_remember!.setStyle("grid-row","7")
-            fi
-            
-            btn_login! = main!.addButton(1,0,0,250,25,"Login")
-            btn_login!.setAttribute("theme","primary")
-            btn_login!.setAttribute("size","xl")
-            btn_login!.setStyle("grid-column","1 / span 2")
-            btn_login!.setStyle("grid-row","8")
-            btn_login!.addStyle("loginbtn")
-            btn_login!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
-            
-            if #LoginWithGoogle! OR #LoginWithMicrosoft! then
-                sociallogin! = main!.addChildWindow(main!.getAvailableControlID(),1,1,1,1,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                sociallogin!.setDockStyle("grid-column","1 / span 2")
-                sociallogin!.setDockStyle("grid-row","10")
-                
-                sociallogin!.setPanelStyle("display","grid")                
-                sociallogin!.setPanelStyle("grid-template-columns","140px 140px")
-                sociallogin!.setPanelStyle("gap","8%")
-            fi
-            
-            if #LoginWithGoogle! then
-                googlewidget! = new GoogleLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
-                googlewidget!.setStyle("height","45px")
-                googlewidget!.setStyle("width","145px")
-                googlewidget!.setDockStyle("grid-column","1")
-                googlewidget!.setCallback(GoogleLoginWidget.ON_LOGIN,"onGoogleLogin")
-
-                microsoftwidget! = new MicrosoftLoginWidget(sociallogin!,sociallogin!.getAvailableControlID())
-                microsoftwidget!.setStyle("height","45px")
-                microsoftwidget!.setStyle("width","145px")
-                microsoftwidget!.setDockStyle("grid-column","2")
-                microsoftwidget!.setCallback(MicrosoftLoginWidget.ON_LOGIN,"onMicrosoftLogin")
-                
-            fi
-            ipe_username!.focus()
-            
-            process_events
-            
-            login:
-                user$=ipe_username!.getText()
-                pass$=ipe_password!.getText()
-                
-                if #authProvider!.checkLogin(user$,pass$) then
-                
-                    rem check MFA
-REM                     TotpDl! = new MfaTotpDialog("FS5W5DII7UEEWK4EAY7LYN5EDS7RJPNN") 
-REM                     TotpDl!.doModal()
-
-REM                     SMSDlg! = new MfaSMSDialog("+491703433228")
-REM                     SMSDlg!.doModal()
-                    
-                                        
-                    #User$ = user$
-                    if cb_remember! <> null() AND cb_remember!.isSelected() then
-                        token$ = #authProvider!.getToken()
-                        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
-                    fi
-                    
-                    #window!.destroy()
-                    methodret Boolean.TRUE
-                else
-                    main!.getControl(99).setVisible(1)
-                fi
-                return
-           
-           onGoogleLogin:
-           onMicrosoftLogin:
-                ev! = BBjAPI().getLastEvent()
-                profile! = ev!.getObject()
-                if #authProvider!.checkLoginWithAccountProfile(profile!) then
-                    #User$ = str(profile!.getFullName())
-                    #Profile! = CAST(AccountProfile,profile!)
-                    #window!.destroy()
-                    methodret Boolean.TRUE
-                fi
-                return
-  
-
-                
-    methodend
-
-    
     method public AccountProfile getProfile()
         methodret #Profile!
     methodend
