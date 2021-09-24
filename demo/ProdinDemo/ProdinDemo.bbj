@@ -1,6 +1,7 @@
 
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
@@ -61,19 +62,29 @@ class public ProdinDemo
             #sysGui! = BBjAPI().openSysGui("X0")
         
             #mainWindow! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750,"Prodin Demo",$01101083$)
-            #mainWindow!.setStyle("width","100vw")
-            #mainWindow!.setStyle("height","100vh")
-            #mainWindow!.setStyle("background-color","#F1F1F1")
-            #mainWindow!.setStyle("display","grid")
-            
+            rem #mainWindow!.setStyle("width","100vw")
+            rem #mainWindow!.setStyle("height","100vh")
+            rem #mainWindow!.setStyle("background-color","#F1F1F1")
+            rem #mainWindow!.setStyle("display","grid")
+
             #loginWrapper! = #mainWindow!.addChildWindow(#mainWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             #loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
             
             declare LoginDialog login!
-            login! = new LoginDialog(#loginWrapper!)
+            login! = new LoginDialog( #mainWindow!, #loginWrapper!, new SampleAuthProvider())
             login!.setCallback(LoginDialog.ON_LOGIN,#this!,"onLogin")
             login!.setDockStyle("justify-self","center")
             login!.setDockStyle("align-self","center")
+
+            login!.setAllowRemember(Boolean.TRUE)
+
+            if !login!.doModal2() then
+                a=msgbox("ERROR",0,"Error while logging in")
+                release
+            fi
+            #loginWrapper!.destroy()
+            #initializeDrawer()
+    
         endif
         
         process_events

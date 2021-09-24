@@ -6,7 +6,6 @@ use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::IAuthProvider
 use ::AuthKit/profile/GoogleAccountProfile.bbj::GoogleAccountProfile
 use ::AuthKit/profile/MicrosoftAccountProfile.bbj::MicrosoftAccountProfile
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
-
 use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 use ::AuthKit/totp/TOTP.bbj::TOTP
@@ -26,6 +25,7 @@ class public LoginDialog extends BBjWidget
     field public Boolean LoginWithGoogle! = Boolean.FALSE
 
     field private InputField password! 
+    field private InputField username! 
     field private AccountProfile Profile!
     
     method private LoginDialog()
@@ -36,9 +36,13 @@ class public LoginDialog extends BBjWidget
     methodend
 
         
-    method public LoginDialog(BBjWindow parent!)
+    method public LoginDialog(BBjTopLevelWindow main!, BBjWindow parent!, IAuthProvider authProvider!)
+        #window! = main!
+        #authProvider! = authProvider!
         bbjutils! = new ::BBUtils.bbj::BBUtils()
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
+        rem TODO: Remove this from here
+        DynamicLoader.addLocalCSS("WebKit/demo/ProdinDemo/ProdinDemo.css")
 
         bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/eye.png","prodinRes")
         bbjutils!.copyFileToWebServer("WebKit/framework/LoginDialog/assets/eye-off.png","prodinRes")
@@ -47,13 +51,22 @@ class public LoginDialog extends BBjWidget
         #childWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #childWindow!.addPanelStyle("loginWidgetPanelStyle")
         #setCanvas(#childWindow!)
-        #redraw(1)
     methodend
 
-    method public void redraw(Boolean init!)
+    method public Boolean doModal2()
+
+        
+    if #AllowRemember! then
+        token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+        if token$>"" and #authProvider!.checkToken(token$) then
+            token$ = #authProvider!.getToken()
+            BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+            #User$ = #authProvider!.getUser()
+            methodret Boolean.TRUE
+        fi
+    fi  
         declare BBjChildWindow content!
         declare BBjImageCtrl logo!
-        declare InputField username!
         declare BBjButton loginBtn!
         declare BBjCheckBox rememberMe!
         declare BBjChildWindow linkWrapper!
@@ -68,11 +81,11 @@ class public LoginDialog extends BBjWidget
         logo!.setStyle("height","fit-content")
         logo!.setStyle("width","fit-content")
         
-        username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
-        username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
-        username!.setLabel("Username")
-        username!.setPlaceHolder("name@company.com")
-        username!.setDockStyle("margin-top","50px")
+        #username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
+        #username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
+        #username!.setLabel("Username")
+        #username!.setPlaceHolder("name@company.com")
+        #username!.setDockStyle("margin-top","50px")
         
         #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1)
         #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
@@ -87,10 +100,14 @@ class public LoginDialog extends BBjWidget
         rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
         rememberMe!.addStyle("loginWidgetCheckBoxControl")
         REM TODO use theming or ask sebatian how he did this in the p360
-    REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
+        REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
         
+        st! = content!.addStaticText(99,0,0,0,0,"<html>Check your input</html>",$0010$)
+        st!.setStyle("color","red")
+        st!.setStyle("margin-top", "5px")
+
         loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
-        loginBtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onLoginBtnPressed")
+        loginBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
         loginBtn!.setStyle("margin-top","40px")
         loginBtn!.addStyle("loginWidgetBtnStyle")
         loginBtn!.addStyle("loginWidgetBtnLabel")
@@ -105,6 +122,39 @@ class public LoginDialog extends BBjWidget
         
         forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
         forgotPW!.addStyle("loginWidgetForgotPWStlye")
+
+        process_events
+
+        login:
+            user$=#username!.getText(0)
+            pass$=#password!.getText(1)
+                
+                if #authProvider!.checkLogin(user$,pass$) then
+                    #User$ = user$
+                    if cb_remember! <> null() AND cb_remember!.isSelected() then
+                        token$ = #authProvider!.getToken()
+                        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                    fi
+                    
+                    rem #childWindow!.destroy()
+                    methodret Boolean.TRUE
+                else
+                content!.getControl(99).setVisible(1)
+                fi
+                return
+           
+           onGoogleLogin:
+           onMicrosoftLogin:
+                ev! = BBjAPI().getLastEvent()
+                profile! = ev!.getObject()
+                if #authProvider!.checkLoginWithAccountProfile(profile!) then
+                    #User$ = str(profile!.getFullName())
+                    #Profile! = CAST(AccountProfile,profile!)
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                fi
+                return
+
     methodend
 
     method public void onUserIconPressed(BBjCustomEvent event!)
@@ -112,6 +162,7 @@ class public LoginDialog extends BBjWidget
     methodend
 
     method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+
         if #password!.isPasswordVisible() then 
             #password!.setPasswordVisible(0)
             #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
@@ -122,6 +173,11 @@ class public LoginDialog extends BBjWidget
     methodend
 
     method public void onLoginBtnPressed(BBjButtonPushEvent event!)
+        user$=#username!.getText(0)
+        pass$=#password!.getText(1)
+
+        
+
         #fireEvent(#ON_LOGIN,"")
     methodend
 
@@ -271,6 +327,63 @@ REM                     SMSDlg!.doModal()
 
                 
     methodend
+
+    method fakeDoModal()
+        declare BBjChildWindow content!
+        declare BBjImageCtrl logo!
+        declare BBjButton loginBtn!
+        declare BBjCheckBox rememberMe!
+        declare BBjChildWindow linkWrapper!
+        declare BBjStaticText forgotPw!
+        
+        content! = #childWindow!.addChildWindow(#childWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        content!.setDockStyle("height","calc(531px - 112px)")
+        content!.setDockStyle("padding","56px 44px")
+        content!.addPanelStyle("loginWidgetContentPanelStyle")
+        
+        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0,"WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        logo!.setStyle("height","fit-content")
+        logo!.setStyle("width","fit-content")
+        
+        #username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
+        #username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
+        #username!.setLabel("Username")
+        #username!.setPlaceHolder("name@company.com")
+        #username!.setDockStyle("margin-top","50px")
+        
+        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1)
+        #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
+        #password!.setLabel("Password")
+        #password!.setPlaceHolder("Your Password")
+        #password!.setDockStyle("margin-top","28px")
+        
+        rememberMe! = content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,"Keep me signed in")
+        rememberMe!.setStyle("margin-top","32px")
+        rememberMe!.addStyle("loginWidgetCheckBoxStyle")
+        rememberMe!.addStyle("loginWidgetCheckBoxLabel")
+        rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
+        rememberMe!.addStyle("loginWidgetCheckBoxControl")
+        REM TODO use theming or ask sebatian how he did this in the p360
+        REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
+        
+        loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
+        loginBtn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onLoginBtnPressed")
+        loginBtn!.setStyle("margin-top","40px")
+        loginBtn!.addStyle("loginWidgetBtnStyle")
+        loginBtn!.addStyle("loginWidgetBtnLabel")
+        loginBtn!.addStyle("loginWidgetBtnControl")
+        
+        linkWrapper! = content!.addChildWindow(content!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"forgotPassword")
+        linkWrapper!.setDockStyle("margin-top","16px")
+        linkWrapper!.setDockStyle("justify-self","center")
+        linkWrapper!.setDockStyle("height","fit-content")
+        linkWrapper!.setDockStyle("width","fit-content")
+        
+        forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
+        forgotPW!.addStyle("loginWidgetForgotPWStlye")
+
+    methodend
     
     method public AccountProfile getProfile()
         methodret #Profile!
@@ -295,3 +408,4 @@ l!.setAllowRemember(Boolean.TRUE)
 if l!.doModal() then
     a=msgbox(l!.getUser(),0,"SUCCESS")
 fi
+
