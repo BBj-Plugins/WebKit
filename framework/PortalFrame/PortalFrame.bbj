@@ -68,6 +68,7 @@ class public PortalFrame
     
         drawerDataModel!.setMenuTiles(menuTiles!)
         #Drawer! = new Drawer(#window!, drawerDataModel!)
+        #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
         
         header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
         
@@ -88,12 +89,12 @@ class public PortalFrame
             rem add one invisible button to force the BASIS variables to be loaded for CSS            
             #window!.addButton(1000,0,0,0,0,"TEST",$0010$ )
             
-            #initializeDrawer(#Menu!)
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             main!.addStyle("mainarea")
             #Main! = cast(BBjChildWindow,main!)
              
+            #initializeDrawer(#Menu!)
             REM #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
             REM #AccountDisplay!.setCallback(BBjAPI.ON_POPUP_REQUEST,#this!,"onAvatarAreaClick")
             REM 
