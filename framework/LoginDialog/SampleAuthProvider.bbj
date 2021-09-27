@@ -1,16 +1,7 @@
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 use ::WebKit/framework/LoginDialog/BBjUser.bbj::BBjUser
+use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
 
-interface public IAuthProvider
-    
-    method public Boolean checkLogin(BBjString Username!, BBjString Password!)
-    method public BBjString getToken()
-    method public BBjString getUser()
-    method public AccountProfile getProfile()
-    method public Boolean checkToken(BBjString token!)
-    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
-    
-interfaceend
 
 class public SampleAuthProvider implements IAuthProvider 
 

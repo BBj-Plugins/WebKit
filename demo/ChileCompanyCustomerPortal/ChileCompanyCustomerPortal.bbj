@@ -17,8 +17,6 @@ ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css"
 startover: 
 
 login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
-login!.setDockStyle("justify-self","center")
-login!.setDockStyle("align-self","center")
 login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
 
 login!.setAllowRemember(Boolean.TRUE)

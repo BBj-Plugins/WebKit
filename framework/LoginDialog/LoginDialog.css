@@ -12,10 +12,22 @@
     width: 460px;
     height: 531px;
     background-color: white;
+    position: absolute !important;
+    top:0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: auto !important;
     border-radius: 16px;
     margin: 30px;
     box-shadow: 0px 10px 34px var(--webkit-box-shadow-blur);
 }
+
+.mainWindow {
+    justify-self : center;
+    align-self : center;
+}
+
 
 .mainWndPanelStyle{
     place-self: center;
