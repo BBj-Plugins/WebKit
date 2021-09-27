@@ -33,7 +33,7 @@ declare Menu m!
 declare MenuItem i!
 m! = new Menu()
 i! = m!.addMenuItem(m!.getRoot(),100,"Home","Go to the Home - Dashboard","WebKit/demo/assets/home.svg")
-i!.setProgram("::WebKit/demo/ChileCompanyDashboardPanel/ChileCompanyDashboardPanel.bbj::ChileCompanyDashboardPanel")
+i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
 i! = m!.addMenuItem(m!.getRoot(),101,"CD-Store BUI","CD BUI","WebKit/demo/assets/music.svg")
