@@ -33,6 +33,10 @@ class public LoginDialog
     method public LoginDialog()
     methodend
 
+
+    method public LoginDialog(IAuthProvider authProvider!)
+        #this!("",authProvider!)
+    methodend
         
     method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
       
@@ -77,6 +81,9 @@ class public LoginDialog
         content!.setDockStyle("padding","56px 44px")
         content!.addPanelStyle("loginWidgetContentPanelStyle")
         
+        if #logoURL$ = "" then
+            #logoURL$ = "WebKit/framework/LoginDialog/assets/clearpixel.png"
+        endif
         logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0, #logoURL$)
         logo!.setStyle("height","fit-content")
         logo!.setStyle("width","fit-content")
