@@ -57,6 +57,21 @@ class public ClientUtil
     methodend
     
     
+    method public static void setDarkMode(BBjNumber f_dark)
+      
+      if #getInjHtml() = null() then
+        ClientUtil.init()
+      fi
+      
+      if f_dark then
+            #Wnd!.setAttribute("@app-theme", "dark")
+      else
+            #Wnd!.setAttribute("@app-theme", "light")
+      fi
+      
+    methodend
+    
+    
     method public static void loadThemeFile(BBjString themefile$)
     
       if #getInjHtml() = null() then
@@ -197,6 +212,13 @@ class public ClientUtil
             anchor$ = ""
         fi
         methodret anchor$
+    methodend
+    
+    method public static void consoleLog(BBjString output!)
+        BBjAPI().getSysGui(err=nosg).executeScript("console.log('"+output!+"')")
+        methodret
+        nosg:
+        BBjAPI().openSysGui("X0").executeScript("console.log('"+output!+"')")
     methodend    
 
 classend
