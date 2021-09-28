@@ -78,12 +78,13 @@ class public DashboardHeader extends BBjWidget
         if #entryWrapper! = null() then 
             #entryWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             #entryWrapper!.addPanelStyle("dashboardHeaderEntryWrapperPanelStyle")
-            #entryWrapper!.setDockStyle("grid-column-start","2")
-            #entryWrapper!.setDockStyle("height","fit-content")
-            #entryWrapper!.setDockStyle("width","fit-content")
-            #entryWrapper!.setDockStyle("align-self","center")
-            #entryWrapper!.setDockStyle("justify-self","end")
-            #entryWrapper!.setDockStyle("margin-right","40px")
+            rem #entryWrapper!.setDockStyle("grid-column-start","2")
+            rem #entryWrapper!.setDockStyle("height","fit-content")
+            rem #entryWrapper!.setDockStyle("width","fit-content")
+            rem #entryWrapper!.setDockStyle("align-self","center")
+            rem #entryWrapper!.setDockStyle("justify-self","end")
+            rem #entryWrapper!.setDockStyle("margin-right","40px")
+            #entryWrapper!.setDockStyle("flex","1")
         endif
         
         for i = 0 to size! -1
@@ -93,9 +94,9 @@ class public DashboardHeader extends BBjWidget
             widget!.setLabel(entryData!.getText())
             widget!.setCount(entryData!.getCount())
             #headerCards!.add(widget!)
-            templateColumns! = templateColumns! + "194px "
+            rem templateColumns! = templateColumns! + "194px "
         next i
-        #entryWrapper!.setPanelStyle("grid-template-columns",templateColumns!)
+        rem #entryWrapper!.setPanelStyle("grid-template-columns",templateColumns!)
     methodend
     
     method public void updateCount(BBjInt id!, BBjInt count!)

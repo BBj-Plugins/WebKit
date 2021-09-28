@@ -3,9 +3,12 @@
     width: 100%;
     background-color: white;
     border-radius: 8px;
-    display: grid;
+    /* display: grid;
     grid-template-rows: 100%;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 20% 80%; */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .dashboardTextHeaderPanelStyle {
@@ -15,9 +18,14 @@
 }
 
 .dashboardHeaderEntryWrapperPanelStyle{
-    display: grid;
+    /* display: grid;
     grid-template-rows: 100%;
-    column-gap: 23px;
+    column-gap: 23px; */
+
+    display: flex;
+    justify-content: center;
+    gap: 23px;
+    flex-wrap: wrap;
 }
 /* these are temp bzw these need to use the webkit/bbj vars later on */
 .dashboardHeaderTextStyle{

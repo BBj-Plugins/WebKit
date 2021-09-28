@@ -128,7 +128,7 @@ class public ProdinDemo
         dashboardWrapper!.setPanelStyle("left","300px")
         dashboardWrapper!.setPanelStyle("top","0px")
         dashboardWrapper!.setPanelStyle("position","absolute")
-        dashboardWrapper!.setPanelStyle("height", "174px")
+        rem dashboardWrapper!.setPanelStyle("height", "174px")
         dashboardWrapper!.setPanelStyle("margin","40px 60px 30px 60px")
         rem screen - 300px drawer - 2 * 60px margin
         dashboardWrapper!.setPanelStyle("width","calc(100vw - 300px - 120px)")
