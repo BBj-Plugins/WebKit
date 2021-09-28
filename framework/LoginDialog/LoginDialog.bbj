@@ -113,7 +113,7 @@ class public LoginDialog
         st!.setStyle("color","red")
         st!.setStyle("margin-top", "5px")
 
-        loginBtn! = content!.addButton(content!.getAvailableControlID(),0,0,0,0,"Login")
+        loginBtn! = content!.addButton(1,0,0,0,0,"Login")
         loginBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
         loginBtn!.setStyle("margin-top","40px")
         loginBtn!.addStyle("loginWidgetBtnStyle")
