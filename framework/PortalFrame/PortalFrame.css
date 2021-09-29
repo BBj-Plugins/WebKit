@@ -9,6 +9,15 @@
     width: 100vw;
     height:100vh;
 }
+
+.mainarea .expanded{
+    margin-left: 124px;
+}
+
+.mainarea .shrinked{
+    margin-left: 320px;
+}
+
 @media screen and (max-width: 425px) {
     .mainarea,
     .mainarea>div,
