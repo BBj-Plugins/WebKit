@@ -44,7 +44,6 @@ class public DrawerMenuTile extends BBjWidget
     methodend
     
     method public void onDrawerMenuTile(BBjMouseDownEvent event!)
-        a = msgbox(str(#id!))
         #fireEvent(#ON_DRAWER_TILE_PRESSED, #id!) 
     methodend
     
