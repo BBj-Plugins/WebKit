@@ -1,0 +1,32 @@
+REM /**
+REM  * DashboardHeaderEntry.bbj
+REM  * @author TimonGeisbauer
+REM  *
+REM  */
+
+class public DashboardHeaderEntry 
+    
+    field private BBjInt id!
+    
+    field private BBjInt count! 
+    
+    field private BBjString text!
+    
+    method public DashboardHeaderEntry(BBjInt id!,BBjInt count!, BBjString text!)
+        #id! = id!
+        #count! = count!
+        #text! = text!
+    methodend
+    
+    method public BBjInt getID()
+        methodret #id!
+    methodend
+    
+    method public BBjInt getCount()
+        methodret #count!
+    methodend
+    
+    method public BBjString getText()
+        methodret #text!
+    methodend
+classend

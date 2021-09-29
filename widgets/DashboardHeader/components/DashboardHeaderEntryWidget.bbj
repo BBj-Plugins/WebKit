@@ -1,0 +1,71 @@
+REM /**
+REM  * DashboardHeaderEntryWidget.bbj
+REM  * @author TimonGeisbauer
+REM  *
+REM  */
+
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+class public DashboardHeaderEntryWidget extends BBjWidget
+    
+    field private BBjChildWindow window!
+    
+    field private BBjChildWindow contentWrapper!
+    
+    field private BBjStaticText label!
+    
+    field private BBjStaticText count!
+    
+    field private BBjInt id! 
+    
+    method public DashboardHeaderEntryWidget(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardHeader/components/DashboardHeaderEntryWidget.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public DashboardHeaderEntryWidget(BBjWindow wnd!, BBjInt id!)
+         DynamicLoader.addLocalCSS("WebKit/widgets/DashboardHeader/components/DashboardHeaderEntryWidget.css")
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if !init! then 
+            methodret
+        endif
+        
+        #window! = #getCanvas()
+        #window!.addPanelStyle("dashboardHeaderEntryWidgetPanelStyle")
+        
+        #contentWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #contentWrapper!.addPanelStyle("dashboardHeaderEntryWidgetWrapperPanelStyle")
+        #contentWrapper!.setDockStyle("margin-left","20px")
+        #contentWrapper!.setDockStyle("align-self","center")
+        
+        #count! = #contentWrapper!.addStaticText(#contentWrapper!.getAvailableControlID(),0,0,0,0,"")
+        #count!.addStyle("dashboardHeaderEntryWidgetCountStyle")
+        
+        #label! = #contentWrapper!.addStaticText(#contentWrapper!.getAvailableControlID(),0,0,0,0,"")
+        #label!.addStyle("dashboardHeaderEntryWidgetLabelStyle")
+    methodend
+    
+    method public void setID(BBjInt value!)
+        #id! = value!
+    methodend
+    
+    method public void setLabel(BBjString value!)
+        #label!.setText(value!)
+    methodend
+    
+    method public void setCount(BBjInt value!)
+        #count!.setText(str(value!))
+    methodend
+    
+    method public BBjInt getCount()
+        methodret num(#count!.getText())
+    methodend
+    
+    method public BBjInt getID()
+        methodret #id!
+    methodend
+classend
