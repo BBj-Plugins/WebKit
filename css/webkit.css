@@ -165,17 +165,6 @@ body
 	padding: 20px;
 }
 
-.mainarea{
-	position:absolute;
-	left:300px;
-}
-.mainarea,
-.mainarea>div,
-.mainarea>div>div {
-	width:calc( 100vw - 121px );
-    height:calc( 100vh - 64px );
-	
-}
 .menuclient {
 	padding:10px;
 	width:calc( 100vw - 121px );
