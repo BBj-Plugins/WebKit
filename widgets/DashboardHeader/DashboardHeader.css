@@ -21,6 +21,10 @@
     gap: 23px;
 }
 
+.dashboardHeaderEntryWrapperMarginRight{
+    margin-right: 40px;
+}
+
 /* these are temp bzw these need to use the webkit/bbj vars later on */
 .dashboardHeaderTextStyle{
     font-family: 'Lato';

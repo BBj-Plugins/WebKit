@@ -31,7 +31,6 @@ class public DashboardHeader extends BBjWidget
     
     field private Boolean showIcon! = 1
     
-    rem default icon image
     field private BBjString iconImage! = "WebKit/widgets/DashboardHeader/settings.png"
     
     field public static BBjNumber ON_ICON_PRESSED = 1
@@ -50,10 +49,10 @@ class public DashboardHeader extends BBjWidget
         if !init! then
             if #showIcon! then 
                 #iconWrapper!.setVisible(1)
-                #entryWrapper!.setPanelStyle("margin-right","0px")
+                #entryWrapper!.removePanelStyle("dashboardHeaderEntryWrapperMarginRight")
             else 
                 #iconWrapper!.setVisible(0)
-                #entryWrapper!.setPanelStyle("margin-right","40px")
+                #entryWrapper!.addPanelStyle("dashboardHeaderEntryWrapperMarginRight")
             endif
             methodret
         endif 
