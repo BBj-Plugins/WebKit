@@ -31,6 +31,10 @@ class public DrawerMenuTile extends BBjWidget
         declare BBjStaticText title!
          #window!.addPanelStyle("drawerMenuTilePanelStyle")
         if init! then 
+            test$=BBjAPI().getFileSystem().resolvePath(#iconPath!,err=*next)
+            if test$="" then
+                #iconPath! =  "WebKit/framework/LoginDialog/assets/clearpixel.png"
+            endif
             icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#iconPath!)
             icon!.addStyle("drawerMenuTileIconStyle")
             icon!.addStyle("menuIconAnimationOpen")
@@ -45,7 +49,7 @@ class public DrawerMenuTile extends BBjWidget
     
     method public void onDrawerMenuTile(BBjMouseDownEvent event!)
         a = msgbox(str(#id!))
-        #fireEvent(#ON_DRAWER_TILE_PRESSED, #id!)
+        #fireEvent(#ON_DRAWER_TILE_PRESSED, #id!) 
     methodend
     
     method public void openAnimation()

@@ -1,12 +1,14 @@
-
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
 DynamicLoader.init()
 DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 DynamicLoader.addLocalCSS("WebKit/demo/ProdinDemo/ProdinDemo.css")
+DynamicLoader.addLocalCSS("WebKit/demo/assets/demo.css")
+DynamicLoader.addLocalCSS("WebKit/css/webkit.css")
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
@@ -38,13 +40,12 @@ rem --------------------------------------------------
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
-use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
 
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
-
-use ::WebKit/widgets/DashboardHeader/DashboardHeader.bbj::DashboardHeader
-use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry
 
 class public ProdinDemo 
 
@@ -55,153 +56,50 @@ class public ProdinDemo
     field private Drawer drawer!
     
     field private BBjChildWindow loginWrapper!
-    
-    
-    rem for testing
-    field private DashboardHeader dashboardHeader!
 
     method public ProdinDemo()
     methodend
     
     method public void show()
-        if #mainWindow! = null() then
-            #sysGui! = BBjAPI().openSysGui("X0")
-        
-            #mainWindow! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750,"Prodin Demo",$01101083$)
-            #mainWindow!.setStyle("width","100vw")
-            #mainWindow!.setStyle("height","100vh")
-            #mainWindow!.setStyle("background-color","#F1F1F1")
-            #mainWindow!.setStyle("display","grid")
-            
-            #loginWrapper! = #mainWindow!.addChildWindow(#mainWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            #loginWrapper!.addPanelStyle("loginWrapperPanelStyle")
-            
+        if #mainWindow! = null() then   
             declare LoginDialog login!
-            login! = new LoginDialog(#loginWrapper!)
-            login!.setCallback(LoginDialog.ON_LOGIN,#this!,"onLogin")
-            login!.setDockStyle("justify-self","center")
-            login!.setDockStyle("align-self","center")
+            login! = new LoginDialog("Prodin Demo", new SampleAuthProvider())
+            login!.setLogo("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+            login!.setAllowRemember(Boolean.TRUE)
+
+            if !login!.doModal() then
+                a=msgbox("ERROR",0,"Error while logging in")
+                release
+            fi
+            #initializeDrawer()
         endif
-        
         process_events
     methodend
-    
-    method private void initializeDrawer()
-        declare BBjVector menuTiles!
-        declare TilesTextHeader header!
-        declare BBjChildWindow dashboardWrapper!
-        declare DashboardHeader dashboardHeader!
 
-        declare DrawerModel drawerDataModel!
-        drawerDataModel! = new DrawerModel()
-        drawerDataModel!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
-        drawerDataModel!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
-        drawerDataModel!.setTilesTextHeader("Browse!")
-        drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
-        drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
+    method public void initializeDrawer()
+        portal! = new PortalFrame()
+        portal!.setUsername("Johnny Lawrance")
+        portal!.setLogoUrl("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+        portal!.setLogoSmallUrl("WebKit/demo/ProdinDemo/assets/prodin_logo_small.png")
+        menu! = #createProdinMenuData()
+        portal!.setMenu(menu!)
+        portal!.doModal()
+    methodend
 
-        drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
-        menuTiles! = new BBjVector()
-        menuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
-        menuTiles!.add(new DrawerMenuTileEntry(2,"Tasks","WebKit/demo/ProdinDemo/assets/tasks.png"))
-        menuTiles!.add(new DrawerMenuTileEntry(3,"Quotations","WebKit/demo/ProdinDemo/assets/proposals.png"))
-        menuTiles!.add(new DrawerMenuTileEntry(4,"Products","WebKit/demo/ProdinDemo/assets/shopping-cart.png"))
-        menuTiles!.add(new DrawerMenuTileEntry(5,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
-        menuTiles!.add(new DrawerMenuTileEntry(6,"Tasks","WebKit/demo/ProdinDemo/assets/tasks.png"))
-        menuTiles!.add(new DrawerMenuTileEntry(7,"Quotations","WebKit/demo/ProdinDemo/assets/proposals.png"))
-        menuTiles!.add(new DrawerMenuTileEntry(8,"Products","WebKit/demo/ProdinDemo/assets/shopping-cart.png"))
-    
-        drawerDataModel!.setMenuTiles(menuTiles!)
-        #drawer! = new Drawer(#mainWindow!, drawerDataModel!)
-        
-        header! = new TilesTextHeader(#drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
-        
-        header!.setDockStyle("grid-row-start","1")
-        header!.setDockStyle("margin-bottom","8px")
-        header!.setDockStyle("margin-top","24px")
-        header!.setDockStyle("margin-left","40px")
-        header!.addTextStyle("drawerTilesTextHeaderStyle")
-        header!.setTextStyle("display","block")
-        
-        dashboardWrapper! = #mainWindow!.addChildWindow(#mainWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        
-        dashboardWrapper!.setPanelStyle("left","300px")
-        dashboardWrapper!.setPanelStyle("top","0px")
-        dashboardWrapper!.setPanelStyle("position","absolute")
-        dashboardWrapper!.setPanelStyle("margin","40px 60px 30px 60px")
-        rem screen - 300px drawer - 2 * 60px margin
-        dashboardWrapper!.setPanelStyle("width","calc(100vw - 300px - 120px)")
-        
-        declare DashboardHeaderEntry entry!
-        declare BBjVector data! 
-        
-        data! = new BBjVector()
-        data!.add(new DashboardHeaderEntry(0,3,"Deals Scored"))
-        data!.add(new DashboardHeaderEntry(1,5,"Upcoming Tasks"))
-        data!.add(new DashboardHeaderEntry(2,5,"Planned meetings"))
-REM         data!.add(new DashboardHeaderEntry(3,0,"Hello Worlds"))
-REM         data!.add(new DashboardHeaderEntry(4,0,"Good Byes"))
-REM         data!.add(new DashboardHeaderEntry(5,0,"lalala dudududi"))
-        
-        #dashboardHeader! = new DashboardHeader(dashboardWrapper!)
-        #dashboardHeader!.setTextValues("Jonathan","Here's what's happening","Welcome back,")
-        #dashboardHeader!.setEntrys(data!)
-        
-        declare BBjButton btn1!
-        btn1! = #mainWindow!.addButton(#mainWindow!.getAvailableControlID(),0,0,0,0,"Update count of deals")
-        btn1!.setStyle("position","absolute")
-        btn1!.setStyle("top","300px")
-        btn1!.setStyle("left","500px")
-        btn1!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onBTNPush")
-        
-        
-        declare BBjButton btn2!
-        btn2! = #mainWindow!.addButton(#mainWindow!.getAvailableControlID(),0,0,0,0,"Hide Icon")
-        btn2!.setStyle("position","absolute")
-        btn2!.setStyle("top","300px")
-        btn2!.setStyle("left","700px")
-        
-        btn2!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onOtherBTNPush")
-        
-        declare BBjButton btn3!
-        btn3! = #mainWindow!.addButton(#mainWindow!.getAvailableControlID(),0,0,0,0,"Update Entrys")
-        btn3!.setStyle("position","absolute")
-        btn3!.setStyle("top","300px")
-        btn3!.setStyle("left","900px")
-        
-        btn3!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onThridBTNPush")
+
+    method public Menu createProdinMenuData()
+        declare Menu m!
+        declare MenuItem i!
+        m! = new Menu()
+        i! = m!.addMenuItem(m!.getRoot(),101,"Customers","list of all customers","WebKit/demo/ProdinDemo/assets/users.png")
+        i! = m!.addMenuItem(m!.getRoot(),102,"Tasks","list of all tasks","WebKit/demo/ProdinDemo/assets/tasks.png")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","WebKit/demo/ProdinDemo/assets/proposals.png")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes", "WebKit/demo/ProdinDemo/assets/shopping-cart.png")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Customers","list of all quotes","WebKit/demo/ProdinDemo/assets/users.png")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Tasks","list of all quotes","WebKit/demo/ProdinDemo/assets/tasks.png")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","WebKit/demo/ProdinDemo/assets/proposals.png")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes","WebKit/demo/ProdinDemo/assets/shopping-cart.png")
+        methodret m!
     methodend
     
-    method public void onBTNPush(BBjButtonPushEvent event!)
-        #dashboardHeader!.updateCount(0,100)
-        a = msgbox(str(#dashboardHeader!.getCount(3)))
-    methodend
-    
-    method public void onOtherBTNPush(BBjButtonPushEvent event!)
-        if #dashboardHeader!.isIconVisible() then 
-            #dashboardHeader!.enableIcon(0)
-        else
-            #dashboardHeader!.enableIcon(1)
-        endif
-    methodend
-    
-    method public void onThridBTNPush(BBjButtonPushEvent event!)
-        declare BBjVector data! 
-        
-        data! = new BBjVector()
-REM         data!.add(new DashboardHeaderEntry(0,3,"Deals Scored"))
-REM         data!.add(new DashboardHeaderEntry(1,5,"Upcoming Tasks"))
-REM         data!.add(new DashboardHeaderEntry(2,5,"Planned meetings"))
-        data!.add(new DashboardHeaderEntry(3,0,"Hello Worlds"))
-        data!.add(new DashboardHeaderEntry(4,0,"Good Byes"))
-        data!.add(new DashboardHeaderEntry(5,0,"lalala dudududi"))
-        data!.add(new DashboardHeaderEntry(6,0,"Test Test"))
-        
-        #dashboardHeader!.setEntrys(data!)
-    methodend
-    
-    method public void onLogin(BBjCustomEvent event!)
-        #loginWrapper!.destroy()
-        #initializeDrawer()
-    methodend
 classend

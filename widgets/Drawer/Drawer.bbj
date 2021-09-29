@@ -39,6 +39,8 @@ class public Drawer extends BBjWidget
     field private ResultSet demoData!
 
     field private DrawerModel drawerDataModel!
+
+    field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
     
     method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
@@ -117,6 +119,7 @@ class public Drawer extends BBjWidget
             for i = 0 to #tiles!.size() -1
                 entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
                 tile! = new DrawerMenuTile(#tilesWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
+                tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
                 templateRows! = templateRows! + " 48px" 
                 if i <> #tiles!.size() -1 then 
                     templateRows! = templateRows! + " 12px"
@@ -227,6 +230,10 @@ class public Drawer extends BBjWidget
         #window!.removeStyle("drawerOpen")
         #open! = !#open!
         #drawerOpenIcon!.redraw(1)
+    methodend
+
+    method public void onMenuItemClick(BBjCustomEvent event!)
+        #fireEvent(#ON_DRAWER_TILE_PRESSED, event!.getObject())
     methodend
     
     method public void openDrawer(BBjCustomEvent event!)

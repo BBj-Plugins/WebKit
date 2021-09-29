@@ -1,4 +1,4 @@
-enter source$
+enter source$,favicon$,err=*next
 appname$ = source$(1,pos("."=source$,1,pos("."=source$,1,0))-1)
 while pos("/"=appname$)>0
     path$=path$+appname$(1,pos("/"=appname$)-1)+"/"
@@ -16,8 +16,15 @@ config$ = BBjAPI().getConfig().getCurrentCommandLineObject().getConfigFile()
 classpath! = BBjAPI().getConfig().getCurrentCommandLineObject().getOriginalClasspathName()
 
 appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
+
 appConfig! = appServer!.makeEmptyAppConfig()
 appConfig!.setProgramName(source$)
+
+if favicon$>"" then
+   favicon$=BBjAPI().getFileSystem().resolvePath(favicon$,err=*endif) 
+   icon! = appServer!.addApplicationIcon(favicon$)
+   appConfig!.setApplicationIcon(icon!)
+fi
 
 appConfig!.setConfigFile(config$)
 if classpath! <> null() then
