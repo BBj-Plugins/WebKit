@@ -128,7 +128,6 @@ class public ProdinDemo
         dashboardWrapper!.setPanelStyle("left","300px")
         dashboardWrapper!.setPanelStyle("top","0px")
         dashboardWrapper!.setPanelStyle("position","absolute")
-        rem dashboardWrapper!.setPanelStyle("height", "174px")
         dashboardWrapper!.setPanelStyle("margin","40px 60px 30px 60px")
         rem screen - 300px drawer - 2 * 60px margin
         dashboardWrapper!.setPanelStyle("width","calc(100vw - 300px - 120px)")
@@ -140,26 +139,65 @@ class public ProdinDemo
         data!.add(new DashboardHeaderEntry(0,3,"Deals Scored"))
         data!.add(new DashboardHeaderEntry(1,5,"Upcoming Tasks"))
         data!.add(new DashboardHeaderEntry(2,5,"Planned meetings"))
-        data!.add(new DashboardHeaderEntry(3,0,"Hello Worlds"))
-        data!.add(new DashboardHeaderEntry(4,0,"Good Byes"))
-        data!.add(new DashboardHeaderEntry(5,0,"lalala dudududi"))
+REM         data!.add(new DashboardHeaderEntry(3,0,"Hello Worlds"))
+REM         data!.add(new DashboardHeaderEntry(4,0,"Good Byes"))
+REM         data!.add(new DashboardHeaderEntry(5,0,"lalala dudududi"))
         
         #dashboardHeader! = new DashboardHeader(dashboardWrapper!)
         #dashboardHeader!.setTextValues("Jonathan","Here's what's happening","Welcome back,")
         #dashboardHeader!.setEntrys(data!)
         
-        declare BBjButton btn!
-        btn! = #mainWindow!.addButton(#mainWindow!.getAvailableControlID(),0,0,0,0,"Update count of deals")
-        btn!.setStyle("position","absolute")
-        btn!.setStyle("top","300px")
-        btn!.setStyle("left","500px")
-        btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onBTNPush")
+        declare BBjButton btn1!
+        btn1! = #mainWindow!.addButton(#mainWindow!.getAvailableControlID(),0,0,0,0,"Update count of deals")
+        btn1!.setStyle("position","absolute")
+        btn1!.setStyle("top","300px")
+        btn1!.setStyle("left","500px")
+        btn1!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onBTNPush")
+        
+        
+        declare BBjButton btn2!
+        btn2! = #mainWindow!.addButton(#mainWindow!.getAvailableControlID(),0,0,0,0,"Hide Icon")
+        btn2!.setStyle("position","absolute")
+        btn2!.setStyle("top","300px")
+        btn2!.setStyle("left","700px")
+        
+        btn2!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onOtherBTNPush")
+        
+        declare BBjButton btn3!
+        btn3! = #mainWindow!.addButton(#mainWindow!.getAvailableControlID(),0,0,0,0,"Update Entrys")
+        btn3!.setStyle("position","absolute")
+        btn3!.setStyle("top","300px")
+        btn3!.setStyle("left","900px")
+        
+        btn3!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onThridBTNPush")
     methodend
     
     method public void onBTNPush(BBjButtonPushEvent event!)
-        
         #dashboardHeader!.updateCount(0,100)
+        a = msgbox(str(#dashboardHeader!.getCount(3)))
+    methodend
+    
+    method public void onOtherBTNPush(BBjButtonPushEvent event!)
+        if #dashboardHeader!.isIconVisible() then 
+            #dashboardHeader!.enableIcon(0)
+        else
+            #dashboardHeader!.enableIcon(1)
+        endif
+    methodend
+    
+    method public void onThridBTNPush(BBjButtonPushEvent event!)
+        declare BBjVector data! 
         
+        data! = new BBjVector()
+REM         data!.add(new DashboardHeaderEntry(0,3,"Deals Scored"))
+REM         data!.add(new DashboardHeaderEntry(1,5,"Upcoming Tasks"))
+REM         data!.add(new DashboardHeaderEntry(2,5,"Planned meetings"))
+        data!.add(new DashboardHeaderEntry(3,0,"Hello Worlds"))
+        data!.add(new DashboardHeaderEntry(4,0,"Good Byes"))
+        data!.add(new DashboardHeaderEntry(5,0,"lalala dudududi"))
+        data!.add(new DashboardHeaderEntry(6,0,"Test Test"))
+        
+        #dashboardHeader!.setEntrys(data!)
     methodend
     
     method public void onLogin(BBjCustomEvent event!)

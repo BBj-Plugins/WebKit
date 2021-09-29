@@ -3,30 +3,24 @@
     width: 100%;
     background-color: white;
     border-radius: 8px;
-    /* display: grid;
-    grid-template-rows: 100%;
-    grid-template-columns: 20% 80%; */
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
+    overflow-x: auto !important;
 }
 
 .dashboardTextHeaderPanelStyle {
-    display: grid;
-    margin:34px 0px 41px 36px;
-    grid-template-rows: min-content auto min-content;
-}
-
-.dashboardHeaderEntryWrapperPanelStyle{
-    /* display: grid;
-    grid-template-rows: 100%;
-    column-gap: 23px; */
-
     display: flex;
-    justify-content: center;
-    gap: 23px;
-    flex-wrap: wrap;
+    flex: none;
+    flex-direction: column;
+    margin:34px 36px 41px 36px;
 }
+
+.dashboardHeaderEntryWrapperPanelStyle {
+    display: flex;
+    justify-content: flex-end;
+    gap: 23px;
+}
+
 /* these are temp bzw these need to use the webkit/bbj vars later on */
 .dashboardHeaderTextStyle{
     font-family: 'Lato';
@@ -35,7 +29,6 @@
     font-size: 16px;
     line-height: 19px;
     color: #333E40;
-    grid-row-start: 1;
     height: fit-content;
 }
 .dashboardSubtitleStyle{
@@ -45,7 +38,6 @@
     font-size: 13px;
     line-height: 16px;
     color: #A1A5A7;
-    grid-row-start: 3;
     height: fit-content;
 }
 
@@ -56,7 +48,5 @@
     font-size: 48px;
     line-height: 58px;
     color: #333E40;
-    grid-row-start: 2;
     height: fit-content;
-    align-self: center;
 }

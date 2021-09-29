@@ -7,7 +7,6 @@ REM  */
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
-
 class public DashboardHeaderEntryWidget extends BBjWidget
     
     field private BBjChildWindow window!
@@ -60,6 +59,10 @@ class public DashboardHeaderEntryWidget extends BBjWidget
     
     method public void setCount(BBjInt value!)
         #count!.setText(str(value!))
+    methodend
+    
+    method public BBjInt getCount()
+        methodret num(#count!.getText())
     methodend
     
     method public BBjInt getID()
