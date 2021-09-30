@@ -10,14 +10,14 @@ class public DrawerOpenIcon extends BBjWidget
     
     method public DrawerOpenIcon(BBjChildWindow wnd!,BBjInt id!, BBjString openIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerOpenIcon/DrawerOpenIcon.css")
-        #super!.create(wnd!,id!)
         #openIcon! = openIcon!
+        #super!.create(wnd!,id!)
     methodend
     
     method public DrawerOpenIcon(BBjChildWindow wnd!, BBjString openIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerOpenIcon/DrawerOpenIcon.css")
-        #super!.create(wnd!,wnd!.getAvailableControlID())
         #openIcon! = openIcon!
+        #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
     
     method public void redraw(Boolean init!)
