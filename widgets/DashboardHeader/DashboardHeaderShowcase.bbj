@@ -4,7 +4,6 @@ REM  * @author TimonGeisbauer
 REM  *
 REM  */
 
-
 use ::WebKit/widgets/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
 use ::WebKit/widgets/DashboardHeader/DashboardHeader.bbj::DashboardHeader
 use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry

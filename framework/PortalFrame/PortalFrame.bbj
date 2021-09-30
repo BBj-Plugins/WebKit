@@ -1,3 +1,4 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
@@ -37,6 +38,10 @@ class public PortalFrame
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
 
+    method public PortalFrame()
+        DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
+    methodend
+
     method private void initializeDrawer(Menu menu!)
         declare BBjVector menuTiles!
         declare TilesTextHeader header!
@@ -69,6 +74,7 @@ class public PortalFrame
         drawerDataModel!.setMenuTiles(menuTiles!)
         #Drawer! = new Drawer(#window!, drawerDataModel!)
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
+        #Drawer!.setCallback(Drawer.ON_DRAWER_STATE_CHANGED, #this!, "onDrawerToggle")
         
         header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
         
@@ -93,6 +99,7 @@ class public PortalFrame
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             main!.addStyle("mainarea")
             #Main! = cast(BBjChildWindow,main!)
+            #Main!.addPanelStyle("shrinked")
              
             #initializeDrawer(#Menu!)
             REM #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
@@ -217,6 +224,17 @@ class public PortalFrame
             #win_list!.remove(nodeId)
         fi
          
+    methodend
+
+    method public void onDrawerToggle(BBjCustomEvent ev!)
+       state = num(str(ev!.getObject()))
+       if state = 1
+          #Main!.addPanelStyle("shrinked")
+          #Main!.removePanelStyle("expanded")
+       else
+          #Main!.addPanelStyle("expanded")
+          #Main!.removePanelStyle("shrinked")
+       fi
     methodend
 
     method public void onToggleMenu(BBjEvent ev!)
