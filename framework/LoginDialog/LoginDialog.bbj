@@ -9,11 +9,8 @@ use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 use ::AuthKit/totp/TOTP.bbj::TOTP
 use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
+use ::WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
 
-use ::D:/basis/bbj/plugins/WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
-
-
-use ::D:\GIT\IH\Prodin\bbj\ForgotPassword.bbj::ForgotPassword
 
 class public LoginDialog
 

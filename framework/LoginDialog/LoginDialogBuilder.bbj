@@ -1,6 +1,5 @@
-
-use ::D:/basis/bbj/plugins/WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
-use ::D:/basis/bbj/plugins/WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
 
 class public LoginDialogBuilder 
 
