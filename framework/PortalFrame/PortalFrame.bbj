@@ -99,7 +99,7 @@ class public PortalFrame
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             main!.addStyle("mainarea")
             #Main! = cast(BBjChildWindow,main!)
-            #Main!.addPanelStyle("shrinked")
+            #Main!.addStyle("shrinked")
              
             #initializeDrawer(#Menu!)
             REM #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
@@ -229,11 +229,11 @@ class public PortalFrame
     method public void onDrawerToggle(BBjCustomEvent ev!)
        state = num(str(ev!.getObject()))
        if state = 1
-          #Main!.addPanelStyle("shrinked")
-          #Main!.removePanelStyle("expanded")
+          #Main!.addStyle("shrinked")
+          #Main!.removeStyle("expanded")
        else
-          #Main!.addPanelStyle("expanded")
-          #Main!.removePanelStyle("shrinked")
+          #Main!.addStyle("expanded")
+          #Main!.removeStyle("shrinked")
        fi
     methodend
 
