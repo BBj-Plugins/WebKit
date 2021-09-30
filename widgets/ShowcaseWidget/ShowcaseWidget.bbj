@@ -1,0 +1,59 @@
+REM /**
+REM  * ShowcaseWidget.bbj
+REM  * @author TimonGeisbauer
+REM  *
+REM  */
+
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+class public ShowcaseWidget extends BBjWidget
+
+    field private BBjChildWindow window!
+    
+    field private BBjStaticText title!
+    
+    field private BBjStaticText introductionMessage!
+    
+    field private BBjChildWindow contentWindow!
+    
+    method public ShowcaseWidget(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public ShowcaseWidget(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if init! then 
+            #window! = #getCanvas()
+            #title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"i am the title")
+            #introductionMessage! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0," some sort of message")
+            #contentWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #init(init!)
+            methodret
+        endif
+        #init(init!)
+    methodend
+    
+    method public void init(Boolean init!)
+    methodend
+    
+    method public BBjChildWindow create(BBjString title!,BBjString message!)
+        #setTitle(title!)
+        #setIntroductionMessage(message!)
+        methodret #contentWindow!
+    methodend
+    
+    method public void setTitle(BBjString title!)
+        if title! <> null() then 
+            #title!.setText(title!)
+        endif    
+    methodend
+    
+    method public void setIntroductionMessage(BBjString message!)
+        if message! <> null() then 
+            #introductionMessage!.setText(message!)
+        endif
+    methodend
+classend
