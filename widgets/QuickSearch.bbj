@@ -1,4 +1,4 @@
-use ::WebKit/widgets/BBjWebWidget.bbj::BBjWebWidget
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
@@ -7,7 +7,7 @@ use java.util.regex.Matcher
 use java.util.regex.Pattern
 use java.util.Arrays
 
-class public QuickSearch extends BBjWebWidget
+class public QuickSearch extends BBjWidget
 
     field private BBjInputE inputE!
     
