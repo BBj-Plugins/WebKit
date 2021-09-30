@@ -41,6 +41,8 @@ class public Drawer extends BBjWidget
     field private DrawerModel drawerDataModel!
 
     field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
+
+    field public static BBjNumber ON_DRAWER_STATE_CHANGED = 1444
     
     method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
@@ -223,13 +225,15 @@ class public Drawer extends BBjWidget
     method public void onShadowTapped(BBjMouseDownEvent event!)
         #shadowWindow!.removeStyle("drawerShadow")
         #closeDrawer(null())
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
     methodend   
     
     method public void closeDrawer(BBjCustomEvent event!)
         #window!.addStyle("drawerClosed")
         #window!.removeStyle("drawerOpen")
+        #shadowWindow!.removeStyle("drawerShadow")
         #open! = !#open!
-        #drawerOpenIcon!.redraw(1)
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent event!)
@@ -240,6 +244,7 @@ class public Drawer extends BBjWidget
         #window!.addStyle("drawerOpen")
         #window!.removeStyle("drawerClosed")
         #open! = !#open!
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
     methodend
     
     method public Boolean isOpen()

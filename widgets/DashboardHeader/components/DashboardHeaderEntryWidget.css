@@ -1,0 +1,39 @@
+.dashboardHeaderEntryWidgetPanelStyle{
+    border: solid;
+    border-width: 1px;
+    border-color: #E1EAEA;
+    background-color: white;
+    border-radius: 3px;
+    width: 192px;
+    height: 95px;
+    display: grid;
+}
+
+.dashboardHeaderEntryWidgetWrapperPanelStyle{
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: min-content auto;
+    column-gap: 10px;
+}
+
+.dashboardHeaderEntryWidgetCountStyle{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 58px;
+    color: #333E40;
+    width: min-content;
+}
+
+.dashboardHeaderEntryWidgetLabelStyle{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: #333E40;
+    height: fit-content;
+    align-self: center;
+    width: min-content;
+}
