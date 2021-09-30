@@ -10,12 +10,22 @@ use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 use ::AuthKit/totp/TOTP.bbj::TOTP
 use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
 
+use ::D:/basis/bbj/plugins/WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
+
+
+use ::D:\GIT\IH\Prodin\bbj\ForgotPassword.bbj::ForgotPassword
+
 class public LoginDialog
 
     field public static BBjNumber ON_LOGIN = 800001
     field private IAuthProvider authProvider!
     field private BBjTopLevelWindow window!
+    
     field private BBjChildWindow loginWrapper!
+    field private LoginDialogBuilder loginContent!
+    
+    field private BBjChildWindow forgotWrapper!
+    field private LoginDialogBuilder forgotContent!
     
     field private BBjSysGui sysGui!
     field public BBjString User$ = ""
@@ -29,17 +39,10 @@ class public LoginDialog
     field private AccountProfile Profile!
     field private BBjString logoURL$
     
-
     method public LoginDialog()
     methodend
-
-
-    method public LoginDialog(IAuthProvider authProvider!)
-        #this!("",authProvider!)
-    methodend
-        
-    method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
       
+    method public LoginDialog(BBjString title$, IAuthProvider authProvider!)  
         #authProvider! = authProvider!
         bbjutils! = new ::BBUtils.bbj::BBUtils()
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
@@ -47,14 +50,41 @@ class public LoginDialog
         #sysGui! = BBjAPI().openSysGui("X0")
         #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750, title$, $01101083$)
         #window!.addPanelStyle("loginWrapperPanelStyle")
-
-        #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
-
     methodend
 
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
+    methodend
+    
+    method public void buildLoginContent()
+        #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
+        
+        #loginContent! = new LoginDialogBuilder(#this!,#loginWrapper!)
+        #loginContent!.addLogo(#logoURL$)
+        #loginContent!.addUsernameInput("Username", "name@company.com")
+        #loginContent!.addPasswordInput("Password", "name@company.com")
+        #loginContent!.addRememberMeBox()
+        #loginContent!.addFeedback("Invalid username and password combination.")
+        #loginContent!.addSubmitButton("Login", "login")
+        #loginContent!.addRedirect("Forgot Password", "forgotPassword")      
+    methodend
+    
+    method public void buildForgotContent()
+        #forgotWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #forgotWrapper!.addPanelStyle("loginWidgetPanelStyle")
+                
+        #forgotContent! = new LoginDialogBuilder(#this!,#forgotWrapper!)
+        #forgotContent!.addLogo(#logoURL$)
+        #forgotContent!.addPageTitle("Request New Password")
+        #forgotContent!.addUsernameInput("Email Address", "name@company.com")
+        #forgotContent!.addSubmitButton("Send Request", "login")
+        #forgotContent!.addRedirect("Return to Login", "returnLogin")  
+    methodend
+
+    method public void buildNewPasswordContent()
+            
+        
     methodend
 
     method public Boolean doModal()
@@ -69,72 +99,13 @@ class public LoginDialog
             fi
         fi  
         
-        declare BBjImageCtrl logo!
-        declare BBjButton loginBtn!
-        declare BBjCheckBox rememberMe!
-        declare BBjChildWindow linkWrapper!
-        declare BBjStaticText forgotPw!
-        declare BBjChildWindow content!
-
-        content! = #loginWrapper!.addChildWindow(#loginWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        content!.setDockStyle("height","calc(531px - 112px)")
-        content!.setDockStyle("padding","56px 44px")
-        content!.addPanelStyle("loginWidgetContentPanelStyle")
-        
-        if #logoURL$ = "" then
-            #logoURL$ = "WebKit/framework/LoginDialog/assets/clearpixel.png"
-        endif
-        logo! = content!.addImageCtrl(content!.getAvailableControlID(),0,0,0,0, #logoURL$)
-        logo!.setStyle("height","fit-content")
-        logo!.setStyle("width","fit-content")
-        
-        #username! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/user.png")
-        #username!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onUserIconPressed")
-        #username!.setLabel("Username")
-        #username!.setPlaceHolder("name@company.com")
-        #username!.setDockStyle("margin-top","50px")
-        
-        #password! = new InputField(content!,content!.getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1)
-        #password!.setCallback(InputField.ON_SUFFIX_PRESSED,#this!,"onShowPasswordIconPressed")
-        #password!.setLabel("Password")
-        #password!.setPlaceHolder("Your Password")
-        #password!.setDockStyle("margin-top","28px")
-        
-        rememberMe! = content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,"Keep me signed in")
-        rememberMe!.setStyle("margin-top","32px")
-        rememberMe!.addStyle("loginWidgetCheckBoxStyle")
-        rememberMe!.addStyle("loginWidgetCheckBoxLabel")
-        rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
-        rememberMe!.addStyle("loginWidgetCheckBoxControl")
-        REM TODO use theming or ask sebatian how he did this in the p360
-        REM         rememberMe!.addStyle("loginWidgetCheckBoxIcon")
-        
-        st! = content!.addStaticText(99,0,0,0,0,"<html>Check your input</html>",$0010$)
-        st!.setStyle("color","red")
-        st!.setStyle("margin-top", "5px")
-
-        loginBtn! = content!.addButton(1,0,0,0,0,"Login")
-        loginBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
-        loginBtn!.setStyle("margin-top","40px")
-        loginBtn!.addStyle("loginWidgetBtnStyle")
-        loginBtn!.addStyle("loginWidgetBtnLabel")
-        loginBtn!.addStyle("loginWidgetBtnControl")
-        
-        linkWrapper! = content!.addChildWindow(content!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"forgotPassword")
-        linkWrapper!.setDockStyle("margin-top","16px")
-        linkWrapper!.setDockStyle("justify-self","center")
-        linkWrapper!.setDockStyle("height","fit-content")
-        linkWrapper!.setDockStyle("width","fit-content")
-        
-        forgotPW! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"Forgot your password?")
-        forgotPW!.addStyle("loginWidgetForgotPWStlye")
+        #buildLoginContent()
 
         process_events
 
         login:
-            user$=#username!.getText(0)
-            pass$=#password!.getText(1)
+            user$=#loginContent!.getUsername().getText(0)
+            pass$=#loginContent!.getPassword().getText(1)
                 
                 if #authProvider!.checkLogin(user$,pass$) then
                     #User$ = user$
@@ -143,52 +114,48 @@ class public LoginDialog
                         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
                     fi
                     
-                    #loginWrapper!.destroy()
+REM                     #loginWrapper!.destroy()
                     methodret Boolean.TRUE
                 else
-                content!.getControl(99).setVisible(1)
+                #loginContent!.getContent().getControl(99).setVisible(1)
                 fi
                 return
            
            onGoogleLogin:
-           onMicrosoftLogin:
-                ev! = BBjAPI().getLastEvent()
-                profile! = ev!.getObject()
-                if #authProvider!.checkLoginWithAccountProfile(profile!) then
-                    #User$ = str(profile!.getFullName())
-                    #Profile! = CAST(AccountProfile,profile!)
-                    #window!.destroy()
-                    methodret Boolean.TRUE
-                fi
-                return
+REM            onMicrosoftLogin:
+REM                 ev! = BBjAPI().getLastEvent()
+REM                 profile! = ev!.getObject()
+REM                 if #authProvider!.checkLoginWithAccountProfile(profile!) then
+REM                     #User$ = str(profile!.getFullName())
+REM                     #Profile! = CAST(AccountProfile,profile!)
+REM                     #window!.destroy()
+REM                     methodret Boolean.TRUE
+REM                 fi
+REM                 return
 
+  
+    methodend
+    
+    method public BBjChildWindow getLoginWrapper()
+        methodret #loginWrapper!
     methodend
 
-    method public void onUserIconPressed(BBjCustomEvent event!)
-        a = msgbox("UserIcon Pressed")
+
+REM  |||||||||||||| 
+REM    REDIRECTS  
+REM  |||||||||||||| 
+    method public void forgotPassword(BBjMouseDownEvent event!)   
+        #loginWrapper!.setStyle("display", "none")
+ 
+        #buildForgotContent()
     methodend
-
-    method public void onShowPasswordIconPressed(BBjCustomEvent event!)
-
-        if #password!.isPasswordVisible() then 
-            #password!.setPasswordVisible(0)
-            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
-        else
-            #password!.setPasswordVisible(1)
-            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
-        endif    
+    
+    
+    method public void returnLogin(BBjMouseDownEvent event!)
+        #forgotWrapper!.setStyle("display", "none")
+        #loginWrapper!.setStyle("display", "block")
     methodend
-
-    method public void onLoginBtnPressed(BBjButtonPushEvent event!)
-        user$=#username!.getText(0)
-        pass$=#password!.getText(1)
-
-        #fireEvent(#ON_LOGIN,"")
-    methodend
-
-    method public void forgotPassword(BBjMouseDownEvent event!)
-        a = msgbox("Forgot Password")
-    methodend
+    
 
     method public AccountProfile getProfile()
         methodret #Profile!
