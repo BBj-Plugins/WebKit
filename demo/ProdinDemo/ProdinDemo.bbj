@@ -7,7 +7,7 @@ if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
 DynamicLoader.init()
 DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
-DynamicLoader.addLocalCSS("WebKit/demo/ProdinDemo/ProdinDemo.css")
+DynamicLoader.overrideBBjDefaultCSS("WebKit/demo/ProdinDemo/ProdinDemo.css")
 DynamicLoader.addLocalCSS("WebKit/demo/assets/demo.css")
 DynamicLoader.addLocalCSS("WebKit/css/webkit.css")
 

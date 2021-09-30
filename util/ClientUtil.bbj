@@ -76,7 +76,33 @@ class public ClientUtil
       script$ = "var styl  = $doc.createElement('style');"
       script$ = script$ + "styl.textContent = """+style!+""";"
       script$ = script$ + "$doc.head.appendChild(styl);"
+      
       ret! = #InjHtml!.executeScript(script$)  
+    methodend
+
+    method public static void overrideBBjDefaultCSS(BBjString cssfile$)
+      if pos(cssfile$+$0a$=#alreadyLoaded$)>0 then 
+      methodret
+      fi
+      #alreadyLoaded$=#alreadyLoaded$+cssfile$+$0a$
+
+      if #getInjHtml() = null() then
+      ClientUtil.init()
+      fi
+
+      ch=unt
+      open (ch)cssfile$
+      read record (ch,siz=128000)style$
+      close (ch)
+
+      style! = style$
+      style! = style!.replaceAll("\r","")
+      style! = style!.replaceAll("\n","")
+
+      script$ = "var styl  = $doc.createElement('style');"
+      script$ = script$ + "styl.textContent = """+style!+""";"
+      script$ = script$ + "$doc.body.appendChild(styl);"
+      ret! = #InjHtml!.executeScript(script$)
     methodend
 
     method public static void addLocalJavascript(BBjString jsfile$)
