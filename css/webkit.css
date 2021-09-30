@@ -13,7 +13,7 @@ body
 .card {
 	  width  : 350px;
 	  height : 400px;
-	  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	  box-shadow: 0 3px 6px var(--webkit-box-shadow-blur), 0 3px 6px var(--webkit-box-shadow-color);
 	  margin-right: 20px;
 	  margin-bottom: 20px;
 	  display: flex;
@@ -89,7 +89,7 @@ body
 
 .errormsg {
 	font-size:12px;
-	color:var(--bbj-color-warning-80,red);
+	color:var(--bbj-color-warning-120,red);
 	
 }
 
@@ -158,8 +158,6 @@ body
 }
 
 .logincontainer {
-	width:310px;
-	height:280px;
 	background-color:white;
 	position: fixed;
 	left:calc( 50vw - 180px );
@@ -167,17 +165,6 @@ body
 	padding: 20px;
 }
 
-.mainarea{
-	position:absolute;
-	left:120px;
-}
-.mainarea,
-.mainarea>div,
-.mainarea>div>div {
-	width:calc( 100vw - 121px );
-    height:calc( 100vh - 64px );
-	
-}
 .menuclient {
 	padding:10px;
 	width:calc( 100vw - 121px );
@@ -200,7 +187,7 @@ body
     top:7px;
     left: 7px;
     color:white;
-    background:rgba(0,0,0,0.0);	
+    background: var(--webkit-black);	
 }
 
 
@@ -341,8 +328,7 @@ iframe{
         bottom: 60px;
 	}
 	
-.tileslist{
-
+.tileslist {
         width: calc( 100vw - 10px );
         height: calc( 100vh - 320px );
 }

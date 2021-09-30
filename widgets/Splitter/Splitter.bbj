@@ -1,0 +1,119 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+rem BBjGridExWidget Package
+
+class public Splitter extends BBjWidget
+
+    field private Boolean vertical! = Boolean.FALSE 
+    field private BBjChildWindow first!
+    field private BBjChildWindow gutter!
+    field private BBjChildWindow second!  
+
+    method public Splitter(BBjWindow wnd!, Boolean vertical!)
+        #vertical! = vertical!
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+
+    method public Splitter(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        card! = #getCanvas()
+        
+        if f_init!>0 then
+        
+            sysgui!=BBjAPI().getSysGui()
+            ClientUtil.init()
+            ClientUtil.addLocalJavascript("WebKit/lib/js/split-grid.js")
+            declare BBjChildWindow wnd!
+            wnd! = #getCanvas()
+            wnd!.setPanelStyle("display","grid")
+            
+            #first! = wnd!.addChildWindow(wnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,sysgui!.getAvailableContext())
+            #gutter! = wnd!.addChildWindow(wnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,sysgui!.getAvailableContext())
+            #second! = wnd!.addChildWindow(wnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,sysgui!.getAvailableContext())
+
+
+            gutterclass$ = "gutter-"+java.util.UUID.randomUUID().toString()
+            #gutter!.addStyle(gutterclass$)
+            #gutter!.addStyle("draggutter")
+            
+            if #vertical! then
+                #gutter!.addStyle("dragvertical")
+            fi  
+            if #vertical! then
+                wnd!.setPanelStyle("grid-template-columns","1fr 4px 1fr")
+                ClientUtil.executeJavascript("Split({ columnGutters: [{track: 1,element: document.querySelector('."+gutterclass$+"')}]});")
+            else
+                wnd!.setPanelStyle("grid-template-rows","1fr 4px 1fr")
+                ClientUtil.executeJavascript("Split({ rowGutters: [{track: 1,element: document.querySelector('."+gutterclass$+"')}]});")
+            fi
+        FI
+        
+    methodend
+    
+    method public BBjChildWindow getFirst()
+        methodret #first!
+    methodend
+
+    method public BBjChildWindow getTop()
+        methodret #first!
+    methodend
+
+    method public BBjChildWindow getLeft()
+        methodret #first!
+    methodend
+
+    method public BBjChildWindow getSecond()
+        methodret #second!
+    methodend
+
+    method public BBjChildWindow getBottom()
+        methodret #second!
+    methodend
+
+    method public BBjChildWindow getRight()
+        methodret #second!
+    methodend
+    
+    method public BBjChildWindow getGutter()
+        methodret #gutter!
+    methodend
+classend
+
+
+
+
+
+if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
+ClientUtil.init()
+ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+
+sysgui! = BBjAPI().openSysGui("X0")
+
+
+window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Login",$01101083$)
+split! = new Splitter(window!)
+split!.setPanelStyle("height","200px")
+split!.getTop().addStaticText(100,0,0,0,0,"Top")
+split!.getBottom().addStaticText(100,0,0,0,0,"Bottom")
+
+split! = new Splitter(window!,Boolean.TRUE)
+split!.setPanelStyle("height","200px")
+split!.getLeft().addStaticText(100,0,0,0,0,"Left")
+split!.getRight().addStaticText(100,0,0,0,0,"Right")
+
+
+
+process_events
+
+

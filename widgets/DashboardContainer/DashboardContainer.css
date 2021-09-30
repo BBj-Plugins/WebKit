@@ -1,0 +1,151 @@
+@keyframes dashboardWidgetLayoutSmall {
+    from {
+        grid-template-columns: 24px auto;
+        margin-left: 43px;
+    }
+    to {
+        grid-template-columns: auto;
+        grid-template-rows: 24px auto;
+        margin-left: 0px;
+    }
+}
+
+@keyframes dashboardWidgetLayoutLarge {
+    from {
+        grid-template-columns: auto;
+        grid-template-rows: 24px auto;
+        margin-left: 0px;
+    }
+    to {
+        grid-template-columns: 24px auto;
+        margin-left: 43px;
+    }
+}
+
+@keyframes dashboardWidgetIconSmall {
+    from {
+        justify-self: end;
+        align-self: center;
+    }
+
+    to {
+        justify-self: center;
+        align-self: center;
+    }
+}
+
+@keyframes dashboardWidgetIconLarge {
+    from {
+        justify-self: end;
+        align-self: center;
+    }
+    to {
+        justify-self: center;
+        align-self: center;
+    }
+}
+
+@keyframes dashboardWidgetTextSmall {
+    from {
+        grid-row-start: 1;
+        grid-column-start: 2;
+        margin-left: 19px;
+        font-size: 14px;
+        line-height: 17px;
+        opacity: 1;
+    }
+    to {
+        grid-row-start: 2;
+        grid-column-start: 1;
+        margin-left: 0px;
+        justify-self: center;
+        font-size: 10px;
+        line-height: 12px;
+        opacity: 0.5;
+
+    }
+}
+@keyframes dashboardWidgetTextLarge {
+    from {
+        grid-row-start: 2;
+        grid-column-start: 1;
+        margin-left: 0px;
+        justify-self: center;
+        font-size: 10px;
+        line-height: 12px;
+        opacity: 0.5;
+    }
+    to {
+        grid-row-start: 1;
+        grid-column-start: 2;
+        margin-left: 19px;
+        font-size: 14px;
+        line-height: 17px;
+        opacity: 1;
+    }
+}
+
+.dashboardWidgetPanelStyle{
+    height: 48px;
+    margin: 5px 0px;
+    display: grid;
+    grid-template-columns: 24px auto;
+    margin-left: 43px;
+}
+
+.dashboardIconStyle {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    align-self: center;
+    height: 24px;
+    height: 24px;
+}
+
+.dashboardTextStyle {
+    grid-row-start: 1;
+    grid-column-start: 2;
+    align-self: center;
+    margin-left: 19px;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.drawerOpen .dashboardWndAnimationOpen {
+    animation-name: dashboardWidgetLayoutLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .dashboardWndAnimationClose {
+    animation-name: dashboardWidgetLayoutSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerOpen .dashboardIconAnimationOpen {
+    animation-name: dashboardWidgetIconLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .dashboardIconAnimationClose {
+    animation-name: dashboardWidgetIconSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerOpen .dashboardTextAnimationOpen {
+    animation-name: dashboardWidgetTextLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+.drawerClosed .dashboardTextAnimationClose {
+    animation-name: dashboardWidgetTextSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}

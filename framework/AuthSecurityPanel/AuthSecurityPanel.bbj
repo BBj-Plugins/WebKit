@@ -1,0 +1,173 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::AuthKit/totp/TOTP.bbj::TOTP
+use ::QRCodes/QRCodes.bbj::QRCodes
+
+
+class public AuthSecurityPanel extends BBjWidget
+
+    field public BBjString TOTPAppAccount! = "myAccount"
+    field public BBjString TOTPAppIssuer! = "BBj Demo"
+    
+    field private BBjInputE     TOTPTestCode!
+    field private BBjImageCtrl  TOTPQRCode!
+    field private BBjString     TOTPSecret!
+    field private BBjChildWindow TOTPPanel!
+    field private BBjButton     TOTPActivateButton!
+
+    field private BBjChildWindow SMSPanel!
+    field private BBjInputE      SMSCellNumber!
+    field private BBjInputE      SMSTestCode!
+    field private BBjButton     SMSSendButton!
+    field private BBjButton     SMSActivateButton!
+    
+
+    method public AuthSecurityPanel(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public AuthSecurityPanel(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+    
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        declare BBjChildWindow canvas!
+        
+        
+        if f_init!>0 then
+        
+            canvas! = #getCanvas()
+            canvas!.setPanelStyle("padding","20px")
+            canvas!.setDockStyle("overflow","auto")
+                
+            IconCtrl! = canvas!.addStaticText(canvas!.getAvailableControlID(),0,0,200,22,"security")
+            IconCtrl!.addStyle("material-icons")
+            IconCtrl!.setStyle("font-size","50px")      
+            IconCtrl!.setStyle("padding-right","50px")
+            Headline! = canvas!.addStaticText(canvas!.getAvailableControlID(),0,0,0,0,"Security Settings")
+            Headline!.addStyle("tilesheadline")       
+            
+            options_panel! = canvas!.addChildWindow(canvas!.getAvailableControlID(),0,0,200,80,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            options_panel!.setDockStyle("margin-top","10px")
+            options_panel!.setPanelStyle("display","grid")
+            options_panel!.setPanelStyle("gap","10px")
+            
+            cb_totp! = options_panel!.addCheckBox(options_panel!.getAvailableControlID(),0,0,0,0,"Add MFA Authenticor App")
+            cb_totp!.setCallback(BBjAPI.ON_CHECK_ON,#this!,"showTOTPPanel")
+            cb_totp!.setCallback(BBjAPI.ON_CHECK_OFF,#this!,"hideTOTPPanel")
+
+           
+            #TOTPPanel! =  CAST(BBjChildWindow,options_panel!.addChildWindow(options_panel!.getAvailableControlID(),0,0,200,80,"",$00100810$,BBjAPI().getSysGui().getAvailableContext()))
+            #TOTPPanel!.setDockStyle("margin-top","10px")
+            #TOTPPanel!.setPanelStyle("display","grid")
+            #TOTPPanel!.setPanelStyle("gap","10px")
+            #TOTPPanel!.setPanelStyle("border","1px dotted")
+            #TOTPPanel!.setPanelStyle("padding","10px")
+            
+            #TOTPPanel!.addStaticText(#TOTPPanel!.getAvailableControlID(),0,0,0,0,"Scan the QR code with your authenticator app. Then enter the code it displays to activate MFA using your App.")
+            
+            #TOTPSecret! = TOTP.generateSecretKey()
+            url$=TOTP.getAuthenticatorBarCode(#TOTPSecret!,#TOTPAppAccount!,#TOTPAppIssuer!)
+            bytes! = QRCodes.getQRCode(url$,400,400)
+            
+            qrimg! = BBjAPI().getSysGui().getImageManager().loadImageFromBytes(bytes!)
+            #TOTPQRCode! = CAST(BBjImageCtrl,#TOTPPanel!.addImageCtrl(#TOTPPanel!.getAvailableControlID(),390,30,200,200,qrimg!))
+
+            st!=#TOTPPanel!.addStaticText(#TOTPPanel!.getAvailableControlID(),0,0,0,0,"After Scanning, enter the code shown in the app:")
+            
+            sub! = #TOTPPanel!.addChildWindow(#TOTPPanel!.getAvailableControlID(),0,0,200,80,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            sub!.setPanelStyle("display","flex")
+            sub!.setPanelStyle("align-items","center")
+
+            #TOTPTestCode! = CAST(BBjInputE,sub!.addInputE(sub!.getAvailableControlID(),0,0,0,0,"","000000"))
+            #TOTPTestCode!.setStyle("margin","10px")
+            
+            #TOTPActivateButton! = CAST(BBjButton,sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Test and Activate"))
+            #TOTPActivateButton!.setAttribute("theme","default")
+            #TOTPActivateButton!.setAttribute("expanse","l")
+            #TOTPActivateButton!.setStyle("margin","10px")
+            #TOTPActivateButton!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"TestAndActivateTOTP")
+         
+            cb_sms! = options_panel!.addCheckBox(options_panel!.getAvailableControlID(),0,0,0,0,"Add SMS Verification")
+            cb_sms!.setCallback(BBjAPI.ON_CHECK_ON,#this!,"showSMSPanel")
+            cb_sms!.setCallback(BBjAPI.ON_CHECK_OFF,#this!,"hideSMSPanel")
+                        
+            #SMSPanel! =  CAST(BBjChildWindow,options_panel!.addChildWindow(options_panel!.getAvailableControlID(),0,0,200,80,"",$00100810$,BBjAPI().getSysGui().getAvailableContext()))
+            #SMSPanel!.setDockStyle("margin-top","10px")
+            #SMSPanel!.addPanelStyle("smsPanel")
+            
+            #SMSPanel!.addStaticText(#SMSPanel!.getAvailableControlID(),0,0,0,0,"Enter your Cell Phone Number and hit 'Verify'. Then enter the code you receive to activate MFA using SMS:")
+
+            sub! = #SMSPanel!.addChildWindow(#SMSPanel!.getAvailableControlID(),0,0,200,80,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            sub!.setPanelStyle("display","inline-grid")
+            sub!.setPanelStyle("grid-template-columns","1fr 1fr 1fr")
+
+            sub!.addStaticText(sub!.getAvailableControlID(),0,0,0,0,"Enter your Cell Number:")
+    
+            #SMSCellNumber! = CAST(BBjInputE,sub!.addInputE(sub!.getAvailableControlID(),0,0,0,0,"","+00000000000000"))
+            #SMSCellNumber!.setStyle("margin","10px")
+            
+            #SMSSendButton! = CAST(BBjButton,sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Send Code"))
+            #SMSSendButton!.setAttribute("theme","default")
+            #SMSSendButton!.setAttribute("expanse","l")
+            #SMSSendButton!.setStyle("margin","10px")
+            #SMSSendButton!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"SendTestSMS")
+            
+            
+            sub!.addStaticText(sub!.getAvailableControlID(),0,0,0,0,"Code:")
+    
+            #SMSTestCode! = CAST(BBjInputE,sub!.addInputE(sub!.getAvailableControlID(),0,0,0,0,$0001$,"000000"))
+            #SMSTestCode!.setStyle("margin","10px")
+            
+            #SMSActivateButton! = CAST(BBjButton,sub!.addButton(sub!.getAvailableControlID(),0,0,0,0,"Verify and Activate",$0001$))
+            #SMSActivateButton!.setAttribute("theme","default")
+            #SMSActivateButton!.setAttribute("expanse","l")
+            #SMSActivateButton!.setStyle("margin","10px")
+            #SMSActivateButton!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"TestAndActivateSMS")
+            
+                             
+        FI
+        
+    methodend    
+
+    
+    method public void TestAndActivateTOTP(BBjEvent ev!)
+        #TOTPTestCode!.setVisible(0)
+        #TOTPActivateButton!.setAttribute("theme","success")
+        #TOTPActivateButton!.setText("Activated")
+    methodend
+
+    method public void SendTestSMS(BBjEvent ev!)
+        #SMSSendButton!.setText("Resend")
+        #SMSActivateButton!.setEnabled(1)
+        #SMSTestCode!.setEnabled(1)
+    methodend
+
+    method public void TestAndActivateSMS(BBjEvent ev!)
+        #SMSActivateButton!.setAttribute("theme","success")
+        #SMSActivateButton!.setText("Activated")
+    methodend
+
+    
+    method public void showTOTPPanel(BBjEvent ev!)
+        #TOTPPanel!.setVisible(1)
+    methodend
+    
+    method public void hideTOTPPanel(BBjEvent ev!)
+        #TOTPPanel!.setVisible(0)
+    methodend
+    
+    method public void showSMSPanel(BBjEvent ev!)
+        #SMSPanel!.setVisible(1)
+    methodend
+    
+    method public void hideSMSPanel(BBjEvent ev!)
+        #SMSPanel!.setVisible(0)
+    methodend    
+    
+classend

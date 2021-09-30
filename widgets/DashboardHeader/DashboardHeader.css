@@ -1,0 +1,56 @@
+.dashboardHeaderPanelStyle {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto !important;
+}
+
+.dashboardTextHeaderPanelStyle {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    margin:34px 36px 41px 36px;
+}
+
+.dashboardHeaderEntryWrapperPanelStyle {
+    display: flex;
+    justify-content: flex-end;
+    gap: 23px;
+}
+
+.dashboardHeaderEntryWrapperMarginRight{
+    margin-right: 40px;
+}
+
+/* these are temp bzw these need to use the webkit/bbj vars later on */
+.dashboardHeaderTextStyle{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: #333E40;
+    height: fit-content;
+}
+.dashboardSubtitleStyle{
+    font-family: 'Lato';
+    font-style: normal; 
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    color: #A1A5A7;
+    height: fit-content;
+}
+
+.dashboardTitleStyle{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 58px;
+    color: #333E40;
+    height: fit-content;
+}

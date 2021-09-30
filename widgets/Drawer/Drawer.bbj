@@ -1,0 +1,253 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+use ::WebKit/widgets/common/Divider/Divider.bbj::Divider
+use ::WebKit/widgets/DashboardContainer/DashboardContainer.bbj::DashboardWidget
+
+use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
+use ::WebKit/widgets/Drawer/components/DrawerFooter/DrawerFooter.bbj::DrawerFooter
+use ::WebKit/widgets/Drawer/components/DrawerSearchWidget/DrawerSearchWidget.bbj::DrawerSearchWidget
+use ::WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.bbj::DrawerMenuTile
+use ::WebKit/widgets/Drawer/components/DrawerOpenIcon/DrawerOpenIcon.bbj::DrawerOpenIcon
+use ::WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.bbj::DrawerSearchOverlay
+
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
+use com.basiscomponents.db.DataField
+
+class public Drawer extends BBjWidget 
+    
+    field private BBjChildWindow window!
+    
+    field private BBjChildWindow shadowWindow!
+
+    field private DrawerOpenIcon drawerOpenIcon!
+    
+    field private Boolean open! = 0
+    
+    field private BBjVector tiles! = new BBjVector()
+    
+    field private BBjChildWindow tilesWrapper!
+    
+    field private BBjChildWindow optionalControl!
+    
+    field private DrawerSearchOverlay searchOverlay!
+    
+    field private ResultSet demoData!
+
+    field private DrawerModel drawerDataModel!
+
+    field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
+
+    field public static BBjNumber ON_DRAWER_STATE_CHANGED = 1444
+    
+    method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.addPanelStyle("drawerPanelStyle")
+        #window!.addPanelStyle("drawerAnimationOpen")
+        #window!.addPanelStyle("drawerAnimationClose")
+        
+        #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #shadowWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onShadowTapped")
+        #shadowWindow!.addPanelStyle("drawerMobileShadowPanelStyle")
+        #shadowWindow!.addStyle("drawerShadow")
+        #drawerDataModel! = dataModel!
+        #tiles! = dataModel!.getMenuTiles()
+        #setCanvas(#window!)
+        #redraw(1)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        declare DrawerHeader header!
+        declare DashboardWidget dashboard!
+        declare DrawerSearchWidget searchWidget!
+        declare Divider topDivider!
+        declare Divider bottomDivider!
+        declare BBjChildWindow tilesWrapper!
+        declare DrawerFooter footer!
+        declare BBjChildWindow footerWrapper!
+        declare BBjString templateRows!
+        declare DrawerOpenIcon drawerOpenIcon!
+       rem  "WebKit/demo/assets/prodin_logo.png"
+       
+       rem 12px drawertile space
+       
+       templateRows! = "40px"
+       
+        if init!
+            #createDemoData()
+            #open! = 1
+            header! = new DrawerHeader(#window!, #drawerDataModel!.getLogoUrl(), #drawerDataModel!.getLogoSmallUrl(), #drawerDataModel!.getDrawerCloseIcon())
+            header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
+            
+            drawerOpenIcon! = new DrawerOpenIcon(#window!, #drawerDataModel!.getDrawerOpenIcon())
+            drawerOpenIcon!.setCallback(DrawerOpenIcon.ON_DRAWER_OPEN_ICON_PUSH,#this!,"openDrawer")
+            #drawerOpenIcon! = drawerOpenIcon!
+            
+            dashboard! = new DashboardWidget(#window!)
+            
+            #searchOverlay! = new DrawerSearchOverlay(#window!)
+            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
+            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_ENTRY_SELECTED,#this!,"onDrawerSearchEntrySelected")
+            #searchOverlay!.setTitleFieldname("TITLE")
+            #searchOverlay!.setSubtitleFieldname("SUBTITLE")
+            #searchOverlay!.setImagePathFieldname("IMAGE")
+
+            #searchOverlay!.setInitialSuggestion(#demoData!)
+            searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
+            
+            topDivider! = new Divider(#window!)
+            topDivider!.setColor("#DDE0E1")
+            
+            #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #tilesWrapper!.addPanelStyle("drawerTilesWrapper")
+            
+            bottomDivider! = new Divider(#window!)
+            bottomDivider!.setColor("#DDE0E1")
+            
+            footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            footerWrapper!.addPanelStyle("drawerFooterWrapper")
+            
+            footer! = new DrawerFooter(footerWrapper!,#window!,#drawerDataModel!)
+            footer!.setDockStyle("align-self","center")
+            
+            declare DrawerMenuTileEntry entry!
+            declare BBjChildWindow spacer!
+            
+            for i = 0 to #tiles!.size() -1
+                entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
+                tile! = new DrawerMenuTile(#tilesWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
+                tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
+                templateRows! = templateRows! + " 48px" 
+                if i <> #tiles!.size() -1 then 
+                    templateRows! = templateRows! + " 12px"
+                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                    spacer!.setDockStyle("height","12px")
+                endif
+            next i
+            #tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+        endif
+    methodend
+    
+    method public BBjChildWindow getOptionalControlAboveTiles()
+        if #optionalControl! = null() then
+            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        endif
+        methodret #optionalControl!
+    methodend
+    
+    method private void createDemoData()
+         declare ResultSet rs!
+        declare DataRow dr!
+        
+        rs! = new ResultSet()
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Barone LLC."))
+        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/baron.png"))
+        
+        rs!.add(dr!)
+     
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Abstergo Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/abstergo.png"))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Big Kahuna Burger Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Orange"))
+        dr!.addDataField("IMAGE", new DataField(""))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Biffco Enterprise Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Toledo"))
+        dr!.addDataField("IMAGE", new DataField(""))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        rem TODO test with null()
+        dr!.addDataField("TITLE", new DataField("Binford Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Fairfield"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/binford.png"))
+         
+        rs!.add(dr!)
+        
+        #demoData! = rs!
+    methodend
+    
+    method public void onFetchSearchResults(BBjCustomEvent event!)
+        declare BBjString input!
+        declare ResultSet matchedData!
+        
+        matchedData! = new ResultSet()
+        
+        input! = cast(BBjString,event!.getObject())
+        it! = #demoData!.iterator()
+        
+        while it!.hasNext()
+            
+           declare auto DataRow myDr!
+           declare BBjString field!
+           
+           myDr! = it!.next()
+           field! = str(myDr!.getDataField("TITLE"))
+           
+           if field!.toUpperCase() = input!.toUpperCase() or field!.toUpperCase().contains(input!.toUpperCase()) then 
+                matchedData!.add(myDr!)
+           endif
+        wend 
+        
+        #searchOverlay!.setSuggestions(matchedData!)
+    methodend
+    
+    method public void onDrawerSearchEntrySelected(BBjCustomEvent event!)
+        declare auto DataRow dr!
+        
+        dr! = event!.getObject()
+        
+        a = msgbox(str(dr!.getDataField("TITLE")) + " " + str(dr!.getDataField("SUBTITLE")))
+    methodend
+    
+    method public void onShadowTapped(BBjMouseDownEvent event!)
+        #shadowWindow!.removeStyle("drawerShadow")
+        #closeDrawer(null())
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
+    methodend   
+    
+    method public void closeDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerClosed")
+        #window!.removeStyle("drawerOpen")
+        #shadowWindow!.removeStyle("drawerShadow")
+        #open! = !#open!
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
+    methodend
+
+    method public void onMenuItemClick(BBjCustomEvent event!)
+        #fireEvent(#ON_DRAWER_TILE_PRESSED, event!.getObject())
+    methodend
+    
+    method public void openDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerOpen")
+        #window!.removeStyle("drawerClosed")
+        #open! = !#open!
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
+    methodend
+    
+    method public Boolean isOpen()
+        methodret #open!
+    methodend
+classend

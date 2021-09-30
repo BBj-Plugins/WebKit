@@ -1,0 +1,50 @@
+use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
+use ::WebKit/framework/LoginDialog/BBjUser.bbj::BBjUser
+use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
+
+
+class public SampleAuthProvider implements IAuthProvider 
+
+    field private BBjString token!
+    field private AccountProfile profile!
+
+    method public Boolean checkLogin(BBjString Username!, BBjString Password!)
+           #token! = com.basis.api.admin.BBjAdminFactory.getAuthToken(Username!, Password!,err=invalid)
+           #profile!= new BBjUser(Username!)
+           methodret Boolean.TRUE
+           
+           invalid:
+                methodret Boolean.FALSE
+    methodend
+
+    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
+           rem for this sample accept all external profiles
+           #profile!= profile!
+           methodret Boolean.TRUE
+    methodend
+    
+    method public Boolean checkToken(BBjString token!)
+           token$ = com.basis.api.admin.BBjAdminFactory.renewAuthToken(token!,err=invalid)
+           #token! = token$
+           adm! = com.basis.api.admin.BBjAdminFactory.getBBjAdmin(token!,err=invalid)
+           X$=adm!.getUser()
+           #profile!= new BBjUser(x$)
+           methodret Boolean.TRUE
+           
+           invalid:
+                methodret Boolean.FALSE
+    methodend
+    
+    method public BBjString getToken()
+            methodret #token!
+    methodend
+    
+    method public BBjString getUser()
+            methodret #profile!.getFullName()
+    methodend
+    
+    method public AccountProfile getProfile()
+            methodret #profile!
+    methodend
+    
+classend

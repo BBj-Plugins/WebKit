@@ -1,0 +1,211 @@
+REM /**
+REM  * DashboardHeader.bbj
+REM  * @author TimonGeisbauer
+REM  *
+REM  */
+
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/widgets/DashboardHeader/components/DashboardHeaderEntryWidget.bbj::DashboardHeaderEntryWidget
+use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry
+
+class public DashboardHeader extends BBjWidget
+    
+    field private BBjStaticText title!
+    
+    field private BBjStaticText subtitle!
+    
+    field private BBjStaticText headerText!
+    
+    field private BBjVector headerCards! = new BBjVector()
+    
+    field private BBjChildWindow window!
+    
+    field private BBjChildWindow textWrapper!
+    
+    field private BBjChildWindow entryWrapper!
+    
+    field private BBjChildWindow iconWrapper!
+    
+    field private BBjImageCtrl icon!
+    
+    field private Boolean showIcon! = 1
+    
+    field private BBjString iconImage! = "WebKit/widgets/DashboardHeader/settings.png"
+    
+    field public static BBjNumber ON_ICON_PRESSED = 1
+    
+    method public DashboardHeader(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardHeader/DashboardHeader.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public DashboardHeader(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardHeader/DashboardHeader.css")
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if !init! then
+            if #showIcon! then 
+                #iconWrapper!.setVisible(1)
+                #entryWrapper!.removePanelStyle("dashboardHeaderEntryWrapperMarginRight")
+            else 
+                #iconWrapper!.setVisible(0)
+                #entryWrapper!.addPanelStyle("dashboardHeaderEntryWrapperMarginRight")
+            endif
+            methodret
+        endif 
+        
+        #window! = #getCanvas()
+        #window!.addPanelStyle("dashboardHeaderPanelStyle")
+        #window!.setDockStyle("width","100%")
+        #window!.setDockStyle("height","100%")
+        #window!.setStyle("width","100%")
+        #window!.setStyle("height","100%")
+        
+        #textWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #textWrapper!.addPanelStyle("dashboardTextHeaderPanelStyle")
+
+        #headerText! = #textWrapper!.addStaticText(#textWrapper!.getAvailableControlID(),0,0,0,0,"")
+        #headerText!.addStyle("dashboardHeaderTextStyle")
+        
+        #title! = #textWrapper!.addStaticText(#textWrapper!.getAvailableControlID(),0,0,0,0,"")
+        #title!.addStyle("dashboardTitleStyle")
+        
+        #subtitle! = #textWrapper!.addStaticText(#textWrapper!.getAvailableControlID(),0,0,0,0,"")
+        #subtitle!.addStyle("dashboardSubtitleStyle")
+        
+        #entryWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #entryWrapper!.addPanelStyle("dashboardHeaderEntryWrapperPanelStyle")
+        #entryWrapper!.setDockStyle("flex","1")
+            
+        #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+        #iconWrapper!.setDockStyle("align-self","flex-start")
+        #iconWrapper!.setDockStyle("margin","8px 12px 8px 12px")
+        
+        #icon! = #iconWrapper!.addImage(#iconWrapper!.getAvailableControlID(),0,0,0,0,#iconImage!)
+        #icon!.setStyle("display","flex")
+    methodend
+    
+    method public void setEntrys(BBjVector vector!)
+        declare BBjInt size!
+        declare DashboardHeaderEntryWidget widget!
+        declare auto DashboardHeaderEntry entryData!
+        
+        rem allow only 0-5 pieces
+        if vector! = null() or vector!.isEmpty() then methodret
+        
+        size! = vector!.size()
+        
+        if vector!.size() > 5 then size! = 5
+        
+        if #headerCards!.size() <> 0 then 
+            declare auto DashboardHeaderEntryWidget widget!
+            
+            for i = 0 to #headerCards!.size() -1 
+                widget! = #headerCards!.get(i)
+                widget!.destroy()
+            next i
+        endif
+        
+        #headerCards!.clear()
+        
+        for i = 0 to size! -1
+            widget! = new DashboardHeaderEntryWidget(#entryWrapper!)
+            entryData! = vector!.get(i)
+            widget!.setID(entryData!.getID())
+            widget!.setLabel(entryData!.getText())
+            widget!.setCount(entryData!.getCount())
+            #headerCards!.add(widget!)
+        next i
+    methodend
+    
+    method private DashboardHeaderEntryWidget getEntry(BBjInt id!)
+        declare auto DashboardHeaderEntryWidget widget!
+        for i = 0 to #headerCards!.size() -1 
+            widget! = #headerCards!.get(i)
+            if widget!.getID() = id! then 
+                methodret widget!
+            endif
+        next i
+        
+        methodret null()
+    methodend
+    
+    method public void updateCount(BBjInt id!, BBjInt count!)
+        declare DashboardHeaderEntryWidget widget!
+        
+        if id! = null() then throw "Invalid ID", 400
+        if count! = null() then throw "Invalid count" , 400
+        
+        widget! = #getEntry(id!)
+        if widget! <> null() then
+            widget!.setCount(count!)
+            methodret
+        endif
+        
+        throw "Invalid ID", 400
+    methodend
+    
+    method public void onIconPressed(BBjMouseDownEvent event!)
+        #fireEvent(#ON_ICON_PRESSED,"")
+    methodend 
+
+    method public void enableIcon(Boolean value!)
+        #showIcon! = value!
+        #redraw(0)
+    methodend
+    
+    method public void setIconImage(BBjString path!)
+        #iconImage! = path!
+    methodend
+    
+    method public void setTextValues(BBjString title!, BBjString subtitle!, BBjString headerText!)
+        #setTitle(title!)
+        #setSubtitle(subtitle!)
+        #setHeaderText(headerText!)
+    methodend
+    
+    method public void setTitle(BBjString value!)
+        #title!.setText(value!)
+    methodend
+    
+    method public void setSubtitle(BBjString value!)
+        #subtitle!.setText(value!)
+    methodend
+    
+    method public void setHeaderText(BBjString value!)
+        #headerText!.setText(value!)
+    methodend
+    
+    method public Boolean isIconVisible()
+        methodret #showIcon!
+    methodend
+    
+    method public BBjInt getCountAt(BBjInt index!)
+        declare auto DashboardHeaderEntryWidget widget!
+        
+        if index! <> null() and index! <= #headerCards!.size() -1 then 
+            widget! = #headerCards!.get(index!)
+            methodret widget!.getCount()
+        endif 
+        
+        methodret -1
+    methodend
+    
+    method public BBjInt getCount(BBjInt id!)
+        declare DashboardHeaderEntryWidget widget!
+        
+        if id! = null() then throw "Invalid ID", 400
+        
+        widget! = #getEntry(id!)
+        
+        if widget! <> null() then
+            methodret widget!.getCount()
+        endif
+        
+        throw "Invalid ID", 400
+    methodend
+classend

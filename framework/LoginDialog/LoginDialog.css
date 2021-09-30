@@ -1,0 +1,134 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('/files/prodinRes/Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Lato-Bold';
+    src: url('/files/prodinRes/Lato-Bold.ttf');
+}
+
+.loginWidgetPanelStyle {
+    width: 460px;
+    height: 531px;
+    background-color: white;
+    position: absolute !important;
+    top:0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: auto !important;
+    border-radius: 16px;
+    margin: 30px;
+    box-shadow: 0px 10px 34px var(--webkit-box-shadow-blur);
+}
+
+.mainWindow {
+    justify-self : center;
+    align-self : center;
+}
+
+
+.mainWndPanelStyle{
+    place-self: center;
+}
+
+.loginWrapperPanelStyle{
+    background-image: url('/files/prodinRes/prodin_login_background_desktop.png');
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    background-size: 100vw 100vh;
+}
+
+.loginWidgetContentPanelStyle {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    height: calc(531px - 112px);
+}
+
+.loginWidgetBtnStyle{
+    grid-row-start: 5;
+    --bbj-color-default: var(--webkit-primary);
+    height: 43px;
+    width: 100%;
+}
+
+.loginWidgetBtnLabel::part(label) {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+}
+
+.loginWidgetBtnControl::part(control) {
+    border-radius: 8px;
+}
+
+.loginWidgetCheckBoxStyle{
+    grid-row-start: 4;
+    height: fit-content;
+}
+
+.loginWidgetCheckBoxLabel::part(label) {
+    align-self: center;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--webkit-secondary);
+    margin-left: 12px;
+}
+
+.loginWidgetCheckBoxInputWrapper::part(input-wrapper) {
+    width: 22px;
+    height: 22px;
+    border:solid;
+    border-width: 1px;
+    border-color: #DDE0E1;
+    border-radius: 3px;
+}
+.loginWidgetCheckBoxControl::part(control) {
+    --bbj-color-default: #FFFFFF;
+}
+.loginWidgetCheckBoxIcon::part(checked-icon) {
+    background-color: var(--webkit-primary);
+}
+
+.loginWidgetForgotPWStlye{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: #6883BA;
+}
+
+@media screen and (max-width: 425px) {
+    .loginWidgetPanelStyle{
+        width: 100vw;
+        margin: 0px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    .mainWndPanelStyle{
+        place-self: end center;
+    }
+
+    .loginWrapperPanelStyle{
+        background-image: url('/files/prodinRes/prodin_login_background_phone.png');
+    }
+}
+
+@media screen and(max-width:800px){
+    .loginWrapperPanelStyle {
+       background-image: url('/files/prodinRes/prodin_login_background_tablet.png');
+    }
+}

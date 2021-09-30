@@ -1,0 +1,167 @@
+
+@keyframes drawerFooterPanelSmall {
+
+    from {
+        grid-template-columns: 32px auto 24px;
+        width: 170px;
+        margin-left: 40px;
+    }
+    to {
+        grid-template-columns: 32px;
+        width: 32px;
+        margin-left: 34px;
+    }
+}
+
+@keyframes drawerFooterPanelLarge {
+    from {
+        grid-template-columns: 32px;
+        width: 32px;
+        margin-left: 34px;
+    }
+
+    to {
+        grid-template-columns: 32px auto 24px;
+        width: 170px;
+        margin-left: 40px;
+    }
+}
+
+@keyframes drawerFooterWrapperWindowSmall {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes drawerFooterWrapperWindowLarge {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.drawerClosed .drawerFooterWrapperWindowClosed {
+    display:  none !important;
+
+}
+
+.drawerOpen .drawerFooterPanelAnimationOpen {
+    animation-name: drawerFooterPanelLarge;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.drawerClosed .drawerFooterPanelAnimationClose {
+    animation-name: drawerFooterPanelSmall;
+    animation-duration: var(--drawer-animation-duration);
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.drawerFooterPanelStyle {
+    height: 37px;
+    width: 170px;
+    display: grid;
+    margin-left: 40px;
+    grid-template-rows: auto;
+    grid-template-columns: 32px auto 24px;
+}
+
+.drawerFooterTitleStyling {
+    font-family: 'Lato-Bold';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--webkit-secondary);
+    align-self: center;
+}
+
+.drawerFooterSubtitleStyling {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #A1A5A7;
+    align-self: end;
+}
+
+.drawerFooterPopUpTextStyle {
+    font-family: 'Lato-Bold';
+    font-style: normal;
+    align-self: center;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--webkit-secondary);
+    margin-left: 20px;
+}
+
+.drawerFooterOverlayPanelStyle {
+    position: absolute !important;
+    bottom: 99px !important;
+    left: 34px !important;
+    top: auto !important;
+    z-index: 99 !important;
+    border-radius: 8px;
+    width: 220px;
+    height: 124px;
+    background-color: white;
+    box-shadow: 0px 10px 35px var(--webkit-box-shadow-blur);
+}
+
+.drawerClosed .drawerFooterOverlayClosedPanelStyle {
+    bottom: 24px !important;
+    left: 90px !important;
+}
+
+.footerIcon{
+    justify-self: end;
+    align-self: start;
+}
+
+.drawerFooterOverlayContentWrapper{
+    margin: 25px;
+    height: 74px;
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
+
+.drawerFooterOverlaySettingsPanel{
+    grid-template-columns: 24px auto;
+    display: grid;
+}
+
+.drawerFooterOverlaySettings{
+    grid-row-start: 1;
+    align-self: start;
+}
+
+.drawerFooterOverlaySettingsIcon{
+    grid-column-start: 1;
+    align-self: center;
+    height: 24px;
+}
+
+.drawerFooterOverlayLogoutPanel{
+    grid-template-columns: 24px auto;
+    display: grid;
+}
+
+.drawerFooterOverlayLogout{
+    grid-row-start: 2;
+    align-self: end;
+}
+
+.drawerFooterOverlayLogoutIcon{
+    grid-column-start: 1;
+    align-self: center;
+    height: 24px;
+}
