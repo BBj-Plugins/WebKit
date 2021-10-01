@@ -71,32 +71,7 @@ class public ClientUtil
       
     methodend
     
-    
-    rem modify this instead of override css
-    method public static void loadThemeFile(BBjString themefile$)
-    
-      if #getInjHtml() = null() then
-        ClientUtil.init()
-      fi
-          
-      ch=unt
-      open (ch)themefile$
-      read record (ch,siz=256000)theme$
-      close (ch)
-      theme$ = ":root {"+$0a$+theme$+$0a$+"}"
-      
-      style! = theme$
-      style! = style!.replaceAll("\r","")
-      style! = style!.replaceAll("\n","")
-      
-      script$ = "var styl  = $doc.createElement('style');"
-      script$ = script$ + "styl.textContent = """+style!+""";"
-      script$ = script$ + "$doc.head.appendChild(styl);"
-      
-      ret! = #InjHtml!.executeScript(script$)  
-    methodend
-
-    method public static void overrideBBjDefaultCSS(BBjString cssfile$)
+    method public static void loadThemeFile(BBjString cssfile$)
       if pos(cssfile$+$0a$=#alreadyLoaded$)>0 then 
       methodret
       fi

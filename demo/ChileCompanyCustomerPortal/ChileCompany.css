@@ -6,10 +6,10 @@
     /* COLORS */
     /* ==================== */
     --bbj-color-white: white;
-    --bbj-color-black:  #333E40;
-    --bbj-color-primary-hue: 326;
+    --bbj-color-black: black;
+    --bbj-color-primary-hue: 215;
     --bbj-color-primary-saturation: 100%;
-    --bbj-color-primary-contrast-threshold: 30;
+    --bbj-color-primary-contrast-threshold: 50;
     --bbj-color-success-hue: 110;
     --bbj-color-success-saturation: 100%;
     --bbj-color-success-contrast-threshold: 30;
