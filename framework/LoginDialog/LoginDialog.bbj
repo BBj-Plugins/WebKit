@@ -23,6 +23,12 @@ class public LoginDialog
     
     field private BBjChildWindow forgotWrapper!
     field private LoginDialogBuilder forgotContent!
+
+    field private BBjChildWindow afterForgotWrapper!
+    field private LoginDialogBuilder afterForgotContent!
+
+    field private BBjChildWindow newpwWrapper!
+    field private LoginDialogBuilder newpwContent!
     
     field private BBjSysGui sysGui!
     field public BBjString User$ = ""
@@ -59,29 +65,52 @@ class public LoginDialog
         
         #loginContent! = new LoginDialogBuilder(#this!,#loginWrapper!)
         #loginContent!.addLogo(#logoURL$)
-        #loginContent!.addUsernameInput("Username", "name@company.com")
-        #loginContent!.addPasswordInput("Password", "name@company.com")
+        #loginContent!.addUsernameInput("Username")
+        #loginContent!.addPasswordInput("Password", "password")
         #loginContent!.addRememberMeBox()
         #loginContent!.addFeedback("Invalid username and password combination.")
         #loginContent!.addSubmitButton("Login", "login")
-        #loginContent!.addRedirect("Forgot Password", "forgotPassword")      
+        #loginContent!.addRedirect("Forgot Password", "redirForgotPassword")      
     methodend
     
-    method public void buildForgotContent()
+    method public void buildForgotContent(BBjString username$)
         #forgotWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #forgotWrapper!.addPanelStyle("loginWidgetPanelStyle")
                 
         #forgotContent! = new LoginDialogBuilder(#this!,#forgotWrapper!)
         #forgotContent!.addLogo(#logoURL$)
-        #forgotContent!.addPageTitle("Request New Password")
-        #forgotContent!.addUsernameInput("Email Address", "name@company.com")
-        #forgotContent!.addSubmitButton("Send Request", "login")
-        #forgotContent!.addRedirect("Return to Login", "returnLogin")  
+        #forgotContent!.addPageTitle("Request a new password")
+        if username$ = "" then
+            #forgotContent!.addUsernameInput("Email Address")
+        else
+            #forgotContent!.addUsernameInput("Email Address", username$)
+        endif 
+        #forgotContent!.addSubmitButton("Send Email", "requestForgotPasswordToken", "")
+        #forgotContent!.addRedirect("Return to Login", "redirLogin")  
     methodend
 
-    method public void buildNewPasswordContent()
-            
-        
+    method public void buildAfterForgotContent(BBjString memory$)
+        #afterForgotWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #afterForgotWrapper!.addPanelStyle("loginWidgetPanelStyle")
+           
+        #afterForgotContent! = new LoginDialogBuilder(#this!,#afterForgotWrapper!, memory$)
+        #afterForgotContent!.addLogo(#logoURL$)
+        #afterForgotContent!.addTextField("Email with a renew password token has been sent. This may take a few minutes.")
+        #afterForgotContent!.addSubmitButton("Resend Email", "requestForgotPasswordToken", "")
+        #afterForgotContent!.addRedirect("Return to Login", "redirLogin")  
+    methodend
+
+    method public void buildNewPwContent()
+        #newpwWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #newpwWrapper!.addPanelStyle("loginWidgetPanelStyle")
+                
+        #newpwContent! = new LoginDialogBuilder(#this!,#newpwWrapper!)
+        #newpwContent!.addLogo(#logoURL$)
+        #newpwContent!.addPageTitle("Choose a new password")
+        #newpwContent!.addPasswordInput("New Password", "password")
+        #newpwContent!.addRepeatPasswordInput("Repeat Password", "password")
+        #newpwContent!.addSubmitButton("Send Request", "login")
+        rem #newpwContent!.addRedirect("Return to Login", "returnLogin")  
     methodend
 
     method public Boolean doModal()
@@ -133,23 +162,35 @@ REM                 return
   
     methodend
     
-    method public BBjChildWindow getLoginWrapper()
-        methodret #loginWrapper!
-    methodend
+    method public void requestForgotPasswordToken(BBjButtonPushEvent event!)
+        user$=#forgotContent!.getUsername().getText(0)
+       
+        if #authProvider!.requestForgotPasswordToken(user$) then
+            if #forgotWrapper! <> null() then #forgotWrapper!.setStyle("display", "none")
+            #buildAfterForgotContent(user$)
+            a = msgbox(user$) 
+        else 
+            a = msgbox("sth went wrong") 
+        endif
+    methodend	
+
 
 
 REM  |||||||||||||| 
 REM    REDIRECTS  
 REM  |||||||||||||| 
-    method public void forgotPassword(BBjMouseDownEvent event!)   
+    method public void redirForgotPassword(BBjMouseDownEvent event!)   
         #loginWrapper!.setStyle("display", "none")
  
-        #buildForgotContent()
+        user$=#loginContent!.getUsername().getText(0)
+
+        #buildForgotContent(user$)
     methodend
     
-    
-    method public void returnLogin(BBjMouseDownEvent event!)
-        #forgotWrapper!.setStyle("display", "none")
+    method public void redirLogin(BBjMouseDownEvent event!)
+        if #forgotWrapper! <> null() then #forgotWrapper!.setStyle("display", "none")
+        if #afterForgotWrapper! <> null() then #afterForgotWrapper!.setStyle("display", "none")
+        if #newpwWrapper! <> null() then #newpwWrapper!.setStyle("display", "none")
         #loginWrapper!.setStyle("display", "block")
     methodend
     

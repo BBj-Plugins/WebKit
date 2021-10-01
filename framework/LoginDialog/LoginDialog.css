@@ -109,6 +109,14 @@
     color: #6883BA;
 }
 
+.loginPageTitle {
+	padding-top: 3rem;
+    height:75px;
+	color:var(--prodin-secondary);
+	font-size: 1rem;
+}
+
+
 @media screen and (max-width: 425px) {
     .loginWidgetPanelStyle{
         width: 100vw;
