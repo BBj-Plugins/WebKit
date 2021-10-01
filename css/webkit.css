@@ -13,7 +13,7 @@ body
 .card {
 	  width  : 350px;
 	  height : 400px;
-	  box-shadow: 0 3px 6px var(--webkit-box-shadow-blur), 0 3px 6px var(--webkit-box-shadow-color);
+	  box-shadow: var(--bbj-shadow-l);
 	  margin-right: 20px;
 	  margin-bottom: 20px;
 	  display: flex;

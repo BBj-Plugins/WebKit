@@ -39,10 +39,10 @@
     /* font-weight: bold; */
     font-size: 12px;
     line-height: 14px;
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
     grid-row-start: 1;
 }
 
 .inputFieldStyleInput::part(input){
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
 }
