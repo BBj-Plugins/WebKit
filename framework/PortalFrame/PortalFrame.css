@@ -1,30 +1,40 @@
+:root {
+    --drawer-open-width: 300px;
+    --drawer-close-width: 104px;
+    --portal-frame-main-area-width-with-drawer-open: calc(100vw - 300px);
+    --portal-frame-main-area-width-with-drawer-close: calc(100vw - 104px);
+}
 
 .mainarea{
 	position:absolute;
     background: #F1F1F1;
+    height: 100vh;
 }
-.mainarea,
+
 .mainarea>div,
 .mainarea>div>div {
-    width: 100vw;
-    height:100vh;
+    width: 100%;
+    height:100%;
 }
 
-.mainarea .expanded{
-    margin-left: 124px;
+.expanded{
+    margin-left: var(--drawer-close-width);
+    width: var(--portal-frame-main-area-width-with-drawer-close);
 }
 
-.mainarea .shrinked{
-    margin-left: 320px;
+.shrinked{
+    margin-left: var(--drawer-open-width);
+    width: var(--portal-frame-main-area-width-with-drawer-open);
 }
 
 @media screen and (max-width: 425px) {
     .mainarea,
+    .mainarea .expanded,
+    .mainarea .shrinked,
     .mainarea>div,
     .mainarea>div>div {
         margin-left: 0px !important;
-        padding-left: 10px;
-        width: 100vw;
+        width: 100vw !important;
         height:100vh;
     }
 }
