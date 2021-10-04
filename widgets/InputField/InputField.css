@@ -43,6 +43,20 @@
     grid-row-start: 1;
 }
 
+.inputFieldSubTextStyle {
+    /* display: none; */
+    
+    color:red;
+    font-family: 'Lato-Bold';
+    font-weight:100;
+    font-style: italic;
+    font-size: 10px;
+
+
+    grid-row-start: 3;
+    grid-column-start: 1;
+}
+
 .inputFieldStyleInput::part(input){
     color: var(--webkit-secondary);
 }

@@ -93,7 +93,6 @@ REM  ||||||||||||||
         #username!.setDockStyle("margin-top","50px")
 
         if memory$ <> "" and memory$ <> "null" then
-            rem let x=MSGBOX(memory$, 0, "No Title")
             #username!.setText(memory$)
         endif
 
