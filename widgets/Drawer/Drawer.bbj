@@ -44,7 +44,7 @@ class public Drawer extends BBjWidget
 
     field public static BBjNumber ON_DRAWER_STATE_CHANGED = 1444
 
-    field public static BBjNumber ON_LOGOUT = 1444
+    field public static BBjNumber ON_LOGOUT = 14441
     
     method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
