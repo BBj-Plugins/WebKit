@@ -10,6 +10,8 @@ class public LoginDialogBuilder
     field private InputField password! 
     field private InputField repeatPassword! 
 
+    field private BBjStaticText feedback!
+
     field private BBjString memory$
 
     method public LoginDialogBuilder(LoginDialog loginDialog!, BBjWindow wrapper!)
@@ -31,7 +33,7 @@ class public LoginDialogBuilder
         #memory$ = memory$
     methodend
 
- 
+    
     
     method public InputField getUsername()
         methodret #username!
@@ -39,6 +41,18 @@ class public LoginDialogBuilder
     
     method public InputField getPassword()
         methodret #password!
+    methodend
+
+    method public InputField getRepeatPassword()
+        methodret #repeatPassword!
+    methodend
+
+    method public void setFeedback(BBjString message$)
+        #feedback!.setText(message$)
+    methodend
+
+    method public BBjStaticText getFeedback()
+        methodret #feedback!
     methodend
 
     method public BBjString getMemory()
@@ -81,8 +95,6 @@ REM  ||||||||||||||
         if memory$ <> "" and memory$ <> "null" then
             rem let x=MSGBOX(memory$, 0, "No Title")
             #username!.setPlaceHolder(memory$)
-
-        else     
         endif
 
     methodend
@@ -123,12 +135,12 @@ REM  ||||||||||||||
 
 
     method public void addFeedback(BBjString feedback$)
-        st! = #content!.addStaticText(99,0,0,0,0,"<html>" + feedback$ + "</html>",$0010$)
-        st!.setStyle("color","red")
-        st!.setStyle("font-size","12px ")
-        st!.setStyle("font-weight","300 ")
-        st!.setStyle("font-style","italic")
-        st!.setStyle("margin-top", "5px")
+        #feedback! = #content!.addStaticText(#content!.getAvailableControlID(),0,0,0,0,"<html>" + feedback$ + "</html>",$0010$)
+        #feedback!.setStyle("color","red")
+        #feedback!.setStyle("font-size","12px ")
+        #feedback!.setStyle("font-weight","300 ")
+        #feedback!.setStyle("font-style","italic")
+        #feedback!.setStyle("margin-top", "5px")
     methodend
     
     method public void addSubmitButton(BBjString label$, BBjString methodName$)
@@ -148,15 +160,6 @@ REM  ||||||||||||||
         submitBtn!.addStyle("loginWidgetBtnLabel")
         submitBtn!.addStyle("loginWidgetBtnControl")
     methodend
-    
-REM     method public void addSubmitButton(BBjString label$, BBjString methodCall$, BBjString redirect$, )
-REM         submitBtn! = #content!.addButton(#content!.getAvailableControlID(),0,0,0,0,label$)
-REM         submitBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,methodCall$)
-REM         submitBtn!.setStyle("margin-top","40px")
-REM         submitBtn!.addStyle("loginWidgetBtnStyle")
-REM         submitBtn!.addStyle("loginWidgetBtnLabel")
-REM         submitBtn!.addStyle("loginWidgetBtnControl")
-REM     methodend
     
     method public void addRedirect(BBjString redirectText$, BBjString methodName$)
         declare BBjStaticText redirectText!

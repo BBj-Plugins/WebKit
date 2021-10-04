@@ -8,6 +8,7 @@ interface public IAuthProvider
     method public AccountProfile getProfile()
     method public Boolean checkToken(BBjString token!)
     method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
-    method public Boolean requestForgotPasswordToken (BBjString Email!)
-    
+    method public BBjString requestForgotPasswordToken (BBjString Email!)
+    method public Boolean setPasswordWithToken (BBjString tmpPassword!, BBjString newPassword!)
+
 interfaceend
