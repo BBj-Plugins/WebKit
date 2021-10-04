@@ -82,7 +82,7 @@ REM  ||||||||||||||
     
     
     method public void addUsernameInput(BBjString label$)
-        #addUsernameInput(label$, "name@company.com")
+        #addUsernameInput(label$, "")
     methodend
     
     method public void addUsernameInput(BBjString label$, BBjString memory$)
@@ -94,7 +94,7 @@ REM  ||||||||||||||
 
         if memory$ <> "" and memory$ <> "null" then
             rem let x=MSGBOX(memory$, 0, "No Title")
-            #username!.setPlaceHolder(memory$)
+            #username!.setText(memory$)
         endif
 
     methodend

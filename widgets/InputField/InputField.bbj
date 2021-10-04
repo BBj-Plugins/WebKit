@@ -150,6 +150,10 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
     method public void setLabel(BBjString label!)
         #label!.setText(label!)
     methodend
+
+    method public void setText(BBjString text!)
+        #inputField!.setText(text!)
+    methodend
     
     method public void setPlaceHolder(BBjString placeholder!)
         if #isPasswordField! then 

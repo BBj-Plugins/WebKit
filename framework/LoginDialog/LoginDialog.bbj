@@ -181,7 +181,7 @@ class public LoginDialog
         if response$ = "" then
             a = msgbox("Something wen't wrong requesting a new password.") 
             #gotoLogin()
-            rem TODO add eroor message to signal something went wrong
+            rem TODO add error message to Login screen to signal something went wrong
         else 
             if #forgotWrapper! <> null() then #forgotWrapper!.setStyle("display", "none")   
             endif  
