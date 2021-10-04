@@ -20,7 +20,7 @@
     margin: auto !important;
     border-radius: 16px;
     margin: 30px;
-    box-shadow: 0px 10px 34px var(--webkit-box-shadow-blur);
+    box-shadow: var(--bbj-shadow-l);
 }
 
 .mainWindow {
@@ -50,7 +50,6 @@
 
 .loginWidgetBtnStyle{
     grid-row-start: 5;
-    --bbj-color-default: var(--webkit-primary);
     height: 43px;
     width: 100%;
 }
@@ -80,7 +79,7 @@
     font-weight: normal;
     font-size: 12px;
     line-height: 14px;
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
     margin-left: 12px;
 }
 
@@ -93,10 +92,10 @@
     border-radius: 3px;
 }
 .loginWidgetCheckBoxControl::part(control) {
-    --bbj-color-default: #FFFFFF;
+    --bbj-color-default: var(--bbj-color-white);
 }
 .loginWidgetCheckBoxIcon::part(checked-icon) {
-    background-color: var(--webkit-primary);
+    background-color: var(--bbj-color-primary);
 }
 
 .loginWidgetForgotPWStlye{
