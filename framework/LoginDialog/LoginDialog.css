@@ -54,10 +54,6 @@
     width: 100%;
 }
 
-/* .loginWidgetBtnStyle:hover{
-    --bbjt-color-defaul: var(--bbj-color-primary) !important;
-} */
-
 .loginWidgetBtnLabel::part(label) {
     font-family: 'Lato';
     font-style: normal;
