@@ -1,5 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-rem BBjGridExWidget Package
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public Card extends BBjWidget
 
@@ -10,10 +10,12 @@ class public Card extends BBjWidget
     field private BBjString Image$
 
     method public Card(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Card/Card.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
     method public Card(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Card/Card.css")
         #super!.create(wnd!,id!)
     methodend
 
