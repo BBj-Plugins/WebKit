@@ -75,6 +75,7 @@ class public PortalFrame
         #Drawer! = new Drawer(#window!, drawerDataModel!)
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_STATE_CHANGED, #this!, "onDrawerToggle")
+        #Drawer!.setCallback(Drawer.ON_LOGOUT, "logout")
         
         header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
         
@@ -121,7 +122,7 @@ class public PortalFrame
             REM     #Avatar!.setDockStyle("background-image","url("+#Profile!.getPictureUrl()+")")
             REM fi
             REM 
-            REM BBjAPI().setCustomEventCallback("logout","logout")
+            BBjAPI().setCustomEventCallback("logout","logout")
             
             
             anchor$ = ClientUtil.getUrlAnchor()
@@ -133,6 +134,7 @@ class public PortalFrame
             process_events
             
             logout:
+                #onLogout()
                 methodret 1
             
     methodend
@@ -248,6 +250,10 @@ class public PortalFrame
          #Drawer!.addStyle("draweropen")
          #Drawer!.removeStyle("drawerclosed")
     fi
+    methodend
+
+    method public void onLogout()
+        methodret
     methodend
 return
 

@@ -21,6 +21,8 @@ class public DrawerFooter extends BBjWidget
     field private Overlay overlayWidget!
 
     field private DrawerModel drawerDataModel!
+
+    field public static BBjNumber ON_LOGOUT = 15321
     
     method public DrawerFooter(BBjWindow parent!, BBjChildWindow drawer!,DrawerModel drawerDataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerFooter/DrawerFooter.css")
@@ -126,7 +128,7 @@ class public DrawerFooter extends BBjWidget
         #overlayWidget!.onOverlayDissmiss(null())
         login! = new LoginDialog()
         login!.clearRememberToken()
-        a = msgbox("logout!!")
+        #fireEvent(#ON_LOGOUT, "")
     methodend
     
     method public void onOverlayDissmiss(BBjCustomEvent event!)
