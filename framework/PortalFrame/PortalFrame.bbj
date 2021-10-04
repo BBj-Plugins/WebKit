@@ -75,7 +75,7 @@ class public PortalFrame
         #Drawer! = new Drawer(#window!, drawerDataModel!)
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_STATE_CHANGED, #this!, "onDrawerToggle")
-        #Drawer!.setCallback(Drawer.ON_LOGOUT, #this!, "onLogout")
+        #Drawer!.setCallback(Drawer.ON_LOGOUT, "logout")
         
         header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
         
@@ -134,6 +134,7 @@ class public PortalFrame
             process_events
             
             logout:
+                #onLogout()
                 methodret 1
             
     methodend
@@ -251,8 +252,8 @@ class public PortalFrame
     fi
     methodend
 
-    method public void onLogout(BBjCustomEvent ev!)
-        BBjAPI().postCustomEvent("logout","")
+    method public void onLogout()
+        methodret
     methodend
 return
 
