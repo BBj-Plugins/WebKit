@@ -142,6 +142,7 @@
 .drawerFooterOverlaySettings{
     grid-row-start: 1;
     align-self: start;
+    cursor: pointer;
 }
 
 .drawerFooterOverlaySettingsIcon{
@@ -158,6 +159,7 @@
 .drawerFooterOverlayLogout{
     grid-row-start: 2;
     align-self: end;
+    cursor: pointer;
 }
 
 .drawerFooterOverlayLogoutIcon{
