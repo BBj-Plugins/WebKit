@@ -1,5 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-rem BBjGridExWidget Package
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public TilesList extends BBjWidget
 
@@ -11,10 +11,12 @@ class public TilesList extends BBjWidget
     methodend
 
     method public TilesList(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/TilesList/TilesList.css")
         #super!.create(wnd!)
     methodend
 
     method public TilesList(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/TilesList/TilesList.css")
         #super!.create(wnd!,id!)
     methodend
 

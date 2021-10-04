@@ -1,6 +1,6 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
-
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use java.util.HashMap
@@ -17,6 +17,7 @@ class public MenuPanel extends BBjWidget
     
 
     method public MenuPanel(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/framework/MenuPanel/MenuPanel.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
         #setVisible(0)
         wnd! = #getCanvas()
