@@ -112,7 +112,6 @@
     z-index: 99 !important;
     border-radius: 8px;
     width: 220px;
-    height: 124px;
     background-color: white;
     box-shadow: var(--bbj-shadow-l);
 }
@@ -128,8 +127,7 @@
 }
 
 .drawerFooterOverlayContentWrapper{
-    margin: 25px;
-    height: 74px;
+    margin: 10px;
     display: grid;
     grid-template-rows: 50% 50%;
 }
