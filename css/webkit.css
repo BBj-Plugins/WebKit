@@ -8,16 +8,6 @@ body
 	font-weight:600;
 }
 
-.gridholder {
-	width: calc( 100vw - 150px );
-	height: calc( 100vh - 250px );
-}
-
-.gridview {
-	width: calc( 100vw - 150px ) !important;
-	height: calc( 100vh - 320px ) !important;
-}
-
 .tilesheadline {
 	font-size: xx-large;
 	color: #1a1a1a;
@@ -51,16 +41,5 @@ iframe {
 	    width:30px;
 	    position:fixed;
 	    background-size:30px;
-	}
-
-	.gridholder{
-        width: calc( 100vw - 40px );
-        height: calc( 100vh - 250px );
-        position: fixed;
-        bottom: 60px;
-	}
-	
-	.gridview {
-        width: calc( 100vw - 40px) !important;
-	}
+	}	
 }
