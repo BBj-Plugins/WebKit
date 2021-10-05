@@ -1,0 +1,50 @@
+.windowStyle {
+	height: 100%;
+	width: 100%;
+}
+
+.windowPanelStyle {
+	height: 100%;
+	width: 100%;
+}
+
+.contentWrapperStyle {
+	width: 100%;
+	height: 100%;
+}
+
+.contentWrapperPanelStyle {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-rows: auto auto;
+}
+
+.eventTitleStyle {
+	color: white;
+	grid-row: 1;
+	align-self: center;
+	justify-self: start;
+	font-size: 14px;
+	line-height: 16.8px;
+}
+
+.eventTimezoneStyle {
+	color: white;
+	opacity: 0.7;
+	grid-row: 2;
+	align-self: center;
+	justify-self: start;
+	font-size: 12px;
+	line-height: 14.4px;
+}
+
+.eventDayStyle {
+	color: white;
+	opacity: 0.7;
+	grid-row: 2;
+	align-self: center;
+	justify-self: end;
+	font-size: 12px;
+	line-height: 14.4px;
+}
