@@ -1,0 +1,5 @@
+
+interface public IFieldReq
+    method public BBjString username(BBjString inputText!)
+    method public BBjString password(BBjString inputText!)
+interfaceend

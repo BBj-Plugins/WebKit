@@ -9,111 +9,143 @@ use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 use ::AuthKit/totp/TOTP.bbj::TOTP
+
+use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
+use ::WebKit/widgets/InputField/DefaultFieldReq.bbj::DefaultFieldReq
 use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
-use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthForgotPwProvider
+rem use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthForgotPwProvider
 use ::WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
+use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 
 
 class public LoginDialog
 
     field public static BBjNumber ON_LOGIN = 800001
     field private IAuthProvider authProvider!
+    field private IFieldReq fieldReq!
  
-    field private BBjTopLevelWindow window!
-    
-    field private BBjChildWindow loginWrapper!
-    field private LoginDialogBuilder loginContent!
-    
-    field private BBjChildWindow forgotWrapper!
-    field private LoginDialogBuilder forgotContent!
-
-    field private BBjChildWindow afterForgotWrapper!
-    field private LoginDialogBuilder afterForgotContent!
-
-    field private BBjChildWindow newpwWrapper!
-    field private LoginDialogBuilder newpwContent!
-    
     field private BBjSysGui sysGui!
-    field public BBjString User$ = ""
-    field public Boolean AllowRemember! = Boolean.FALSE
+    field private BBjTopLevelWindow window!
+    field private BBjWindow loginWrapper!
     
+    field private LoginDialogWindow loginWindow!
+    field private LoginDialogWindow forgotPwWindow!
+    field private LoginDialogWindow pwSentWindow!
+    field private LoginDialogWindow newPwWindow!
+
+    field public BBjString User$ = ""
+
+    field public Boolean AllowRemember! = Boolean.FALSE
+    field public Boolean AllowForgotPw! = Boolean.FALSE
     field public Boolean LoginWithMicrosoft! = Boolean.FALSE
     field public Boolean LoginWithGoogle! = Boolean.FALSE
 
-    field private InputField password! 
-    field private InputField username! 
     field private AccountProfile Profile!
     field private BBjString logoURL$
     
+    rem |||||| CONSTRUCTORS ||||||
     method public LoginDialog()
     methodend
-      
-    method public LoginDialog(BBjString title$, IAuthProvider authProvider!)  
-        #authProvider! = authProvider!
+    
+    method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
+        #this!(title$, authProvider!, new DefaultFieldReq()) 
+    methodend
+
+    method public LoginDialog(BBjString title$, IAuthProvider authProvider!, IFieldReq fieldReq!)
         bbjutils! = new ::BBUtils.bbj::BBUtils()
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
 
         #sysGui! = BBjAPI().openSysGui("X0")
         #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750, title$, $01101083$)
-        #window!.addPanelStyle("loginWrapperPanelStyle")
+        #window!.addPanelStyle("loginWrapperPanelStyle") 
+        #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()) 
+        #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
+
+        #authProvider! = authProvider!
+        #fieldReq! = fieldReq!
     methodend
 
+    rem |||||| GETTER & SETTER ||||||
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
     methodend
-    
-    method public void buildLoginContent()
-        #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
-        
-        #loginContent! = new LoginDialogBuilder(#this!,#loginWrapper!)
-        #loginContent!.addLogo(#logoURL$)
-        #loginContent!.addUsernameInput("Username")
-        #loginContent!.addPasswordInput("Password", "password")
-        #loginContent!.addRememberMeBox()
-        #loginContent!.addFeedback("Invalid username and password combination.")
-        #loginContent!.addSubmitButton("Login", "login")
-        #loginContent!.addRedirect("Forgot Password", "gotoForgotPassword")      
-    methodend
-    
-    method public void buildForgotContent(BBjString username$)
-        #forgotWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #forgotWrapper!.addPanelStyle("loginWidgetPanelStyle")
-                
-        #forgotContent! = new LoginDialogBuilder(#this!,#forgotWrapper!)
-        #forgotContent!.addLogo(#logoURL$)
-        #forgotContent!.addPageTitle("Request a new password")
-        if username$ = "" then
-            #forgotContent!.addUsernameInput("Email Address")
-        else
-            #forgotContent!.addUsernameInput("Email Address", username$)
-        endif 
-        #forgotContent!.addSubmitButton("Send Email", "requestForgotPasswordToken", "")
-        #forgotContent!.addRedirect("Return to Login", "gotoLogin")  
+
+    method public LoginDialogWindow getLoginWindow()
+        methodret #loginWindow!
     methodend
 
-    method public void buildAfterForgotContent(BBjString memory$, BBjString response$)
-        #afterForgotWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #afterForgotWrapper!.addPanelStyle("loginWidgetPanelStyle")
-           
-        #afterForgotContent! = new LoginDialogBuilder(#this!,#afterForgotWrapper!, memory$)
-        #afterForgotContent!.addLogo(#logoURL$)
-        #afterForgotContent!.addTextField(response$)
-        #afterForgotContent!.addSubmitButton("Resend Email", "requestForgotPasswordToken", "")
-        #afterForgotContent!.addRedirect("Return to Login", "gotoLogin")  
+    method public AccountProfile getProfile()
+        methodret #Profile!
     methodend
 
-    method public void buildNewPwContent(BBjString token!)
-        #newpwWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #newpwWrapper!.addPanelStyle("loginWidgetPanelStyle")
-                
-        #newpwContent! = new LoginDialogBuilder(#this!,#newpwWrapper!)
-        #newpwContent!.addLogo(#logoURL$)
-        #newpwContent!.addPageTitle("Choose a new password")
-        #newpwContent!.addPasswordInput("New Password", "password")
-        #newpwContent!.addRepeatPasswordInput("Repeat Password", "password")
-        #newpwContent!.addFeedback("test")
-        #newpwContent!.addSubmitButton("Set Password", "setPasswordWithToken", "")
+    method public static void clearRememberToken()
+        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+    methodend
+
+    rem |||||| CONTENT BUILDERS ||||||
+    method public void buildLoginContent(LoginDialogWindow wnd!)       
+        LoginDialogBuilder.addLogo(wnd!,#logoURL$)
+        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, "Username")
+        LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!,"Password", "Your password")
+        if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
+        LoginDialogBuilder.addFeedback(wnd!,"Invalid username and password combination.")
+        LoginDialogBuilder.addSubmitButton(wnd!, "Company Overview", "login")
+        if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")   
+    methodend
+
+    method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString memory$)
+        LoginDialogBuilder.addLogo(wnd!,#logoURL$)
+        LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
+        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, "Username")
+        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "temp!")
+        LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
+    methodend
+
+    method public void buildPwSentContent(LoginDialogWindow wnd!, BBjString memory$, BBjString response$)
+        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
+        LoginDialogBuilder.addTextField(wnd!, response$)
+        LoginDialogBuilder.addSubmitButton(wnd!, "Resend Email", "requestForgotPasswordToken", "temp")
+        LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
+    methodend
+
+    method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
+       LoginDialogBuilder.addLogo(wnd!, #logoURL$)
+       LoginDialogBuilder.addPageTitle(wnd!, "Choose a new password")
+       LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!, "New Password", "password")
+       LoginDialogBuilder.addRepeatPasswordInput(wnd!, "Repeat Password", "password")
+       LoginDialogBuilder.addFeedback(wnd!, "test")
+       LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken", "temp")
+    methodend
+
+    rem |||||| REDIRECTS ||||||
+    method public void gotoForgotPassword()   
+        declare BBjString user$
+        if #loginWindow! <> null() then 
+            user$ = #loginWindow!.getUsername().getText(0)
+            #loginWindow!.getContent().destroy()
+            #loginWindow! = null()
+        endif
+  
+        #forgotPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+        #buildForgotPwContent(#forgotPwWindow!, user$)
+    methodend
+
+    method public void gotoLogin()
+        declare BBjString user$
+
+        if #forgotPwWindow! <> null() then 
+            user$ = #forgotPwWindow!.getUsername().getText(0)
+            #forgotPwWindow!.getContent().destroy()
+            #forgotPwWindow! = null()
+        endif
+        if #pwSentWindow! <> null() then  
+            #pwSentWindow!.getContent().destroy()
+            #pwSentWindow! = null()
+        endif
+
+
+        #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+        #buildLoginContent(#loginWindow!, user$, "")    
     methodend
 
     method public Boolean doModal()
@@ -127,14 +159,15 @@ class public LoginDialog
                 methodret Boolean.TRUE
             fi
         fi  
-        
-        rem auto. goto New Password screen with token-url
-        rem TODO more options for other renew password methods
-        if ClientUtil.getUrlAnchor() = "" then 
-            #buildLoginContent()
+   
+        tempPw$ = ClientUtil.getUrlAnchor()
+        if tempPw$ = "" then 
+            #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildLoginContent(#loginWindow!)
         else 
             if Boolean.TRUE then    rem check if Token is valid
-                #buildNewPwContent(token!)
+                #newPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+                #buildNewPwContent(#newPwWindow!,tempPw$)
             endif
         endif
 
@@ -167,101 +200,38 @@ class public LoginDialog
                     methodret Boolean.TRUE
                 fi
                 return
-
-  
     methodend
-    
-    method public void requestForgotPasswordToken(BBjButtonPushEvent event!)
-        user$=#forgotContent!.getUsername().getText(0)
-       
-        rem TODO some checks to validate its an emailaddress (on modify event)
 
-        response$ = #authProvider!.requestForgotPasswordToken(user$)
-
-        if response$ = "" then
-            a = msgbox("Something wen't wrong requesting a new password.") 
-            #gotoLogin()
-            rem TODO add error message to Login screen to signal something went wrong
-        else 
-            if #forgotWrapper! <> null() then #forgotWrapper!.setStyle("display", "none")   
-            endif  
-            #buildAfterForgotContent(user$, response$) 
+    rem ||||||| API REQUESTS ||||||
+    method public void requestForgotPasswordToken(BBjString username$)
+        if #forgotPwWindow! <> null() then 
+            #forgotPwWindow!.getContent().destroy()
+            #forgotPwWindow! = null()
         endif
+
+        #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+        #buildPwSentContent(#pwSentWindow!, "", "Email has been sent.")    
+
+        rem response$ = #authProvider!.requestForgotPasswordToken(username$)
+
+        rem if response$ = "" then
+        rem     a = msgbox("Something wen't wrong requesting a new password.") 
+        rem     rem #gotoLogin()
+        rem     rem TODO add error message to Login screen to signal something went wrong
+        rem else 
+        rem     a = msgbox(response$)
+        rem     rem if #forgotWrapper! <> null() then #forgotWrapper!.setStyle("display", "none")   
+        rem     rem endif  
+        rem     rem #buildAfterForgotContent(user$, response$) 
+        rem endif
     methodend	
 
-    method public void setPasswordWithToken(BBjButtonPushEvent event!)
-        token$ = ClientUtil.getUrlAnchor()
+    method public void setPasswordWithToken(BBjString password$)
+        tempPW$ = ClientUtil.getUrlAnchor()
 
-        pw1! = #newpwContent!.getPassword().getText(0)
-        pw2! = #newpwContent!.getRepeatPassword().getText(0)
-        
-
-        if pw1!.length() < 2 then
-            #newpwContent!.setFeedback("Password is too short.")
-            #newpwContent!.getFeedback().setStyle("display", "block")
-        else    
-            if pw1! = pw2! then
-                 
-                if  #authProvider!.setPasswordWithToken(token$, pw1$) then    
-                    let x=MSGBOX("password changed", 0, "No Title")
-
-                    rem TODO if succes return to Login? maybe with message confirming password has been set or window in between
-
-                endif
-            else 
-                #newpwContent!.setFeedback("Passwords don't match.")
-                #newpwContent!.getFeedback().setStyle("display", "block")
-            endif
-
-        endif
-    methodend
-
-
-
-
-REM  |||||||||||||| 
-REM    REDIRECTS  
-REM  |||||||||||||| 
-    
-    method public void gotoForgotPassword(BBjMouseDownEvent event!) 
-        #gotoForgotPassword()  
-    methodend
-    
-    method public void gotoForgotPassword()   
-        if #loginWrapper! <> null() then #loginWrapper!.setStyle("display", "none")
-        if #afterForgotWrapper! <> null() then #afterForgotWrapper!.setStyle("display", "none")
-        if #newpwWrapper! <> null() then #newpwWrapper!.setStyle("display", "none")
-             
-        if #forgotWrapper! <> null() then   
-            #forgotWrapper!.setStyle("display", "block")
-        else 
-            user$ = #loginContent!.getUsername().getText(0)
-            #buildForgotContent(user$)
-        endif
-    methodend
-    
-    method public void gotoLogin(BBjMouseDownEvent event!)
-        #gotoLogin()
-    methodend
-
-    method public void gotoLogin()
-        if #forgotWrapper! <> null() then #forgotWrapper!.setStyle("display", "none")
-        if #afterForgotWrapper! <> null() then #afterForgotWrapper!.setStyle("display", "none")
-        if #newpwWrapper! <> null() then #newpwWrapper!.setStyle("display", "none")
-        
-        if #loginWrapper! <> null() then 
-            #loginWrapper!.setStyle("display", "block")
-        else 
-            #buildLoginContent()
-        endif
-    methodend
-
-    method public AccountProfile getProfile()
-        methodret #Profile!
-    methodend
-    
-    method public static void clearRememberToken()
-        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+        res$ = #authProvider!.setPassword(tempPw$, password$)
+      
+        let x=MSGBOX(res$, 0, "No Title")
     methodend
 
 classend

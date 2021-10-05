@@ -43,18 +43,28 @@
     grid-row-start: 1;
 }
 
+.inputFieldSubTextWindow {
+    grid-row-start: 3;
+    grid-column-start: 1;
+    height: 15px;
+    line-height: 14px;
+}
+
+
 .inputFieldSubTextStyle {
     /* display: none; */
-    
+    /* position: absolute; */
+    /* top: 0px; */
+
+    padding: 0px;
+    margin: 0;
+    line-height: 0px;
+ 
     color:red;
     font-family: 'Lato-Bold';
     font-weight:100;
     font-style: italic;
-    font-size: 10px;
-
-
-    grid-row-start: 3;
-    grid-column-start: 1;
+    font-size: 11px;
 }
 
 .inputFieldStyleInput::part(input){

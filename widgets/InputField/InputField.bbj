@@ -1,13 +1,21 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
+use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
+
 class public InputField extends BBjWidget 
-    
+
+    rem field private BBjMethod fieldReq!
+    field private IFieldReq fieldReq!
+    field private BBjString fieldType!
+
     field private BBjChildWindow window!
     field private BBjStaticText label!
     field private BBjInputE inputField!
     field private BBjEditBox passwordField!
+    field private BBjWindow subTextWnd!
     field private BBjStaticText subText!
+
 
     field private BBjImageCtrl suffixIcon!
     field private BBjChildWindow iconWrapper!
@@ -37,6 +45,15 @@ class public InputField extends BBjWidget
         #suffixIconPath! = suffixIcon!
         #super!.create(wnd!,id!)
     methodend
+
+    rem method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, BBjMethod fieldReq!)
+    rem     #fieldReq! = fieldReq!
+    
+    rem     DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
+    rem     #suffixIconPath! = suffixIcon!
+    rem     #super!.create(wnd!,id!)
+    rem methodend
     
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
@@ -62,10 +79,11 @@ class public InputField extends BBjWidget
             rem #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
             #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
             #label!.addStyle("inputFieldLabelStyle")
-            #subText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+            
+            #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #subTextWnd!.addStyle("inputFieldSubTextWindow")
+            #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
             #subText!.addStyle("inputFieldSubTextStyle")
-            #subText!.setText("placeholder")
-            rem #subText!.setVisible(0)
                 
             if #isPasswordField! then
                 #createPasswordField(1)
@@ -76,6 +94,7 @@ class public InputField extends BBjWidget
                 #inputField!.addStyle("inputFieldStyleInput")
                 #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
                 #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
+                #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
                 #inputField!.setLeftMargin(0)
             endif
             if #suffixIconPath! <> null() then 
@@ -97,6 +116,7 @@ class public InputField extends BBjWidget
         #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
         #passwordField!.setLeftMargin(0)
         #passwordField!.setPasswordVisible(0)
+        #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
     methodend
     
     method private void createSuffixIcon()
@@ -148,11 +168,38 @@ class public InputField extends BBjWidget
             #inputField!.addStyle("inputFieldStyleInputWrapper")
         endif
     methodend
+
+    method public void onChange(BBjEditModifyEvent event!)
+        inputText! = event!.getText()
+        
+        if #fieldType! <> null() or #fieldType! <> "" then
+            switch #fieldType!
+                case "username"
+                    #subText!.setText(#fieldReq!.username(inputText!))
+                break
+
+                case "password"
+                    #subText!.setText(#fieldReq!.password(inputText!))
+                break    
+            swend
+        endif
+          
+    methodend
+
+
     
     method public void onIconPressed(BBjMouseDownEvent event!)
         #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
     methodend
-    
+
+    method public void setFieldReq(IFieldReq fieldReq!)
+            #fieldReq! = fieldReq!
+    methodend
+
+    method public void setFieldType(BBjString fieldType!)
+        #fieldType! = fieldType!
+    methodend
+
     method public void setLabel(BBjString label!)
         #label!.setText(label!)
     methodend
@@ -160,7 +207,15 @@ class public InputField extends BBjWidget
     method public void setText(BBjString text!)
         #inputField!.setText(text!)
     methodend
-    
+
+    rem method public BBjStaticText getSubText()
+    rem     methodret #subText!
+    rem methodend
+
+    rem method public void setSubText(BBjString text$)
+    rem     #subText!.setSubText(text$)
+    rem methodend
+
     method public void setPlaceHolder(BBjString placeholder!)
         if #isPasswordField! then 
             #passwordField!.setPlaceholder(placeholder!)

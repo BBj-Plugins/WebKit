@@ -1,0 +1,106 @@
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
+
+class public LoginDialogWindow
+
+    field private LoginDialog loginDialog!
+    field private BBjChildWindow content!
+    
+    field private InputField username! 
+    field private InputField password! 
+    field private InputField repeatPassword! 
+
+    rem field private BBjStaticText feedback!
+
+    field private BBjString memory$
+
+    method public LoginDialogWindow(LoginDialog loginDialog!, BBjWindow wrapper!)
+        #loginDialog! = loginDialog!
+        #content! = wrapper!.addChildWindow(wrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #content!.setDockStyle("height","calc(531px - 112px)")
+        #content!.setDockStyle("padding","56px 44px")
+        #content!.addPanelStyle("loginWidgetContentPanelStyle")
+    methodend 
+
+
+    rem |||||| GETTER & SETTER ||||||
+    method public LoginDialog getLoginDialog())
+        methodret #loginDialog!
+    methodend
+
+    method public BBjWindow getContent()
+        methodret #content!
+    methodend
+
+    method public InputField getUsername()
+        methodret #username!
+    methodend
+
+    method public void setUsername(InputField username!)
+        #username! = username!
+    methodend
+    
+    method public InputField getPassword()
+        methodret #password!
+    methodend
+
+    method public void setPassword(InputField password!)
+        #password! = password!
+    methodend
+
+    method public InputField getRepeatPassword()
+        methodret #repeatPassword!
+    methodend
+
+    method public void setRepeatPassword(InputField repeatPassword!)
+        #repeatPassword! = repeatPassword! 
+    methodend
+
+    method public void setFeedback(BBjString message$)
+        #feedback!.setText(message$)
+    methodend
+
+    method public BBjStaticText getFeedback()
+        methodret #feedback!
+    methodend
+
+    method public BBjString getMemory()
+        methodret #memory!
+    methodend
+    
+    method public BBjChildWindow getContent()
+        methodret #content!
+    methodend
+
+    rem |||||| CLICKHANDLERS ||||||
+    method public void onUserIconPressed(BBjCustomEvent event!)
+        a = msgbox("UserIcon Pressed")
+    methodend
+    
+     method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+        if #password!.isPasswordVisible() then 
+            #password!.setPasswordVisible(0)
+            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
+        else
+            #password!.setPasswordVisible(1)
+            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
+        endif    
+    methodend
+
+    method public void gotoForgotPassword(BBjMouseDownEvent event!) 
+        #loginDialog!.gotoForgotPassword()
+    methodend  
+
+    method public void gotoLogin(BBjMouseDownEvent event!)
+        #loginDialog!.gotoLogin()
+    methodend
+
+    method public void requestForgotPasswordToken(BBjButtonPushEvent event!)
+        #loginDialog!.requestForgotPasswordToken(#username!.getText(0))   
+    methodend
+
+    method public void setPasswordWithToken(BBjButtonPushEvent event!)
+        #loginDialog!.setPasswordWithToken(#password!.getText(1)) 
+    methodend
+classend
