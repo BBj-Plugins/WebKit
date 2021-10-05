@@ -1,0 +1,79 @@
+.windowStyle {
+	height: 100%;
+	width: 100%;
+}
+
+.windowPanelStyle {
+	height: 100%;
+	width: 100%;
+}
+
+.contentWrapperStyle {
+	height: 100%;
+	width: 100%;
+}
+
+.contentWrapperPanelStyle {
+	height: 100%;
+	width: 100%;
+	display: grid;
+	grid-template-rows: auto auto;
+}
+
+.headerStyle {
+	height: 100%;
+	width: 100%;
+}
+
+.headerPanelStyle {
+	height: 100%;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+
+.widgetTitleStyle {
+	font-size: 10px;
+	line-height: 12px;
+	color: #a1a5a7;
+	align-self: center;
+	justify-self: start;
+}
+
+.filterStyle {
+	align-self: center;
+	justify-self: end;
+	width: min-content;
+	--bbj-button-color-on-default-text: black;
+}
+
+.filterStyle::part(control) {
+	--bbj-color-default: #ffff;
+}
+
+.filterStyle::part(suffix) {
+	color: black;
+}
+
+.filterStyle::part(suffix-separator) {
+	background: transparent;
+}
+
+.calendarEntriesStyle {
+	height: 100%;
+	width: 100%;
+}
+
+.calendarEntriesPanelStyle {
+	height: 100%;
+	width: 100%;
+	display: grid;
+	overflow: auto;
+	grid-template-rows: auto;
+	row-gap: 10px;
+}
+
+.placeHolderStyle {
+	justify-self: center;
+	align-self: center;
+}

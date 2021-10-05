@@ -1,5 +1,10 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/Calendar/CalendarEntryWidget/CalendarEntryWidget.bbj::CalendarEntryWidget
+
+use java.text.SimpleDateFormat
+use com.basiscomponents.db.DataRow
+
 
 class public Calendar extends BBjWidget
     
@@ -7,25 +12,22 @@ class public Calendar extends BBjWidget
     field private BBjVector calendarEntries! = new BBjVector()
     
     method public Calendar(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Calendar/Calendar.css")
         #super!.create(wnd!, wnd!.getAvailableControlID())
     methodend
-    
+   
     method public Calendar(BBjChildWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Calendar/Calendar.css")
         #super!.create(wnd!, id!)
     methodend
     
-    rem TODO: Move CSS to css file
     method public void redraw(Boolean init!)
         if init! then
             #window! = #getCanvas()
             #window!.setDockStyle("height", "100%")
             #window!.setDockStyle("width", "100%")
-            
-            #window!.setStyle("height", "100%")
-            #window!.setStyle("width", "100%")
-            
-            #window!.setPanelStyle("height", "100%")
-            #window!.setPanelStyle("width", "100%")
+            #window!.addStyle("windowStyle")
+            #window!.addPanelStyle("windowPanelStyle")
             
             declare BBjChildWindow contentWrapper!
             contentWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
@@ -33,46 +35,26 @@ class public Calendar extends BBjWidget
             contentWrapper!.setDockStyle("height", "100%")
             contentWrapper!.setDockStyle("width", "100%")
             contentWrapper!.setDockStyle("padding", "15px")
-            
-            contentWrapper!.setStyle("height", "100%")
-            contentWrapper!.setStyle("width", "100%")
-            
-            contentWrapper!.setPanelStyle("height", "100%")
-            contentWrapper!.setPanelStyle("width", "100%")
-            contentWrapper!.setPanelStyle("display", "grid")
-            contentWrapper!.setPanelStyle("grid-template-rows", "10% auto")
+            contentWrapper!.addStyle("contentWrapperStyle")
+            contentWrapper!.addPanelStyle("contentWrapperPanelStyle")
             
             declare BBjChildWindow header!
             header! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             header!.setDockStyle("height", "100%")
             header!.setDockStyle("width", "100%")
-            
             header!.setDockStyle("padding", "0px 10px 10px 10px")
-            
-            header!.setStyle("height", "100%")
-            header!.setStyle("width", "100%")
-            
-            header!.setPanelStyle("height", "100%")
-            header!.setPanelStyle("width", "100%")
-            
-            header!.setPanelStyle("display", "grid")
-            header!.setPanelStyle("grid-template-columns", "50% 50%")
-            
+            header!.addStyle("headerStyle")
+            header!.addPanelStyle("headerPanelStyle")
+
             declare BBjStaticText widgetTitle!
-            widgetTitle! = header!.addStaticText(header!.getAvailableControlID(),0,0,0,0,"Calendar")
-            widgetTitle!.setStyle("font-size", "10px")
-            widgetTitle!.setStyle("line-height", "12px")
-            widgetTitle!.setStyle("color", "#A1A5A7")
-            widgetTitle!.setStyle("align-self", "center")
-            widgetTitle!.setStyle("justify-self", "start")
+            widgetTitle! = header!.addStaticText(header!.getAvailableControlID(),0,0,0,0,"CALENDAR")
+            widgetTitle!.addStyle("widgetTitleStyle")
             
             declare BBjListButton filter!
             filter! = header!.addListButton(header!.getAvailableControlID(),0,0,0,0,"")
             filter!.addItem("This week")
             filter!.addItem("This day")
-            filter!.setStyle("align-self", "center")
-            filter!.setStyle("justify-self", "end")
-            
+            filter!.addStyle("filterStyle")
             filter!.selectIndex(0)
             
             declare BBjChildWindow calendarEntries!
@@ -80,41 +62,67 @@ class public Calendar extends BBjWidget
             calendarEntries!.setDockStyle("height", "100%")
             calendarEntries!.setDockStyle("width", "100%")
             
-            calendarEntries!.setDockStyle("overflow","auto")
-            
             calendarEntries!.setStyle("height", "100%")
-            calendarEntries!.setStyle("width", "100%")
-            
-            calendarEntries!.setPanelStyle("height", "100%")
-            calendarEntries!.setPanelStyle("width", "100%")
-            calendarEntries!.setPanelStyle("display", "grid")
-            calendarEntries!.setPanelStyle("grid-template-rows", "auto")
-            calendarEntries!.setPanelStyle("row-gap", "10px")
+            calendarEntries!.addStyle("calendarEntriesStyle")
+            calendarEntries!.addPanelStyle("calendarEntriesPanelStyle")
             
 REM             if (#calendarEntries!.size() = 0) then
-REM                 placeholder! = calendarEntries!.addStaticText(calendarEntries!.getAvailableControlID(),0,0,0,0,"Not content available to display.")
+REM                 placeholder! = calendarEntries!.addStaticText(calendarEntries!.getAvailableControlID(),0,0,0,0,"No content available to display.")
 REM                 placeholder!.setStyle("justify-self", "center")
 REM                 placeholder!.setStyle("align-self", "center")
 REM             endif
 
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
-            new CalendarEntryWidget(calendarEntries!)
+            declare DataRow data!
+            data! = new DataRow()
+            data!.setFieldValue("eventName", "Call Erik")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "Today")
+            new CalendarEntryWidget(calendarEntries!, data!, "#6883BA")
+            
+            data!.setFieldValue("eventName", "Weekly sales meeting")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "Today")
+            new CalendarEntryWidget(calendarEntries!, data!, "#9B0058")
+            
+            data!.setFieldValue("eventName", "Mobile CRM demo")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "8 Jul, wed")
+            new CalendarEntryWidget(calendarEntries!, data!, "#6883BA")
+            
+            data!.setFieldValue("eventName", "Visit with Corp Inc.")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "9 Jul, wed")
+            new CalendarEntryWidget(calendarEntries!, data!, "#408458")
+            
+            data!.setFieldValue("eventName", "Mobile CRM demo")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "8 Jul, wed")
+            new CalendarEntryWidget(calendarEntries!, data!, "#9B0058")
+            
+            data!.setFieldValue("eventName", "Call Erik")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "Today")
+            new CalendarEntryWidget(calendarEntries!, data!, "#6883BA")
+            
+            data!.setFieldValue("eventName", "Weekly sales meeting")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "Today")
+            new CalendarEntryWidget(calendarEntries!, data!, "#9B0058")
+            
+            data!.setFieldValue("eventName", "Mobile CRM demo")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "8 Jul, wed")
+            new CalendarEntryWidget(calendarEntries!, data!, "#6883BA")
+            
+            data!.setFieldValue("eventName", "Visit with Corp Inc.")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "9 Jul, wed")
+            new CalendarEntryWidget(calendarEntries!, data!, "#408458")
+            
+            data!.setFieldValue("eventName", "Mobile CRM demo")
+            data!.setFieldValue("eventTimezone", "13:00 PM - 13:45 PM")
+            data!.setFieldValue("eventDay", "8 Jul, wed")
+            new CalendarEntryWidget(calendarEntries!, data!, "#9B0058")
         endif
     methodend
     
