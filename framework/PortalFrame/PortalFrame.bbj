@@ -5,7 +5,7 @@ use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/framework/LoginDialog.bbj::LoginDialog
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
@@ -26,6 +26,7 @@ class public PortalFrame
     field public BBjString Username!
     field public BBjString Title!
     field public Menu Menu!
+    field public Menu FooterMenu!
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
@@ -42,7 +43,7 @@ class public PortalFrame
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
     methodend
 
-    method private void initializeDrawer(Menu menu!)
+    method private void initializeDrawer(Menu menu!, Menu footerMenu!)
         declare BBjVector menuTiles!
         declare TilesTextHeader header!
 
@@ -56,6 +57,7 @@ class public PortalFrame
 
         drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         menuTiles! = new BBjVector()
+        footerMenuTiles! = new BBjVector()
 
         menuitems! = menu!.getChildren(menu!.getRoot()) 
         it! = menuitems!.iterator()
@@ -70,10 +72,29 @@ class public PortalFrame
             REM btn!.setToolTip(menuitem!.getToolTip())
             REM btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
         wend
+
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","WebKit/demo/assets/home.svg")
+        footerMenuItem!.setProgram("void")
+        footerMenuItem!.setCallback("onChangeTheme")
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","WebKit/demo/assets/log-out.png")
+        footerMenuItem!.setProgram("void")
+        footerMenuItem!.setCallback("onLogout")
+
+        footerMenuItems! = footerMenu!.getChildren(footerMenu!.getRoot())
+        it! = footerMenuItems!.iterator()
+
+        while it!.hasNext()
+            declare auto MenuItem footerMenuItem!
+            footerMenuItem! = it!.next()
+            id% = footerMenuItem!.getNodeId()
+            footerMenuTiles!.add(new DrawerMenuTileEntry(id%, footerMenuItem!.getCaption(), footerMenuItem!.getIcon()))
+        wend
+        drawerDataModel!.setFooterMenuTiles(footerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
         #Drawer! = new Drawer(#window!, drawerDataModel!)
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
+        #Drawer!.setCallback(Drawer.ON_DRAWER_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_STATE_CHANGED, #this!, "onDrawerToggle")
         #Drawer!.setCallback(Drawer.ON_LOGOUT, "logout")
         
@@ -102,7 +123,7 @@ class public PortalFrame
             #Main! = cast(BBjChildWindow,main!)
             #Main!.addStyle("shrinked")
              
-            #initializeDrawer(#Menu!)
+            #initializeDrawer(#Menu!, #FooterMenu!)
             REM #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
             REM #AccountDisplay!.setCallback(BBjAPI.ON_POPUP_REQUEST,#this!,"onAvatarAreaClick")
             REM 
@@ -134,7 +155,6 @@ class public PortalFrame
             process_events
             
             logout:
-                #onLogout()
                 methodret 1
             
     methodend
@@ -151,6 +171,12 @@ class public PortalFrame
         item!=#Menu!.getItem(nodeId)
         #navigateTo(item!)
    methodend
+    
+    method public void onFooterMenuItemClick(BBjCustomEvent ev!)
+        nodeId = num(str(ev!.getObject()))
+        item!=#FooterMenu!.getItem(nodeId)
+        #navigateTo(item!)
+    methodend
 
    method public void navigateTo(MenuItem item!)
         if #curr_win! <> null() and !#curr_win!.isDestroyed() then
@@ -174,6 +200,12 @@ class public PortalFrame
                 #curr_win!.setVisible(1)
             else
                 pgm$ = item!.getProgram()
+                if pgm$ = "void" then
+                    callback$ = item!.getCallback()
+                    x! = null()
+                    x! = eval("#" + callback$ + "()", err=*next)
+                    methodret
+                fi
                 if pgm$>"" then
                     starttype = item!.getStartType()
                     
@@ -253,6 +285,8 @@ class public PortalFrame
     methodend
 
     method public void onLogout()
+        LoginDialog.clearRememberToken()
+        BBjAPI().postCustomEvent("logout", "")
         methodret
     methodend
 return
