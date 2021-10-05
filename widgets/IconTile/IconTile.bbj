@@ -1,5 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-rem BBjGridExWidget Package
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public IconTile extends BBjWidget
 
@@ -10,10 +10,12 @@ class public IconTile extends BBjWidget
     field private BBjString Icon$
 
     method public IconTile(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/IconTile/IconTile.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
     method public IconTile(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/IconTile/IconTile.css") 
         #super!.create(wnd!,id!)
     methodend
 

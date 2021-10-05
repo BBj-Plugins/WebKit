@@ -1,0 +1,39 @@
+.card {
+    width  : 350px;
+    height : 400px;
+    box-shadow: var(--bbj-shadow-l);
+    margin-right: 20px;
+    margin-bottom: 20px;
+    display: flex;
+     
+}
+.cardpanel {
+    padding-bottom: 10px;
+}
+
+.cardtext {
+  padding-left:15px;
+  padding-right:15px;
+  padding-bottom:10px;
+}
+
+.cardimg {
+   width:350px;
+   height:235px;
+   background-size:contain;
+   background-repeat:no-repeat;
+   background-position-x:center;
+   background-position-y:center;
+}
+
+@media screen and (max-width: 400px) {
+	.card {
+		  width:calc( 100vw - 10px );
+		  margin-left: 0px;
+		  font-size: smaller;
+	}
+	
+	.cardimg{
+    	 width:calc( 100vw - 10px );
+	}
+}
