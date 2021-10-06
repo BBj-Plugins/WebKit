@@ -57,7 +57,7 @@
     height: min-content;
     margin-top: 19px;
     justify-self: center;
-    font-family: 'Lato-Bold';
+    font-weight: 700;
     font-style: normal;
     font-size: 14px;
     line-height: 17px;
@@ -68,7 +68,6 @@
     height: min-content;
     margin-top: 9px;
     justify-self: center;
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -98,7 +97,6 @@
     grid-column-start: 2;
     grid-row-start: 1;
     padding-right: 10px;
-    font-family: 'Lato';
 }
 
 .drawerSearchWidgetInputFieldStyleInputWrapper::part(input-wrapper) {

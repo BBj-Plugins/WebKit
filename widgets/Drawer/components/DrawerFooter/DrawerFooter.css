@@ -76,7 +76,7 @@
 }
 
 .drawerFooterTitleStyling {
-    font-family: 'Lato-Bold';
+    font-weight: 700;
     font-style: normal;
     font-size: 14px;
     line-height: 17px;
@@ -85,7 +85,6 @@
 }
 
 .drawerFooterSubtitleStyling {
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -95,7 +94,7 @@
 }
 
 .drawerFooterPopUpTextStyle {
-    font-family: 'Lato-Bold';
+    font-weight: 700;
     font-style: normal;
     align-self: center;
     font-size: 14px;

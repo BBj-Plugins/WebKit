@@ -1,8 +1,10 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
+ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 
 DynamicLoader.init()
 DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
@@ -10,11 +12,10 @@ DynamicLoader.loadThemeFile("WebKit/demo/ProdinDemo/ProdinDemo.css")
 DynamicLoader.addLocalCSS("WebKit/demo/assets/demo.css")
 DynamicLoader.addLocalCSS("WebKit/css/webkit.css")
 
+
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/prodin_logo.png","prodinRes")
-bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/fonts/Lato-Regular.ttf","prodinRes")
-bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/fonts/Lato-Bold.ttf","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/fonts/feather-icons.ttf","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/prodin_login_background_desktop.png","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/prodin_login_background_tablet.png","prodinRes")
