@@ -94,7 +94,7 @@ class public InputField extends BBjWidget
                 #inputField!.addStyle("inputFieldStyleInput")
                 #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
                 #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
-                #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
+                rem #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
                 #inputField!.setLeftMargin(0)
             endif
             if #suffixIconPath! <> null() then 
@@ -159,17 +159,36 @@ class public InputField extends BBjWidget
     methodend
     
     method public void onFocusLost(BBjLostFocusEvent event!)
-        #label!.setStyle("color","var(--webkit-secondary)")
-        if #isPasswordField! then
-            #passwordField!.removeStyle("inputFieldStyleInputWrapperFocused")
-            #passwordField!.addStyle("inputFieldStyleInputWrapper")
-        else
-            #inputField!.removeStyle("inputFieldStyleInputWrapperFocused")
-            #inputField!.addStyle("inputFieldStyleInputWrapper")
-        endif
+    inputText! = event!.getText()
+        
+    if #fieldType! <> null() or #fieldType! <> "" then
+        switch #fieldType!
+            case "username"
+                #subText!.setText(#fieldReq!.username(inputText!))
+            break
+
+            case "password"
+                #subText!.setText(#fieldReq!.password(inputText!))
+            break    
+        swend
+    endif
+        rem #label!.setStyle("color","var(--webkit-secondary)")
+        rem if #isPasswordField! then
+        rem     #passwordField!.removeStyle("inputFieldStyleInputWrapperFocused")
+        rem     #passwordField!.addStyle("inputFieldStyleInputWrapper")
+        rem else
+        rem     #inputField!.removeStyle("inputFieldStyleInputWrapperFocused")
+        rem     #inputField!.addStyle("inputFieldStyleInputWrapper")
+        rem endif
     methodend
 
+
+
     method public void onChange(BBjEditModifyEvent event!)
+        #onChange()
+    methodend
+
+    method public void onChange()
         inputText! = event!.getText()
         
         if #fieldType! <> null() or #fieldType! <> "" then
@@ -183,7 +202,6 @@ class public InputField extends BBjWidget
                 break    
             swend
         endif
-          
     methodend
 
 
@@ -212,9 +230,9 @@ class public InputField extends BBjWidget
     rem     methodret #subText!
     rem methodend
 
-    rem method public void setSubText(BBjString text$)
-    rem     #subText!.setSubText(text$)
-    rem methodend
+    method public void setSubText(BBjString text$)
+        #subText!.setText(text$)
+    methodend
 
     method public void setPlaceHolder(BBjString placeholder!)
         if #isPasswordField! then 

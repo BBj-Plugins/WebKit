@@ -29,20 +29,20 @@ class public LoginDialogBuilder
         infoMessage!.setStyle("font-weight","500 ")
     methodend
 
-    method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$)
-        #addUsernameInput(dialog!, fieldReq!, label$, "")
-    methodend
+    rem method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!)
+    rem     #addUsernameInput(dialog!, fieldReq!, "")
+    rem methodend
 
-    method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString memory$)
+    method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString memory$)
         dialog!.setUsername(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), "WebKit/framework/LoginDialog/assets/user.png"))
         dialog!.getUsername().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onUserIconPressed")
-        dialog!.getUsername().setLabel(label$)
+        dialog!.getUsername().setLabel("Username")
         dialog!.getUsername().setPlaceHolder("name@company.com")
         dialog!.getUsername().setDockStyle("margin-top","50px")
         dialog!.getUsername().setFieldReq(fieldReq!)
         dialog!.getUsername().setFieldType("username")
         if memory$ <> "" then
-            #username!.setText(memory$)
+            dialog!.getUsername().setText(memory$)
         endif
     methodend
 
@@ -76,12 +76,16 @@ class public LoginDialogBuilder
     methodend
 
     method public static void addFeedback(LoginDialogWindow dialog!, BBjString feedback$)
-        feedback! = dialog!.getContent().addStaticText(dialog!.getContent().getAvailableControlID(),0,0,0,0,"<html>" + feedback$ + "</html>",$0010$)
-        feedback!.setStyle("color","red")
-        feedback!.setStyle("font-size","12px ")
-        feedback!.setStyle("font-weight","300 ")
-        feedback!.setStyle("font-style","italic")
-        feedback!.setStyle("margin-top", "5px")
+        rem rem feedback! = dialog!.getContent().addStaticText(dialog!.getContent().getAvailableControlID(),0,0,0,0,"<html>" + feedback$ + "</html>")
+        rem feedback! = dialog!.getContent().addStaticText(dialog!.getContent().getAvailableControlID(),0,0,0,0,"hola")
+        rem feedback!.setVisible(1)
+        rem rem feedback!.setStyle("grid-row-start","1")
+        rem feedback!.setStyle("color","red")
+        rem feedback!.setStyle("font-size","52px ")
+        rem feedback!.setStyle("font-weight","300 ")
+        rem feedback!.setStyle("font-style","italic")
+        rem feedback!.setStyle("margin-top", "5px")
+        dialog!.getPassword().setSubText(feedback$)
     methodend
 
     method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$)

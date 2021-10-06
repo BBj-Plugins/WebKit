@@ -64,16 +64,25 @@ class public LoginDialog
 
         checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
 
-        if checkAuthRenewPwProvider! <> null() then
-            #AllowForgotPw! = Boolean.TRUE
-        endif
-
+        rem if checkAuthRenewPwProvider! <> null() then
+        rem     #AllowForgotPw! = Boolean.TRUE
+        rem     #authRenewPw! = authProvider!
+        rem else
+             
+        rem endif
+        #authProvider! = authProvider!
+        
         #fieldReq! = fieldReq!
     methodend
 
     rem |||||| GETTER & SETTER ||||||
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
+    methodend
+
+    method public void setAuthRenewPwProvider(IAuthRenewPwProvider authProvider!)
+        #authRenewPw! = authProvider!
+        #AllowForgotPw! = Boolean.TRUE
     methodend
 
     method public LoginDialogWindow getLoginWindow()
@@ -88,21 +97,94 @@ class public LoginDialog
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
     methodend
 
+     rem |||||| DO MODAL ||||||
+    method public Boolean doModal()
+
+        if #AllowRemember! then
+            token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+            if token$>"" and #authProvider!.checkToken(token$) then
+                token$ = #authProvider!.getToken()
+                BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                #User$ = #authProvider!.getUser()
+                methodret Boolean.TRUE
+            fi
+        fi  
+   
+        tempPw$ = ClientUtil.getUrlAnchor()
+        if tempPw$ = "" then 
+            #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildLoginContent(#loginWindow!, "")
+        else 
+            if Boolean.TRUE then    rem check if Token is valid
+                #newPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+                #buildNewPwContent(#newPwWindow!,tempPw$)
+            endif
+        endif
+
+        process_events
+
+        login:
+            user$=#loginWindow!.getUsername().getText(0)
+            pass$=#loginWindow!.getPassword().getText(1)
+                
+                if #authProvider!.checkLogin(user$,pass$) then
+                    #User$ = user$
+                    if rememberMe! <> null() AND rememberMe!.isSelected() then
+                        token$ = #authProvider!.getToken()
+                        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                    fi
+                    methodret Boolean.TRUE
+                else
+                    #gotoLogin("Invalid credentials.")
+
+                    rem #loginWindow!.getFeedback().setStyle("display", "block")
+                fi
+                return
+           
+           onGoogleLogin:
+           onMicrosoftLogin:
+                ev! = BBjAPI().getLastEvent()
+                profile! = ev!.getObject()
+                if #authProvider!.checkLoginWithAccountProfile(profile!) then
+                    #User$ = str(profile!.getFullName())
+                    #Profile! = CAST(AccountProfile,profile!)
+                    #window!.destroy()
+                    methodret Boolean.TRUE
+                fi
+                return
+    methodend
+
     rem |||||| CONTENT BUILDERS ||||||
-    method public void buildLoginContent(LoginDialogWindow wnd!)       
+    method public void buildLoginContent(LoginDialogWindow wnd!)
+        #buildLoginContent(wnd!,"")    
+    methodend
+
+    method public void buildLoginContent(LoginDialogWindow wnd!, BBjString username$)         
+        rem LoginDialogBuilder.addLogo(wnd!,#logoURL$)
+        rem LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, username$)
+        rem LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!,"Password", "Your password")
+        rem if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
+        rem LoginDialogBuilder.addFeedback(wnd!,"Invalid username and password combination.")
+        rem LoginDialogBuilder.addSubmitButton(wnd!, "Company Overview", "login")
+        rem if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")   
+        #buildLoginContent(wnd!,"","")  
+    methodend
+
+    method public void buildLoginContent(LoginDialogWindow wnd!, BBjString username$, BBjString loginResponse$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
-        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, "Username")
+        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, username$)
         LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!,"Password", "Your password")
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
-        LoginDialogBuilder.addFeedback(wnd!,"Invalid username and password combination.")
+        rem if loginResponse$ <> "" then LoginDialogBuilder.addFeedback(wnd!,loginResponse$, Boolean.TRUE)
+        LoginDialogBuilder.addFeedback(wnd!,loginResponse$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Company Overview", "login")
-        if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")   
+        if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")  
     methodend
 
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString memory$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
-        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, "Username")
+        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "temp")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
@@ -138,81 +220,43 @@ class public LoginDialog
     methodend
 
     method public void gotoLogin()
+        #gotoLogin("")
+    methodend
+    method public void gotoLogin(BBjString loginResponse$)
         declare BBjString user$
+        if #loginWindow! <> null() then 
+            user$ = #loginWindow!.getUsername().getText(0)
+            #loginWindow!.getContent().destroy()
+            #loginWindow! = null()
+        endif
 
         if #forgotPwWindow! <> null() then 
             user$ = #forgotPwWindow!.getUsername().getText(0)
             #forgotPwWindow!.getContent().destroy()
             #forgotPwWindow! = null()
         endif
+
         if #pwSentWindow! <> null() then  
             #pwSentWindow!.getContent().destroy()
             #pwSentWindow! = null()
         endif
 
-
-        #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-        #buildLoginContent(#loginWindow!, user$, "")    
-    methodend
-
-    method public Boolean doModal()
-
-        if #AllowRemember! then
-            token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
-            if token$>"" and #authProvider!.checkToken(token$) then
-                token$ = #authProvider!.getToken()
-                BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
-                #User$ = #authProvider!.getUser()
-                methodret Boolean.TRUE
-            fi
-        fi  
-   
-        tempPw$ = ClientUtil.getUrlAnchor()
-        if tempPw$ = "" then 
+        if loginResponse$ <> "" then
             #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildLoginContent(#loginWindow!)
-        else 
-            if Boolean.TRUE then    rem check if Token is valid
-                #newPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-                #buildNewPwContent(#newPwWindow!,tempPw$)
-            endif
+            #buildLoginContent(#loginWindow!, user$, loginResponse$) 
+        else
+            #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildLoginContent(#loginWindow!, user$)   
         endif
 
-        process_events
-
-        login:
-            user$=#loginWindow!.getUsername().getText(0)
-            pass$=#loginWindow!.getPassword().getText(1)
-                
-                if #authProvider!.checkLogin(user$,pass$) then
-                    #User$ = user$
-                    if rememberMe! <> null() AND rememberMe!.isSelected() then
-                        token$ = #authProvider!.getToken()
-                        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
-                    fi
-                    methodret Boolean.TRUE
-                else
-                    a=msgbox("bad credentials")
-                    rem #loginWindow!.getFeedback().setStyle("display", "block")
-                fi
-                return
-           
-           onGoogleLogin:
-           onMicrosoftLogin:
-                ev! = BBjAPI().getLastEvent()
-                profile! = ev!.getObject()
-                if #authProvider!.checkLoginWithAccountProfile(profile!) then
-                    #User$ = str(profile!.getFullName())
-                    #Profile! = CAST(AccountProfile,profile!)
-                    #window!.destroy()
-                    methodret Boolean.TRUE
-                fi
-                return
+ 
     methodend
+
+    
 
     rem ||||||| API REQUESTS ||||||
     method public void requestForgotPasswordToken(BBjString username$)
-        response$ = #authProvider!.requestForgotPasswordToken(username$)
+        response$ = #authRenewPw!.requestForgotPasswordToken(username$)
    
         if #forgotPwWindow! <> null() then 
             #forgotPwWindow!.getContent().destroy()
