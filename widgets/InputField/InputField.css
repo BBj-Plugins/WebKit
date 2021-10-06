@@ -8,7 +8,6 @@
     grid-row-start: 2;
     grid-column-start: 1;
     grid-column-end: 3;
-    font-family: 'Lato';
 }
 
 .inputFieldStyleInputWrapper::part(input-wrapper) {
@@ -34,9 +33,8 @@
 
 
 .inputFieldLabelStyle {
-    font-family: 'Lato-Bold';
     font-style: normal;
-    /* font-weight: bold; */
+    font-weight: 700;
     font-size: 12px;
     line-height: 14px;
     color: var(--bbj-color-black);

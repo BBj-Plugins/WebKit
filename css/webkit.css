@@ -3,7 +3,6 @@ body
   	overflow: hidden;  
   	overscroll-behavior-y: none;
   	touch-action: none;
-	font-family:Nunito, sans-serif;
 	font-style:normal;
 	font-weight:600;
 }

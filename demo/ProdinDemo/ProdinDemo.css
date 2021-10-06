@@ -33,8 +33,8 @@
 
 /* TYPOGRAPHY */
 /* ==================== */
---bbj-font-family-sans: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
---bbj-font-family-mono: Menlo, Monaco, 'Courier New', monospace;
+--bbj-font-family-sans: 'Lato', -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+--bbj-font-family-mono: 'Lato', Menlo, Monaco, 'Courier New', monospace;
 --bbj-font-size-xxs: 0.75rem;
 --bbj-font-size-xs: 0.8125rem;
 --bbj-font-size-s: 0.875rem;
@@ -205,7 +205,7 @@
 --bbj-color-gray-text: var(--bbj-color-gray-40);
 --bbj-color-gray-light: var(--bbj-color-gray-45);
 --bbj-color-on-gray-text-light: var(--bbj-color-gray-text-45);
---bbj-color-gray-text-light: var(--bbj-color-gray-45);
+--bbj-color-gray-text-light: var(--bbj-fcolor-gray-45);
 --bbj-border-color-gray: var(--bbj-color-gray-dark);
 --bbj-focus-ring-gray: 0 0 0 var(--bbj-focus-ring-width) hsla(var(--bbj-color-gray-hue), var(--bbj-color-gray-saturation), var(--bbj-focus-ring-lightness), var(--bbj-focus-ring-alpha));
 --bbj-color-default-dark: var(--bbj-color-default-85);
