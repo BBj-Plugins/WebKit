@@ -9,6 +9,7 @@ class public MenuItem
 
     field private BBjNumber StartType
     field private BBjString Program$
+    field private BBjString Callback$
 
     method private MenuItem()
     methodend
@@ -95,6 +96,14 @@ class public MenuItem
     
     method public BBjString getProgram()
         methodret #Program$
+    methodend
+
+    method public void setCallback(BBjString callback$)
+        #Callback$ = callback$
+    methodend
+
+    method public BBjString getCallback()
+        methodret #Callback$
     methodend
 
 classend

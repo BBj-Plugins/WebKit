@@ -6,6 +6,7 @@ class public DrawerModel
     field public BBjString LogoSmallUrl!
     field public BBjString TilesTextHeader!
     field public BBjVector MenuTiles!
+    field public BBjVector FooterMenuTiles!
 
     field public BBjString DrawerOpenIcon!
     field public BBjString DrawerCloseIcon!
@@ -31,7 +32,9 @@ class public DrawerModel
         #AvatarSize! = "32px"
 
         #MenuTiles! = new BBjVector()
-        #MenuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
+        #MenuTiles!.add(new DrawerMenuTileEntry(800,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
+
+        #FooterMenuTiles! = new BBjVector()
     methodend
 
     method public DrawerModel(BBjString logoUrl!, BBjString logoSmallUrl!)
