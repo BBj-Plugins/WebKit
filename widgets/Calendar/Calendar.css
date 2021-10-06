@@ -1,23 +1,14 @@
-.windowStyle {
+.calendarStyle {
 	height: 100%;
 	width: 100%;
 }
 
-.windowPanelStyle {
-	height: 100%;
-	width: 100%;
-}
-
-.contentWrapperStyle {
-	height: 100%;
-	width: 100%;
-}
-
-.contentWrapperPanelStyle {
-	height: 100%;
-	width: 100%;
+.calendarPanelStyle {
+	height: calc(100% - 32px);
+	width: calc(100% - 32px);
 	display: grid;
-	grid-template-rows: auto auto;
+	grid-template-rows: auto calc(100% - 32px);
+	padding: 16px;
 }
 
 .headerStyle {
@@ -62,13 +53,18 @@
 .calendarEntriesStyle {
 	height: 100%;
 	width: 100%;
+	overflow: unset;
+}
+
+.calendarEntriesStyle::-webkit-scrollbar {
+	display: none;
 }
 
 .calendarEntriesPanelStyle {
 	height: 100%;
 	width: 100%;
 	display: grid;
-	overflow: auto;
+	overflow: scroll;
 	grid-template-rows: auto;
 	row-gap: 10px;
 }
