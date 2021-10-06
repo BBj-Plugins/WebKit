@@ -155,6 +155,7 @@ class public PortalFrame
             process_events
             
             logout:
+                ClientUtil.setUrlAnchor("", "")
                 methodret 1
             
     methodend
