@@ -11,9 +11,9 @@ class public LoginDialogWindow
     field private InputField password! 
     field private InputField repeatPassword! 
 
-    rem field private BBjStaticText feedback!
-
     field private BBjString memory$
+
+    rem field private BBjStaticText feedback!
 
     method public LoginDialogWindow(LoginDialog loginDialog!, BBjWindow wrapper!)
         #loginDialog! = loginDialog!
@@ -68,6 +68,10 @@ class public LoginDialogWindow
     method public BBjString getMemory()
         methodret #memory!
     methodend
+
+    method public void setMemory(BBjString memory$)
+        #memory$ = memory$ 
+    methodend    
     
     method public BBjChildWindow getContent()
         methodret #content!
@@ -96,11 +100,18 @@ class public LoginDialogWindow
         #loginDialog!.gotoLogin()
     methodend
 
-    method public void requestForgotPasswordToken(BBjButtonPushEvent event!)
-        #loginDialog!.requestForgotPasswordToken(#username!.getText(0))   
+    method public void requestForgotPasswordToken(BBjButtonPushEvent event!)      
+        username$ = #memory$
+        
+        if username$ = "" then
+            #loginDialog!.requestForgotPasswordToken(#username!.getText(0)) 
+        else 
+            #loginDialog!.requestForgotPasswordToken(username$) 
+        endif     
     methodend
 
     method public void setPasswordWithToken(BBjButtonPushEvent event!)
+        a = msgbox(#password!.getText(1))
         #loginDialog!.setPasswordWithToken(#password!.getText(1)) 
     methodend
 classend

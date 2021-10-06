@@ -1,0 +1,9 @@
+
+use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
+
+interface public IAuthRenewPwProvider extends IAuthProvider
+
+    method public BBjString requestForgotPasswordToken (BBjString Email!)
+    method public Boolean setPasswordWithToken (BBjString username!, BBjString tmpPassword!, BBjString newPassword!)
+
+interfaceend

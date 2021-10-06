@@ -13,7 +13,7 @@ use ::AuthKit/totp/TOTP.bbj::TOTP
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 use ::WebKit/widgets/InputField/DefaultFieldReq.bbj::DefaultFieldReq
 use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
-rem use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthForgotPwProvider
+use ::WebKit/framework/LoginDialog/IAuthRenewPwProvider.bbj::IAuthRenewPwProvider
 use ::WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 
@@ -22,6 +22,7 @@ class public LoginDialog
 
     field public static BBjNumber ON_LOGIN = 800001
     field private IAuthProvider authProvider!
+    field private IAuthRenewPwProvider authRenewPw!
     field private IFieldReq fieldReq!
  
     field private BBjSysGui sysGui!
@@ -61,7 +62,12 @@ class public LoginDialog
         #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()) 
         #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
 
-        #authProvider! = authProvider!
+        checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
+
+        if checkAuthRenewPwProvider! <> null() then
+            #AllowForgotPw! = Boolean.TRUE
+        endif
+
         #fieldReq! = fieldReq!
     methodend
 
@@ -97,11 +103,12 @@ class public LoginDialog
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
         LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, "Username")
-        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "temp!")
+        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "temp")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
 
     method public void buildPwSentContent(LoginDialogWindow wnd!, BBjString memory$, BBjString response$)
+        LoginDialogBuilder.addMemory(wnd!, memory$)
         LoginDialogBuilder.addLogo(wnd!, #logoURL$)
         LoginDialogBuilder.addTextField(wnd!, response$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Resend Email", "requestForgotPasswordToken", "temp")
@@ -174,8 +181,8 @@ class public LoginDialog
         process_events
 
         login:
-            user$=#loginContent!.getUsername().getText(0)
-            pass$=#loginContent!.getPassword().getText(1)
+            user$=#loginWindow!.getUsername().getText(0)
+            pass$=#loginWindow!.getPassword().getText(1)
                 
                 if #authProvider!.checkLogin(user$,pass$) then
                     #User$ = user$
@@ -185,7 +192,8 @@ class public LoginDialog
                     fi
                     methodret Boolean.TRUE
                 else
-                    #loginContent!.getFeedback().setStyle("display", "block")
+                    a=msgbox("bad credentials")
+                    rem #loginWindow!.getFeedback().setStyle("display", "block")
                 fi
                 return
            
@@ -204,34 +212,29 @@ class public LoginDialog
 
     rem ||||||| API REQUESTS ||||||
     method public void requestForgotPasswordToken(BBjString username$)
+        response$ = #authProvider!.requestForgotPasswordToken(username$)
+   
         if #forgotPwWindow! <> null() then 
             #forgotPwWindow!.getContent().destroy()
             #forgotPwWindow! = null()
         endif
-
-        #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-        #buildPwSentContent(#pwSentWindow!, "", "Email has been sent.")    
-
-        rem response$ = #authProvider!.requestForgotPasswordToken(username$)
-
-        rem if response$ = "" then
-        rem     a = msgbox("Something wen't wrong requesting a new password.") 
-        rem     rem #gotoLogin()
-        rem     rem TODO add error message to Login screen to signal something went wrong
-        rem else 
-        rem     a = msgbox(response$)
-        rem     rem if #forgotWrapper! <> null() then #forgotWrapper!.setStyle("display", "none")   
-        rem     rem endif  
-        rem     rem #buildAfterForgotContent(user$, response$) 
-        rem endif
+        if #pwSentWindow! <> null() then 
+            #pwSentWindow!.getContent().destroy()
+            #pwSentWindow! = null()
+            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildPwSentContent(#pwSentWindow!, username$, "Email opnieuw verzonden." ) 
+        else 
+            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildPwSentContent(#pwSentWindow!, username$, response$)    
+        endif
     methodend	
 
     method public void setPasswordWithToken(BBjString password$)
         tempPW$ = ClientUtil.getUrlAnchor()
+        username$ = "ian.hupkes@prodin.nl"
+        res! = #authProvider!.setPasswordWithToken(username$, tempPw$, password$)
 
-        res$ = #authProvider!.setPassword(tempPw$, password$)
-      
-        let x=MSGBOX(res$, 0, "No Title")
+        if res! then  let x=MSGBOX("password changed", 0, "No Title")
     methodend
 
 classend

@@ -4,6 +4,11 @@ use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
 class public LoginDialogBuilder 
+
+    method public static void addMemory(LoginDialogWindow dialog!, BBjString memory$)
+        rem if memory$ <> "" and memory$ <> null() then
+        dialog!.setMemory(memory$)
+    methodend
       
     method public static void addLogo(LoginDialogWindow dialog!, BBjString url$)
         logo! = dialog!.getContent().addImageCtrl(dialog!.getContent().getAvailableControlID(),0,0,0,0, url$)
@@ -84,16 +89,16 @@ class public LoginDialogBuilder
     methodend
 
     method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$, BBjString methodLocation$)
-    submitBtn! = dialog!.getContent().addButton(dialog!.getContent().getAvailableControlID(),0,0,0,0,label$)
-    if methodLocation$ =  "" then 
-        submitBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,methodName$)
-    else 
-        submitBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,dialog!,methodName$)
-    endif
-    submitBtn!.setStyle("margin-top","40px")
-    submitBtn!.addStyle("loginWidgetBtnStyle")
-    submitBtn!.addStyle("loginWidgetBtnLabel")
-    submitBtn!.addStyle("loginWidgetBtnControl")
+        submitBtn! = dialog!.getContent().addButton(dialog!.getContent().getAvailableControlID(),0,0,0,0,label$)
+        if methodLocation$ =  "" then 
+            submitBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,methodName$)
+        else 
+            submitBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,dialog!,methodName$)
+        endif
+        submitBtn!.setStyle("margin-top","40px")
+        submitBtn!.addStyle("loginWidgetBtnStyle")
+        submitBtn!.addStyle("loginWidgetBtnLabel")
+        submitBtn!.addStyle("loginWidgetBtnControl")
     methodend
 
     method public static void addRedirect(LoginDialogWindow dialog!, BBjString redirectText$, BBjString methodName$)
