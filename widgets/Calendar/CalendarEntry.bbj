@@ -1,0 +1,42 @@
+class public CalendarEntry
+    field private BBjInt id!
+    field private BBjString eventTitle!
+    field private BBjString eventTimezone!
+    field private BBjString eventDay!
+    
+    method public CalendarEntry(BBjInt id!, BBjString eventTitle!, BBjString eventTimezone!, BBjString eventDay!)
+        #id! = id!
+        #eventTitle! = eventTitle!
+        #eventTimezone! = eventTimezone!
+        #eventDay! = eventDay!
+    methodend
+    
+    method public void setEventTitle(BBjString eventTitle!)
+        #eventTitle! = eventTitle!
+    methodend
+    
+    method public void setEventTimezone(BBjString eventTimezone!)
+        #eventTimezone! = eventTimezone!
+    methodend
+    
+    method public void setEventDay(BBjString eventDay!)
+        #eventDay! = eventDay!
+    methodend
+    
+    method public BBjInt getID()
+        methodret #id!
+    methodend
+    
+    method public BBjString getEventTitle()
+        methodret #eventTitle!
+    methodend
+    
+    method public BBjString getEventTimezone()
+        declare SimpleDateFormat sdf!
+        methodret #eventTimezone!
+    methodend
+    
+    method public BBjString getEventDay()
+        methodret #eventTitle!
+    methodend
+classend
