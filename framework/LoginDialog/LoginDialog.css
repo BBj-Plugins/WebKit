@@ -45,7 +45,6 @@
 }
 
 .loginWidgetBtnLabel::part(label) {
-    /* font-family: 'Lato'; */
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -64,7 +63,6 @@
 
 .loginWidgetCheckBoxLabel::part(label) {
     align-self: center;
-    /* font-family: 'Lato'; */
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -89,7 +87,6 @@
 }
 
 .loginWidgetForgotPWStlye{
-    /* font-family: 'Lato'; */
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
