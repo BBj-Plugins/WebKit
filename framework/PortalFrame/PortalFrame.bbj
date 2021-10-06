@@ -202,7 +202,6 @@ class public PortalFrame
                 pgm$ = item!.getProgram()
                 if pgm$ = "void" then
                     callback$ = item!.getCallback()
-                    x! = null()
                     x! = eval("#" + callback$ + "()", err=*next)
                     methodret
                 fi
