@@ -168,13 +168,13 @@ class public PortalFrame
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
         nodeId=num(str(ev!.getObject()))
-        item!=#Menu!.getItem(nodeId)
+        item! = #Menu!.getItem(nodeId)
         #navigateTo(item!)
    methodend
     
     method public void onFooterMenuItemClick(BBjCustomEvent ev!)
         nodeId = num(str(ev!.getObject()))
-        item!=#FooterMenu!.getItem(nodeId)
+        item! = #FooterMenu!.getItem(nodeId)
         #navigateTo(item!)
     methodend
 
