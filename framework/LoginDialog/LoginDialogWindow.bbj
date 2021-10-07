@@ -10,6 +10,9 @@ class public LoginDialogWindow
     field private InputField username! 
     field private InputField password! 
     field private InputField repeatPassword! 
+    field private BBjButton submitButton!
+    field private BBjStaticText redirect!
+
 
     field private BBjString memory$
 
@@ -21,12 +24,16 @@ class public LoginDialogWindow
         #content!.setDockStyle("height","calc(531px - 112px)")
         #content!.setDockStyle("padding","56px 44px")
         #content!.addPanelStyle("loginWidgetContentPanelStyle")
-    methodend 
 
+    methodend 
 
     rem |||||| GETTER & SETTER ||||||
     method public LoginDialog getLoginDialog())
         methodret #loginDialog!
+    methodend
+
+    method public BBjChildWindow getContent()
+        methodret #content!
     methodend
 
     method public BBjWindow getContent()
@@ -57,14 +64,22 @@ class public LoginDialogWindow
         #repeatPassword! = repeatPassword! 
     methodend
 
-    method public void setFeedback(BBjString message$)
-        #feedback!.setText(message$)
+    method public BBjButton getSubmitButton()
+        methodret #submitButton! 
     methodend
 
-    method public BBjStaticText getFeedback()
-        methodret #feedback!
+    method public void setSubmitButton(BBjButton button!)
+        #submitButton! = button!
     methodend
 
+    method public BBjStaticText getRedirect()
+        methodret #redirect! 
+    methodend
+
+    method public void setRedirect(BBjStaticText redirect!)
+        #redirect!  = redirect! 
+    methodend
+    
     method public BBjString getMemory()
         methodret #memory!
     methodend
@@ -73,11 +88,25 @@ class public LoginDialogWindow
         #memory$ = memory$ 
     methodend    
     
-    method public BBjChildWindow getContent()
-        methodret #content!
+
+
+    rem |||||| CALLBACKS ||||||
+    method public void onForgotPwHover(BBjMouseEnterEvent event!)
+        #redirect!.addStyle("hover")
     methodend
 
-    rem |||||| CLICKHANDLERS ||||||
+    method public void onForgotPwHoverExit(BBjMouseEnterEvent event!)
+        #redirect!.removeStyle("hover")
+    methodend
+
+    method public void onButtonHover(BBjMouseEnterEvent event!)
+        #submitButton!.addStyle("hover")
+    methodend
+
+    method public void onButtonHoverExit(BBjMouseEnterEvent event!)
+        #submitButton!.removeStyle("hover")
+    methodend
+
     method public void onUserIconPressed(BBjCustomEvent event!)
         a = msgbox("UserIcon Pressed")
     methodend
@@ -92,6 +121,19 @@ class public LoginDialogWindow
         endif    
     methodend
 
+    method public void clearStyles()
+        if #username! <> null() then 
+            #username!.clearStyle()
+        endif
+        if #password! <> null() then 
+            #password!.clearStyle()
+        endif
+        if #repeatPassword! <> null() then 
+            #repeatPassword!.clearStyle()
+        endif
+    methodend
+
+    rem |||||| REDIRECTS ||||||
     method public void gotoForgotPassword(BBjMouseDownEvent event!) 
         #loginDialog!.gotoForgotPassword()
     methodend  
@@ -111,7 +153,7 @@ class public LoginDialogWindow
     methodend
 
     method public void setPasswordWithToken(BBjButtonPushEvent event!)
-        a = msgbox(#password!.getText(1))
+        rem a = msgbox(#password!.getText(1))
         #loginDialog!.setPasswordWithToken(#password!.getText(1)) 
     methodend
 classend

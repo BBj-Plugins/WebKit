@@ -51,6 +51,7 @@
 .loginWidgetBtnStyle{
     grid-row-start: 5;
     --bbj-color-default: var(--webkit-primary);
+    --bbj-color-default: yellow;
     height: 43px;
     width: 100%;
 }
@@ -99,7 +100,7 @@
     background-color: var(--webkit-primary);
 }
 
-.loginWidgetForgotPWStlye{
+.forgotPwStlye{
     font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
