@@ -29,4 +29,4 @@ widgets/
         - <widget-name>.css - widget level styles
 ```
 # Theming Guideline
-For custom theme implementation, follow this guideline [here](https://github.com/BBj-Plugins/WebKit/blob/Update-gudlines-for-custom-theming/docs/theme-guideline.md)
+For custom theme implementation, follow this guideline [here](docs/theme-guideline.md)
