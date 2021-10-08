@@ -40,7 +40,7 @@
 
 .loginWidgetBtnStyle{
     grid-row-start: 5;
-    --bbj-color-default: var(--webkit-primary);
+    /* --bbj-color-default: var(--bbj-color-primary); */
     height: 43px;
     width: 100%;
 }
@@ -54,15 +54,15 @@
 }
 
 .loginWidgetBtnControl::part(control) {
-    /* background-color: red !important; */
     border-radius: 8px;
+    background: var(--bbj-color-primary);
 }
 
-.loginWidgetBtnControl::part(control).hover {
-    background-color: var(webkit secondary);
+.loginWidgetBtnControl.hover::part(control) {
+    background-color: #a64e73;
+    border-color: #a64e73;
     border-radius: 8px;
 }   
-
 
 
 .loginWidgetCheckBoxStyle{
@@ -94,6 +94,11 @@
 }
 .loginWidgetCheckBoxIcon::part(checked-icon) {
     background-color: var(--webkit-primary);
+}
+
+.infoMessage {
+    color:var(--bbj-color-black);
+    font-size: var(--bbj-font-size-xs);
 }
 
 .forgotPwStlye{

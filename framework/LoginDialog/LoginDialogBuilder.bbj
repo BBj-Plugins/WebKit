@@ -28,10 +28,11 @@ class public LoginDialogBuilder
    
     method public static void addTextField (LoginDialogWindow dialog!, BBjString message$)
         infoMessage! = dialog!.getContent().addStaticText(dialog!.getContent().getAvailableControlID(),0,0,0,0,message$)
-        infoMessage!.setStyle("margin-top","80px")
-        infoMessage!.setStyle("height","50px ")
-        infoMessage!.setStyle("font-size","14px")
-        infoMessage!.setStyle("font-weight","500 ")
+        infoMessage!.addStyle("infoMessage")
+        rem infoMessage!.setStyle("margin-top","80px")
+        rem infoMessage!.setStyle("height","50px ")
+        rem infoMessage!.setStyle("font-size","14px")
+        rem infoMessage!.setStyle("font-weight","500 ")
     methodend
 
     rem method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!)
@@ -97,6 +98,7 @@ class public LoginDialogBuilder
             dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,dialog!,methodName$)
         endif
         dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_ENTER,dialog!,"onButtonHover")
+        dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_EXIT,dialog!,"onButtonHoverExit")
         dialog!.getSubmitButton().setStyle("margin-top","40px")
         dialog!.getSubmitButton().addStyle("loginWidgetBtnStyle")
         dialog!.getSubmitButton().addStyle("loginWidgetBtnLabel")

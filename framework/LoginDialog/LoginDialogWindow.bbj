@@ -102,7 +102,7 @@ class public LoginDialogWindow
         #submitButton!.addStyle("hover")
     methodend
 
-    method public void onButtonHoverExit(BBjMouseEnterEvent event!)
+    method public void onButtonHoverExit(BBjMouseExitEvent event!)
         #submitButton!.removeStyle("hover")
     methodend
 

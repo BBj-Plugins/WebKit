@@ -224,33 +224,33 @@ class public InputField extends BBjWidget
     rem ||||||| CALLBACKS ||||||||
 
     method public void onHoverStart(BBjMouseEnterEvent event!)
-        #label!.setStyle("color","var(--bbj-color-primary)")
+        #label!.addStyle("hover")
     methodend
     
     method public void onHoverExit(BBjMouseExitEvent event!)
-        #label!.setStyle("color","var(--bbj-color-black)")
+        #label!.removeStyle("hover")
     methodend
     
     method public void onFocusGained(BBjGainedFocusEvent event!)
-        #label!.setStyle("color","var(--bbj-color-primary)")
+        #label!.addStyle("focus")
         
         if #isPasswordField! then
-            rem #passwordField!.addStyle("focus")
-            #this!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
+            #passwordField!.addStyle("focus")
+            rem #passwordField!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         else
-            rem #inputField!.addStyle("focus")   
-            #this!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
+            #inputField!.addStyle("focus")   
+            rem #this!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         endif
     methodend
     
 
     method public void onFocusLost(BBjLostFocusEvent event!)
-        #label!.setStyle("color","var(--bbj-color-black)")
-        rem if #isPasswordField! then
-        rem     #passwordField!.removeStyle("focus")
-        rem else
-        rem     #inputField!.removeStyle("focus")
-        rem endif
+        #label!.removeStyle("focus")
+        if #isPasswordField! then
+            #passwordField!.removeStyle("focus")
+        else
+            #inputField!.removeStyle("focus")
+        endif
     methodend
 
     method public void onError()
@@ -277,6 +277,7 @@ class public InputField extends BBjWidget
             endif
         endif   
 
+        #label!.addStyle("focus")
         rem if #isPasswordField! then
         rem     inputText! = #passwordField!.getText()
         rem else 
