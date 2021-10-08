@@ -5,11 +5,11 @@
 1. Go to [Export Theme (bbx.kitchen)](https://hot.bbx.kitchen/webapp/DWCThemeEditor) and modify your colors accordingly
 2. Click the hamburger menu and this do the following:
     
-    ![theme-guideline-img-1.png](../assets/theme-guideline-img-1.png)
+    ![theme-guideline-img-1.png](https://github.com/BBj-Plugins/WebKit/blob/Update-gudlines-for-custom-theming/docs/assets/theme-guideline-img-1.png)
     
 3. while exporting, make your selections like this
 
-![theme-guideline-img-2.png](../assets/theme-guideline-img-1.png)
+![theme-guideline-img-2.png](https://github.com/BBj-Plugins/WebKit/blob/Update-gudlines-for-custom-theming/docs/assets/theme-guideline-img-2.png)
 
 1. In the demo folder, make a new folder for your company: Eg: `prodinDemo` and inside this create a `prodinDemo.bbj` file and `prodinDemo.css` put the code you have downloaded in the `css` file.
 2. in `prodinDemo.bbj` load the theme life:
