@@ -1,0 +1,38 @@
+.menutile {
+	width:120px;
+	height:120px;
+    color:white;	
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+}
+
+.menutile .material-icons  {
+	padding-top:25px;
+    font-size:36px;
+    font-style:normal;
+    font-weight:600;      
+}
+
+.menutile .tilelabel {
+	font-family:Nunito, sans-serif;
+    font-size:14px;
+    font-style:normal;
+    font-weight:600;      
+}
+
+.menutile:hover {
+	background-color: var(--bbj-color-primary-50);
+}
+
+.menutile.submenu{
+   color:#1a1a1a;
+   margin-right:20px;
+   margin-top:20px;
+   background-color:#f1f1f1; 
+}
+
+.menutile.submenu:hover {
+    background-color: var(--bbj-color-primary-50);
+    color:white;
+}

@@ -1,0 +1,9 @@
+use com.basiscomponents.ui.layout.dwc.IBBjWidgetHelper 
+
+
+class public DWCWidgetHelper implements IBBjWidgetHelper
+    method public BBjControl createWidget(BBjChildWindow wnd!, String classname!)
+        c! = eval("new "+classname!+"(wnd!)")
+        methodret c! 
+    methodend
+classend

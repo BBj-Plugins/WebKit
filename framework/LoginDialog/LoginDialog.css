@@ -1,13 +1,3 @@
-@font-face {
-    font-family: 'Lato';
-    src: url('/files/prodinRes/Lato-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'Lato-Bold';
-    src: url('/files/prodinRes/Lato-Bold.ttf');
-}
-
 .loginWidgetPanelStyle {
     width: 460px;
     height: 531px;
@@ -20,7 +10,7 @@
     margin: auto !important;
     border-radius: 16px;
     margin: 30px;
-    box-shadow: 0px 10px 34px var(--webkit-box-shadow-blur);
+    box-shadow: var(--bbj-shadow-l);
 }
 
 .mainWindow {
@@ -50,14 +40,12 @@
 
 .loginWidgetBtnStyle{
     grid-row-start: 5;
-    /* --bbj-color-default: var(--webkit-primary); */
-    --bbj-color-default: yellow !important;
+    --bbj-color-default: var(--webkit-primary);
     height: 43px;
     width: 100%;
 }
 
 .loginWidgetBtnLabel::part(label) {
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -71,7 +59,7 @@
 }
 
 .loginWidgetBtnControl::part(control).hover {
-    background-color: red !important;
+    background-color: var(webkit secondary);
     border-radius: 8px;
 }   
 

@@ -28,7 +28,7 @@
     height: 433px;
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0px 10px 35px var(--webkit-box-shadow-blur);
+    box-shadow: var(--bbj-shadow-l);
 }
 
 .drawerClosed .drawerSearchWidgetOverlayPanelStyleClosed {
@@ -57,18 +57,17 @@
     height: min-content;
     margin-top: 19px;
     justify-self: center;
-    font-family: 'Lato-Bold';
+    font-weight: 700;
     font-style: normal;
     font-size: 14px;
     line-height: 17px;
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
 }
 
 .drawerSearchWidgetContentWrapperEmptySearchInteractiveLabelStyle {
     height: min-content;
     margin-top: 9px;
     justify-self: center;
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -98,7 +97,6 @@
     grid-column-start: 2;
     grid-row-start: 1;
     padding-right: 10px;
-    font-family: 'Lato';
 }
 
 .drawerSearchWidgetInputFieldStyleInputWrapper::part(input-wrapper) {

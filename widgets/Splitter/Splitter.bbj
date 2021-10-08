@@ -1,6 +1,6 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
-rem BBjGridExWidget Package
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public Splitter extends BBjWidget
 
@@ -10,16 +10,16 @@ class public Splitter extends BBjWidget
     field private BBjChildWindow second!  
 
     method public Splitter(BBjWindow wnd!, Boolean vertical!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Splitter/Splitter.css")
         #vertical! = vertical!
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
-
     method public Splitter(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Splitter/Splitter.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
-    
     rem /**
     rem  * @Override
     rem  * This method is called whenever the widget needs to be rendered
@@ -90,10 +90,6 @@ class public Splitter extends BBjWidget
     methodend
 classend
 
-
-
-
-
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
@@ -111,8 +107,6 @@ split! = new Splitter(window!,Boolean.TRUE)
 split!.setPanelStyle("height","200px")
 split!.getLeft().addStaticText(100,0,0,0,0,"Left")
 split!.getRight().addStaticText(100,0,0,0,0,"Right")
-
-
 
 process_events
 

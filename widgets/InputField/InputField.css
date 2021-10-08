@@ -8,7 +8,6 @@
     grid-row-start: 2;
     grid-column-start: 1;
     grid-column-end: 3;
-    font-family: 'Lato';
 }
 
 .inputFieldStyleInputWrapper::part(input-wrapper) {
@@ -27,19 +26,18 @@
     background: white;
     border: none;
     border-radius: 0px;
-    border-bottom: 1px solid var(--webkit-primary);
+    border-bottom: 1px solid var(--bbj-color-primary);
     width: 100%;
     height: 34px;
 }
 
 
 .inputFieldLabelStyle {
-    font-family: 'Lato-Bold';
     font-style: normal;
-    /* font-weight: bold; */
+    font-weight: 700;
     font-size: 12px;
     line-height: 14px;
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
     grid-row-start: 1;
 }
 
@@ -68,5 +66,5 @@
 }
 
 .inputFieldStyleInput::part(input){
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
 }

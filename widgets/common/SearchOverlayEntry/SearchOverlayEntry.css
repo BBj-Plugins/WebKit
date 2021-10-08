@@ -1,11 +1,10 @@
 
 .searchOverlayEntryTitleStyle{
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
     padding-bottom: 2.5px;
     padding-left: 12px;
     grid-column-start: 2;
@@ -15,7 +14,6 @@
 }
 
 .searchOverlayEntrySubtitleStyle {
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -47,7 +45,6 @@
 }
 
 .searchOverlayEntryInitialsTextStyle {
-    font-family: 'Lato';
     font-style: normal;
     font-weight: bold;
     font-size: 14px;

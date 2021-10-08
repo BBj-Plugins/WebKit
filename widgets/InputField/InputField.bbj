@@ -175,8 +175,8 @@ class public InputField extends BBjWidget
                 #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
                 #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
                 #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
-                #inputField!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onMouseEnter")
-                #inputField!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onMouseExit")
+                #inputField!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
+                #inputField!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
             endif
             if #suffixIconPath! <> null() then 
                 #createSuffixIcon()
@@ -198,8 +198,8 @@ class public InputField extends BBjWidget
         #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
         #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
         #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
-        #passwordField!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onMouseEnter")
-        #passwordField!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onMouseExit")
+        #passwordField!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
+        #passwordField!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
     methodend
     
     method private void createSuffixIcon()
@@ -223,54 +223,34 @@ class public InputField extends BBjWidget
 
     rem ||||||| CALLBACKS ||||||||
 
-    method public void onMouseEnter(BBjMouseEnterEvent event!)
-        rem  #label!.setStyle("color","var(--webkit-primary)")
-         #label!.addStyle("hover")
-
-         if #isPasswordField! then
-            rem #passwordField!.removeStyle("focus")
-            #passwordField!.addStyle("hover")
-        else
-            rem #inputField!.removeStyle("inputFieldStyleInputWrapper")
-            #inputField!.addStyle("hover")
-        endif
+    method public void onHoverStart(BBjMouseEnterEvent event!)
+        #label!.setStyle("color","var(--bbj-color-primary)")
     methodend
     
-    method public void onMouseExit(BBjMouseExitEvent event!)
-        #label!.removeStyle("hover")
+    method public void onHoverExit(BBjMouseExitEvent event!)
+        #label!.setStyle("color","var(--bbj-color-black)")
     methodend
     
     method public void onFocusGained(BBjGainedFocusEvent event!)
-        #label!.addStyle("focus")
+        #label!.setStyle("color","var(--bbj-color-primary)")
+        
         if #isPasswordField! then
-            #passwordField!.addStyle("focus")
+            rem #passwordField!.addStyle("focus")
+            #this!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         else
-            #inputField!.addStyle("focus")    
+            rem #inputField!.addStyle("focus")   
+            #this!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         endif
     methodend
     
 
     method public void onFocusLost(BBjLostFocusEvent event!)
-        inputText! = event!.getText()
-            
-        if #fieldType! <> null() or #fieldType! <> "" then
-            switch #fieldType!
-                case "username"
-                    #subText!.setText(#fieldReq!.username(inputText!))
-                break
-
-                case "password"
-                    #subText!.setText(#fieldReq!.password(inputText!))
-                break    
-            swend
-        endif
-
-        #label!.removeStyle("focus")
-        if #isPasswordField! then
-            #passwordField!.removeStyle("focus")
-        else
-            #inputField!.removeStyle("focus")
-        endif
+        #label!.setStyle("color","var(--bbj-color-black)")
+        rem if #isPasswordField! then
+        rem     #passwordField!.removeStyle("focus")
+        rem else
+        rem     #inputField!.removeStyle("focus")
+        rem endif
     methodend
 
     method public void onError()
@@ -323,7 +303,7 @@ class public InputField extends BBjWidget
                     #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
                     if #subText!.getText() = "" then
                         #subText!.setText("Correct")
-                        
+
                         #subText!.addStyle("correct")
                 break        
             swend

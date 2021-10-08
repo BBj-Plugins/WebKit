@@ -42,7 +42,11 @@ class public Drawer extends BBjWidget
 
     field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
 
+    field public static BBjNumber ON_DRAWER_FOOTER_TILE_PRESSED = 132 
+
     field public static BBjNumber ON_DRAWER_STATE_CHANGED = 1444
+
+    field public static BBjNumber ON_LOGOUT = 14441
     
     method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
@@ -114,6 +118,8 @@ class public Drawer extends BBjWidget
             
             footer! = new DrawerFooter(footerWrapper!,#window!,#drawerDataModel!)
             footer!.setDockStyle("align-self","center")
+            footer!.setCallback(DrawerFooter.getON_LOGOUT(), #this!, "onLogout")
+            footer!.setCallback(DrawerFooter.ON_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
             
             declare DrawerMenuTileEntry entry!
             declare BBjChildWindow spacer!
@@ -239,6 +245,10 @@ class public Drawer extends BBjWidget
     method public void onMenuItemClick(BBjCustomEvent event!)
         #fireEvent(#ON_DRAWER_TILE_PRESSED, event!.getObject())
     methodend
+
+    method public void onFooterMenuItemClick(BBjCustomEvent ev!)
+        #fireEvent(#ON_DRAWER_FOOTER_TILE_PRESSED, ev!.getObject())
+    methodend
     
     method public void openDrawer(BBjCustomEvent event!)
         #window!.addStyle("drawerOpen")
@@ -249,5 +259,8 @@ class public Drawer extends BBjWidget
     
     method public Boolean isOpen()
         methodret #open!
+    methodend
+    method public void onLogout(BBjCustomEvent ev!)
+       #fireEvent(#ON_LOGOUT, "") 
     methodend
 classend

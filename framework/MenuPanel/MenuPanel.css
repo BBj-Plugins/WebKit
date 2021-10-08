@@ -1,0 +1,19 @@
+.menupanel {
+	display: grid;
+	margin: 20px;
+}
+
+.menuclient {
+	padding:10px;
+	width:calc( 100vw - 121px );
+	height:calc( 100vh - 64px );
+}
+
+@media screen and (max-width: 600px) {
+    .menuclient
+    {
+        padding:4px;
+        width:100vw;
+        height:calc( 100vh - 44px );
+   }
+}
