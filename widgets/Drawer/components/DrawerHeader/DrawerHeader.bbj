@@ -74,8 +74,7 @@ class public DrawerHeader extends BBjWidget
             templateRows! = ""
             
             i = 0
-            REM for i = 0 to #tiles!.size() - 1
-            while i < #tiles!.size() - 1
+            while i < #tiles!.size()
                 entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
                 tile! = new DrawerMenuTile(#contentWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
                 tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
