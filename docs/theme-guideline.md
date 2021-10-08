@@ -29,16 +29,15 @@ DynamicLoader.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 ```
 
 then go the theme css file, eg: `prodinDemo.css` and modify bbj font family variables:
-
-    ```css
+ ```css
     --bbj-font-family-sans: 'Lato', -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    ```
+ ```
 
-    or you can do this also:
+or you can do this also:
+```css
+ --bbj-font-family: 'Lato'
+```
 
-    ```css
-    --bbj-font-family: 'Lato';
-    ```
 
 ### How to use bbj variables?
 
