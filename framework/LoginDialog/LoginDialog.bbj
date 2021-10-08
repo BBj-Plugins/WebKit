@@ -71,7 +71,6 @@ class public LoginDialog
              
         rem endif
         #authProvider! = authProvider!
-        
         #fieldReq! = fieldReq!
     methodend
 
@@ -170,8 +169,6 @@ class public LoginDialog
         LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$, 1)
         LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!,"Password", "Your password", "password", 2)
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
-        rem if loginResponse$ <> "" then LoginDialogBuilder.addFeedback(wnd!,loginResponse$, Boolean.TRUE)
-        rem LoginDialogBuilder.addFeedback(wnd!,loginResponse$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Company Overview", "login", 3)
         if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")  
     methodend
@@ -184,12 +181,17 @@ class public LoginDialog
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
 
-    method public void buildPwSentContent(LoginDialogWindow wnd!, BBjString memory$, BBjString response$)
+    method public void buildPwSentContent(LoginDialogWindow wnd!, BBjString memory$,  BBjString title$, BBjString response$, Boolean retry!, BBjString methodName$ )
         LoginDialogBuilder.addMemory(wnd!, memory$)
         LoginDialogBuilder.addLogo(wnd!, #logoURL$)
+        LoginDialogBuilder.addPageTitle(wnd!,title$)
         LoginDialogBuilder.addTextField(wnd!, response$)
-        LoginDialogBuilder.addSubmitButton(wnd!, "Resend Email", "requestForgotPasswordToken", "void", 1)
-        LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
+        if retry! then
+            LoginDialogBuilder.addSubmitButton(wnd!, "Retry", methodName$, "void", 1)  
+        else 
+            LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin", "void", 1)
+        endif
+
     methodend
 
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
@@ -199,6 +201,8 @@ class public LoginDialog
        LoginDialogBuilder.addRepeatPasswordInput(wnd!, #fieldReq!, "Repeat Password", "password",2 )
        LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken", "void", 3)
     methodend
+
+    
 
     rem |||||| REDIRECTS ||||||
     method public void gotoForgotPassword()   
@@ -216,6 +220,7 @@ class public LoginDialog
     method public void gotoLogin()
         #gotoLogin("")
     methodend
+
     method public void gotoLogin(BBjString loginResponse$)
         declare BBjString user$
         if #loginWindow! <> null() then 
@@ -242,11 +247,18 @@ class public LoginDialog
             #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
             #buildLoginContent(#loginWindow!, user$)   
         endif
-
- 
     methodend
 
-    
+    method public void gotoNewPassword(BBjString tempPw$)
+        if #pwSentWindow! <> null() then  
+            #pwSentWindow!.getContent().destroy()
+            #pwSentWindow! = null()
+        endif
+
+        #newPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+        #buildNewPwContent(#newPwWindow!,tempPw$)    
+    methodend
+
 
     rem ||||||| API REQUESTS ||||||
     method public void requestForgotPasswordToken(BBjString username$)
@@ -256,23 +268,35 @@ class public LoginDialog
             #forgotPwWindow!.getContent().destroy()
             #forgotPwWindow! = null()
         endif
-        if #pwSentWindow! <> null() then 
-            #pwSentWindow!.getContent().destroy()
-            #pwSentWindow! = null()
+        rem if #pwSentWindow! <> null() then 
+        rem     #pwSentWindow!.getContent().destroy()
+        rem     #pwSentWindow! = null()
+        rem     #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+        rem     #buildPwSentContent(#pwSentWindow!, username$,"" "Email opnieuw verzonden." ) 
+        rem else 
             #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildPwSentContent(#pwSentWindow!, username$, "Email opnieuw verzonden." ) 
-        else 
-            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildPwSentContent(#pwSentWindow!, username$, response$)    
-        endif
+            #buildPwSentContent(#pwSentWindow!, username$, "Password token sent" ,response$, Boolean.FALSE, "")    
+        rem endif
     methodend	
 
     method public void setPasswordWithToken(BBjString password$)
         tempPW$ = ClientUtil.getUrlAnchor()
         username$ = "ian.hupkes@prodin.nl"
-        res! = #authProvider!.setPasswordWithToken(username$, tempPw$, password$)
+        response! = #authRenewPw!.setPasswordWithToken(username$, tempPw$, password$)
 
-        if res! then  let x=MSGBOX("password changed", 0, "No Title")
+        if #newPwWindow! <> null() then 
+            #newPwWindow!.getContent().destroy()
+            #newPwWindow! = null()
+        endif
+
+        if response! then
+            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildPwSentContent(#pwSentWindow!, username$, "Password been changed" , "You may now login with your new user credentials.", Boolean.FALSE, "")    
+        else 
+            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildPwSentContent(#pwSentWindow!, username$, "Something went wrong" , "Password has not been reset. Please try again", Boolean.TRUE, "gotoNewPassword")  
+        endif
+        
     methodend
 
 classend

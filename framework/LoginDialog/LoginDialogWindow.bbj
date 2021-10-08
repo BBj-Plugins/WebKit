@@ -24,7 +24,6 @@ class public LoginDialogWindow
         #content!.setDockStyle("height","calc(531px - 112px)")
         #content!.setDockStyle("padding","56px 44px")
         #content!.addPanelStyle("loginWidgetContentPanelStyle")
-
     methodend 
 
     rem |||||| GETTER & SETTER ||||||
@@ -138,8 +137,17 @@ class public LoginDialogWindow
         #loginDialog!.gotoForgotPassword()
     methodend  
 
+    method public void gotoLogin(BBjButtonPushEvent event!)
+        #loginDialog!.gotoLogin()
+    methodend
+
     method public void gotoLogin(BBjMouseDownEvent event!)
         #loginDialog!.gotoLogin()
+    methodend
+
+    method public void gotoNewPassword(BBjButtonPushEvent event!)
+        #loginDialog!.gotoNewPassword(#memory$)
+        rem print memory$; escape
     methodend
 
     method public void requestForgotPasswordToken(BBjButtonPushEvent event!)      
@@ -153,7 +161,6 @@ class public LoginDialogWindow
     methodend
 
     method public void setPasswordWithToken(BBjButtonPushEvent event!)
-        rem a = msgbox(#password!.getText(1))
         #loginDialog!.setPasswordWithToken(#password!.getText(1)) 
     methodend
 classend

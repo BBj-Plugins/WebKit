@@ -50,8 +50,8 @@
 
 .loginWidgetBtnStyle{
     grid-row-start: 5;
-    --bbj-color-default: var(--webkit-primary);
-    --bbj-color-default: yellow;
+    /* --bbj-color-default: var(--webkit-primary); */
+    --bbj-color-default: yellow !important;
     height: 43px;
     width: 100%;
 }
@@ -66,8 +66,16 @@
 }
 
 .loginWidgetBtnControl::part(control) {
+    /* background-color: red !important; */
     border-radius: 8px;
 }
+
+.loginWidgetBtnControl::part(control).hover {
+    background-color: red !important;
+    border-radius: 8px;
+}   
+
+
 
 .loginWidgetCheckBoxStyle{
     grid-row-start: 4;

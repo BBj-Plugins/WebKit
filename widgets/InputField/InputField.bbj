@@ -238,7 +238,6 @@ class public InputField extends BBjWidget
     
     method public void onMouseExit(BBjMouseExitEvent event!)
         #label!.removeStyle("hover")
-        
     methodend
     
     method public void onFocusGained(BBjGainedFocusEvent event!)
@@ -322,6 +321,10 @@ class public InputField extends BBjWidget
                     rem print #dialog!.getPassword().getText(1) 
                     rem print inputText!; escape
                     #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
+                    if #subText!.getText() = "" then
+                        #subText!.setText("Correct")
+                        
+                        #subText!.addStyle("correct")
                 break        
             swend
         endif
