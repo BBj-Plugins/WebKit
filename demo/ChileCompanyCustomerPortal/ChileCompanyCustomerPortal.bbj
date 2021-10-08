@@ -77,10 +77,26 @@ footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),402,"Home-footer
 footerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
 footerMenuItem!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
+REM header sub-menu creation
+
+declare Menu headerMenu!
+declare MenuItem headerMenuItem!
+headerMenu! = new Menu()
+headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),500,"My Dashboard","Dashboard","WebKit/demo/assets/home.svg")
+
+headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),501,"Home-footer1","Go to the Home - Dashboard","WebKit/demo/assets/home.svg")
+headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
+headerMenuItem!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
+
+headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),502,"Home-footer2","Go to the Home - Dashboard","WebKit/demo/assets/home.svg")
+headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
+headerMenuItem!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
+
 portal! = new PortalFrame()
 portal!.setUsername(login!.getUser())
 portal!.setMenu(m!)
 portal!.setFooterMenu(footerMenu!)
+portal!.setHeaderMenu(headerMenu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo_white_sm.png")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_white_sm.png")
 
