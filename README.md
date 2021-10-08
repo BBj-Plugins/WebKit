@@ -28,3 +28,5 @@ widgets/
         - <widget-name>.bbj
         - <widget-name>.css - widget level styles
 ```
+# Theming Guideline
+For custom theme implementation, follow this guideline [here](https://basishub.github.io/basis-next/#/theme-engine/)

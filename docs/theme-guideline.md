@@ -11,8 +11,9 @@
 
 ![theme-guideline-img-2.png](https://github.com/BBj-Plugins/WebKit/blob/Update-gudlines-for-custom-theming/docs/assets/theme-guideline-img-2.png)
 
-1. In the demo folder, make a new folder for your company: Eg: `prodinDemo` and inside this create a `prodinDemo.bbj` file and `prodinDemo.css` put the code you have downloaded in the `css` file.
-2. in `prodinDemo.bbj` load the theme life:
+4. In the demo folder, make a new folder for your company: Eg: `prodinDemo` and inside this create a `prodinDemo.bbj` file and `prodinDemo.css` put the code you have downloaded in the `css` file.
+
+5. in `prodinDemo.bbj` load the theme life:
     
     ```jsx
     DynamicLoader.loadThemeFile("WebKit/demo/ProdinDemo/ProdinDemo.css")
@@ -64,4 +65,4 @@ But it is recommend not to modify these variables, and if you need to modify one
 --bbj-shadow: var(--bbj-shadow-s);
 ```
 
-you can learn more about bbj-variables [here](https://basishub.github.io/basis-next/#/theme-engine/)
+you can learn more about bbj-variables [here](https://github.com/BBj-Plugins/WebKit/blob/Update-gudlines-for-custom-theming/docs/theme-guideline.md)
