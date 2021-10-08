@@ -26,7 +26,7 @@ class public PortalFrame
     field public BBjString Username!
     field public BBjString Title!
     field public Menu Menu!
-    field public Menu FooterMenu!
+    field public Menu FooterMenu! = new Menu()
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE

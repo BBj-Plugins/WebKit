@@ -282,7 +282,7 @@ class public LoginDialog
     method public void setPasswordWithToken(BBjString password$)
         tempPW$ = ClientUtil.getUrlAnchor()
         username$ = "ian.hupkes@prodin.nl"
-        response! = #authRenewPw!.setPasswordWithToken(username$, tempPw$, password$)
+        response! = #authRenewPw!.setPasswordWithToken(tempPw$, password$)
 
         if #newPwWindow! <> null() then 
             #newPwWindow!.getContent().destroy()
