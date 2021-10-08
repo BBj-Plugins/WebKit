@@ -65,4 +65,4 @@ But it is recommend not to modify these variables, and if you need to modify one
 --bbj-shadow: var(--bbj-shadow-s);
 ```
 
-you can learn more about bbj-variables [here](https://github.com/BBj-Plugins/WebKit/blob/Update-gudlines-for-custom-theming/docs/theme-guideline.md)
+you can learn more about bbj-variables [here](https://basishub.github.io/basis-next/#/theme-engine/)
