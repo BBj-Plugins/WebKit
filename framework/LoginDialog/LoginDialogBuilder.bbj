@@ -6,17 +6,12 @@ use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 class public LoginDialogBuilder 
 
     method public static void addMemory(LoginDialogWindow dialog!, BBjString memory$)
-        rem if memory$ <> "" and memory$ <> null() then
         dialog!.setMemory(memory$)
     methodend
       
     method public static void addLogo(LoginDialogWindow dialog!, BBjString url$)
         id! = dialog!.getContent().getAvailableControlID()
         logo! = dialog!.getContent().addImageCtrl(id!,0,0,0,0, url$)
-        print dialog!.getContent().getControl(id!)
-   
-
-
         logo!.setStyle("height","fit-content")
         logo!.setStyle("width","fit-content")
     methodend
@@ -88,6 +83,7 @@ class public LoginDialogBuilder
         else 
             dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,dialog!,methodName$)
         endif
+
         dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_ENTER,dialog!,"onButtonHover")
         dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_EXIT,dialog!,"onButtonHoverExit")
         dialog!.getSubmitButton().setStyle("margin-top","40px")
@@ -115,5 +111,4 @@ class public LoginDialogBuilder
         redirectText!.setCallback(BBjAPI.ON_MOUSE_ENTER,dialog!,"onForgotPwHover")
         redirectText!.setCallback(BBjAPI.ON_MOUSE_EXIT,dialog!,"onForgotPwHoverExit")
     methodend
-
 classend
