@@ -57,6 +57,12 @@
     background: var(--bbj-color-primary);
 }
 
+.loginWidgetBtnControl.disabled::part(control) {
+    background: var(--bbj-color-black);
+    border-color: var(--bbj-color-black);
+}
+
+
 .loginWidgetBtnControl.hover::part(control) {
     background-color: var(--bbj-color-secondary);
     border-color: var(--bbj-color-secondary);

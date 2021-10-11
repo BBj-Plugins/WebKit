@@ -9,6 +9,7 @@ class public InputField extends BBjWidget
     rem field private BBjMethod fieldReq!
     field private IFieldReq fieldReq!
     field private BBjString fieldType!
+    field private BBjInt tabNum!
 
     field private LoginDialogWindow dialog!
     field private BBjChildWindow window!
@@ -40,25 +41,28 @@ class public InputField extends BBjWidget
         #super!.create(wnd!,id!)
     methodend
     
-    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, BBjInt tabNum!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #suffixIconPath! = suffixIcon!
+        #tabNum! = tabNum!
         #super!.create(wnd!,id!)
     methodend 
     
-    method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!, , BBjInt tabNum!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #isPasswordField! = isPasswordField!
+        #tabNum! = tabNum!
         #super!.create(wnd!,id!)
     methodend
     
-    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!, BBjInt tabNum!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #isPasswordField! = isPasswordField!
         #suffixIconPath! = suffixIcon!
+        #tabNum! = tabNum!
         #super!.create(wnd!,id!)
     methodend
 
@@ -80,6 +84,14 @@ class public InputField extends BBjWidget
         #label!.setText(label!)
     methodend
 
+    method public String getText(Boolean isPasswordField!)
+        if #isPasswordField! then
+            methodret #passwordField!.getText()
+        else
+            methodret #inputField!.getText()
+        endif
+    methodend
+
     method public void setText(BBjString text!)
         if #isPasswordField! then 
             #passwordField!.setText(text!)
@@ -88,9 +100,9 @@ class public InputField extends BBjWidget
         endif  
     methodend
 
-    rem method public BBjStaticText getSubText()
-    rem     methodret #subText!
-    rem methodend
+    method public BBjStaticText getSubText()
+        methodret #subText!
+    methodend
 
     method public void setSubText(BBjString text$)
         #subText!.setText(text$)    
@@ -124,12 +136,8 @@ class public InputField extends BBjWidget
         #createPasswordField(0)
     methodend
 
-    method public String getText(Boolean isPasswordField!)
-        if #isPasswordField! then
-            methodret #passwordField!.getText()
-        else
-            methodret #inputField!.getText()
-        endif
+    method public Boolean getValid()
+        methodret #valid! 
     methodend
     
 
@@ -157,9 +165,6 @@ class public InputField extends BBjWidget
             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
             labelId! = #window!.getAvailableControlID()
             #label! = #window!.addStaticText(labelId!,0,0,0,0,"")
-            rem labelCtrl! = #window!.getControl(labelId!)
-            rem ? labelCtrl!.isTabTraversable(); escape
-            rem rem labelCtrl!.setTabTraversable(Boolean.FALSE)
             #label!.addStyle("inputFieldLabelStyle")
 
             
@@ -171,7 +176,8 @@ class public InputField extends BBjWidget
             if #isPasswordField! then
                 #createPasswordField(1)
             else 
-                #inputField! = #window!.addInputE(#window!.getAvailableControlID(),0,0,0,0)
+                rem #inputField! = #window!.addInputE(#window!.getAvailableControlID(),0,0,0,0)
+                #inputField! = #window!.addInputE(#tabNum!,0,0,0,0)
                 #inputField!.addStyle("inputFieldStyle")
                 #inputField!.addStyle("inputFieldStyleInputWrapper")
                 #inputField!.addStyle("inputFieldStyleInput")
@@ -179,6 +185,7 @@ class public InputField extends BBjWidget
                 #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
                 #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
                 #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
+                
             endif
             if #suffixIconPath! <> null() then 
                 #createSuffixIcon()
@@ -190,8 +197,7 @@ class public InputField extends BBjWidget
         if !init! then 
             #inputField!.destroy()
         endif
-        
-        #passwordField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
+        #passwordField! = #window!.addEditBox(#tabNum!,0,0,0,0,"",$0400$)
         #passwordField!.addStyle("inputFieldStyle")
         #passwordField!.addStyle("inputFieldStyleInputWrapper")
         #passwordField!.addStyle("inputFieldStyleInput")
@@ -200,6 +206,7 @@ class public InputField extends BBjWidget
         #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
         #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
         #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
+        rem #passwordField!.setTabTraversable(0)
     methodend
     
     method private void createSuffixIcon()
@@ -280,24 +287,34 @@ class public InputField extends BBjWidget
         endif   
 
         #label!.addStyle("focus")
-        rem if #isPasswordField! then
-        rem     inputText! = #passwordField!.getText()
-        rem else 
-        rem     inputText! = #inputField!.getText()
-        rem endif 
 
         if #fieldType! <> null() or #fieldType! <> "" then
             switch #fieldType!
                 case "username"
                     #subText!.setText(#fieldReq!.username(inputText!))
+                    if #subText!.getText() = "" then
+                        #valid! = Boolean.TRUE
+                    else 
+                        #valid! = Boolean.FALSE   
+                    endif
                 break
 
                 case "password"
                     #subText!.setText(#fieldReq!.password(inputText!))
+                    if #subText!.getText() = "" then
+                        #valid! = Boolean.TRUE
+                    else 
+                        #valid! = Boolean.FALSE   
+                    endif
                 break
                 
                 case "newpassword"
                     #subText!.setText(#fieldReq!.newPassword(inputText!))
+                    if #subText!.getText() = "" then
+                        #valid! = Boolean.TRUE
+                    else 
+                        #valid! = Boolean.FALSE   
+                    endif
                 break    
                 
                 case "repeatpassword"
@@ -305,12 +322,15 @@ class public InputField extends BBjWidget
                     rem print inputText!; escape
                     #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
                     if #subText!.getText() = "" then
-                        #subText!.setText("Correct")
-
-                        #subText!.addStyle("correct")
+                        #valid! = Boolean.TRUE
+                    else 
+                        #valid! = Boolean.FALSE
+                    endif  
                 break        
             swend
         endif
+
+        #dialog!.setCanSubmit(#dialog!.canSubmit())
     methodend
 
     
