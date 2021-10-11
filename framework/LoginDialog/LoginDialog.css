@@ -40,7 +40,6 @@
 
 .loginWidgetBtnStyle{
     grid-row-start: 5;
-    /* --bbj-color-default: var(--bbj-color-primary); */
     height: 43px;
     width: 100%;
 }
@@ -59,8 +58,8 @@
 }
 
 .loginWidgetBtnControl.hover::part(control) {
-    background-color: #a64e73;
-    border-color: #a64e73;
+    background-color: var(--bbj-color-secondary);
+    border-color: var(--bbj-color-secondary);
     border-radius: 8px;
 }   
 
@@ -77,7 +76,7 @@
     font-weight: normal;
     font-size: 12px;
     line-height: 14px;
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-secondary);
     margin-left: 12px;
 }
 
@@ -93,7 +92,7 @@
     --bbj-color-default: #FFFFFF;
 }
 .loginWidgetCheckBoxIcon::part(checked-icon) {
-    background-color: var(--webkit-primary);
+    background-color: var(--bbj-color-primary);
 }
 
 .infoMessage {
@@ -111,10 +110,14 @@
     color: #6883BA;
 }
 
+.forgotPwStlye.hover{
+    color: var(--bbj-color-primary) 
+}
+
 .loginPageTitle {
 	padding-top: 3rem;
     height:75px;
-	color:var(--prodin-secondary);
+	color:var(var(--bbj-color-secondary));
 	font-size: 1rem;
 }
 

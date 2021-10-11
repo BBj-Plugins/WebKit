@@ -122,6 +122,7 @@ class public LoginDialogBuilder
         dialog!.setRedirect(redirectText!)
         redirectText!.addStyle("forgotPwStlye")
         redirectText!.setCallback(BBjAPI.ON_MOUSE_ENTER,dialog!,"onForgotPwHover")
+        redirectText!.setCallback(BBjAPI.ON_MOUSE_EXIT,dialog!,"onForgotPwHoverExit")
     methodend
 
 classend

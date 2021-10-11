@@ -94,7 +94,7 @@ class public LoginDialogWindow
         #redirect!.addStyle("hover")
     methodend
 
-    method public void onForgotPwHoverExit(BBjMouseEnterEvent event!)
+    method public void onForgotPwHoverExit(BBjMouseExitEvent event!)
         #redirect!.removeStyle("hover")
     methodend
 
