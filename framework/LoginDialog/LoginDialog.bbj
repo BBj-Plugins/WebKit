@@ -63,13 +63,6 @@ class public LoginDialog
         #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
 
         checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
-
-        rem if checkAuthRenewPwProvider! <> null() then
-        rem     #AllowForgotPw! = Boolean.TRUE
-        rem     #authRenewPw! = authProvider!
-        rem else
-             
-        rem endif
         #authProvider! = authProvider!
         #fieldReq! = fieldReq!
     methodend
@@ -268,15 +261,9 @@ class public LoginDialog
             #forgotPwWindow!.getContent().destroy()
             #forgotPwWindow! = null()
         endif
-        rem if #pwSentWindow! <> null() then 
-        rem     #pwSentWindow!.getContent().destroy()
-        rem     #pwSentWindow! = null()
-        rem     #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-        rem     #buildPwSentContent(#pwSentWindow!, username$,"" "Email opnieuw verzonden." ) 
-        rem else 
-            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildPwSentContent(#pwSentWindow!, username$, "Password token sent" ,response$, Boolean.FALSE, "")    
-        rem endif
+
+        #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+        #buildPwSentContent(#pwSentWindow!, username$, "Password token sent" ,response$, Boolean.FALSE, "")    
     methodend	
 
     method public void setPasswordWithToken(BBjString password$)

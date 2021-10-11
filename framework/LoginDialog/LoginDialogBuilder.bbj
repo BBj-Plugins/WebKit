@@ -29,15 +29,7 @@ class public LoginDialogBuilder
     method public static void addTextField (LoginDialogWindow dialog!, BBjString message$)
         infoMessage! = dialog!.getContent().addStaticText(dialog!.getContent().getAvailableControlID(),0,0,0,0,message$)
         infoMessage!.addStyle("infoMessage")
-        rem infoMessage!.setStyle("margin-top","80px")
-        rem infoMessage!.setStyle("height","50px ")
-        rem infoMessage!.setStyle("font-size","14px")
-        rem infoMessage!.setStyle("font-weight","500 ")
     methodend
-
-    rem method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!)
-    rem     #addUsernameInput(dialog!, fieldReq!, "")
-    rem methodend
 
     method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString memory$, int ordNum!)
         dialog!.setUsername(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), "WebKit/framework/LoginDialog/assets/user.png"))
@@ -54,7 +46,6 @@ class public LoginDialogBuilder
     methodend
 
     method public static void addPasswordInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString placeholder$ , BBjString fieldType!, int ordNum!)
-        rem dialog!.setPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1))
         dialog!.setPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1))
         dialog!.getPassword().setLoginDialog(dialog!) 
         dialog!.getPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
