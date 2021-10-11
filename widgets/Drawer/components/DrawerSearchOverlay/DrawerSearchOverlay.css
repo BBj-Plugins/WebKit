@@ -22,7 +22,7 @@
 .drawerSearchWidgetOverlayPanelStyle {
     position: absolute !important;
     left: 26px !important;
-    top: 188px !important;
+    top: 300px !important;
     z-index: 99 !important;
     width: 297px;
     height: 433px;

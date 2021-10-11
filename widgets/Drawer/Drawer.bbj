@@ -44,6 +44,8 @@ class public Drawer extends BBjWidget
 
     field public static BBjNumber ON_DRAWER_FOOTER_TILE_PRESSED = 132 
 
+    field public static BBjNumber ON_DRAWER_HEADER_TILE_PRESSED = 142 
+
     field public static BBjNumber ON_DRAWER_STATE_CHANGED = 1444
 
     field public static BBjNumber ON_LOGOUT = 14441
@@ -85,14 +87,13 @@ class public Drawer extends BBjWidget
         if init!
             #createDemoData()
             #open! = 1
-            header! = new DrawerHeader(#window!, #drawerDataModel!.getLogoUrl(), #drawerDataModel!.getLogoSmallUrl(), #drawerDataModel!.getDrawerCloseIcon())
+            header! = new DrawerHeader(#window!, #drawerDataModel!.getLogoUrl(),#drawerDataModel!.getLogoSmallUrl(), #drawerDataModel!.getDrawerCloseIcon(), #drawerDataModel!)
             header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
+            header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
             
             drawerOpenIcon! = new DrawerOpenIcon(#window!, #drawerDataModel!.getDrawerOpenIcon())
             drawerOpenIcon!.setCallback(DrawerOpenIcon.ON_DRAWER_OPEN_ICON_PUSH,#this!,"openDrawer")
             #drawerOpenIcon! = drawerOpenIcon!
-            
-            dashboard! = new DashboardWidget(#window!)
             
             #searchOverlay! = new DrawerSearchOverlay(#window!)
             #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
@@ -248,6 +249,10 @@ class public Drawer extends BBjWidget
 
     method public void onFooterMenuItemClick(BBjCustomEvent ev!)
         #fireEvent(#ON_DRAWER_FOOTER_TILE_PRESSED, ev!.getObject())
+    methodend
+
+    method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
+        #fireEvent(#ON_DRAWER_HEADER_TILE_PRESSED, ev!.getObject())
     methodend
     
     method public void openDrawer(BBjCustomEvent event!)

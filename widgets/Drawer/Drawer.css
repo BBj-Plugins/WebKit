@@ -96,7 +96,7 @@
 .drawerTilesWrapper{
     display: grid;
     overflow: auto !important;
-    height: calc(100vh - 381px);
+    height: calc(100vh - 440px);
 }
 
 .drawerFooterWrapper{

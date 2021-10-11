@@ -35,6 +35,13 @@
     padding-left: 40px;
     padding-right: 36px;
     padding-bottom: 25px;
+    overflow: visible;
+}
+
+.headerMenuContentWrapper{
+    overflow: auto !important;
+    padding: 0px;
+    height: 120px;
 }
 
 .drawerHeaderLogo {
