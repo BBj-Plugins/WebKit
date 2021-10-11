@@ -9,6 +9,7 @@ class public InputField extends BBjWidget
     field private BBjEditBox passwordField!
     field private BBjImageCtrl suffixIcon!
     field private BBjChildWindow iconWrapper!
+    field private BBjStaticText fieldIcon!
     
     field private Boolean isPasswordField! = 0
     field private BBjString suffixIconPath!
@@ -60,7 +61,7 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart"
 REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
             #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
             #label!.addStyle("inputFieldLabelStyle")
-                
+        
             if #isPasswordField! then
                 #createPasswordField(1)
             else 
@@ -71,10 +72,12 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
                 #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
                 #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
                 #inputField!.setLeftMargin(0)
+
+                    if #suffixIconPath! <> null() then 
+                        #createIcon()
+                    endif
             endif
-            if #suffixIconPath! <> null() then 
-                #createSuffixIcon()
-            endif
+
         endif
     methodend
     
@@ -93,22 +96,32 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
         #passwordField!.setPasswordVisible(0)
     methodend
     
-    method private void createSuffixIcon()
-        #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #iconWrapper!.setDockStyle("grid-row-start","2")
-        #iconWrapper!.setDockStyle("grid-column-start","2")
-        #iconWrapper!.setDockStyle("height","fit-content")
-        #iconWrapper!.setDockStyle("width","fit-content")
-        #iconWrapper!.setDockStyle("align-self","end")
-        #iconWrapper!.setDockStyle("justify-self","end")
-        #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+    rem method private void createSuffixIcon()
+    rem     #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+    rem     #iconWrapper!.setDockStyle("grid-row-start","2")
+    rem     #iconWrapper!.setDockStyle("grid-column-start","2")
+    rem     #iconWrapper!.setDockStyle("height","fit-content")
+    rem     #iconWrapper!.setDockStyle("width","fit-content")
+    rem     #iconWrapper!.setDockStyle("align-self","end")
+    rem     #iconWrapper!.setDockStyle("justify-self","end")
+    rem     #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
        
-        if #suffixIcon! <> null() then
-            #suffixIcon!.destroy()
-            #suffixIcon! = null()
-        endif 
+    rem     if #suffixIcon! <> null() then
+    rem         #suffixIcon!.destroy()
+    rem         #suffixIcon! = null()
+    rem     endif 
      
-        #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
+    rem     #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
+    rem methodend
+
+    method public void onIconPressed(BBjRightMouseDownEvent event!)
+        #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
+    methodend
+
+    method private void createIcon()
+        #fieldIcon! =  #setIcon(#suffixIconPath!)
+        #fieldIcon!.addStyle("inputFieldIcon")
+        #fieldIcon!.setCallback(BBjAPI.ON_RIGHT_MOUSE_DOWN,#this!,"onIconPressed")
     methodend
     
     method public void onHoverStart(BBjMouseEnterEvent event!)
@@ -143,9 +156,7 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
         endif
     methodend
     
-    method public void onIconPressed(BBjMouseDownEvent event!)
-        #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
-    methodend
+
     
     method public void setLabel(BBjString label!)
         #label!.setText(label!)
@@ -171,7 +182,7 @@ REM             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverEnd")
     
     method public void setSuffixIcon(BBjString suffixIcon!)
         #suffixIconPath! = suffixIcon!
-        #createSuffixIcon()
+        #createIcon()
     methodend
     
     method public void setPasswordField(Boolean enabled!)

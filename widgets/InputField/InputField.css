@@ -44,3 +44,12 @@
 .inputFieldStyleInput::part(input){
     color: var(--bbj-color-black);
 }
+
+.inputFieldIcon {
+    grid-row-start:2;
+    grid-column-start:2;
+    height:fit-content;
+    width:fit-content;
+    align-self:end;
+    justify-self:end;
+}

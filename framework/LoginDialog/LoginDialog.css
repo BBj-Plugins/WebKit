@@ -23,7 +23,7 @@
     place-self: center;
 }
 
-.loginWrapperPanelStyle{
+.loginWrapperPanelStyle {
     background-image: url('/files/prodinRes/prodin_login_background_desktop.png');
     background-repeat: no-repeat;
     width: 100vw;
