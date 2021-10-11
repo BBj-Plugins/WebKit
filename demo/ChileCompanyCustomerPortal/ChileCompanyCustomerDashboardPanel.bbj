@@ -1,4 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
 
 
 class public ChileCompanyDashboardPanel extends BBjWidget
@@ -21,11 +22,11 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         declare BBjChildWindow canvas!
         if f_init!>0 then
             canvas! = #getCanvas()    
-            Headline! = canvas!.addStaticText(100,0,0,0,0,"Dashboard")
-            Headline!.addStyle("tilesheadline")       
-            
-            canvas!.addStaticText(101,0,0,0,0,"Hello World!")
-                 
+            listOverviewPanel! = new ListOverviewPanel(canvas!)
+            listOverviewPanel!.setDatabaseName("ChileCompany")
+            listOverviewPanel!.setTableName("Customer")
+            listOverviewPanel!.setListTitle("Customers")
+            listOverviewPanel!.doModal()
         FI
         
     methodend    

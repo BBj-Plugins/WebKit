@@ -1,0 +1,67 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::BBjGridExWidget/BBjGridExWidget.bbj::BBjGridExWidget
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.bc.SqlQueryBC
+
+class public ListOverviewPanel
+    field private BBjChildWindow window!
+
+    field private BBjString databaseName$
+
+    field private BBjString tableName$
+
+    field private BBjString listTitle$
+
+    field private ResultSet RS!
+
+    method public ListOverviewPanel(BBjWindow parent!)
+        REM init
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+    methodend
+
+    method public void setDatabaseName(BBjString databaseName$)
+        #databaseName$ = databaseName$
+    methodend
+
+    method public BBjString getDatabaseName()
+        methodret #databaseName$
+    methodend
+
+    method public void setTableName(BBjString tableName$)
+        #tableName$ = tableName$
+    methodend
+
+    method public BBjString getTableName()
+        methodret #tableName$
+    methodend
+
+    method public void setListTitle(BBjString listTitle$)
+        #listTitle$ = listTitle$
+    methodend
+
+    method public BBjString getListTitle()
+        methodret #listTitle$
+    methodend
+
+    method public void loadData()
+      declare SqlQueryBC sbc!
+      declare ResultSet rs!
+
+      sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(#databaseName$))
+      rs! = sbc!.retrieve("SELECT  * FROM " + #tableName$)
+      #RS! = rs!
+      columnNames! = rs!.getColumnNames()
+    methodend
+
+    method public Boolean doModal()
+        Headline! = #window!.addStaticText(100,0,0,0,0, #listTitle$)
+        Headline!.addStyle("tilesheadline")       
+        
+        #window!.addStaticText(101,0,0,0,0,"Hello World!")
+
+        #loadData()
+
+        methodret 1
+    methodend
+
+classend
