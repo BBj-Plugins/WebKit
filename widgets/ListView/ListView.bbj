@@ -24,18 +24,33 @@ class public ListView extends BBjWidget
         listWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         listWrapper!.setPanelStyle("height", "calc(100vh - 268px)")
         listWrapper!.setPanelStyle("overflow-y", "scroll")
+        listWrapper!.setPanelStyle("padding", "0px 16px 16px")
+        listWrapper!.setPanelStyle("background", "#FFFF")
 
-        for i = 0 to rows!.size() - 1
+        for i = -1 to rows!.size() - 1
             dataRowWindow! = listWrapper!.addChildWindow(listWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             dataRowWindow!.setPanelStyle("display", "grid")
             dataRowWindow!.setPanelStyle("grid-template-columns", "60% 20% 20%")
             dataRowWindow!.setPanelStyle("height", "74px")
-            dataRowWindow!.setPanelStyle("background", "#FFFF")
             dataRowWindow!.setPanelStyle("border-bottom", "1px solid #DDE0E1")
-            dataObject! = rows!.get(i)
-            name! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("COMPANY"))
-            item_id! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("CUST_NUM"))
-            address! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("BILL_ADDR1"))
+            if i = -1 THEN
+                dataRowWindow!.setPanelStyle("height", "49px")
+                dataRowWindow!.setPanelStyle("background", "#F1F1F1")
+                name! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, "Your Reference")
+                name!.setStyle("padding", "16px")
+                item_id! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, "Customer Id")
+                item_id!.setStyle("padding", "16px")
+                address! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, "Address")
+                address!.setStyle("padding", "16px")
+            else 
+                dataObject! = rows!.get(i)
+                name! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("COMPANY"))
+                item_id! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("CUST_NUM"))
+                address! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("BILL_ADDR1"))
+                name!.setStyle("padding", "16px")
+                item_id!.setStyle("padding", "16px")
+                address!.setStyle("padding", "16px")
+            FI
 
         NEXT i
 
