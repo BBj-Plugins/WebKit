@@ -1,5 +1,5 @@
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
-use ::BBjGridExWidget/BBjGridExWidget.bbj::BBjGridExWidget
+use ::WebKit/widgets/ListView/ListView.bbj::ListView
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.bc.SqlQueryBC
 
@@ -17,6 +17,7 @@ class public ListOverviewPanel
     method public ListOverviewPanel(BBjWindow parent!)
         REM init
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.setStyle("margin", "40px 38px 80px 52px")
     methodend
 
     method public void setDatabaseName(BBjString databaseName$)
@@ -50,16 +51,26 @@ class public ListOverviewPanel
       sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(#databaseName$))
       rs! = sbc!.retrieve("SELECT  * FROM " + #tableName$)
       #RS! = rs!
-      columnNames! = rs!.getColumnNames()
+      columns! = rs!.getColumnNames()
+
+      REM for i = 0 to columns!.size() - 1
+      REM   ClientUtil.consoleLog(columns!.get(i))
+      REM NEXT i
     methodend
 
     method public Boolean doModal()
         Headline! = #window!.addStaticText(100,0,0,0,0, #listTitle$)
-        Headline!.addStyle("tilesheadline")       
+        Headline!.setStyle("font-family", "Lato")
+        Headline!.setStyle("font-style", "normal")
+        Headline!.setStyle("font-weight", "700")
+        Headline!.setStyle("font-size", "32px")
+        Headline!.setStyle("height", "38px")
+        Headline!.setStyle("width", "156px")
+        REM Headline!.addStyle("tilesheadline")       
         
-        #window!.addStaticText(101,0,0,0,0,"Hello World!")
-
         #loadData()
+
+        listView! = new ListView(#window!, #RS!)
 
         methodret 1
     methodend
