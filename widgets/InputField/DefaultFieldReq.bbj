@@ -1,0 +1,29 @@
+use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
+
+class public DefaultFieldReq implements IFieldReq
+      
+      method public BBjString username(BBjString inputText!)
+             methodret ""
+      methodend
+
+      method public BBjString password(BBjString inputText!)
+            methodret ""
+      methodend
+
+      method public BBjString newPassword(BBjString inputText!)
+            if inputText!.length() < 6 then 
+                  methodret "Password too short"
+            else
+                  methodret ""
+            endif
+      methodend
+
+      method public BBjString repeatPassword(BBjString inputText!, BBjString firstPassword!)
+            if inputText! <> firstPassword! then
+                  methodret "Passwords do not match"
+            else
+                  methodret ""
+            endif
+      methodend
+
+classend

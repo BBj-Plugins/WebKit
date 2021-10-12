@@ -23,6 +23,11 @@
     place-self: center;
 }
 
+.logo {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+}
+
 .loginWrapperPanelStyle {
     background-image: url('/files/prodinRes/prodin_login_background_desktop.png');
     background-repeat: no-repeat;
@@ -38,7 +43,7 @@
     height: calc(531px - 112px);
 }
 
-.loginWidgetBtnStyle{
+.loginWidgetBtnStyle {
     grid-row-start: 5;
     height: 43px;
     width: 100%;
@@ -54,15 +59,24 @@
 
 .loginWidgetBtnControl::part(control) {
     border-radius: 8px;
+    background: var(--bbj-color-primary);
 }
 
-.loginWidgetCheckBoxStyle{
+.loginWidgetBtnControl.hover::part(control) {
+    background-color: var(--bbj-color-primary);
+    border-color: var(--bbj-color-primary);
+    border-radius: 8px;
+}   
+
+
+.loginWidgetCheckBoxStyle {
     grid-row-start: 4;
     height: fit-content;
 }
 
 .loginWidgetCheckBoxLabel::part(label) {
     align-self: center;
+    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -86,7 +100,13 @@
     background-color: var(--bbj-color-primary);
 }
 
-.loginWidgetForgotPWStlye{
+.infoMessage {
+    color:var(--bbj-color-black);
+    font-size: var(--bbj-font-size-xs);
+}
+
+.forgotPwStlye {
+    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -94,6 +114,18 @@
     text-align: center;
     color: #6883BA;
 }
+
+.forgotPwStlye.hover {
+    color: var(--bbj-color-primary) 
+}
+
+.loginPageTitle {
+	padding-top: 3rem;
+    height:75px;
+	color:var(var(--bbj-color-black));
+	font-size: 1rem;
+}
+
 
 @media screen and (max-width: 425px) {
     .loginWidgetPanelStyle{
@@ -104,68 +136,17 @@
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 0px;
     }
-    .mainWndPanelStyle{
+    .mainWndPanelStyle {
         place-self: end center;
     }
 
-    .loginWrapperPanelStyle{
+    .loginWrapperPanelStyle {
         background-image: url('/files/prodinRes/prodin_login_background_phone.png');
     }
 }
 
-@media screen and(max-width:800px){
+@media screen and(max-width:800px) {
     .loginWrapperPanelStyle {
        background-image: url('/files/prodinRes/prodin_login_background_tablet.png');
     }
-}
-
-.logincontainer {
-	background-color:white;
-	position: fixed;
-	left:calc( 50vw - 180px );
-	top:calc( 50vh - 100px );
-	padding: 20px;
-}
-
-.logincontainer .BBjChildWindow-content {
-	display: grid;
-	grid-gap: 5px;
-	grid-template-columns: 100px 210px;
-	
-}
-
-.logincontainer basis-inpute,.logincontainer basis-button {
-	width:100%;
-}
-
-@media screen and (max-width: 600px) {
-	
-	.logincontainer {
-		width:calc( 100vw - 20px );
-		top: 130px;
-		height:100vh;
-		left:0px;
-		padding: 10px;
-	}
-
-	.logincontainer .BBjChildWindow-content {
-		grid-template-columns: 100px auto;
-	}
-
-}
-
-
-@media screen and (max-width: 280px) {
-	
-	.logincontainer {
-	width:100vw;
-	height:100vh;
-	top:44px;
-	}
-
-}
-
-.errormsg {
-	font-size:12px;
-	color:var(--bbj-color-warning-120,red);
 }
