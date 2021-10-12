@@ -280,11 +280,6 @@ class public InputField extends BBjWidget
         endif   
 
         #label!.addStyle("focus")
-        rem if #isPasswordField! then
-        rem     inputText! = #passwordField!.getText()
-        rem else 
-        rem     inputText! = #inputField!.getText()
-        rem endif 
 
         if #fieldType! <> null() or #fieldType! <> "" then
             switch #fieldType!
