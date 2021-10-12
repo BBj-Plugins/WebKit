@@ -19,11 +19,16 @@
 }
 
 
-.mainWndPanelStyle{
+.mainWndPanelStyle {
     place-self: center;
 }
 
-.loginWrapperPanelStyle{
+.logo {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+}
+
+.loginWrapperPanelStyle {
     background-image: url('/files/prodinRes/prodin_login_background_desktop.png');
     background-repeat: no-repeat;
     width: 100vw;
@@ -38,7 +43,7 @@
     height: calc(531px - 112px);
 }
 
-.loginWidgetBtnStyle{
+.loginWidgetBtnStyle {
     grid-row-start: 5;
     height: 43px;
     width: 100%;
@@ -58,13 +63,13 @@
 }
 
 .loginWidgetBtnControl.hover::part(control) {
-    background-color: var(--bbj-color-secondary);
-    border-color: var(--bbj-color-secondary);
+    background-color: var(--bbj-color-primary);
+    border-color: var(--bbj-color-primary);
     border-radius: 8px;
 }   
 
 
-.loginWidgetCheckBoxStyle{
+.loginWidgetCheckBoxStyle {
     grid-row-start: 4;
     height: fit-content;
 }
@@ -76,7 +81,7 @@
     font-weight: normal;
     font-size: 12px;
     line-height: 14px;
-    color: var(--bbj-color-secondary);
+    color: var(--bbj-color-black);
     margin-left: 12px;
 }
 
@@ -89,7 +94,7 @@
     border-radius: 3px;
 }
 .loginWidgetCheckBoxControl::part(control) {
-    --bbj-color-default: #FFFFFF;
+    --bbj-color-default: var(--bbj-color-white);
 }
 .loginWidgetCheckBoxIcon::part(checked-icon) {
     background-color: var(--bbj-color-primary);
@@ -100,7 +105,7 @@
     font-size: var(--bbj-font-size-xs);
 }
 
-.forgotPwStlye{
+.forgotPwStlye {
     font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
@@ -110,14 +115,14 @@
     color: #6883BA;
 }
 
-.forgotPwStlye.hover{
+.forgotPwStlye.hover {
     color: var(--bbj-color-primary) 
 }
 
 .loginPageTitle {
 	padding-top: 3rem;
     height:75px;
-	color:var(var(--bbj-color-secondary));
+	color:var(var(--bbj-color-black));
 	font-size: 1rem;
 }
 
@@ -131,16 +136,16 @@
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 0px;
     }
-    .mainWndPanelStyle{
+    .mainWndPanelStyle {
         place-self: end center;
     }
 
-    .loginWrapperPanelStyle{
+    .loginWrapperPanelStyle {
         background-image: url('/files/prodinRes/prodin_login_background_phone.png');
     }
 }
 
-@media screen and(max-width:800px){
+@media screen and(max-width:800px) {
     .loginWrapperPanelStyle {
        background-image: url('/files/prodinRes/prodin_login_background_tablet.png');
     }

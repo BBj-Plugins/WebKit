@@ -5,8 +5,6 @@ use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
 class public InputField extends BBjWidget 
-
-    rem field private BBjMethod fieldReq!
     field private IFieldReq fieldReq!
     field private BBjString fieldType!
 
@@ -88,9 +86,9 @@ class public InputField extends BBjWidget
         endif  
     methodend
 
-    rem method public BBjStaticText getSubText()
-    rem     methodret #subText!
-    rem methodend
+    method public BBjStaticText getSubText()
+        methodret #subText!
+    methodend
 
     method public void setSubText(BBjString text$)
         #subText!.setText(text$)    
@@ -155,14 +153,11 @@ class public InputField extends BBjWidget
             #window!.addPanelStyle("inputFieldPanelStyle")
             #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
+            
             labelId! = #window!.getAvailableControlID()
             #label! = #window!.addStaticText(labelId!,0,0,0,0,"")
-            rem labelCtrl! = #window!.getControl(labelId!)
-            rem ? labelCtrl!.isTabTraversable(); escape
-            rem rem labelCtrl!.setTabTraversable(Boolean.FALSE)
             #label!.addStyle("inputFieldLabelStyle")
 
-            
             #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             #subTextWnd!.addStyle("inputFieldSubTextWindow")
             #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
@@ -224,7 +219,6 @@ class public InputField extends BBjWidget
     
 
     rem ||||||| CALLBACKS ||||||||
-
     method public void onHoverStart(BBjMouseEnterEvent event!)
         #label!.addStyle("hover")
     methodend
@@ -238,14 +232,11 @@ class public InputField extends BBjWidget
         
         if #isPasswordField! then
             #passwordField!.addStyle("focus")
-            rem #passwordField!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         else
             #inputField!.addStyle("focus")   
-            rem #this!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         endif
     methodend
     
-
     method public void onFocusLost(BBjLostFocusEvent event!)
         #label!.removeStyle("focus")
         if #isPasswordField! then
@@ -263,8 +254,6 @@ class public InputField extends BBjWidget
             #inputField!.addStyle("error")
         endif
     methodend
-
-
 
     method public void onChange(BBjEditModifyEvent event!)
         inputText! = event!.getText()
@@ -296,19 +285,13 @@ class public InputField extends BBjWidget
                 break    
                 
                 case "repeatpassword"
-                    rem print #dialog!.getPassword().getText(1) 
-                    rem print inputText!; escape
                     #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
                     if #subText!.getText() = "" then
-                        #subText!.setText("Correct")
-
-                        #subText!.addStyle("correct")
                 break        
             swend
         endif
     methodend
 
-    
     method public void onIconPressed(BBjMouseDownEvent event!)
         #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
     methodend
