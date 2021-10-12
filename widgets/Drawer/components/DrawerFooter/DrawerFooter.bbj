@@ -52,7 +52,7 @@ class public DrawerFooter extends BBjWidget
         declare BBjStaticText subtitle!
         declare CircularAvatar avatar!
         declare BBjChildWindow wrapper!
-        declare BBjImageCtrl icon!
+        declare BBjStaticText icon!
         
         if init! then 
             avatar! = new CircularAvatar(#window!, #drawerDataModel!.getAvatarSize(),#drawerDataModel!.getAvatarUrl())
@@ -72,7 +72,7 @@ class public DrawerFooter extends BBjWidget
             subtitle! = wrapper!.addStaticText(wrapper!.getAvailableControlID(),0,0,0,0,#subtitle!)
             subtitle!.addStyle("drawerFooterSubtitleStyling")
             
-            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/drawer_footer_arrow_down.png")
+            icon! = #setIcon("chevron-down")
             icon!.addStyle("footerIcon")
         endif
     methodend

@@ -30,11 +30,11 @@ class public DrawerSearchWidget extends BBjWidget
     
     method public void redraw(Boolean init!)
         declare BBjInputE searchField!
-        declare BBjImageCtrl icon!
+        declare BBjStaticText icon!
         declare BBjStaticText hintText!
         
         if init! then 
-            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/search.png")
+            icon! = #setIcon("search")
             icon!.addStyle("drawerSearchWidgetIconStyle")
             
             hintText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Go to Customer...")
