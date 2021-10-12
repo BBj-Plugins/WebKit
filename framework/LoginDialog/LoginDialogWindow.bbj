@@ -62,6 +62,22 @@ class public LoginDialogWindow
         methodret Boolean.TRUE
     methodend
 
+    method public void checkAllFieldReq()
+        fieldReq! = #loginDialog!.getFieldReq()
+
+        if #username! <> null() then 
+            #username!.checkFieldReq()
+        endif
+        if #password! <> null() then
+            #password!.checkFieldReq()
+        endif
+        if #repeatPassword! <> null() then
+            #repeatPassword!.checkFieldReq()
+        endif
+    methodend
+
+
+
 
     rem |||||| GETTER & SETTER ||||||
     method public LoginDialog getLoginDialog())

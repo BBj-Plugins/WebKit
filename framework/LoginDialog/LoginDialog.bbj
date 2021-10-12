@@ -73,6 +73,10 @@ class public LoginDialog
         methodret #sysGui!
     methodend
 
+    method public IFieldReq getFieldReq()
+        methodret #fieldReq! 
+    methodend
+
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
     methodend
@@ -189,7 +193,7 @@ class public LoginDialog
         else 
             LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin", "void", 202)
         endif
-
+        #pwSentWindow!.canSubmit()
     methodend
 
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)

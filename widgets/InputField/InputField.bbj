@@ -277,16 +277,31 @@ class public InputField extends BBjWidget
 
         if inputText! = "" then
             #valid! = Boolean.FALSE 
+        endif
+
+        if inputText!.length() = 1 then 
+            #dialog!.clearStyles()
+            #label!.addStyle("focus")
+            if #isPasswordField! then
+                #passwordField!.addStyle("focus")
+            else
+                #inputField!.addStyle("focus")    
+            endif
+        endif   
+
+        #dialog!.checkAllFieldReq()
+        #dialog!.setCanSubmit(#dialog!.canSubmit())
+    methodend
+
+    method public void checkFieldReq()
+        if #isPasswordField! then
+            inputText! = #passwordField!.getText()
+            #subText!.setText(inputText!)
         else
-            if inputText!.length() = 1 then 
-                #dialog!.clearStyles()
-                #label!.addStyle("focus")
-                if #isPasswordField! then
-                    #passwordField!.addStyle("focus")
-                else
-                    #inputField!.addStyle("focus")    
-                endif
-            endif   
+            inputText! = #inputField!.getText()
+        endif
+   
+        if inputText! <> "" then
 
             if #fieldType! <> null() or #fieldType! <> "" then
                 switch #fieldType!
@@ -328,7 +343,6 @@ class public InputField extends BBjWidget
                 swend
             endif
         endif    
-        #dialog!.setCanSubmit(#dialog!.canSubmit())
     methodend
 
     method public void onIconPressed(BBjMouseDownEvent event!)

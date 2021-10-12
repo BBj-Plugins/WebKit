@@ -64,8 +64,8 @@
 
 
 .loginWidgetBtnControl.hover::part(control) {
-    background-color: var(--bbj-color-secondary);
-    border-color: var(--bbj-color-secondary);
+    background-color:var(--bbj-color-primary);
+    border-color: var(--bbj-color-primary);
     border-radius: 8px;
 }   
 
