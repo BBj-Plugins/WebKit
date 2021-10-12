@@ -16,7 +16,7 @@ class public InputField extends BBjWidget
     field private BBjStaticText label!
     field private BBjInputE inputField!
     field private BBjEditBox passwordField!
-    field private BBjWindow subTextWnd!
+    field private BBjChildWindow subTextWnd!
     field private BBjStaticText subText!
 
     field private BBjImageCtrl suffixIcon!
@@ -67,7 +67,6 @@ class public InputField extends BBjWidget
     methodend
 
     rem |||||||| GETTERS & SETTERS ||||||
-
     method public void setLoginDialog(LoginDialogWindow dialog!)
         #dialog! = dialog! 
     methodend
@@ -142,7 +141,6 @@ class public InputField extends BBjWidget
     
 
     rem ||||||||| DRAW ||||||||||
-    
     method public void clearStyle()
     #subText!.setText("")
         #label!.removeStyle("hover")
@@ -163,15 +161,17 @@ class public InputField extends BBjWidget
             #window!.addPanelStyle("inputFieldPanelStyle")
             #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
+            #window!.setTabTraversable(0)
+
             labelId! = #window!.getAvailableControlID()
             #label! = #window!.addStaticText(labelId!,0,0,0,0,"")
             #label!.addStyle("inputFieldLabelStyle")
-
             
             #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             #subTextWnd!.addStyle("inputFieldSubTextWindow")
             #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
             #subText!.addStyle("inputFieldSubTextStyle")
+            #subTextWnd!.setTabTraversable(0)
                 
             if #isPasswordField! then
                 #createPasswordField(1)
@@ -191,6 +191,8 @@ class public InputField extends BBjWidget
                 #createSuffixIcon()
             endif
         endif
+
+        
     methodend
     
     method private void createPasswordField(Boolean init!)
@@ -206,7 +208,6 @@ class public InputField extends BBjWidget
         #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
         #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
         #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
-        rem #passwordField!.setTabTraversable(0)
     methodend
     
     method private void createSuffixIcon()
@@ -218,6 +219,7 @@ class public InputField extends BBjWidget
         #iconWrapper!.setDockStyle("align-self","end")
         #iconWrapper!.setDockStyle("justify-self","end")
         #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+        
        
         if #suffixIcon! <> null() then
             #suffixIcon!.destroy()
@@ -227,11 +229,10 @@ class public InputField extends BBjWidget
         if #isPasswordField! = Boolean.FALSE then    
             #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
         endif
+        #iconWrapper!.setTabTraversable(0)
     methodend
     
-
     rem ||||||| CALLBACKS ||||||||
-
     method public void onHoverStart(BBjMouseEnterEvent event!)
         #label!.addStyle("hover")
     methodend
@@ -271,69 +272,65 @@ class public InputField extends BBjWidget
         endif
     methodend
 
-
-
     method public void onChange(BBjEditModifyEvent event!)
         inputText! = event!.getText()
 
-        if inputText!.length() = 1 then 
-            #dialog!.clearStyles()
-            #label!.addStyle("focus")
-            if #isPasswordField! then
-                #passwordField!.addStyle("focus")
-            else
-                #inputField!.addStyle("focus")    
+        if inputText! = "" then
+            #valid! = Boolean.FALSE 
+        else
+            if inputText!.length() = 1 then 
+                #dialog!.clearStyles()
+                #label!.addStyle("focus")
+                if #isPasswordField! then
+                    #passwordField!.addStyle("focus")
+                else
+                    #inputField!.addStyle("focus")    
+                endif
+            endif   
+
+            if #fieldType! <> null() or #fieldType! <> "" then
+                switch #fieldType!
+                    case "username"
+                        #subText!.setText(#fieldReq!.username(inputText!))
+                        if #subText!.getText() = "" then
+                            #valid! = Boolean.TRUE
+                        else 
+                            #valid! = Boolean.FALSE   
+                        endif
+                    break
+
+                    case "password"
+                        #subText!.setText(#fieldReq!.password(inputText!))
+                        if #subText!.getText() = "" then
+                            #valid! = Boolean.TRUE
+                        else 
+                            #valid! = Boolean.FALSE   
+                        endif
+                    break
+                    
+                    case "newpassword"
+                        #subText!.setText(#fieldReq!.newPassword(inputText!))
+                        if #subText!.getText() = "" then
+                            #valid! = Boolean.TRUE
+                        else 
+                            #valid! = Boolean.FALSE   
+                        endif
+                    break    
+                    
+                    case "repeatpassword"
+                        #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
+                        if #subText!.getText() = "" then
+                            #valid! = Boolean.TRUE
+                        else 
+                            #valid! = Boolean.FALSE
+                        endif  
+                    break        
+                swend
             endif
-        endif   
-
-        #label!.addStyle("focus")
-
-        if #fieldType! <> null() or #fieldType! <> "" then
-            switch #fieldType!
-                case "username"
-                    #subText!.setText(#fieldReq!.username(inputText!))
-                    if #subText!.getText() = "" then
-                        #valid! = Boolean.TRUE
-                    else 
-                        #valid! = Boolean.FALSE   
-                    endif
-                break
-
-                case "password"
-                    #subText!.setText(#fieldReq!.password(inputText!))
-                    if #subText!.getText() = "" then
-                        #valid! = Boolean.TRUE
-                    else 
-                        #valid! = Boolean.FALSE   
-                    endif
-                break
-                
-                case "newpassword"
-                    #subText!.setText(#fieldReq!.newPassword(inputText!))
-                    if #subText!.getText() = "" then
-                        #valid! = Boolean.TRUE
-                    else 
-                        #valid! = Boolean.FALSE   
-                    endif
-                break    
-                
-                case "repeatpassword"
-                    rem print #dialog!.getPassword().getText(1) 
-                    rem print inputText!; escape
-                    #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
-                    if #subText!.getText() = "" then
-                        #valid! = Boolean.TRUE
-                    else 
-                        #valid! = Boolean.FALSE
-                    endif  
-                break        
-            swend
-        endif
-
+        endif    
         #dialog!.setCanSubmit(#dialog!.canSubmit())
     methodend
 
-    
     method public void onIconPressed(BBjMouseDownEvent event!)
         #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
     methodend

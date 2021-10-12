@@ -98,7 +98,7 @@
     --bbj-color-default: #FFFFFF;
 }
 .loginWidgetCheckBoxIcon::part(checked-icon) {
-    background-color: var(--bbj-color-primary);
+    background-color: var(--bbj-color-info);
 }
 
 .infoMessage {
