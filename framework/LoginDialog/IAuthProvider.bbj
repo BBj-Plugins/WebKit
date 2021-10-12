@@ -8,5 +8,5 @@ interface public IAuthProvider
     method public AccountProfile getProfile()
     method public Boolean checkToken(BBjString token!)
     method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
-    
+
 interfaceend
