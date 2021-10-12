@@ -18,14 +18,12 @@ class public ListView extends BBjWidget
 
 
     method public void redraw(Boolean init!)
-        REM #window!.addStaticText(101,0,0,0,0,"Hello World!")
         listHeader! = new ListHeader(#window!, "Customer")
-        REM #window!.addStaticText(101,0,0,0,0,"list body goes down here")
 
         rows! = #RS!.getDataRows()
         listWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         listWrapper!.setPanelStyle("height", "calc(100vh - 268px)")
-        listWrapper!.setPanelStyle("overflow", "scroll")
+        listWrapper!.setPanelStyle("overflow-y", "scroll")
 
         for i = 0 to rows!.size() - 1
             dataRowWindow! = listWrapper!.addChildWindow(listWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
@@ -33,10 +31,12 @@ class public ListView extends BBjWidget
             dataRowWindow!.setPanelStyle("grid-template-columns", "60% 20% 20%")
             dataRowWindow!.setPanelStyle("height", "74px")
             dataRowWindow!.setPanelStyle("background", "#FFFF")
+            dataRowWindow!.setPanelStyle("border-bottom", "1px solid #DDE0E1")
             dataObject! = rows!.get(i)
-            name! = dataRowWindow!.addButton(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("COMPANY"))
-            item_id! = dataRowWindow!.addButton(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("CUST_NUM"))
-            address! = dataRowWindow!.addButton(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("BILL_ADDR1"))
+            name! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("COMPANY"))
+            item_id! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("CUST_NUM"))
+            address! = dataRowWindow!.addStaticText(dataRowWindow!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue("BILL_ADDR1"))
+
         NEXT i
 
 

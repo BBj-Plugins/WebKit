@@ -21,6 +21,7 @@ class public ListHeader extends BBjWidget
         #window!.setPanelStyle("display", "flex")
         #window!.setPanelStyle("height", "68px")
         #window!.setPanelStyle("border-radius", "8px 8px 0px 0px")
+        #window!.setPanelStyle("border-bottom", "1px solid #DDE0E1")
         REM #window!.addStaticText(101,0,0,0,0, #entity$)
 
 
