@@ -172,7 +172,6 @@ class public LoginDialog
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
         LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login")
         if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword") 
-        #loginWindow!.setTabTraverse() 
     methodend
 
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString memory$)
@@ -181,6 +180,8 @@ class public LoginDialog
         LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "void")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
+        #forgotPwWindow!.checkAllFieldReq()
+        #forgotPwWindow!.canSubmit()
     methodend
 
     method public void buildPwSentContent(LoginDialogWindow wnd!, BBjString memory$,  BBjString title$, BBjString response$, Boolean retry!, BBjString methodName$ )

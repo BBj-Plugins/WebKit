@@ -25,15 +25,6 @@ class public LoginDialogWindow
         #content!.addPanelStyle("loginWidgetContentPanelStyle")
     methodend 
 
-
-    method public void setTabTraverse()
-        rem rem print #content!.getContextID(); escape
-        rem contentControlID! = #content!.getContextID()
-        rem rem print #username!.getContextID(); escape
-        rem print BBjAPI().getSysGui().getControl(201); escape
-        rem CALLBACK(ON_BUTTON_PUSH,TOGGLE_TABTRAV,#username!.getContextID(),201)
-    methodend
-
     method public Boolean canSubmit()
         if #username! <> null() then 
             if #username!.getValid() <> Boolean.TRUE then 
