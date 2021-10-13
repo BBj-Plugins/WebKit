@@ -281,13 +281,11 @@ class public InputField extends BBjWidget
     method public void checkFieldReq()
         if #isPasswordField! then
             inputText! = #passwordField!.getText()
-            #subText!.setText(inputText!)
         else
             inputText! = #inputField!.getText()
         endif
    
         if inputText! <> "" then
-
             if #fieldType! <> null() or #fieldType! <> "" then
                 switch #fieldType!
                     case "username"
@@ -326,6 +324,12 @@ class public InputField extends BBjWidget
                         endif  
                     break        
                 swend
+            endif
+
+        rem FOR DEVELOPMENT SO THEY CAN LOGIN WITHOUT PASSWORD
+        else 
+            if #fieldType! = "password" then 
+                #valid! = Boolean.TRUE
             endif
         endif    
     methodend
