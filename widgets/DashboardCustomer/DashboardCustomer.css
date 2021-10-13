@@ -1,0 +1,15 @@
+
+
+
+.dashboardCustomerPanelStyle {
+    margin:2rem 0rem 0rem 0rem;
+    min-height: 250px;
+    height: 30% - 4rem;
+    width: 30% - 4rem;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto !important;
+}
+

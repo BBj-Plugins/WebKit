@@ -25,51 +25,6 @@ class public LoginDialogWindow
         #content!.addPanelStyle("loginWidgetContentPanelStyle")
     methodend 
 
-    method public Boolean canSubmit()
-        if #username! <> null() then 
-            if #username!.getValid() <> Boolean.TRUE then 
-                #submitButton!.addStyle("disabled")
-                #submitButton!.setEnabled(0)
-                methodret Boolean.FALSE
-            endif
-        endif
-        if #password! <> null() then 
-            if #password!.getValid() <> Boolean.TRUE then 
-                #submitButton!.addStyle("disabled")
-                #submitButton!.setEnabled(0)
-                methodret Boolean.FALSE
-            endif
-        endif
-        if #repeatPassword! <> null() then 
-            if #repeatPassword!.getValid() <> Boolean.TRUE then 
-                #submitButton!.addStyle("disabled")
-                #submitButton!.setEnabled(0)
-                methodret Boolean.FALSE
-            endif
-        endif
-
-        #submitButton!.removeStyle("disabled")
-        #submitButton!.setEnabled(1)
-        methodret Boolean.TRUE
-    methodend
-
-    method public void checkAllFieldReq()
-        fieldReq! = #loginDialog!.getFieldReq()
-
-        if #username! <> null() then 
-            #username!.checkFieldReq()
-        endif
-        if #password! <> null() then
-            #password!.checkFieldReq()
-        endif
-        if #repeatPassword! <> null() then
-            #repeatPassword!.checkFieldReq()
-        endif
-    methodend
-
-
-
-
     rem |||||| GETTER & SETTER ||||||
     method public LoginDialog getLoginDialog())
         methodret #loginDialog!
@@ -135,7 +90,48 @@ class public LoginDialogWindow
         #memory$ = memory$ 
     methodend    
     
+    rem ||||||| FIELD VALIDATION ||||||||||
+    method public Boolean canSubmit()
+        if #username! <> null() then 
+            if #username!.getValid() <> Boolean.TRUE then 
+                #submitButton!.addStyle("disabled")
+                #submitButton!.setEnabled(0)
+                methodret Boolean.FALSE
+            endif
+        endif
+        if #password! <> null() then 
+            if #password!.getValid() <> Boolean.TRUE then 
+                #submitButton!.addStyle("disabled")
+                #submitButton!.setEnabled(0)
+                methodret Boolean.FALSE
+            endif
+        endif
+        if #repeatPassword! <> null() then 
+            if #repeatPassword!.getValid() <> Boolean.TRUE then 
+                #submitButton!.addStyle("disabled")
+                #submitButton!.setEnabled(0)
+                methodret Boolean.FALSE
+            endif
+        endif
 
+        #submitButton!.removeStyle("disabled")
+        #submitButton!.setEnabled(1)
+        methodret Boolean.TRUE
+    methodend
+
+    method public void checkAllFieldReq()
+        fieldReq! = #loginDialog!.getFieldReq()
+
+        if #username! <> null() then 
+            #username!.checkFieldReq()
+        endif
+        if #password! <> null() then
+            #password!.checkFieldReq()
+        endif
+        if #repeatPassword! <> null() then
+            #repeatPassword!.checkFieldReq()
+        endif
+    methodend
 
     rem |||||| CALLBACKS ||||||
     method public void onForgotPwHover(BBjMouseEnterEvent event!)

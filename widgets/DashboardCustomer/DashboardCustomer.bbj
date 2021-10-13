@@ -1,0 +1,37 @@
+REM /**
+REM  * DashboardCustomer.bbj
+REM  * @author IanHupkes
+REM  *
+REM  */
+
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+class public DashboardCustomer extends BBjWidget
+
+    field private BBjChildWindow window!
+
+    method public DashboardCustomer(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardCustomer/DashboardCustomer.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public DashboardCustomer(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardCustomer/DashboardCustomer.css")
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public void redraw(Boolean init!)
+
+    #window! = #getCanvas()
+    #window!.addPanelStyle("dashboardCustomerPanelStyle")
+    #window!.setDockStyle("width","100%")
+    #window!.setDockStyle("height","100%")
+    #window!.setStyle("width","100%")
+    #window!.setStyle("height","100%")
+
+    #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Dashboard")
+
+    methodend
+
+classend

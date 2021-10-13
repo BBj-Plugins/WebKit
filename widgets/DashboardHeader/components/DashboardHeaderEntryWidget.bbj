@@ -25,7 +25,7 @@ class public DashboardHeaderEntryWidget extends BBjWidget
     methodend
     
     method public DashboardHeaderEntryWidget(BBjWindow wnd!, BBjInt id!)
-         DynamicLoader.addLocalCSS("WebKit/widgets/DashboardHeader/components/DashboardHeaderEntryWidget.css")
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardHeader/components/DashboardHeaderEntryWidget.css")
         #super!.create(wnd!,id!)
     methodend
     

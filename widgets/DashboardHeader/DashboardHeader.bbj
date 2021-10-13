@@ -46,6 +46,7 @@ class public DashboardHeader extends BBjWidget
     methodend
     
     method public void redraw(Boolean init!)
+
         if !init! then
             if #showIcon! then 
                 #iconWrapper!.setVisible(1)
