@@ -7,7 +7,6 @@ use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 class public InputField extends BBjWidget 
     field private IFieldReq fieldReq!
     field private BBjString fieldType!
-    field private BBjInt tabNum!
 
     field private LoginDialogWindow dialog!
     field private BBjChildWindow window!
@@ -165,7 +164,6 @@ class public InputField extends BBjWidget
             #subTextWnd!.addStyle("inputFieldSubTextWindow")
             #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
             #subText!.addStyle("inputFieldSubTextStyle")
-            #subTextWnd!.setTabTraversable(0)
                 
             if #isPasswordField! then
                 #createPasswordField(1)
@@ -220,7 +218,6 @@ class public InputField extends BBjWidget
         if #isPasswordField! = Boolean.FALSE then    
             #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
         endif
-        #iconWrapper!.setTabTraversable(0)
     methodend
     
     rem ||||||| CALLBACKS ||||||||

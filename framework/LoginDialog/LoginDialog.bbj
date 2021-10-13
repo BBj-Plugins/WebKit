@@ -167,10 +167,10 @@ class public LoginDialog
 
     method public void buildLoginContent(LoginDialogWindow wnd!, BBjString username$, BBjString loginResponse$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
-        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$, 201)
-        LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!,"Password", "Your password", "password", 202)
+        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$)
+        LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!,"Password", "Your password", "password")
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
-        LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login", 203)
+        LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login")
         if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword") 
         #loginWindow!.setTabTraverse() 
     methodend
@@ -178,8 +178,8 @@ class public LoginDialog
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString memory$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
-        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$,201)
-        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "void", 202)
+        LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$)
+        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "void")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
 
@@ -189,9 +189,9 @@ class public LoginDialog
         LoginDialogBuilder.addPageTitle(wnd!,title$)
         LoginDialogBuilder.addTextField(wnd!, response$)
         if retry! then
-            LoginDialogBuilder.addSubmitButton(wnd!, "Retry", methodName$, "void", 201)  
+            LoginDialogBuilder.addSubmitButton(wnd!, "Retry", methodName$, "void")  
         else 
-            LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin", "void", 202)
+            LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin", "void")
         endif
         #pwSentWindow!.canSubmit()
     methodend
@@ -199,9 +199,9 @@ class public LoginDialog
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
        LoginDialogBuilder.addPageTitle(wnd!, "Choose a new password")
-       LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!, "New Password", "new password", "newpassword", 1)
-       LoginDialogBuilder.addRepeatPasswordInput(wnd!, #fieldReq!, "Repeat Password", "password",2 )
-       LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken", "void", 3)
+       LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!, "New Password", "new password", "newpassword")
+       LoginDialogBuilder.addRepeatPasswordInput(wnd!, #fieldReq!, "Repeat Password", "password")
+       LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken", "void")
     methodend
 
     rem |||||| REDIRECTS ||||||

@@ -25,8 +25,8 @@ class public LoginDialogBuilder
         infoMessage!.addStyle("infoMessage")
     methodend
 
-    method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString memory$, int tabNum!)
-        dialog!.setUsername(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), "WebKit/framework/LoginDialog/assets/user.png", tabNum!))
+    method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString memory$)
+        dialog!.setUsername(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), "WebKit/framework/LoginDialog/assets/user.png"))
         dialog!.getUsername().setLoginDialog(dialog!) 
         dialog!.getUsername().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onUserIconPressed")
         dialog!.getUsername().setLabel("Username")
@@ -39,8 +39,8 @@ class public LoginDialogBuilder
         endif
     methodend
 
-    method public static void addPasswordInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString placeholder$ , BBjString fieldType!, int tabNum!)
-        dialog!.setPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1, tabNum!))
+    method public static void addPasswordInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString placeholder$ , BBjString fieldType!)
+        dialog!.setPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1))
         dialog!.getPassword().setLoginDialog(dialog!) 
         dialog!.getPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
         dialog!.getPassword().setLabel(label$)
@@ -50,8 +50,8 @@ class public LoginDialogBuilder
         dialog!.getPassword().setFieldType(fieldType!)
     methodend
 
-    method public static void addRepeatPasswordInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString placeholder$, int tabNum!)
-       dialog!.setRepeatPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1, tabNum!))
+    method public static void addRepeatPasswordInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString placeholder$)
+       dialog!.setRepeatPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"WebKit/framework/LoginDialog/assets/eye.png",1))
        dialog!.getRepeatPassword().setLoginDialog(dialog!) 
        dialog!.getRepeatPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
        dialog!.getRepeatPassword().setLabel(label$)
@@ -70,11 +70,11 @@ class public LoginDialogBuilder
         rememberMe!.addStyle("loginWidgetCheckBoxControl")
     methodend
 
-    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$, int ordNum!)
-        #addSubmitButton(dialog!, label$, methodName$, "", ordNum!)
+    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$)
+        #addSubmitButton(dialog!, label$, methodName$, "")
     methodend
     
-    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$, BBjString methodLocation$, int ordNum!)
+    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$, BBjString methodLocation$)
         dialog!.setSubmitButton(dialog!.getContent().addButton(1,0,0,0,0,label$))
         
         if methodLocation$ =  "" then 
