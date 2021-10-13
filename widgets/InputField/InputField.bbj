@@ -5,8 +5,6 @@ use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
 class public InputField extends BBjWidget 
-
-    rem field private BBjMethod fieldReq!
     field private IFieldReq fieldReq!
     field private BBjString fieldType!
     field private BBjInt tabNum!
@@ -41,28 +39,25 @@ class public InputField extends BBjWidget
         #super!.create(wnd!,id!)
     methodend
     
-    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, BBjInt tabNum!)
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #suffixIconPath! = suffixIcon!
-        #tabNum! = tabNum!
         #super!.create(wnd!,id!)
     methodend 
     
-    method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!, , BBjInt tabNum!)
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #isPasswordField! = isPasswordField!
-        #tabNum! = tabNum!
         #super!.create(wnd!,id!)
     methodend
     
-    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!, BBjInt tabNum!)
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #isPasswordField! = isPasswordField!
         #suffixIconPath! = suffixIcon!
-        #tabNum! = tabNum!
         #super!.create(wnd!,id!)
     methodend
 
@@ -161,12 +156,11 @@ class public InputField extends BBjWidget
             #window!.addPanelStyle("inputFieldPanelStyle")
             #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
             #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
-            #window!.setTabTraversable(0)
-
+            
             labelId! = #window!.getAvailableControlID()
             #label! = #window!.addStaticText(labelId!,0,0,0,0,"")
             #label!.addStyle("inputFieldLabelStyle")
-            
+
             #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             #subTextWnd!.addStyle("inputFieldSubTextWindow")
             #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
@@ -176,8 +170,7 @@ class public InputField extends BBjWidget
             if #isPasswordField! then
                 #createPasswordField(1)
             else 
-                rem #inputField! = #window!.addInputE(#window!.getAvailableControlID(),0,0,0,0)
-                #inputField! = #window!.addInputE(#tabNum!,0,0,0,0)
+                #inputField! = #window!.addInputE(#window!.getAvailableControlID(),0,0,0,0)
                 #inputField!.addStyle("inputFieldStyle")
                 #inputField!.addStyle("inputFieldStyleInputWrapper")
                 #inputField!.addStyle("inputFieldStyleInput")
@@ -190,16 +183,14 @@ class public InputField extends BBjWidget
             if #suffixIconPath! <> null() then 
                 #createSuffixIcon()
             endif
-        endif
-
-        
+        endif  
     methodend
     
     method private void createPasswordField(Boolean init!)
         if !init! then 
             #inputField!.destroy()
         endif
-        #passwordField! = #window!.addEditBox(#tabNum!,0,0,0,0,"",$0400$)
+        #passwordField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
         #passwordField!.addStyle("inputFieldStyle")
         #passwordField!.addStyle("inputFieldStyleInputWrapper")
         #passwordField!.addStyle("inputFieldStyleInput")
@@ -246,14 +237,11 @@ class public InputField extends BBjWidget
         
         if #isPasswordField! then
             #passwordField!.addStyle("focus")
-            rem #passwordField!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         else
             #inputField!.addStyle("focus")   
-            rem #this!.setStyle("border-bottom", "1px solid var(-bbj-color-primary)")
         endif
     methodend
     
-
     method public void onFocusLost(BBjLostFocusEvent event!)
         #label!.removeStyle("focus")
         if #isPasswordField! then

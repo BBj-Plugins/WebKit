@@ -206,15 +206,26 @@ class public LoginDialog
 
     rem |||||| REDIRECTS ||||||
     method public void gotoForgotPassword()   
-        declare BBjString user$
-        if #loginWindow! <> null() then 
-            user$ = #loginWindow!.getUsername().getText(0)
-            #loginWindow!.getContent().destroy()
-            #loginWindow! = null()
+        if #authRenewPw! = null() then
+            if #loginWindow! <> null() then 
+                #loginWindow!.getContent().destroy()
+                #loginWindow! = null()
+            endif
+            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildPwSentContent(#pwSentWindow!, "", "Something went wrong" ,"It seems you cannot use this functionality.", Boolean.FALSE, "")  
+        else  
+            declare BBjString user$
+            if #loginWindow! <> null() then 
+                user$ = #loginWindow!.getUsername().getText(0)
+                #loginWindow!.getContent().destroy()
+                #loginWindow! = null()
+            endif
+    
+            #forgotPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildForgotPwContent(#forgotPwWindow!, user$)
         endif
-  
-        #forgotPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-        #buildForgotPwContent(#forgotPwWindow!, user$)
+
+ 
     methodend
 
     method public void gotoLogin()
