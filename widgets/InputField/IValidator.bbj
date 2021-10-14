@@ -1,3 +1,34 @@
 interface public IValidator
     method public BBjString validate(BBjString field$)
 interfaceend
+
+class public UsernameValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+
+        methodret ""
+    methodend
+classend
+
+class public PasswordValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+ 
+        methodret ""
+    methodend
+classend
+
+class public NewPasswordValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+        if field!.length() < 6 then 
+            methodret "Password too short"
+            a = msgbox("got here")
+        endif
+        methodret ""
+    methodend
+classend
+
+class public RepeatPasswordValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+        REM don't need to do anything
+        methodret ""
+    methodend
+classend

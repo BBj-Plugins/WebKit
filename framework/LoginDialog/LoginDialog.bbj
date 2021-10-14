@@ -17,6 +17,12 @@ use ::WebKit/framework/LoginDialog/IAuthRenewPwProvider.bbj::IAuthRenewPwProvide
 use ::WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 
+use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
+use ::WebKit/widgets/InputField/IValidator.bbj::UsernameValidator
+use ::WebKit/widgets/InputField/IValidator.bbj::PasswordValidator
+use ::WebKit/widgets/InputField/IValidator.bbj::NewPasswordValidator
+use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
+
 
 class public LoginDialog
 
@@ -163,17 +169,17 @@ class public LoginDialog
 
     method public void buildLoginContent(LoginDialogWindow wnd!, BBjString username$, BBjString loginResponse$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
-        LoginDialogBuilder.addUsernameInput(wnd!, memory$)
-        LoginDialogBuilder.addPasswordInput(wnd!, "Password", "Your password", "password")
+        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), memory$)
+        LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), "Password", "Your password", "password")
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
         LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login")
         if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")  
     methodend
 
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString memory$)
-        LoginDialogBuilder.addLogo(wnd!,#logoURL$)
+        rem LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
-        LoginDialogBuilder.addUsernameInput(wnd!, memory$)
+        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), memory$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "void")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
@@ -194,8 +200,8 @@ class public LoginDialog
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
        LoginDialogBuilder.addPageTitle(wnd!, "Choose a new password")
-       LoginDialogBuilder.addPasswordInput(wnd!, "New Password", "new password", "newpassword")
-       LoginDialogBuilder.addRepeatPasswordInput(wnd!, "Repeat Password", "password")
+       LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(),  "New Password", "new password", "newpassword")
+       LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), "Repeat Password", "password")
        LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken", "void")
     methodend
 

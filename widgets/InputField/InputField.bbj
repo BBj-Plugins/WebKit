@@ -7,17 +7,14 @@ use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 class public InputField extends BBjWidget 
 
     field private BBjChildWindow window!
-
     field private IValidator validator!
     
     field private BBjStaticText label!
-
     field private BBjEditBox inputField!
-
     field private BBjChildWindow subTextWnd!
     field private BBjStaticText subText!
 
-    rem field private Boolean valid! = 0
+    rem field private Boolean valid! = Boolean.FALSE
     
     rem field public static BBjNumber ON_SUFFIX_PRESSED = 520000
     
@@ -40,32 +37,36 @@ class public InputField extends BBjWidget
     methodend
     
     method public void redraw(Boolean init!)
-    if init! then
-        #window! = #getCanvas()
-        #window!.addPanelStyle("inputFieldPanelStyle")
-        rem #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
-        rem #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
-        
-        #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
-        #label!.addStyle("inputFieldLabelStyle")
+        if init! then
+            #window! = #getCanvas()
+            #window!.addPanelStyle("inputFieldPanelStyle")
 
-        #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #subTextWnd!.addStyle("inputFieldSubTextWindow")
-        
-        #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
-        #subText!.addStyle("inputFieldSubTextStyle")
+            #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+            #label!.addStyle("inputFieldLabelStyle")
+
+            #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #subTextWnd!.addStyle("inputFieldSubTextWindow")
             
-        #inputField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"")
-        rem if Boolean.TRUE then #inputField!.setMask($0400$)
-        #inputField!.addStyle("inputFieldStyle")
-        #inputField!.addStyle("inputFieldStyleInputWrapper")
-        #inputField!.addStyle("inputFieldStyleInput")
-        #inputField!.setLeftMargin(0)
-        rem #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
-        rem #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
-        rem #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")     
-    endif  
-methodend
+            #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+            #subText!.addStyle("inputFieldSubTextStyle")
+                
+            #inputField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"")
+            rem if Boolean.TRUE then #inputField!.setMask($0400$)
+            #inputField!.addStyle("inputFieldStyle")
+            #inputField!.addStyle("inputFieldStyleInputWrapper")
+            #inputField!.addStyle("inputFieldStyleInput")
+            #inputField!.setLeftMargin(0)
+
+            #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
+            #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
+            #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
+            #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
+            #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")     
+        endif  
+    methodend
+
+
+
 
     rem ||||||||||||||||||||||||||||||||||||||||||||
     rem ||||||||||||| GETTERS & SETTERS ||||||||||||
@@ -79,6 +80,7 @@ methodend
         #inputField!.setPlaceholder(placeholder!)
     methodend
 
+    rem can only be set once, is that okay? or set as an instance var that can be reset?
     method public void setSuffix(BBjString suffixPath!)    	
         suffixWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         suffixWrapper!.setDockStyle("grid-row-start","2")
@@ -92,6 +94,39 @@ methodend
 
         rem suffixWrapper!!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
     methodend
+
+
+
+
+
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem |||||||||||||||| CALLBACKS |||||||||||||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+
+    method public void onHoverStart(BBjMouseEnterEvent event!)
+        #label!.addStyle("hover")
+    methodend
+    
+    method public void onHoverExit(BBjMouseExitEvent event!)
+        #label!.removeStyle("hover")
+    methodend
+
+    method public void onFocusGained(BBjGainedFocusEvent event!)
+        #label!.addStyle("focus")
+        #inputField!.addStyle("focus")   
+    methodend
+    
+    method public void onFocusLost(BBjLostFocusEvent event!)
+        #label!.removeStyle("focus")
+        #inputField!.removeStyle("focus")
+    methodend
+
+    method public void onChange(BBjEditModifyEvent event!)
+        if #validator! <> null() then
+            #subText!.setText(#validator!.validate(event!.getText()))
+        endif
+    methodend   
+
 
 
 
@@ -223,32 +258,9 @@ rem     methodend
 
 
     rem ||||||| CALLBACKS ||||||||
-    rem method public void onHoverStart(BBjMouseEnterEvent event!)
-    rem     #label!.addStyle("hover")
-    rem methodend
+
     
-    rem method public void onHoverExit(BBjMouseExitEvent event!)
-    rem     #label!.removeStyle("hover")
-    rem methodend
-    
-    rem method public void onFocusGained(BBjGainedFocusEvent event!)
-    rem     #label!.addStyle("focus")
-        
-    rem     if #isPasswordField! then
-    rem         #passwordField!.addStyle("focus")
-    rem     else
-    rem         #inputField!.addStyle("focus")   
-    rem     endif
-    rem methodend
-    
-    rem method public void onFocusLost(BBjLostFocusEvent event!)
-    rem     #label!.removeStyle("focus")
-    rem     if #isPasswordField! then
-    rem         #passwordField!.removeStyle("focus")
-    rem     else
-    rem         #inputField!.removeStyle("focus")
-    rem     endif
-    rem methodend
+
 
     rem method public void onError()
     rem     #label!.setStyle("color","var(--webkit-primary)")
@@ -259,9 +271,7 @@ rem     methodend
     rem     endif
     rem methodend
 
-    rem method public void onChange(BBjEditModifyEvent event!)
 
-    rem methodend
 
 
     rem method public void onIconPressed(BBjMouseDownEvent event!)
