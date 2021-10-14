@@ -32,14 +32,16 @@ class public DrawerMenuTile extends BBjWidget
          #window!.addPanelStyle("drawerMenuTilePanelStyle")
         if init! then 
             icon! = #setIcon(iconPath!)
-            icon!.addStyle("drawerMenuTileIconStyle")
-            icon!.addStyle("menuIconAnimationOpen")
-            icon!.addStyle("menuIconAnimationClose")
-            
-            title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#titleText!)
-            title!.addStyle("drawerMenuTileTextStyle")
-            title!.addStyle("menuTextAnimationOpen")
-            title!.addStyle("menuTextAnimationClose")
+            if icon! <> null() then
+                icon!.addStyle("drawerMenuTileIconStyle")
+                icon!.addStyle("menuIconAnimationOpen")
+                icon!.addStyle("menuIconAnimationClose")
+                
+                title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#titleText!)
+                title!.addStyle("drawerMenuTileTextStyle")
+                title!.addStyle("menuTextAnimationOpen")
+                title!.addStyle("menuTextAnimationClose")
+            endif
         endif
     methodend
     
