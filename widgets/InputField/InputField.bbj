@@ -41,7 +41,6 @@ class public InputField extends BBjWidget
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-        DynamicLoader.consoleLog(suffixIcon!)
         #suffixIconPath! = suffixIcon!
       
         #super!.create(wnd!,id!)
@@ -57,7 +56,6 @@ class public InputField extends BBjWidget
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-        DynamicLoader.consoleLog(suffixIcon!)
         #isPasswordField! = isPasswordField!
         #suffixIconPath! = suffixIcon!
         #super!.create(wnd!,id!)
@@ -219,7 +217,6 @@ class public InputField extends BBjWidget
     rem methodend
     
     method private void createIcon()
-        DynamicLoader.consoleLog(#suffixIconPath!)
         #fieldIcon! =  #setIcon(#suffixIconPath!)
         #fieldIcon!.addStyle("inputFieldIcon")
     methodend
