@@ -11,34 +11,91 @@ class public InputField extends BBjWidget
     field private IValidator validator!
     
     field private BBjStaticText label!
+
     field private BBjEditBox inputField!
 
     field private BBjChildWindow subTextWnd!
     field private BBjStaticText subText!
 
-    field private Boolean valid! = 0
+    rem field private Boolean valid! = 0
     
-    field public static BBjNumber ON_SUFFIX_PRESSED = 520000
+    rem field public static BBjNumber ON_SUFFIX_PRESSED = 520000
     
+    rem to be deleted
     method public InputField(BBjChildWindow wnd!, BBjInt id!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #super!.create(wnd!,id!)
     methodend
 
-
     method public InputField(BBjChildWindow wnd!, IValidator validator!)
-        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
-        #super!.create(wnd!,wnd!.getAvailableControlID(), validator!)
+         #this!(wnd!,wnd!.getAvailableControlID(), validator!)
     methodend
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, IValidator validator!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
+        #validator! = validator!
         #super!.create(wnd!,id!)
     methodend
     
+    method public void redraw(Boolean init!)
+    if init! then
+        #window! = #getCanvas()
+        #window!.addPanelStyle("inputFieldPanelStyle")
+        rem #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
+        rem #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
+        
+        #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+        #label!.addStyle("inputFieldLabelStyle")
+
+        #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #subTextWnd!.addStyle("inputFieldSubTextWindow")
+        
+        #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+        #subText!.addStyle("inputFieldSubTextStyle")
+            
+        #inputField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"")
+        rem if Boolean.TRUE then #inputField!.setMask($0400$)
+        #inputField!.addStyle("inputFieldStyle")
+        #inputField!.addStyle("inputFieldStyleInputWrapper")
+        #inputField!.addStyle("inputFieldStyleInput")
+        #inputField!.setLeftMargin(0)
+        rem #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
+        rem #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
+        rem #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")     
+    endif  
+methodend
+
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem ||||||||||||| GETTERS & SETTERS ||||||||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+
+    method public void setLabel(BBjString label!)
+        #label!.setText(label!)
+    methodend
+
+    method public void setPlaceHolder(BBjString placeholder!)
+        #inputField!.setPlaceholder(placeholder!)
+    methodend
+
+    method public void setSuffix(BBjString suffixPath!)    	
+        suffixWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        suffixWrapper!.setDockStyle("grid-row-start","2")
+        suffixWrapper!.setDockStyle("grid-column-start","2")
+        suffixWrapper!.setDockStyle("height","fit-content")
+        suffixWrapper!.setDockStyle("width","fit-content")
+        suffixWrapper!.setDockStyle("align-self","end")
+        suffixWrapper!.setDockStyle("justify-self","end")
+           
+        suffixWrapper!.addImageCtrl(suffixWrapper!.getAvailableControlID(),0,0,0,0,suffixPath!)
+
+        rem suffixWrapper!!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+    methodend
+
+
+
+
     rem method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
     rem     DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
@@ -144,60 +201,27 @@ rem         #valid! = valid!
 rem     methodend
 
     rem ||||||||| DRAW ||||||||||
-    method public void clearStyle()
-    #subText!.setText("")
-        #label!.removeStyle("hover")
-        #label!.removeStyle("focus")
-        #label!.removeStyle("error")
-        if #isPasswordField! then
-            #passwordField!.removeStyle("focus")
-            #passwordField!.removeStyle("error")
-        else
-            #inputField!.removeStyle("focus")
-            #inputField!.removeStyle("error")
-        endif
-    methodend
+    rem method public void clearStyle()
+    rem #subText!.setText("")
+    rem     #label!.removeStyle("hover")
+    rem     #label!.removeStyle("focus")
+    rem     #label!.removeStyle("error")
+    rem     if #isPasswordField! then
+    rem         #passwordField!.removeStyle("focus")
+    rem         #passwordField!.removeStyle("error")
+    rem     else
+    rem         #inputField!.removeStyle("focus")
+    rem         #inputField!.removeStyle("error")
+    rem     endif
+    rem methodend
 
-    method public void redraw(Boolean init!)
-        if init! then
-            #window! = #getCanvas()
-            #window!.addPanelStyle("inputFieldPanelStyle")
-            rem #window!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"onHoverStart")
-            rem #window!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"onHoverExit")
-            
-            #label! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
-            #label!.addStyle("inputFieldLabelStyle")
 
-            #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            #subTextWnd!.addStyle("inputFieldSubTextWindow")
-            
-            #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
-            #subText!.addStyle("inputFieldSubTextStyle")
-                
-            #inputField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"")
-            rem if Boolean.TRUE then #inputField!.setMask($0400$)
-            #inputField!.addStyle("inputFieldStyle")
-            #inputField!.addStyle("inputFieldStyleInputWrapper")
-            #inputField!.addStyle("inputFieldStyleInput")
-            #inputField!.setLeftMargin(0)
-            rem #inputField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
-            rem #inputField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
-            rem #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")     
-        endif  
-    methodend
     
-    method public void setSuffix(BBjString suffixPath!)    	
-        suffixWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        suffixWrapper!.setDockStyle("grid-row-start","2")
-        suffixWrapper!.setDockStyle("grid-column-start","2")
-        suffixWrapper!.setDockStyle("height","fit-content")
-        suffixWrapper!.setDockStyle("width","fit-content")
-        suffixWrapper!.setDockStyle("align-self","end")
-        suffixWrapper!.setDockStyle("justify-self","end")
-        rem suffixWrapper!!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")   
-        suffixWrapper!.addImageCtrl(suffixWrapper!.getAvailableControlID(),0,0,0,0,suffixPath!)
-    methodend
+
     
+
+
+
     rem ||||||| CALLBACKS ||||||||
     rem method public void onHoverStart(BBjMouseEnterEvent event!)
     rem     #label!.addStyle("hover")
