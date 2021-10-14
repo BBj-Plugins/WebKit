@@ -1,15 +1,19 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
-class public LoginDialogWindow
+class public LoginDialogWindow extends BBjWidget
 
     field private LoginDialog loginDialog!
     field private BBjChildWindow content!
     
-    field private InputField username! 
+    field private InputField username!
+    field private BBjString usernameInputFieldType! 
     field private InputField password! 
-    field private InputField repeatPassword! 
+    field private BBjString passwordInputFieldType!
+    field private InputField repeatPassword!
+    field private BBjString repeatPasswordInputFieldType! 
     field private BBjButton submitButton!
     field private BBjStaticText redirect!
 
@@ -46,7 +50,19 @@ class public LoginDialogWindow
     method public void setUsername(InputField username!)
         #username! = username!
     methodend
+
+    method public void setUsernameInputFieldType(BBjString fieldType!)
+        #usernameInputFieldType! = fieldType!
+    methodend
     
+    method public void setPasswordInputFieldType(BBjString fieldType!)
+        #passwordInputFieldType! = fieldType!
+    methodend
+
+    method public void setRepeatPasswordInputFieldType(BBjString fieldType!)
+        #repeatPasswordInputFieldType! = fieldType!
+    methodend
+
     method public InputField getPassword()
         methodret #password!
     methodend
@@ -118,6 +134,11 @@ class public LoginDialogWindow
             #password!.setPasswordVisible(1)
             #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
         endif    
+    methodend
+
+    rem ||| INPUTFIELD CALLBACKS ||||
+    method public void onInputChange(BBjEditModifyEvent event!)
+        a = msgbox("hola")
     methodend
 
     method public void clearStyles()

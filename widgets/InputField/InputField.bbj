@@ -60,7 +60,7 @@ class public InputField extends BBjWidget
         #super!.create(wnd!,id!)
     methodend
 
-    
+
     rem |||||||| GETTERS & SETTERS ||||||
     method public void setLoginDialog(LoginDialogWindow dialog!)
         #dialog! = dialog! 
@@ -94,11 +94,17 @@ class public InputField extends BBjWidget
         endif  
     methodend
 
-    method public BBjInputE getUsernameField()
+    method public BBjInputE getInputField()
+        if #inputField! = null() then
+            rem catch error
+        endif 
         methodret #inputField!
     methodend
 
     method public BBjEditBox getPasswordField()
+        if #passwordField! = null() then
+            rem catch error
+        endif 
         methodret #passwordField!
     methodend
 
