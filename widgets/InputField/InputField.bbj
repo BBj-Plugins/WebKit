@@ -56,6 +56,14 @@ class public InputField extends BBjWidget
         #super!.create(wnd!,id!)
     methodend
 
+    method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!, IValidate)
+    DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
+    #isPasswordField! = isPasswordField!
+    #suffixIconPath! = suffixIcon!
+    #super!.create(wnd!,id!)
+methodend
+
 
     rem |||||||| GETTERS & SETTERS ||||||
 
@@ -235,7 +243,6 @@ class public InputField extends BBjWidget
     
     method public void onFocusGained(BBjGainedFocusEvent event!)
         #label!.addStyle("focus")
-        
         if #isPasswordField! then
             #passwordField!.addStyle("focus")
         else

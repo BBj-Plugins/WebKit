@@ -138,24 +138,20 @@ class public LoginDialogWindow extends BBjWidget
 
     rem ||| INPUTFIELD CALLBACKS ||||
     method public void onUsernameChange(BBjEditModifyEvent event!)
-        #onInputChange(#username!, event!.getText(),#usernameInputFieldType!  )
+        #onInputChange(#username!, event!.getText(),#usernameInputFieldType!)
     methodend
 
     method public void onPasswordChange(BBjEditModifyEvent event!)
-        #onInputChange(#password!, event!.getText(), #passwordInputFieldType! )
+        #onInputChange(#password!, event!.getText(), #passwordInputFieldType!)
     methodend
 
     method public void onRepeatPasswordChange(BBjEditModifyEvent event!)
-        #onInputChange(#repeatPassword!, event!.getText(), #repeatPasswordInputFieldType! )
+        #onInputChange(#repeatPassword!, event!.getText(), #repeatPasswordInputFieldType!)
     methodend
 
     method public void onInputChange(InputField inputField!, BBjString input!, BBjString fieldType!)
-   
-
         if input!.length() = 1 then 
             #clearStyles()
-            
-            
             if inputField!.getIsPasswordField() then
                 inputField!.getPasswordField().addStyle("focus")
             else
@@ -165,29 +161,26 @@ class public LoginDialogWindow extends BBjWidget
 
         inputField!.getLabel().addStyle("focus")
 
-        rem if #fieldType! <> null() or #fieldType! <> "" then
-        rem     switch #fieldType!
-        rem         case "username"
-        rem             #subText!.setText(#fieldReq!.username(inputText!))
-        rem         break
+        if fieldType! <> null() or fieldType! <> "" then
+            switch fieldType!
+                case "username"
+                    inputField!.setSubText(#loginDialog!.getFieldReq().username(input!))
+                break
 
-        rem         case "password"
-        rem             #subText!.setText(#fieldReq!.password(inputText!))
-        rem         break
+                case "password"
+                    inputField!.setSubText(#loginDialog!.getFieldReq().password(input!))
+                break
                 
-        rem         case "newpassword"
-        rem             #subText!.setText(#fieldReq!.newPassword(inputText!))
-        rem         break    
+                case "newpassword"
+                    inputField!.setSubText(#loginDialog!.getFieldReq().newPassword(input!))
+                break    
                 
-        rem         case "repeatpassword"
-        rem             #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
-        rem             if #subText!.getText() = "" then
-        rem         break        
-        rem     swend
-        rem endif
-
-
-
+                case "repeatpassword"
+                    inputField!.setSubText(#loginDialog!.getFieldReq().repeatPassword(input!, #password!.getText(1)))
+                    rem if #subText!.getText() = "" then
+                break        
+            swend
+        endif
     methodend
   
     method public void clearStyles()

@@ -73,6 +73,10 @@ class public LoginDialog
         #logoURL$ = logo$
     methodend
 
+    method public IFieldReq getFieldReq()
+        methodret #fieldReq! 
+    methodend
+
     method public void setAuthRenewPwProvider(IAuthRenewPwProvider authProvider!)
         #authRenewPw! = authProvider!
         #AllowForgotPw! = Boolean.TRUE
