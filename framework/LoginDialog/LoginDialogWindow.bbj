@@ -137,10 +137,59 @@ class public LoginDialogWindow extends BBjWidget
     methodend
 
     rem ||| INPUTFIELD CALLBACKS ||||
-    method public void onInputChange(BBjEditModifyEvent event!)
-        a = msgbox("hola")
+    method public void onUsernameChange(BBjEditModifyEvent event!)
+        #onInputChange(#username!, event!.getText(),#usernameInputFieldType!  )
     methodend
 
+    method public void onPasswordChange(BBjEditModifyEvent event!)
+        #onInputChange(#password!, event!.getText(), #passwordInputFieldType! )
+    methodend
+
+    method public void onRepeatPasswordChange(BBjEditModifyEvent event!)
+        #onInputChange(#repeatPassword!, event!.getText(), #repeatPasswordInputFieldType! )
+    methodend
+
+    method public void onInputChange(InputField inputField!, BBjString input!, BBjString fieldType!)
+   
+
+        if input!.length() = 1 then 
+            #clearStyles()
+            
+            
+            if inputField!.getIsPasswordField() then
+                inputField!.getPasswordField().addStyle("focus")
+            else
+                inputField!.getInputField().addStyle("focus")   
+            endif
+        endif   
+
+        inputField!.getLabel().addStyle("focus")
+
+        rem if #fieldType! <> null() or #fieldType! <> "" then
+        rem     switch #fieldType!
+        rem         case "username"
+        rem             #subText!.setText(#fieldReq!.username(inputText!))
+        rem         break
+
+        rem         case "password"
+        rem             #subText!.setText(#fieldReq!.password(inputText!))
+        rem         break
+                
+        rem         case "newpassword"
+        rem             #subText!.setText(#fieldReq!.newPassword(inputText!))
+        rem         break    
+                
+        rem         case "repeatpassword"
+        rem             #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
+        rem             if #subText!.getText() = "" then
+        rem         break        
+        rem     swend
+        rem endif
+
+
+
+    methodend
+  
     method public void clearStyles()
         if #username! <> null() then 
             #username!.clearStyle()

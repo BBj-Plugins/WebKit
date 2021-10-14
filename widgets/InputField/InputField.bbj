@@ -5,10 +5,6 @@ use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
 class public InputField extends BBjWidget 
-    field private IFieldReq fieldReq!
-    field private BBjString fieldType!
-
-    field private LoginDialogWindow dialog!
     field private BBjChildWindow window!
     field private BBjStaticText label!
     field private BBjInputE inputField!
@@ -62,16 +58,9 @@ class public InputField extends BBjWidget
 
 
     rem |||||||| GETTERS & SETTERS ||||||
-    method public void setLoginDialog(LoginDialogWindow dialog!)
-        #dialog! = dialog! 
-    methodend
 
-    method public void setFieldReq(IFieldReq fieldReq!)
-        #fieldReq! = fieldReq!
-    methodend
-
-    method public void setFieldType(BBjString fieldType!)
-        #fieldType! = fieldType!
+    method public BBjStaticText getLabel()
+        methodret #label!
     methodend
 
     method public void setLabel(BBjString label!)
@@ -95,16 +84,16 @@ class public InputField extends BBjWidget
     methodend
 
     method public BBjInputE getInputField()
-        if #inputField! = null() then
-            rem catch error
-        endif 
+        rem if #inputField! = null() then
+        rem     rem catch error
+        rem endif 
         methodret #inputField!
     methodend
 
     method public BBjEditBox getPasswordField()
-        if #passwordField! = null() then
-            rem catch error
-        endif 
+        rem if #passwordField! = null() then
+        rem     rem catch error
+        rem endif 
         methodret #passwordField!
     methodend
 
@@ -127,6 +116,10 @@ class public InputField extends BBjWidget
 
     method public void setSubText(BBjString text$)
         #subText!.setText(text$)    
+    methodend
+
+    method public Boolean getIsPasswordField()
+        methodret #isPasswordField! 
     methodend
 
     method public void setPasswordVisible(Boolean visible!)
@@ -260,7 +253,6 @@ class public InputField extends BBjWidget
     methodend
 
     method public void onError()
-        rem #label!.setStyle("color","var(--webkit-primary)")
         if #isPasswordField! then
             #passwordField!.addStyle("error")
         else
@@ -269,40 +261,7 @@ class public InputField extends BBjWidget
     methodend
 
     method public void onChange(BBjEditModifyEvent event!)
-        inputText! = event!.getText()
 
-        if inputText!.length() = 1 then 
-            #dialog!.clearStyles()
-            #label!.addStyle("focus")
-            if #isPasswordField! then
-                #passwordField!.addStyle("focus")
-            else
-                #inputField!.addStyle("focus")    
-            endif
-        endif   
-
-        #label!.addStyle("focus")
-
-        if #fieldType! <> null() or #fieldType! <> "" then
-            switch #fieldType!
-                case "username"
-                    #subText!.setText(#fieldReq!.username(inputText!))
-                break
-
-                case "password"
-                    #subText!.setText(#fieldReq!.password(inputText!))
-                break
-                
-                case "newpassword"
-                    #subText!.setText(#fieldReq!.newPassword(inputText!))
-                break    
-                
-                case "repeatpassword"
-                    #subText!.setText(#fieldReq!.repeatPassword(inputText!, #dialog!.getPassword().getText(1)))
-                    if #subText!.getText() = "" then
-                break        
-            swend
-        endif
     methodend
 
     method public void onIconPressed(BBjMouseDownEvent event!)
