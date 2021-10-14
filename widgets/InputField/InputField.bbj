@@ -41,9 +41,11 @@ class public InputField extends BBjWidget
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
+        DynamicLoader.consoleLog(suffixIcon!)
         #suffixIconPath! = suffixIcon!
+      
         #super!.create(wnd!,id!)
+        #createIcon()
     methodend 
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
@@ -55,7 +57,7 @@ class public InputField extends BBjWidget
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
+        DynamicLoader.consoleLog(suffixIcon!)
         #isPasswordField! = isPasswordField!
         #suffixIconPath! = suffixIcon!
         #super!.create(wnd!,id!)
@@ -115,7 +117,7 @@ class public InputField extends BBjWidget
 
     method public void setSuffixIcon(BBjString suffixIcon!)
         #suffixIconPath! = suffixIcon!
-        #createSuffixIcon()
+        #createIcon()
     methodend
 
     method public void setPasswordField(Boolean enabled!)
@@ -211,11 +213,16 @@ class public InputField extends BBjWidget
     rem         #suffixIcon! = null()
     rem     endif 
      
-        if #isPasswordField! = Boolean.FALSE then    
-            #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
-        endif
-    methodend
+    rem     if #isPasswordField! = Boolean.FALSE then    
+    rem         #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
+    rem     endif
+    rem methodend
     
+    method private void createIcon()
+        DynamicLoader.consoleLog(#suffixIconPath!)
+        #fieldIcon! =  #setIcon(#suffixIconPath!)
+        #fieldIcon!.addStyle("inputFieldIcon")
+    methodend
 
     rem ||||||| CALLBACKS ||||||||
     method public void onHoverStart(BBjMouseEnterEvent event!)
