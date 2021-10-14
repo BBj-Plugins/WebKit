@@ -60,8 +60,8 @@ class public InputField extends BBjWidget
         #super!.create(wnd!,id!)
     methodend
 
+    
     rem |||||||| GETTERS & SETTERS ||||||
-
     method public void setLoginDialog(LoginDialogWindow dialog!)
         #dialog! = dialog! 
     methodend
@@ -78,6 +78,14 @@ class public InputField extends BBjWidget
         #label!.setText(label!)
     methodend
 
+    method public String getText(Boolean isPasswordField!)
+        if #isPasswordField! then
+            methodret #passwordField!.getText()
+        else
+            methodret #inputField!.getText()
+        endif
+    methodend
+
     method public void setText(BBjString text!)
         if #isPasswordField! then 
             #passwordField!.setText(text!)
@@ -86,12 +94,17 @@ class public InputField extends BBjWidget
         endif  
     methodend
 
-    method public BBjStaticText getSubText()
-        methodret #subText!
+    method public BBjInputE getUsernameField()
+        methodret #inputField!
     methodend
 
-    method public void setSubText(BBjString text$)
-        #subText!.setText(text$)    
+    method public BBjEditBox getPasswordField()
+        methodret #passwordField!
+    methodend
+
+    method public void setPasswordField(Boolean enabled!)
+        #isPasswordField! = 1
+        #createPasswordField(0)
     methodend
 
     method public void setPlaceHolder(BBjString placeholder!)
@@ -100,6 +113,14 @@ class public InputField extends BBjWidget
         else 
             #inputField!.setPlaceholder(placeholder!)
         endif    
+    methodend
+
+    method public BBjStaticText getSubText()
+        methodret #subText!
+    methodend
+
+    method public void setSubText(BBjString text$)
+        #subText!.setText(text$)    
     methodend
 
     method public void setPasswordVisible(Boolean visible!)
@@ -117,22 +138,8 @@ class public InputField extends BBjWidget
         #createSuffixIcon()
     methodend
 
-    method public void setPasswordField(Boolean enabled!)
-        #isPasswordField! = 1
-        #createPasswordField(0)
-    methodend
-
-    method public String getText(Boolean isPasswordField!)
-        if #isPasswordField! then
-            methodret #passwordField!.getText()
-        else
-            methodret #inputField!.getText()
-        endif
-    methodend
-    
 
     rem ||||||||| DRAW ||||||||||
-    
     method public void clearStyle()
     #subText!.setText("")
         #label!.removeStyle("hover")
@@ -247,7 +254,7 @@ class public InputField extends BBjWidget
     methodend
 
     method public void onError()
-        #label!.setStyle("color","var(--webkit-primary)")
+        rem #label!.setStyle("color","var(--webkit-primary)")
         if #isPasswordField! then
             #passwordField!.addStyle("error")
         else
