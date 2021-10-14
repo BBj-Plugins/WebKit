@@ -29,18 +29,15 @@ class public LoginDialog
     field public static BBjNumber ON_LOGIN = 800001
     field private IAuthProvider authProvider!
     field private IAuthRenewPwProvider authRenewPw!
-    field private IFieldReq fieldReq!
- 
+
     field private BBjSysGui sysGui!
     field private BBjTopLevelWindow window!
     field private BBjWindow loginWrapper!
-    
+
     field private LoginDialogWindow loginWindow!
     field private LoginDialogWindow forgotPwWindow!
     field private LoginDialogWindow pwSentWindow!
     field private LoginDialogWindow newPwWindow!
-
-    field public BBjString User$ = ""
 
     field public Boolean AllowRemember! = Boolean.FALSE
     field public Boolean AllowForgotPw! = Boolean.FALSE
@@ -48,17 +45,13 @@ class public LoginDialog
     field public Boolean LoginWithGoogle! = Boolean.FALSE
 
     field private AccountProfile Profile!
+    field public BBjString User$ = ""
+
     field private BBjString logoURL$
     
     rem |||||| CONSTRUCTORS ||||||
-    method public LoginDialog()
-    methodend
-    
-    method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
-        #this!(title$, authProvider!, new DefaultFieldReq()) 
-    methodend
 
-    method public LoginDialog(BBjString title$, IAuthProvider authProvider!, IFieldReq fieldReq!)
+    method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
         bbjutils! = new ::BBUtils.bbj::BBUtils()
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
 
@@ -70,7 +63,6 @@ class public LoginDialog
 
         checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
         #authProvider! = authProvider!
-        #fieldReq! = fieldReq!
     methodend
 
     
@@ -177,7 +169,7 @@ class public LoginDialog
     methodend
 
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString memory$)
-        rem LoginDialogBuilder.addLogo(wnd!,#logoURL$)
+        LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
         LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), memory$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "void")
@@ -219,7 +211,8 @@ class public LoginDialog
         else  
             declare BBjString user$
             if #loginWindow! <> null() then 
-                user$ = #loginWindow!.getUsername().getText()
+                user$ = "lol" 
+                rem #loginWindow!.getUsername().getText()
                 #loginWindow!.getContent().destroy()
                 #loginWindow! = null()
             endif

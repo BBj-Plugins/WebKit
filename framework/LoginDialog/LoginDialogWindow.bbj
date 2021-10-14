@@ -7,16 +7,13 @@ class public LoginDialogWindow extends BBjWidget
 
     field private LoginDialog loginDialog!
     field private BBjChildWindow content!
-    
+
     field private InputField username!
-    field private BBjString usernameInputFieldType! 
     field private InputField password! 
-    field private BBjString passwordInputFieldType!
     field private InputField repeatPassword!
-    field private BBjString repeatPasswordInputFieldType! 
+
     field private BBjButton submitButton!
     field private BBjStaticText redirect!
-
 
     field private BBjString memory$
 
@@ -31,15 +28,11 @@ class public LoginDialogWindow extends BBjWidget
     methodend 
 
     rem |||||| GETTER & SETTER ||||||
-    method public LoginDialog getLoginDialog())
-        methodret #loginDialog!
-    methodend
+    rem method public LoginDialog getLoginDialog())
+    rem     methodret #loginDialog!
+    rem methodend
 
     method public BBjChildWindow getContent()
-        methodret #content!
-    methodend
-
-    method public BBjWindow getContent()
         methodret #content!
     methodend
 
@@ -49,18 +42,6 @@ class public LoginDialogWindow extends BBjWidget
 
     method public void setUsername(InputField username!)
         #username! = username!
-    methodend
-
-    method public void setUsernameInputFieldType(BBjString fieldType!)
-        #usernameInputFieldType! = fieldType!
-    methodend
-    
-    method public void setPasswordInputFieldType(BBjString fieldType!)
-        #passwordInputFieldType! = fieldType!
-    methodend
-
-    method public void setRepeatPasswordInputFieldType(BBjString fieldType!)
-        #repeatPasswordInputFieldType! = fieldType!
     methodend
 
     method public InputField getPassword()
@@ -95,13 +76,13 @@ class public LoginDialogWindow extends BBjWidget
         #redirect!  = redirect! 
     methodend
     
-    method public BBjString getMemory()
-        methodret #memory!
-    methodend
+    rem method public BBjString getMemory()
+    rem     methodret #memory!
+    rem methodend
 
-    method public void setMemory(BBjString memory$)
-        #memory$ = memory$ 
-    methodend    
+    rem method public void setMemory(BBjString memory$)
+    rem     #memory$ = memory$ 
+    rem methodend    
     
 
 
@@ -122,133 +103,135 @@ class public LoginDialogWindow extends BBjWidget
         #submitButton!.removeStyle("hover")
     methodend
 
-    method public void onUserIconPressed(BBjCustomEvent event!)
-        a = msgbox("UserIcon Pressed")
-    methodend
+    rem method public void onUserIconPressed(BBjCustomEvent event!)
+    rem     a = msgbox("UserIcon Pressed")
+    rem methodend
     
-     method public void onShowPasswordIconPressed(BBjCustomEvent event!)
-        if #password!.isPasswordVisible() then 
-            #password!.setPasswordVisible(0)
-            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
-        else
-            #password!.setPasswordVisible(1)
-            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
-        endif    
-    methodend
+    rem  method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+    rem     if #password!.isPasswordVisible() then 
+    rem         #password!.setPasswordVisible(0)
+    rem         #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
+    rem     else
+    rem         #password!.setPasswordVisible(1)
+    rem         #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
+    rem     endif    
+    rem methodend
 
-    rem ||| INPUTFIELD CALLBACKS ||||
-    method public void onUsernameChange(BBjEditModifyEvent event!)
-        #onInputChange(#username!, event!.getText(),#usernameInputFieldType!)
-    methodend
 
-    method public void onPasswordChange(BBjEditModifyEvent event!)
-        #onInputChange(#password!, event!.getText(), #passwordInputFieldType!)
-    methodend
 
-    method public void onRepeatPasswordChange(BBjEditModifyEvent event!)
-        #onInputChange(#repeatPassword!, event!.getText(), #repeatPasswordInputFieldType!)
-    methodend
+    rem rem ||| INPUTFIELD CALLBACKS ||||
+    rem method public void onUsernameChange(BBjEditModifyEvent event!)
+    rem     #onInputChange(#username!, event!.getText(),#usernameInputFieldType!)
+    rem methodend
 
-    method public void onInputChange(InputField inputField!, BBjString input!, BBjString fieldType!)
+    rem method public void onPasswordChange(BBjEditModifyEvent event!)
+    rem     #onInputChange(#password!, event!.getText(), #passwordInputFieldType!)
+    rem methodend
+
+    rem method public void onRepeatPasswordChange(BBjEditModifyEvent event!)
+    rem     #onInputChange(#repeatPassword!, event!.getText(), #repeatPasswordInputFieldType!)
+    rem methodend
+
+    rem method public void onInputChange(InputField inputField!, BBjString input!, BBjString fieldType!)
        
-        if input!.length() <> 0 then 
-        #clearStyles()
-            if inputField!.getIsPasswordField() then
-                inputField!.getPasswordField().addStyle("focus")
-            else
-                inputField!.getInputField().addStyle("focus")   
-            endif
-        endif   
+    rem     if input!.length() <> 0 then 
+    rem     #clearStyles()
+    rem         if inputField!.getIsPasswordField() then
+    rem             inputField!.getPasswordField().addStyle("focus")
+    rem         else
+    rem             inputField!.getInputField().addStyle("focus")   
+    rem         endif
+    rem     endif   
 
-        inputField!.getLabel().addStyle("focus")
+    rem     inputField!.getLabel().addStyle("focus")
 
-        #validateAllInputFields()
+    rem     #validateAllInputFields()
         
-        #setSubmit(#canSubmit()) 
-    methodend
+    rem     #setSubmit(#canSubmit()) 
+    rem methodend
 
-    method public void setSubmit(Boolean canSubmit!)
-        if canSubmit! then 
-            #submitButton!.removeStyle("disabled")
-            #submitButton!.setEnabled(1)
-        else 
-            #submitButton!.addStyle("disabled")
-            #submitButton!.setEnabled(0)
-        endif   
-    methodend
+    rem method public void setSubmit(Boolean canSubmit!)
+    rem     if canSubmit! then 
+    rem         #submitButton!.removeStyle("disabled")
+    rem         #submitButton!.setEnabled(1)
+    rem     else 
+    rem         #submitButton!.addStyle("disabled")
+    rem         #submitButton!.setEnabled(0)
+    rem     endif   
+    rem methodend
 
-    method public void validateInputField(InputField inputField!, BBjString fieldType!)
-        input! = inputField!.getText()
+    rem method public void validateInputField(InputField inputField!, BBjString fieldType!)
+    rem     input! = inputField!.getText()
 
-        if input!.length() > 0 then
-            if fieldType! <> null() or fieldType! <> "" then
-                switch fieldType!
-                    case "username"
-                        res! = #loginDialog!.getFieldReq().username(input!)
-                        inputField!.setSubText(res!)
+    rem     if input!.length() > 0 then
+    rem         if fieldType! <> null() or fieldType! <> "" then
+    rem             switch fieldType!
+    rem                 case "username"
+    rem                     res! = #loginDialog!.getFieldReq().username(input!)
+    rem                     inputField!.setSubText(res!)
                         
-                        if res! <> "" then
-                            inputField!.setValid(Boolean.FALSE)
-                        else 
-                            inputField!.setValid(Boolean.TRUE)
-                        endif
-                    break
+    rem                     if res! <> "" then
+    rem                         inputField!.setValid(Boolean.FALSE)
+    rem                     else 
+    rem                         inputField!.setValid(Boolean.TRUE)
+    rem                     endif
+    rem                 break
 
-                    case "password"
-                        res! = #loginDialog!.getFieldReq().password(input!)
-                        inputField!.setSubText(res!)
+    rem                 case "password"
+    rem                     res! = #loginDialog!.getFieldReq().password(input!)
+    rem                     inputField!.setSubText(res!)
                         
-                        if res! <> "" then
-                            inputField!.setValid(Boolean.FALSE)
-                        else 
-                            inputField!.setValid(Boolean.TRUE)
-                        endif
-                    break
+    rem                     if res! <> "" then
+    rem                         inputField!.setValid(Boolean.FALSE)
+    rem                     else 
+    rem                         inputField!.setValid(Boolean.TRUE)
+    rem                     endif
+    rem                 break
                     
-                    case "newpassword"
-                        res! = #loginDialog!.getFieldReq().newPassword(input!)
-                        inputField!.setSubText(res!)
+    rem                 case "newpassword"
+    rem                     res! = #loginDialog!.getFieldReq().newPassword(input!)
+    rem                     inputField!.setSubText(res!)
                         
-                        if res! <> "" then
-                            inputField!.setValid(Boolean.FALSE)
-                        else 
-                            inputField!.setValid(Boolean.TRUE)
-                        endif
-                    break    
+    rem                     if res! <> "" then
+    rem                         inputField!.setValid(Boolean.FALSE)
+    rem                     else 
+    rem                         inputField!.setValid(Boolean.TRUE)
+    rem                     endif
+    rem                 break    
                     
-                    case "repeatpassword"
-                        res! = #loginDialog!.getFieldReq().repeatPassword(input!, #password!.getText())
-                        inputField!.setSubText(res!) 
+    rem                 case "repeatpassword"
+    rem                     res! = #loginDialog!.getFieldReq().repeatPassword(input!, #password!.getText())
+    rem                     inputField!.setSubText(res!) 
 
-                        if res! <> "" then
-                            inputField!.setValid(Boolean.FALSE)
-                        else 
-                            inputField!.setValid(Boolean.TRUE)
-                        endif
-                    break        
-                swend
-            endif
-        else 
-            rem FOR DEVELOPMENT SO THEY CAN LOGIN WITHOUT PASSWORD
-            if fieldType! = "password" then 
-                inputField!.setValid(Boolean.TRUE)
-            else 
-                inputField!.setValid(Boolean.FALSE)
-            endif
-        endif    
-    methodend
+    rem                     if res! <> "" then
+    rem                         inputField!.setValid(Boolean.FALSE)
+    rem                     else 
+    rem                         inputField!.setValid(Boolean.TRUE)
+    rem                     endif
+    rem                 break        
+    rem             swend
+    rem         endif
+    rem     else 
+    rem         rem FOR DEVELOPMENT SO THEY CAN LOGIN WITHOUT PASSWORD
+    rem         if fieldType! = "password" then 
+    rem             inputField!.setValid(Boolean.TRUE)
+    rem         else 
+    rem             inputField!.setValid(Boolean.FALSE)
+    rem         endif
+    rem     endif    
+    rem methodend
 
-    method public void validateAllInputFields()
-        if #username! <> null() then 
-            #validateInputField(#username!,#usernameInputFieldType!)
-        endif
-        if #password! <> null() then
-            #validateInputField(#password!,#passwordInputFieldType!)
-        endif
-        if #repeatPassword! <> null() then
-            #validateInputField(#repeatPassword!,#repeatPasswordInputFieldType!)
-        endif
-    methodend
+    rem method public void validateAllInputFields()
+    rem     if #username! <> null() then 
+    rem         #validateInputField(#username!,#usernameInputFieldType!)
+    rem     endif
+    rem     if #password! <> null() then
+    rem         #validateInputField(#password!,#passwordInputFieldType!)
+    rem     endif
+    rem     if #repeatPassword! <> null() then
+    rem         #validateInputField(#repeatPassword!,#repeatPasswordInputFieldType!)
+    rem     endif
+    rem methodend
 
     rem method public Boolean canSubmit()
     rem     if #username! <> null() then 

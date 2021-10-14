@@ -96,7 +96,11 @@ class public InputField extends BBjWidget
     methodend
 
 
-
+m   method public BBjString getText()
+        print "test";escape
+        methodret "test"
+        rem methodret #inputField!.getText()
+    methodend
 
 
     rem ||||||||||||||||||||||||||||||||||||||||||||
