@@ -250,24 +250,24 @@ class public LoginDialogWindow extends BBjWidget
         endif
     methodend
 
-    method public Boolean canSubmit()
-        if #username! <> null() then 
-            if #username!.getValid() <> Boolean.TRUE then 
-                methodret Boolean.FALSE
-            endif
-        endif
-        if #password! <> null() then 
-            if #password!.getValid() <> Boolean.TRUE then 
-                methodret Boolean.FALSE
-            endif
-        endif
-        if #repeatPassword! <> null() then 
-            if #repeatPassword!.getValid() <> Boolean.TRUE then 
-                methodret Boolean.FALSE
-            endif
-        endif
-        methodret Boolean.TRUE
-    methodend
+    rem method public Boolean canSubmit()
+    rem     if #username! <> null() then 
+    rem         if #username!.getValid() <> Boolean.TRUE then 
+    rem             methodret Boolean.FALSE
+    rem         endif
+    rem     endif
+    rem     if #password! <> null() then 
+    rem         if #password!.getValid() <> Boolean.TRUE then 
+    rem             methodret Boolean.FALSE
+    rem         endif
+    rem     endif
+    rem     if #repeatPassword! <> null() then 
+    rem         if #repeatPassword!.getValid() <> Boolean.TRUE then 
+    rem             methodret Boolean.FALSE
+    rem         endif
+    rem     endif
+    rem     methodret Boolean.TRUE
+    rem methodend
 
     method public void clearStyles()
         if #username! <> null() then 
