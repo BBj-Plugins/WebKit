@@ -3,13 +3,42 @@
 
 .dashboardCustomerPanelStyle {
     margin:2rem 0rem 0rem 0rem;
-    min-height: 250px;
-    height: 30% - 4rem;
-    width: 30% - 4rem;
+    padding: 1rem;
+    width: fit-content;
+    height: fit-content;
     background-color: white;
     border-radius: 8px;
+    /* padding: 1rem;
+    min-height: 250px;
+    height: 30% - 4rem;
+    max-width: 500px;
+    
+    
     display: flex;
     align-items: center;
-    overflow-x: auto !important;
+    overflow-x: auto !important;   */
+} 
+
+.customerDashboardInput {
+    margin-top: 30px;
+    width: 140px;
 }
 
+
+.standardButtonStyle {
+    height: 32px;
+    width: 110px;
+}
+
+.standardButtonLabel::part(label) {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 17px;
+    color: #FFFFFF;
+}
+
+.standardButtonControl::part(control) {
+    border-radius: 8px;
+    background: var(--bbj-color-primary);
+}

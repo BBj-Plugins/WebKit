@@ -7,6 +7,8 @@ REM  */
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+
 class public DashboardCustomer extends BBjWidget
 
     field private BBjChildWindow window!
@@ -23,14 +25,26 @@ class public DashboardCustomer extends BBjWidget
     
     method public void redraw(Boolean init!)
 
-    #window! = #getCanvas()
-    #window!.addPanelStyle("dashboardCustomerPanelStyle")
-    #window!.setDockStyle("width","100%")
-    #window!.setDockStyle("height","100%")
-    #window!.setStyle("width","100%")
-    #window!.setStyle("height","100%")
+        #window! = #getCanvas()
+        #window!.addPanelStyle("dashboardCustomerPanelStyle")
+        #window!.setDockStyle("width","100%")
+        #window!.setDockStyle("height","100%")
+        #window!.setStyle("width","100%")
+        #window!.setStyle("height","100%")
 
-    #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Dashboard")
+        #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Dashboard Widget")
+
+        input! = new InputField(#window!, #window!.getAvailableControlID())
+        input!.addStyle("customerDashboardInput")
+        input!.setLabel("Add Customer: ")
+
+        submit! = #window!.addButton(1,0,0,0,0,"Add Customer")
+        rem submit!.setCallback(BBjAPI().ON_MOUSE_ENTER,dialog!,"onButtonHover")
+        rem submit!.setCallback(BBjAPI().ON_MOUSE_EXIT,dialog!,"onButtonHoverExit")
+        rem submit!.setStyle("margin-top","40px")
+        submit!.addStyle("standardButtonStyle")
+        submit!.addStyle("standardButtonLabel")
+        submit!.addStyle("standardButtonControl")
 
     methodend
 
