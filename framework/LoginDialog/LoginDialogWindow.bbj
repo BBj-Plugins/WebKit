@@ -161,27 +161,111 @@ class public LoginDialogWindow extends BBjWidget
 
         inputField!.getLabel().addStyle("focus")
 
-        if fieldType! <> null() or fieldType! <> "" then
-            switch fieldType!
-                case "username"
-                    inputField!.setSubText(#loginDialog!.getFieldReq().username(input!))
-                break
-
-                case "password"
-                    inputField!.setSubText(#loginDialog!.getFieldReq().password(input!))
-                break
-                
-                case "newpassword"
-                    inputField!.setSubText(#loginDialog!.getFieldReq().newPassword(input!))
-                break    
-                
-                case "repeatpassword"
-                    inputField!.setSubText(#loginDialog!.getFieldReq().repeatPassword(input!, #password!.getText(1)))
-                    rem if #subText!.getText() = "" then
-                break        
-            swend
+        #validateAllInputFields()
+        if #canSubmit() then    
+            #submitButton!.removeStyle("disabled")
+            #submitButton!.setEnabled(1)
+        else 
+            #submitButton!.addStyle("disabled")
+            #submitButton!.setEnabled(0)
         endif
     methodend
+
+    method public void validateInputField(InputField inputField!, BBjString fieldType!)
+        input! = inputField!.getText()
+
+        if input!.length() > 0 then
+            if fieldType! <> null() or fieldType! <> "" then
+                switch fieldType!
+                    case "username"
+                        res! = #loginDialog!.getFieldReq().username(input!)
+                        inputField!.setSubText(res!)
+                        
+                        if res! <> "" then
+                            inputField!.setValid(Boolean.FALSE)
+                        else 
+                            inputField!.setValid(Boolean.TRUE)
+                        endif
+                    break
+
+                    case "password"
+                        res! = #loginDialog!.getFieldReq().password(input!)
+                        inputField!.setSubText(res!)
+                        
+                        if res! <> "" then
+                            inputField!.setValid(Boolean.FALSE)
+                        else 
+                            inputField!.setValid(Boolean.TRUE)
+                        endif
+                    break
+                    
+                    case "newpassword"
+                        res! = #loginDialog!.getFieldReq().newPassword(input!)
+                        inputField!.setSubText(res!)
+                        
+                        if res! <> "" then
+                            inputField!.setValid(Boolean.FALSE)
+                        else 
+                            inputField!.setValid(Boolean.TRUE)
+                        endif
+                    break    
+                    
+                    case "repeatpassword"
+                        res! = #loginDialog!.getFieldReq().repeatPassword(input!, #password!.getText())
+                        inputField!.setSubText(res!) 
+
+                        if res! <> "" then
+                            inputField!.setValid(Boolean.FALSE)
+                        else 
+                            inputField!.setValid(Boolean.TRUE)
+                        endif
+                    break        
+                swend
+            endif
+        else 
+            rem FOR DEVELOPMENT SO THEY CAN LOGIN WITHOUT PASSWORD
+            if fieldType! = "password" then 
+                inputField!.setValid(Boolean.TRUE)
+            else 
+                inputField!.setValid(Boolean.FALSE)
+            endif
+        endif    
+    methodend
+
+    method public void validateAllInputFields()
+        if #username! <> null() then 
+            #validateInputField(#username!,#usernameInputFieldType!)
+        endif
+        if #password! <> null() then
+            #validateInputField(#password!,#passwordInputFieldType!)
+        endif
+        if #repeatPassword! <> null() then
+            #validateInputField(#repeatPassword!,#repeatPasswordInputFieldType!)
+        endif
+    methodend
+
+    method public Boolean canSubmit()
+        if #username! <> null() then 
+            if #username!.getValid() <> Boolean.TRUE then 
+                methodret Boolean.FALSE
+            endif
+        endif
+        if #password! <> null() then 
+            if #password!.getValid() <> Boolean.TRUE then 
+                methodret Boolean.FALSE
+            endif
+        endif
+        if #repeatPassword! <> null() then 
+            if #repeatPassword!.getValid() <> Boolean.TRUE then 
+                methodret Boolean.FALSE
+            endif
+        endif
+        methodret Boolean.TRUE
+    methodend
+
+  
+
+
   
     method public void clearStyles()
         if #username! <> null() then 

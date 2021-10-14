@@ -91,6 +91,9 @@ class public LoginDialogBuilder
         dialog!.getSubmitButton().addStyle("loginWidgetBtnStyle")
         dialog!.getSubmitButton().addStyle("loginWidgetBtnLabel")
         dialog!.getSubmitButton().addStyle("loginWidgetBtnControl")  
+
+        dialog!.getSubmitButton().addStyle("disabled")
+        dialog!.getSubmitButton().setEnabled(0)
     methodend
 
     method public static void addRedirect(LoginDialogWindow dialog!, BBjString redirectText$, BBjString methodName$)
