@@ -107,6 +107,7 @@ class public DrawerFooter extends BBjWidget
         
         for i = 0 to #tiles!.size() -1
             entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
+            DynamicLoader.consoleLog(entry!.getTitle())
             tile! = new DrawerMenuTile(contentWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
             tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
             templateRows! = templateRows! + " 48px" 

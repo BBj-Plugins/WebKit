@@ -92,14 +92,14 @@ class public ProdinDemo
         declare Menu m!
         declare MenuItem i!
         m! = new Menu()
-        i! = m!.addMenuItem(m!.getRoot(),101,"Customers","list of all customers","WebKit/demo/ProdinDemo/assets/users.png")
-        i! = m!.addMenuItem(m!.getRoot(),102,"Tasks","list of all tasks","WebKit/demo/ProdinDemo/assets/tasks.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","WebKit/demo/ProdinDemo/assets/proposals.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes", "WebKit/demo/ProdinDemo/assets/shopping-cart.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Customers","list of all quotes","WebKit/demo/ProdinDemo/assets/users.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Tasks","list of all quotes","WebKit/demo/ProdinDemo/assets/tasks.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","WebKit/demo/ProdinDemo/assets/proposals.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes","WebKit/demo/ProdinDemo/assets/shopping-cart.png")
+        i! = m!.addMenuItem(m!.getRoot(),101,"Customers","list of all customers","users")
+        i! = m!.addMenuItem(m!.getRoot(),102,"Tasks","list of all tasks","notes")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","send")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes", "shopping-cart")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Customers","list of all quotes","users")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Tasks","list of all quotes","notes")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","send")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes","shopping-cart")
         methodret m!
     methodend
     

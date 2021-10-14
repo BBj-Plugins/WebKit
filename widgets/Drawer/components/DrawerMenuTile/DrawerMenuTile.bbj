@@ -30,18 +30,17 @@ class public DrawerMenuTile extends BBjWidget
         declare BBjStaticText icon!
         declare BBjStaticText title!
          #window!.addPanelStyle("drawerMenuTilePanelStyle")
-        if init! then 
-            icon! = #setIcon(iconPath!)
-            if icon! <> null() then
-                icon!.addStyle("drawerMenuTileIconStyle")
-                icon!.addStyle("menuIconAnimationOpen")
-                icon!.addStyle("menuIconAnimationClose")
-                
-                title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#titleText!)
-                title!.addStyle("drawerMenuTileTextStyle")
-                title!.addStyle("menuTextAnimationOpen")
-                title!.addStyle("menuTextAnimationClose")
-            endif
+         DynamicLoader.consoleLog(#iconPath!)
+
+            icon! = #setIcon(#window!, #iconPath!)
+            icon!.addStyle("drawerMenuTileIconStyle")
+            icon!.addStyle("menuIconAnimationOpen")
+            icon!.addStyle("menuIconAnimationClose")
+            
+            title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#titleText!)
+            title!.addStyle("drawerMenuTileTextStyle")
+            title!.addStyle("menuTextAnimationOpen")
+            title!.addStyle("menuTextAnimationClose")
         endif
     methodend
     
