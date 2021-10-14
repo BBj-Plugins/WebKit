@@ -121,8 +121,8 @@ class public LoginDialog
         process_events
 
         login:
-            user$=#loginWindow!.getUsername().getText(0)
-            pass$=#loginWindow!.getPassword().getText(1)
+            user$=#loginWindow!.getUsername().getText()
+            pass$=#loginWindow!.getPassword().getText()
                 
                 if #authProvider!.checkLogin(user$,pass$) then
                     #User$ = user$
@@ -213,7 +213,7 @@ class public LoginDialog
         else  
             declare BBjString user$
             if #loginWindow! <> null() then 
-                user$ = #loginWindow!.getUsername().getText(0)
+                user$ = #loginWindow!.getUsername().getText()
                 #loginWindow!.getContent().destroy()
                 #loginWindow! = null()
             endif
@@ -232,13 +232,13 @@ class public LoginDialog
     method public void gotoLogin(BBjString loginResponse$)
         declare BBjString user$
         if #loginWindow! <> null() then 
-            user$ = #loginWindow!.getUsername().getText(0)
+            user$ = #loginWindow!.getUsername().getText()
             #loginWindow!.getContent().destroy()
             #loginWindow! = null()
         endif
 
         if #forgotPwWindow! <> null() then 
-            user$ = #forgotPwWindow!.getUsername().getText(0)
+            user$ = #forgotPwWindow!.getUsername().getText()
             #forgotPwWindow!.getContent().destroy()
             #forgotPwWindow! = null()
         endif
@@ -283,7 +283,6 @@ class public LoginDialog
 
     method public void setPasswordWithToken(BBjString password$)
         tempPW$ = ClientUtil.getUrlAnchor()
-        username$ = "ian.hupkes@prodin.nl"
         response! = #authRenewPw!.setPasswordWithToken(tempPw$, password$)
 
         if #newPwWindow! <> null() then 

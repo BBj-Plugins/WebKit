@@ -150,8 +150,9 @@ class public LoginDialogWindow extends BBjWidget
     methodend
 
     method public void onInputChange(InputField inputField!, BBjString input!, BBjString fieldType!)
-        if input!.length() = 1 then 
-            #clearStyles()
+       
+        if input!.length() <> 0 then 
+        #clearStyles()
             if inputField!.getIsPasswordField() then
                 inputField!.getPasswordField().addStyle("focus")
             else
@@ -162,13 +163,18 @@ class public LoginDialogWindow extends BBjWidget
         inputField!.getLabel().addStyle("focus")
 
         #validateAllInputFields()
-        if #canSubmit() then    
+        
+        #setSubmit(#canSubmit()) 
+    methodend
+
+    method public void setSubmit(Boolean canSubmit!)
+        if canSubmit! then 
             #submitButton!.removeStyle("disabled")
             #submitButton!.setEnabled(1)
         else 
             #submitButton!.addStyle("disabled")
             #submitButton!.setEnabled(0)
-        endif
+        endif   
     methodend
 
     method public void validateInputField(InputField inputField!, BBjString fieldType!)
@@ -263,10 +269,6 @@ class public LoginDialogWindow extends BBjWidget
         methodret Boolean.TRUE
     methodend
 
-  
-
-
-  
     method public void clearStyles()
         if #username! <> null() then 
             #username!.clearStyle()
@@ -301,13 +303,13 @@ class public LoginDialogWindow extends BBjWidget
         username$ = #memory$
         
         if username$ = "" then
-            #loginDialog!.requestForgotPasswordToken(#username!.getText(0)) 
+            #loginDialog!.requestForgotPasswordToken(#username!.getText()) 
         else 
             #loginDialog!.requestForgotPasswordToken(username$) 
         endif     
     methodend
 
     method public void setPasswordWithToken(BBjButtonPushEvent event!)
-        #loginDialog!.setPasswordWithToken(#password!.getText(1)) 
+        #loginDialog!.setPasswordWithToken(#password!.getText()) 
     methodend
 classend

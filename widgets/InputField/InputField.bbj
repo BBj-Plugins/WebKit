@@ -58,25 +58,8 @@ class public InputField extends BBjWidget
     methodend
 
     rem |||||||| GETTERS & SETTERS ||||||
-    method public void setLoginDialog(LoginDialogWindow dialog!)
-        #dialog! = dialog! 
-    methodend
-
-    method public void setFieldReq(IFieldReq fieldReq!)
-        #fieldReq! = fieldReq!
-    methodend
-
-    method public void setFieldType(BBjString fieldType!)
-        #fieldType! = fieldType!
-        methodend
     
-    method public BBjInputE getInputField()
-        methodret #inputField!
-    methodend
-
-    method public BBjEditBox getPasswordField()
-        methodret #passwordField!
-    methodend
+ 
     
     method public BBjStaticText getLabel()
         methodret #label!
@@ -84,6 +67,14 @@ class public InputField extends BBjWidget
 
     method public void setLabel(BBjString label!)
         #label!.setText(label!)
+    methodend
+
+    method public BBjInputE getInputField()
+        methodret #inputField!
+    methodend
+
+    method public BBjEditBox getPasswordField()
+        methodret #passwordField!
     methodend
 
     method public String getText()

@@ -94,6 +94,7 @@ class public LoginDialogBuilder
 
         dialog!.getSubmitButton().addStyle("disabled")
         dialog!.getSubmitButton().setEnabled(0)
+        dialog!.setSubmit(dialog!.canSubmit())
     methodend
 
     method public static void addRedirect(LoginDialogWindow dialog!, BBjString redirectText$, BBjString methodName$)
