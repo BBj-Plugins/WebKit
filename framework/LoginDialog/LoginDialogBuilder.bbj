@@ -4,9 +4,10 @@ use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
-use ::WebKit/widgets/InputField/IValidator.bbj::PasswordValidator
-use ::WebKit/widgets/InputField/IValidator.bbj::NewPasswordValidator
-use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::UsernameValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::PasswordValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::NewPasswordValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::RepeatPasswordValidator
 
 
 class public LoginDialogBuilder 
@@ -51,7 +52,7 @@ class public LoginDialogBuilder
     methodend
 
     method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$)
-        #addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$, Boolean.FALSE)
+        #addPasswordInput(dialog!, validator!, label$, placeholder$, Boolean.FALSE)
     methodend
 
     method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$,  Boolean isNewPassword! )

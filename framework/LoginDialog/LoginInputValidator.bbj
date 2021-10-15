@@ -1,6 +1,4 @@
-interface public IValidator
-    method public BBjString validate(BBjString field$)
-interfaceend
+use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 
 class public UsernameValidator implements IValidator
     method public BBjString validate(BBjString field!)

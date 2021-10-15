@@ -18,10 +18,10 @@ use ::WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
-use ::WebKit/widgets/InputField/IValidator.bbj::UsernameValidator
-use ::WebKit/widgets/InputField/IValidator.bbj::PasswordValidator
-use ::WebKit/widgets/InputField/IValidator.bbj::NewPasswordValidator
-use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::UsernameValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::PasswordValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::NewPasswordValidator
+use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::RepeatPasswordValidator
 
 
 class public LoginDialog
