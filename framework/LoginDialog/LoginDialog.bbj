@@ -36,7 +36,7 @@ class public LoginDialog
 
     field private LoginDialogWindow loginWindow!
     field private LoginDialogWindow forgotPwWindow!
-    field private LoginDialogWindow pwSentWindow!
+    field private LoginDialogWindow responseWindow!
     field private LoginDialogWindow newPwWindow!
 
     field public Boolean AllowRemember! = Boolean.FALSE
@@ -61,7 +61,7 @@ class public LoginDialog
         #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()) 
         #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
 
-        checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
+        rem checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
         #authProvider! = authProvider!
     methodend
 
@@ -162,7 +162,7 @@ class public LoginDialog
     method public void buildLoginContent(LoginDialogWindow wnd!, BBjString username$, BBjString loginResponse$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), memory$)
-        LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), "Password", "Your password", "password")
+        LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), "Password", "Your password")
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
         LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login")
         if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")  
@@ -176,7 +176,7 @@ class public LoginDialog
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
 
-    method public void buildPwSentContent(LoginDialogWindow wnd!, BBjString memory$,  BBjString title$, BBjString response$, Boolean retry!, BBjString methodName$ )
+    method public void buildResponseContent(LoginDialogWindow wnd!, BBjString memory$,  BBjString title$, BBjString response$, Boolean retry!, BBjString methodName$ )
         LoginDialogBuilder.addMemory(wnd!, memory$)
         LoginDialogBuilder.addLogo(wnd!, #logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,title$)
@@ -186,14 +186,14 @@ class public LoginDialog
         else 
             LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin", "void")
         endif
-
     methodend
 
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
        LoginDialogBuilder.addPageTitle(wnd!, "Choose a new password")
-       LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(),  "New Password", "new password", "newpassword")
-       LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), "Repeat Password", "password")
+    rem    LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(),  "New Password", "new password")
+       LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(), "New Password", "new password", Boolean.TRUE)
+       LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), "Repeat Password", "repeat password")
        LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken", "void")
     methodend
 
@@ -206,13 +206,13 @@ class public LoginDialog
                 #loginWindow!.getContent().destroy()
                 #loginWindow! = null()
             endif
-            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildPwSentContent(#pwSentWindow!, "", "Something went wrong" ,"It seems you cannot use this functionality.", Boolean.FALSE, "")  
+            #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildResponseContent(#responseWindow!, "", "Something went wrong" ,"It seems you cannot use this functionality.", Boolean.FALSE, "")  
         else  
             declare BBjString user$
             if #loginWindow! <> null() then 
                 user$ = "lol" 
-                rem #loginWindow!.getUsername().getText()
+
                 #loginWindow!.getContent().destroy()
                 #loginWindow! = null()
             endif
@@ -242,9 +242,9 @@ class public LoginDialog
             #forgotPwWindow! = null()
         endif
 
-        if #pwSentWindow! <> null() then  
-            #pwSentWindow!.getContent().destroy()
-            #pwSentWindow! = null()
+        if #responseWindow! <> null() then  
+            #responseWindow!.getContent().destroy()
+            #responseWindow! = null()
         endif
 
         if loginResponse$ <> "" then
@@ -257,9 +257,9 @@ class public LoginDialog
     methodend
 
     method public void gotoNewPassword(BBjString tempPw$)
-        if #pwSentWindow! <> null() then  
-            #pwSentWindow!.getContent().destroy()
-            #pwSentWindow! = null()
+        if #responseWindow! <> null() then  
+            #responseWindow!.getContent().destroy()
+            #responseWindow! = null()
         endif
 
         #newPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
@@ -276,8 +276,8 @@ class public LoginDialog
             #forgotPwWindow! = null()
         endif
 
-        #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-        #buildPwSentContent(#pwSentWindow!, username$, "Password token sent" ,response$, Boolean.FALSE, "")    
+        #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+        #buildResponseContent(#responseWindow!, username$, "Password token sent" ,response$, Boolean.FALSE, "")    
     methodend	
 
     method public void setPasswordWithToken(BBjString password$)
@@ -290,11 +290,11 @@ class public LoginDialog
         endif
 
         if response! then
-            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildPwSentContent(#pwSentWindow!, username$, "Password been changed" , "You may now login with your new user credentials.", Boolean.FALSE, "")    
+            #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildResponseContent(#responseWindow!, username$, "Password been changed" , "You may now login with your new user credentials.", Boolean.FALSE, "")    
         else 
-            #pwSentWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildPwSentContent(#pwSentWindow!, username$, "Something went wrong" , "Password has not been reset. Please try again", Boolean.TRUE, "gotoNewPassword")  
+            #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
+            #buildResponseContent(#responseWindow!, username$, "Something went wrong" , "Password has not been reset. Please try again", Boolean.TRUE, "gotoNewPassword")  
         endif
         
     methodend

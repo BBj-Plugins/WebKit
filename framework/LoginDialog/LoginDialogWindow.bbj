@@ -103,10 +103,42 @@ class public LoginDialogWindow extends BBjWidget
         #submitButton!.removeStyle("hover")
     methodend
 
-    rem method public void onUserIconPressed(BBjCustomEvent event!)
-    rem     a = msgbox("UserIcon Pressed")
-    rem methodend
+    method public void verifyNewPassword(BBjEditModifyEvent event!)
+            #password!.onInputChange(event!)
+            #repeatPassword!.setSubText("")
+    methodend
+
+    method public void verifyRepeatPassword(BBjEditModifyEvent event!)
+        newPassword$ = str(#password!.getText())
+        repeatPassword$ = str(#repeatPassword!.getText())
+
+        if newPassword$ <> repeatPassword$ then 
+            if  #repeatPassword! <> null() then
+                #repeatPassword!.setSubText("Passwords don't match")
+            else
+                a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
+            endif
+        else
+            #repeatPassword!.setSubText("")
+        endif
+    methodend
+
+
+
+    method public Boolean passwordCallback(BBjCustomEvent event!)
+        field$ = str(event!.getObject())
+        a = msgbox("password field event fired " + field$)
+        methodret 1
+    methodend
+
+
+    method public void onUserIconPressed(BBjCustomEvent event!)
+        a = msgbox("UserIcon Pressed")
+    methodend
     
+
+
+
     rem  method public void onShowPasswordIconPressed(BBjCustomEvent event!)
     rem     if #password!.isPasswordVisible() then 
     rem         #password!.setPasswordVisible(0)

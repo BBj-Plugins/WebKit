@@ -50,7 +50,11 @@ class public LoginDialogBuilder
         rem endif
     methodend
 
-    method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$ , BBjString fieldType!)
+    method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$)
+        #addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$, Boolean.FALSE)
+    methodend
+
+    method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$,  Boolean isNewPassword! )
         dialog!.setPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!))
         dialog!.getPassword().setDockStyle("margin-top","13px")
 
@@ -58,21 +62,13 @@ class public LoginDialogBuilder
         dialog!.getPassword().setPlaceHolder(placeholder$)
         dialog!.getPassword().setSuffix("WebKit/framework/LoginDialog/assets/eye.png")
 
+        if isNewPassword! then 
+            dialog!.getPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "verifyNewPassword")
+        endif
+
         rem dialog!.getPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
         rem dialog!.getPassword().getPasswordField().setCallback(BBjAPI.ON_EDIT_MODIFY,dialog!,"onPasswordChange")
     methodend
-
-    rem method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$ , BBjString fieldType!)
-    rem     dialog!.setPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!))
-    rem     dialog!.getPassword().setDockStyle("margin-top","13px")
-
-    rem     dialog!.getPassword().setLabel(label$)
-    rem     dialog!.getPassword().setPlaceHolder(placeholder$)
-    rem     dialog!.getPassword().setSuffix("WebKit/framework/LoginDialog/assets/eye.png")
-
-    rem     rem dialog!.getPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
-    rem     rem dialog!.getPassword().getPasswordField().setCallback(BBjAPI.ON_EDIT_MODIFY,dialog!,"onPasswordChange")
-    rem methodend
 
 
     method public static void addRepeatPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$)
@@ -82,6 +78,8 @@ class public LoginDialogBuilder
         dialog!.getRepeatPassword().setLabel(label$)
         dialog!.getRepeatPassword().setPlaceHolder(placeholder$)
         dialog!.getRepeatPassword().setSuffix("WebKit/framework/LoginDialog/assets/eye.png")
+
+        dialog!.getRepeatPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "verifyRepeatPassword")
         
         rem dialog!.getRepeatPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
         rem dialog!.getRepeatPassword().getPasswordField().setCallback(BBjAPI.ON_EDIT_MODIFY,dialog!,"onRepeatPasswordChange")
