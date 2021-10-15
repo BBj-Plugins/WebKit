@@ -2,11 +2,12 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/widgets/common/SearchOverlayEntry/SearchOverlayEntry.bbj::SearchOverlayEntry
+use ::Webkit/model/Icon.bbj::Icon
 
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 
-class public DrawerSearchOverlay extends BBjWidget 
+class public DrawerSearchOverlay extends BBjWidget implements Icon
     
     field private Overlay overlay!
     

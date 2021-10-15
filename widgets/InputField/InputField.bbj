@@ -1,10 +1,11 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::Webkit/model/Icon.bbj::Icon
 
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
-class public InputField extends BBjWidget 
+class public InputField extends BBjWidget implements Icon
     field private IFieldReq fieldReq!
     field private BBjString fieldType!
 
@@ -196,28 +197,8 @@ class public InputField extends BBjWidget
         #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
     methodend
     
-    rem method private void createSuffixIcon()
-    rem     #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-    rem     #iconWrapper!.setDockStyle("grid-row-start","2")
-    rem     #iconWrapper!.setDockStyle("grid-column-start","2")
-    rem     #iconWrapper!.setDockStyle("height","fit-content")
-    rem     #iconWrapper!.setDockStyle("width","fit-content")
-    rem     #iconWrapper!.setDockStyle("align-self","end")
-    rem     #iconWrapper!.setDockStyle("justify-self","end")
-    rem     #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
-       
-    rem     if #suffixIcon! <> null() then
-    rem         #suffixIcon!.destroy()
-    rem         #suffixIcon! = null()
-    rem     endif 
-     
-    rem     if #isPasswordField! = Boolean.FALSE then    
-    rem         #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
-    rem     endif
-    rem methodend
-    
     method private void createIcon()
-        #fieldIcon! =  #setIcon(#suffixIconPath!)
+        #fieldIcon! =  #setIcon(#window!, #suffixIconPath!)
         #fieldIcon!.addStyle("inputFieldIcon")
     methodend
 

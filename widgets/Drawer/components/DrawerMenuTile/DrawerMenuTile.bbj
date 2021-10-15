@@ -1,7 +1,8 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::Webkit/model/Icon.bbj::Icon
 
-class public DrawerMenuTile extends BBjWidget 
+class public DrawerMenuTile extends BBjWidget implements Icon
 
     field private BBjChildWindow window!
     
