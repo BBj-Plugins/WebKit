@@ -2,8 +2,9 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.bbj::DrawerSearchOverlay
+use ::Webkit/model/Icon.bbj::Icon
 
-class public DrawerSearchWidget extends BBjWidget
+class public DrawerSearchWidget extends BBjWidget implements Icon
 
     field private BBjChildWindow window!
    
@@ -30,11 +31,11 @@ class public DrawerSearchWidget extends BBjWidget
     
     method public void redraw(Boolean init!)
         declare BBjInputE searchField!
-        declare BBjImageCtrl icon!
+        declare BBjStaticText icon!
         declare BBjStaticText hintText!
         
         if init! then 
-            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/search.png")
+            icon! = #setIcon(#window!, "search")
             icon!.addStyle("drawerSearchWidgetIconStyle")
             
             hintText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Go to Customer...")
