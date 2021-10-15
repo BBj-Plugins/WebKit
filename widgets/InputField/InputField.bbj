@@ -8,14 +8,14 @@ use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 
 class public InputField extends BBjWidget 
 
-    field private BBjChildWindow window!
-    field private IValidator validator!
+    field protected BBjChildWindow window!
+    field protected IValidator validator!
     rem field private Boolean doValidate! = Boolean.TRUE
     
-    field private BBjStaticText label!
-    field private BBjEditBox inputField!
-    field private BBjChildWindow subTextWnd!
-    field private BBjStaticText subText!
+    field protected BBjStaticText label!
+    field protected BBjEditBox inputField!
+    field protected BBjChildWindow subTextWnd!
+    field protected BBjStaticText subText!
 
     rem field private Boolean valid! = Boolean.FALSE
     
@@ -53,7 +53,6 @@ class public InputField extends BBjWidget
             #subText!.addStyle("inputFieldSubTextStyle")
                 
             #inputField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"")
-            rem if Boolean.TRUE then #inputField!.setFlag($0400$)
             #inputField!.addStyle("inputFieldStyle")
             #inputField!.addStyle("inputFieldStyleInputWrapper")
             #inputField!.addStyle("inputFieldStyleInput")
@@ -68,17 +67,11 @@ class public InputField extends BBjWidget
     methodend
 
 
-
-
     rem ||||||||||||||||||||||||||||||||||||||||||||
     rem ||||||||||||| GETTERS & SETTERS ||||||||||||
     rem ||||||||||||||||||||||||||||||||||||||||||||
 
-    rem method public void setDoValidate(Boolean doValidate!)
-    rem     #doValidate! = doValidate!
-    rem methodend
-
-    method public IValidator getValidator()
+     method public IValidator getValidator()
         methodret #validator!
     methodend
 
@@ -86,9 +79,9 @@ class public InputField extends BBjWidget
         methodret #inputField! 
     methodend
 
-    method public BBjString getText()
-        methodret #inputField!.getText()
-    methodend
+    rem method public BBjString getText()
+    rem     methodret #inputField!.getText()
+    rem methodend
 
     method public void setLabel(BBjString label!)
         #label!.setText(label!)
@@ -107,8 +100,8 @@ class public InputField extends BBjWidget
         suffixWrapper!.setDockStyle("width","fit-content")
         suffixWrapper!.setDockStyle("align-self","end")
         suffixWrapper!.setDockStyle("justify-self","end")
-           
         suffixWrapper!.addImageCtrl(suffixWrapper!.getAvailableControlID(),0,0,0,0,suffixPath!)
+
 
         rem suffixWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
     methodend
@@ -157,79 +150,6 @@ class public InputField extends BBjWidget
     rem methodend
 
 
-
-    rem method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
-    rem     DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
-    rem     #suffixIconPath! = suffixIcon!
-    rem     #super!.create(wnd!,id!)
-    rem methodend 
-    
-    rem method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
-    rem     DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
-    rem     #isPasswordField! = isPasswordField!
-    rem     #super!.create(wnd!,id!)
-    rem methodend
-    
-    rem method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
-    rem     DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
-    rem     #isPasswordField! = isPasswordField!
-    rem     #suffixIconPath! = suffixIcon!
-    rem     #super!.create(wnd!,id!)
-    rem methodend
-
-    rem |||||||| GETTERS & SETTERS ||||||
-    
-rem     method public BBjStaticText getLabel()
-rem         methodret #label!
-rem     methodend
-
-rem     method public void setLabel(BBjString label!)
-rem         #label!.setText(label!)
-rem     methodend
-
-rem     method public BBjInputE getInputField()
-rem         methodret #inputField!
-rem     methodend
-
-rem     method public BBjEditBox getPasswordField()
-rem         methodret #passwordField!
-rem     methodend
-
-rem     method public String getText()
-rem         if #passwordField! = null() then
-rem             methodret #inputField!.getText()
-rem         else 
-rem             methodret #passwordField!.getText()
-rem         endif
-rem     methodend
-
-rem     method public void setText(BBjString text!)
-rem         if #isPasswordField! then 
-rem             #passwordField!.setText(text!)
-rem         else
-rem             #inputField!.setText(text!)
-rem         endif  
-rem     methodend
-
-rem     method public BBjStaticText getSubText()
-rem         methodret #subText!
-rem     methodend
-
-rem     method public void setSubText(BBjString text$)
-rem         #subText!.setText(text$)    
-rem     methodend
-
-rem     method public void setPlaceHolder(BBjString placeholder!)
-rem         if #isPasswordField! then 
-rem             #passwordField!.setPlaceholder(placeholder!)
-rem         else 
-rem             #inputField!.setPlaceholder(placeholder!)
-rem         endif    
-rem     methodend
-
 rem     method public void setPasswordVisible(Boolean visible!)
 rem         if #passwordField! = null() then methodret
 rem         #passwordField!.setPasswordVisible(visible!)
@@ -240,42 +160,10 @@ rem         if #passwordField! = null() then methodret 0
 rem         methodret #passwordField!.isPasswordVisible()
 rem     methodend
 
-rem     method public void setSuffixIcon(BBjString suffixIcon!)
-rem         #suffixIconPath! = suffixIcon!
-rem         #createSuffixIcon()
-rem     methodend
 
-rem     method public Boolean getIsPasswordField()
-rem     methodret #isPasswordField! 
-rem methodend
 
-rem     method public void setPasswordField(Boolean enabled!)
-rem         #isPasswordField! = 1
-rem         #createPasswordField(0)
-rem     methodend
 
-rem     method public Boolean getValid()
-rem         methodret #valid! 
-rem     methodend
-    
-rem     method public void setValid(Boolean valid!)
-rem         #valid! = valid! 
-rem     methodend
-
-    rem ||||||||| DRAW ||||||||||
-    rem method public void clearStyle()
-    rem #subText!.setText("")
-    rem     #label!.removeStyle("hover")
-    rem     #label!.removeStyle("focus")
-    rem     #label!.removeStyle("error")
-    rem     if #isPasswordField! then
-    rem         #passwordField!.removeStyle("focus")
-    rem         #passwordField!.removeStyle("error")
-    rem     else
-    rem         #inputField!.removeStyle("focus")
-    rem         #inputField!.removeStyle("error")
-    rem     endif
-    rem methodend
+ 
 
 
     

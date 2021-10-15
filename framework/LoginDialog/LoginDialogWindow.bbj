@@ -1,7 +1,8 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
-use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
+use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
+
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 
 class public LoginDialogWindow extends BBjWidget
 
@@ -9,7 +10,7 @@ class public LoginDialogWindow extends BBjWidget
     field private BBjChildWindow content!
 
     field private InputField username!
-    field private InputField password! 
+    field private PasswordField password! 
     field private InputField repeatPassword!
 
     field private BBjButton submitButton!
@@ -44,11 +45,11 @@ class public LoginDialogWindow extends BBjWidget
         #username! = username!
     methodend
 
-    method public InputField getPassword()
+    method public PasswordField getPassword()
         methodret #password!
     methodend
 
-    method public void setPassword(InputField password!)
+    method public void setPassword(PasswordField password!)
         #password! = password!
     methodend
 

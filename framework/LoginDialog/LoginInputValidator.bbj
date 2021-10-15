@@ -18,7 +18,7 @@ class public NewPasswordValidator implements IValidator
     method public BBjString validate(BBjString field!)
         if field!.length() > 0 and field!.length() < 6 then 
             methodret "Password too short"
-            a = msgbox("got here")
+           
         endif
         methodret ""
     methodend
