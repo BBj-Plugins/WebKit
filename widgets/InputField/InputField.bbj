@@ -10,23 +10,13 @@ class public InputField extends BBjWidget
 
     field protected BBjChildWindow window!
     field protected IValidator validator!
-    rem field private Boolean doValidate! = Boolean.TRUE
     
     field protected BBjStaticText label!
     field protected BBjEditBox inputField!
+    field protected BBjChildWindow suffixWrapper!
     field protected BBjChildWindow subTextWnd!
     field protected BBjStaticText subText!
 
-    rem field private Boolean valid! = Boolean.FALSE
-    
-    rem field public static BBjNumber ON_SUFFIX_PRESSED = 520000
-    
-    rem to be deleted
-    method public InputField(BBjChildWindow wnd!, BBjInt id!)
-        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
-        #super!.create(wnd!,id!)
-    methodend
 
     method public InputField(BBjChildWindow wnd!, IValidator validator!)
          #this!(wnd!,wnd!.getAvailableControlID(), validator!)
@@ -91,19 +81,22 @@ class public InputField extends BBjWidget
         #inputField!.setPlaceholder(placeholder!)
     methodend
 
-    rem can only be set once, is that okay? or set as an instance var that can be reset?
-    method public void setSuffix(BBjString suffixPath!)    	
-        suffixWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        suffixWrapper!.setDockStyle("grid-row-start","2")
-        suffixWrapper!.setDockStyle("grid-column-start","2")
-        suffixWrapper!.setDockStyle("height","fit-content")
-        suffixWrapper!.setDockStyle("width","fit-content")
-        suffixWrapper!.setDockStyle("align-self","end")
-        suffixWrapper!.setDockStyle("justify-self","end")
-        suffixWrapper!.addImageCtrl(suffixWrapper!.getAvailableControlID(),0,0,0,0,suffixPath!)
 
+    method public void setSuffix(BBjString suffixPath!)  
+        if #suffixWrapper! <> null() then
+            #suffixWrapper!.destroy()
+        endif 
 
-        rem suffixWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+        #suffixWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #suffixWrapper!.setDockStyle("grid-row-start","2")
+        #suffixWrapper!.setDockStyle("grid-column-start","2")
+        #suffixWrapper!.setDockStyle("height","fit-content")
+        #suffixWrapper!.setDockStyle("width","fit-content")
+        #suffixWrapper!.setDockStyle("align-self","end")
+        #suffixWrapper!.setDockStyle("justify-self","end")
+        suffixIcon! = #suffixWrapper!.addImageCtrl(#suffixWrapper!.getAvailableControlID(),0,0,0,0,suffixPath!)
+   
+        #suffixWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
     methodend
 
     method public void setSubText(BBjString subText!)
@@ -138,59 +131,10 @@ class public InputField extends BBjWidget
         if #validator! <> null() then
             #subText!.setText(#validator!.validate(event!.getText()))
         endif
-    methodend   
-
-
-
-
-
-
-    rem method public void onIconPressed(BBjMouseDownEvent event!)
-    rem     #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
-    rem methodend
-
-
-rem     method public void setPasswordVisible(Boolean visible!)
-rem         if #passwordField! = null() then methodret
-rem         #passwordField!.setPasswordVisible(visible!)
-rem     methodend
-
-rem     method public Boolean isPasswordVisible()
-rem         if #passwordField! = null() then methodret 0
-rem         methodret #passwordField!.isPasswordVisible()
-rem     methodend
-
-
-
-
- 
-
-
+    methodend 
     
-
-    
-
-
-
-    rem ||||||| CALLBACKS ||||||||
-
-    
-
-
-    rem method public void onError()
-    rem     #label!.setStyle("color","var(--webkit-primary)")
-    rem     if #isPasswordField! then
-    rem         #passwordField!.addStyle("error")
-    rem     else
-    rem         #inputField!.addStyle("error")
-    rem     endif
-    rem methodend
-
-
-
-
-    rem method public void onIconPressed(BBjMouseDownEvent event!)
-    rem     #fireEvent(#ON_SUFFIX_PRESSED,#isPasswordField!)
-    rem methodend
+    method public void onIconPressed(BBjMouseDownEvent event!)
+        rem to be overwritten by PasswordField
+    methodend
 
 classend

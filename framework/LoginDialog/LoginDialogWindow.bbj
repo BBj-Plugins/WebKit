@@ -11,7 +11,7 @@ class public LoginDialogWindow extends BBjWidget
 
     field private InputField username!
     field private PasswordField password! 
-    field private InputField repeatPassword!
+    field private PasswordField repeatPassword!
 
     field private BBjButton submitButton!
     field private BBjStaticText redirect!
@@ -53,11 +53,11 @@ class public LoginDialogWindow extends BBjWidget
         #password! = password!
     methodend
 
-    method public InputField getRepeatPassword()
+    method public PasswordField getRepeatPassword()
         methodret #repeatPassword!
     methodend
 
-    method public void setRepeatPassword(InputField repeatPassword!)
+    method public void setRepeatPassword(PasswordField repeatPassword!)
         #repeatPassword! = repeatPassword! 
     methodend
 
