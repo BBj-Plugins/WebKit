@@ -31,7 +31,6 @@ class public DrawerMenuTile extends BBjWidget implements Icon
         declare BBjStaticText icon!
         declare BBjStaticText title!
          #window!.addPanelStyle("drawerMenuTilePanelStyle")
-         DynamicLoader.consoleLog(#iconPath!)
 
             icon! = #setIcon(#window!, #iconPath!)
             icon!.addStyle("drawerMenuTileIconStyle")
