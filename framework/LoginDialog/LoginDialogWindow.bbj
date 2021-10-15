@@ -28,7 +28,11 @@ class public LoginDialogWindow extends BBjWidget
         #content!.addPanelStyle("loginWidgetContentPanelStyle")
     methodend 
 
-    rem |||||| GETTER & SETTER ||||||
+    
+
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem ||||||||||||| GETTERS & SETTERS ||||||||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
     rem method public LoginDialog getLoginDialog())
     rem     methodret #loginDialog!
     rem methodend
@@ -77,17 +81,18 @@ class public LoginDialogWindow extends BBjWidget
         #redirect!  = redirect! 
     methodend
     
-    rem method public BBjString getMemory()
-    rem     methodret #memory!
-    rem methodend
+    method public BBjString getMemory()
+        methodret #memory!
+    methodend
 
-    rem method public void setMemory(BBjString memory$)
-    rem     #memory$ = memory$ 
-    rem methodend    
+    method public void setMemory(BBjString memory$)
+        #memory$ = memory$ 
+    methodend    
     
 
-
-    rem |||||| CALLBACKS ||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem |||||||||||||||| CALLBACKS |||||||||||||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
     method public void onForgotPwHover(BBjMouseEnterEvent event!)
         #redirect!.addStyle("hover")
     methodend
@@ -104,84 +109,76 @@ class public LoginDialogWindow extends BBjWidget
         #submitButton!.removeStyle("hover")
     methodend
 
-    method public void verifyNewPassword(BBjEditModifyEvent event!)
+
+
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem ||||||||| LOGIN INPUT VALIDATION |||||||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    method public void validateUsername(BBjEditModifyEvent event!)
+        #username!.onInputChange(event!)
+
+        #username!.getInputField().removeStyle("error")
+        #password!.setSubText("")
+        #password!.getInputField().removeStyle("error")
+    methodend
+
+    method public void validatePassword(BBjEditModifyEvent event!)
+        #password!.onInputChange(event!)
+        
+        #username!.getInputField().removeStyle("error")
+        #password!.getInputField().removeStyle("error")
+    methodend
+
+    method public void validateNewPassword(BBjEditModifyEvent event!)
             #password!.onInputChange(event!)
+
             #repeatPassword!.setSubText("")
     methodend
 
-    method public void verifyRepeatPassword(BBjEditModifyEvent event!)
-        newPassword$ = str(#password!.getText())
-        repeatPassword$ = str(#repeatPassword!.getText())
+    method public void validateRepeatPassword(BBjEditModifyEvent event!)
+        if #repeatPassword! = null() then 
+            a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
+            rem GOTO LOGIN - break out method
+        endif
 
-        if newPassword$ <> repeatPassword$ then 
-            if  #repeatPassword! <> null() then
+        newPassword! = #password!.getInput()
+        repeatPassword! = #repeatPassword!.getInput()
+
+        #repeatPassword!.setSubText("")
+
+        if repeatPassword!.length() > newPassword!.length() - 1 then  
+            if newPassword! <> repeatPassword! then 
                 #repeatPassword!.setSubText("Passwords don't match")
             else
-                a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
+                #repeatPassword!.setSubText("")
             endif
-        else
+        endif
+
+        if repeatPassword! = "" then 
             #repeatPassword!.setSubText("")
         endif
     methodend
 
-
-
-    method public Boolean passwordCallback(BBjCustomEvent event!)
-        field$ = str(event!.getObject())
-        a = msgbox("password field event fired " + field$)
-        methodret 1
+    method public void onBadLogin() 
+        #username!.getInputField().addStyle("error")   
+        #password!.getInputField().addStyle("error")
+        #password!.setInput("")
+        #password!.setSubText("Invalid username and password combination")
+        #password!.setText("")
     methodend
 
 
-    method public void onUserIconPressed(BBjCustomEvent event!)
-        a = msgbox("UserIcon Pressed")
-    methodend
-    
+
+
+     
 
 
 
-    rem  method public void onShowPasswordIconPressed(BBjCustomEvent event!)
-    rem     if #password!.isPasswordVisible() then 
-    rem         #password!.setPasswordVisible(0)
-    rem         #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
-    rem     else
-    rem         #password!.setPasswordVisible(1)
-    rem         #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
-    rem     endif    
-    rem methodend
 
 
 
-    rem rem ||| INPUTFIELD CALLBACKS ||||
-    rem method public void onUsernameChange(BBjEditModifyEvent event!)
-    rem     #onInputChange(#username!, event!.getText(),#usernameInputFieldType!)
-    rem methodend
 
-    rem method public void onPasswordChange(BBjEditModifyEvent event!)
-    rem     #onInputChange(#password!, event!.getText(), #passwordInputFieldType!)
-    rem methodend
 
-    rem method public void onRepeatPasswordChange(BBjEditModifyEvent event!)
-    rem     #onInputChange(#repeatPassword!, event!.getText(), #repeatPasswordInputFieldType!)
-    rem methodend
-
-    rem method public void onInputChange(InputField inputField!, BBjString input!, BBjString fieldType!)
-       
-    rem     if input!.length() <> 0 then 
-    rem     #clearStyles()
-    rem         if inputField!.getIsPasswordField() then
-    rem             inputField!.getPasswordField().addStyle("focus")
-    rem         else
-    rem             inputField!.getInputField().addStyle("focus")   
-    rem         endif
-    rem     endif   
-
-    rem     inputField!.getLabel().addStyle("focus")
-
-    rem     #validateAllInputFields()
-        
-    rem     #setSubmit(#canSubmit()) 
-    rem methodend
 
     rem method public void setSubmit(Boolean canSubmit!)
     rem     if canSubmit! then 
@@ -326,6 +323,6 @@ class public LoginDialogWindow extends BBjWidget
     methodend
 
     method public void setPasswordWithToken(BBjButtonPushEvent event!)
-        #loginDialog!.setPasswordWithToken(#password!.getText()) 
+        #loginDialog!.setPasswordWithToken(#password!.getInput()) 
     methodend
 classend

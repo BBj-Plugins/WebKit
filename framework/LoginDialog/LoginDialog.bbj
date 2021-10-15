@@ -119,8 +119,8 @@ class public LoginDialog
         process_events
 
         login:
-            user$=#loginWindow!.getUsername().getText()
-            pass$=#loginWindow!.getPassword().getText()
+            user$=#loginWindow!.getUsername().getInput()
+            pass$=#loginWindow!.getPassword().getInput()
                 
                 if #authProvider!.checkLogin(user$,pass$) then
                     #User$ = user$
@@ -130,10 +130,7 @@ class public LoginDialog
                     fi
                     methodret Boolean.TRUE
                 else
-                    #loginWindow!.getUsername().onError()
-                    #loginWindow!.getPassword().onError()
-                    #loginWindow!.getPassword().setSubText("Invalid username and password combination")
-                    #loginWindow!.getPassword().setText("")
+                    #loginWindow!.onBadLogin()
                 fi
                 return
            
@@ -172,7 +169,7 @@ class public LoginDialog
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
         LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), memory$)
-        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken", "void")
+        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
 
@@ -182,9 +179,9 @@ class public LoginDialog
         LoginDialogBuilder.addPageTitle(wnd!,title$)
         LoginDialogBuilder.addTextField(wnd!, response$)
         if retry! then
-            LoginDialogBuilder.addSubmitButton(wnd!, "Retry", methodName$, "void")  
+            LoginDialogBuilder.addSubmitButton(wnd!, "Retry", methodName$)  
         else 
-            LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin", "void")
+            LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin")
         endif
     methodend
 
@@ -194,7 +191,7 @@ class public LoginDialog
     rem    LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(),  "New Password", "new password")
        LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(), "New Password", "new password", Boolean.TRUE)
        LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), "Repeat Password", "repeat password")
-       LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken", "void")
+       LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken")
     methodend
 
     
@@ -220,8 +217,6 @@ class public LoginDialog
             #forgotPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
             #buildForgotPwContent(#forgotPwWindow!, user$)
         endif
-
- 
     methodend
 
     method public void gotoLogin()

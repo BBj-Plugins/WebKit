@@ -17,6 +17,7 @@ class public InputField extends BBjWidget
     field protected BBjChildWindow subTextWnd!
     field protected BBjStaticText subText!
 
+    field protected Boolean valid! = Boolean.FALSE
 
     method public InputField(BBjChildWindow wnd!, IValidator validator!)
          #this!(wnd!,wnd!.getAvailableControlID(), validator!)
@@ -69,9 +70,13 @@ class public InputField extends BBjWidget
         methodret #inputField! 
     methodend
 
-    rem method public BBjString getText()
-    rem     methodret #inputField!.getText()
-    rem methodend
+    method public BBjString getInput()
+        methodret #inputField!.getText()
+    methodend
+
+    method public void setInput(BBjString input$)
+        #inputField!.setText(input$)    
+    methodend
 
     method public void setLabel(BBjString label!)
         #label!.setText(label!)
@@ -97,6 +102,10 @@ class public InputField extends BBjWidget
         suffixIcon! = #suffixWrapper!.addImageCtrl(#suffixWrapper!.getAvailableControlID(),0,0,0,0,suffixPath!)
    
         #suffixWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+    methodend
+
+    method public BBjString getSubText()
+        methodret #subText!.getText()
     methodend
 
     method public void setSubText(BBjString subText!)
@@ -125,11 +134,22 @@ class public InputField extends BBjWidget
     method public void onFocusLost(BBjLostFocusEvent event!)
         #label!.removeStyle("focus")
         #inputField!.removeStyle("focus")
+
     methodend
 
     method public void onInputChange(BBjEditModifyEvent event!)
-        if #validator! <> null() then
-            #subText!.setText(#validator!.validate(event!.getText()))
+        if event!.getText() = "" then 
+            #subText!.setText("") 
+        else 
+            if #validator! <> null() then
+                #subText!.setText(#validator!.validate(#inputField!.getText()))
+                if #subText!.getText() <> "" then 
+                    #inputField!.addStyle("error")
+                    #valid! = Boolean.FALSE 
+                else 
+                    #valid! = Boolean.TRUE 
+                endif
+            endif
         endif
     methodend 
     

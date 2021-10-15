@@ -2,8 +2,8 @@ rem use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
+use ::WebKit/widgets/InputField/extensions/UsernameField.bbj::UsernameField
 
-use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::UsernameValidator
@@ -34,29 +34,30 @@ class public LoginDialogBuilder
         infoMessage!.addStyle("infoMessage")
     methodend
 
+    method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!)
+        #ddUsernameInput(dialog!, validator!, "")
+    methodend
+
     method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!, BBjString memory$)
-        dialog!.setUsername(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!))
+        dialog!.setUsername(new UsernameField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!,dialog!))
         dialog!.getUsername().setDockStyle("margin-top","50px")
+
+        if memory$ <> "" then 
+            dialog!.getUsername().setInput(memory$)
+        endif
         
         dialog!.getUsername().setLabel("Username")
         dialog!.getUsername().setPlaceHolder("name@company.com")
         dialog!.getUsername().setSuffix("WebKit/framework/LoginDialog/assets/user.png")
 
-        
-        rem dialog!.getUsername().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onUserIconPressed")
-        rem dialog!.getUsername().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY,dialog!,"onUsernameChange")
-        rem dialog!.setUsernameInputFieldType("username")
-
-        rem if memory$ <> "" then
-        rem     dialog!.getUsername().setText(memory$)
-        rem endif
+        dialog!.getUsername().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateUsername")
     methodend
 
     method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$)
         #addPasswordInput(dialog!, validator!, label$, placeholder$, Boolean.FALSE)
     methodend
 
-    method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$,  Boolean isNewPassword! )
+    method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$, Boolean isNewPassword!)
         dialog!.setPassword(new PasswordField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!))
         dialog!.getPassword().setDockStyle("margin-top","13px")
 
@@ -65,15 +66,17 @@ class public LoginDialogBuilder
         dialog!.getPassword().setSuffix("WebKit/framework/LoginDialog/assets/eye.png")
 
         if isNewPassword! then 
-            dialog!.getPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "verifyNewPassword")
+            dialog!.getPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateNewPassword")
+        else     
+            dialog!.getPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validatePassword")
         endif
-
-        rem dialog!.getPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
-        rem dialog!.getPassword().getPasswordField().setCallback(BBjAPI.ON_EDIT_MODIFY,dialog!,"onPasswordChange")
     methodend
 
-
     method public static void addRepeatPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$)
+        #addRepeatPasswordInput(dialog!, validator!, label$, placeholder$, Boolean.FALSE)
+    methodend
+
+    method public static void addRepeatPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$, Boolean isNewPassword!)
         dialog!.setRepeatPassword(new PasswordField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!))
         dialog!.getRepeatPassword().setDockStyle("margin-top","28px")
 
@@ -81,10 +84,7 @@ class public LoginDialogBuilder
         dialog!.getRepeatPassword().setPlaceHolder(placeholder$)
         dialog!.getRepeatPassword().setSuffix("WebKit/framework/LoginDialog/assets/eye.png")
 
-        dialog!.getRepeatPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "verifyRepeatPassword")
-        
-        rem dialog!.getRepeatPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
-        rem dialog!.getRepeatPassword().getPasswordField().setCallback(BBjAPI.ON_EDIT_MODIFY,dialog!,"onRepeatPasswordChange")
+        dialog!.getRepeatPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateRepeatPassword")
     methodend
 
     method public static void addRememberMeBox(LoginDialogWindow dialog!)
@@ -96,15 +96,15 @@ class public LoginDialogBuilder
         rememberMe!.addStyle("loginWidgetCheckBoxControl")
     methodend
 
-    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$)
-        #addSubmitButton(dialog!, label$, methodName$, "")
+    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$)
+        #addSubmitButton(dialog!, label$, "login")
     methodend
     
-    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$, BBjString methodLocation$)
+    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$)
         dialog!.setSubmitButton(dialog!.getContent().addButton(dialog!.getContent().getAvailableControlID(),0,0,0,0,label$))
         
-        if methodLocation$ =  "" then 
-            dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,methodName$)
+        if methodName$ = "login" then 
+            dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
         else 
             dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,dialog!,methodName$)
         endif
@@ -116,8 +116,8 @@ class public LoginDialogBuilder
         dialog!.getSubmitButton().addStyle("loginWidgetBtnLabel")
         dialog!.getSubmitButton().addStyle("loginWidgetBtnControl")  
 
-        dialog!.getSubmitButton().addStyle("disabled")
-        dialog!.getSubmitButton().setEnabled(0)
+        rem dialog!.getSubmitButton().addStyle("disabled")
+        rem dialog!.getSubmitButton().setEnabled(0)
         rem dialog!.setSubmit(dialog!.canSubmit())
     methodend
 
