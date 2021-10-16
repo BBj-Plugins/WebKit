@@ -35,7 +35,7 @@ class public LoginDialogBuilder
     methodend
 
     method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!)
-        #ddUsernameInput(dialog!, validator!, "")
+        #addUsernameInput(dialog!, validator!, "")
     methodend
 
     method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!, BBjString memory$)

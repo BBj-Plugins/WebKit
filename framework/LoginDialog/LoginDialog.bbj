@@ -71,9 +71,9 @@ class public LoginDialog
         #logoURL$ = logo$
     methodend
 
-    method public IFieldReq getFieldReq()
-        methodret #fieldReq! 
-    methodend
+    rem method public IFieldReq getFieldReq()
+    rem     methodret #fieldReq! 
+    rem methodend
 
     method public void setAuthRenewPwProvider(IAuthRenewPwProvider authProvider!)
         #authRenewPw! = authProvider!
@@ -188,7 +188,6 @@ class public LoginDialog
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
        LoginDialogBuilder.addPageTitle(wnd!, "Choose a new password")
-    rem    LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(),  "New Password", "new password")
        LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(), "New Password", "new password", Boolean.TRUE)
        LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), "Repeat Password", "repeat password")
        LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken")
