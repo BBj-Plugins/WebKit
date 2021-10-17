@@ -104,6 +104,7 @@ classend
 class public ListColumnModel
     field private BBjString columnDisplayName$
     field private BBjNumber columnPosition
+    field private BBjString columnWidth$
     field private Cell cellStructure!
 
     method public ListColumnModel()
@@ -132,6 +133,10 @@ class public ListColumnModel
         methodret #columnPosition
     methodend
 
+    method public BBjString getColumnWidth()
+        methodret #columnWidth$
+    methodend
+
     method public Cell getCellStructure()
         methodret #cellStructure!
     methodend
@@ -140,6 +145,9 @@ class public ListColumnModel
         #cellStructure! = cellStructure!
     methodend
 
+    method public void setColumnWidth(BBjString columnWidth$)
+        #columnWidth$ = columnWidth$
+    methodend
 classend
 
 

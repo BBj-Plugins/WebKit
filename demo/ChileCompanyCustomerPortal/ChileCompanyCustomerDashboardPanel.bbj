@@ -35,18 +35,21 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
         firstColumn! = new ListColumnModel("Your Reference", 1)
+        firstColumn!.setColumnWidth("50%")
         firstColumn!.setCellStructure(firstColumnCell!)
 
         secondColumnFields! = new BBjVector()
         secondColumnFields!.add(id_field!)
         secondColumnCell! = new Cell(secondColumnFields!)
         secondColumn! = new ListColumnModel("Customer ID", 2)
+        secondColumn!.setColumnWidth("25%")
         secondColumn!.setCellStructure(secondColumnCell!)
 
         thirdColumnFields! = new BBjVector()
         thirdColumnFields!.add(addr_field!)
         thirdColumnCell! = new Cell(thirdColumnFields!)
         thirdColumn! = new ListColumnModel("Address", 3)
+        thirdColumn!.setColumnWidth("25%")
         thirdColumn!.setCellStructure(thirdColumnCell!)
 
         declare BBjVector columnMappings!

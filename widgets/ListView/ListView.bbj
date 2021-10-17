@@ -1,4 +1,5 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/model/ListView/ListViewModel.bbj::ListViewModel
 use ::WebKit/widgets/ListView/components/ListHeader/ListHeader.bbj::ListHeader
@@ -35,33 +36,21 @@ class public ListView extends BBjWidget
         columnHeader! = listWrapper!.addChildWindow(listWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         columnHeader!.addPanelStyle("columnHeaderPanel")
 
-        templateColumns$ = ""
-        if numOfColumns = 1 THEN
-            templateColumns$ = "100%"
-        else
-            primaryColumnSize = 100 / 2
-            secondaryColumnSize = (100 - primaryColumnSize) / (numOfColumns - 1)
-            for i = 0 to numOfColumns - 1
-                if i = 0 THEN
-                    templateColumns$ = templateColumns$ + str(primaryColumnSize) + "%"
-                else
-                    templateColumns$ = templateColumns$ + str(secondaryColumnSize) + "%"
-                FI
-            NEXT i
-        FI
-        columnHeader!.setPanelStyle("grid-template-columns", templateColumns$)
+        gridTemplateColumns$ = ""
 
         for i = 0 to numOfColumns - 1
             columnMapping! = columnMappings!.get(i)
             columnName! =columnHeader!.addStaticText(columnHeader!.getAvailableControlID(),0,0,0,0, columnMapping!.getColumnDisplayName())
             columnName!.addStyle("columnName")
             columnName!.setStyle("grid-column", str(columnMapping!.getColumnPosition()))
+            gridTemplateColumns$ = gridTemplateColumns$ + str(columnMapping!.getColumnWidth())
         NEXT i
+        columnHeader!.setPanelStyle("grid-template-columns", gridTemplateColumns$)
 
         for i = 0 to rows!.size() - 1
             dataRowWindow! = listWrapper!.addChildWindow(listWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             dataRowWindow!.addPanelStyle("dataRowPanel")
-            dataRowWindow!.setPanelStyle("grid-template-columns", templateColumns$)
+            dataRowWindow!.setPanelStyle("grid-template-columns", gridTemplateColumns$)
 
             dataObject! = rows!.get(i)
 
