@@ -1,0 +1,38 @@
+.listWrapperPanelStyle{
+    height: calc(100vh - 268px);
+    overflow-y: scroll !important;
+    padding: 0px 16px 16px;
+    background-color: var(--bbj-color-white);
+}
+
+.columnHeaderPanel{
+    display: grid;
+    height: 49px;
+    border-bottom: 1px solid #DDE0E1;
+}
+
+.columnName{
+    padding: 16px;
+    grid-row: 1;
+}
+
+.dataRowPanel{
+    display: grid;
+    height: 74px;
+    border-bottom: 1px solid #DDE0E1;
+}
+
+.cellWrapper{
+    padding: 16px;
+    grid-row: 1;
+}
+
+.cellWrapperPanel{
+    display: grid;
+    grid-template-columns: 60px calc(100% - 60px);
+}
+
+.field{
+    grid-column: 2;
+    white-space: nowrap !important;
+}
