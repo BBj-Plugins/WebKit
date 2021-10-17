@@ -14,6 +14,7 @@ ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 ClientUtil.addLocalCSS("WebKit/demo/assets/demo.css")
 ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
+ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerPortal.css")
 startover: 
 
 login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())

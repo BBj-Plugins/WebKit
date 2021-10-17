@@ -67,6 +67,12 @@ class public ListView extends BBjWidget
                     _fieldValue! = _fields!.get(k)
                     _field! = cellWrapper!.addStaticText(cellWrapper!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue(_fieldValue!.getDataColumnAlias()))
                     _field!.addStyle("field")
+                    customCssClass$ = _fieldValue!.getCustomCssClass()
+                    if customCssClass$ = ""
+                        _field!.addStyle("fieldLabel")
+                    else
+                        _field!.addStyle(customCssClass$)
+                    fi
                     _field!.setStyle("grid-row", str(k + 1))
                 NEXT k
             NEXT j

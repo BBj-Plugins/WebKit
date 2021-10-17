@@ -23,10 +23,10 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         listDataModel!.setDatabaseName("ChileCompany")
         listDataModel!.setTableName("Customer")
 
-        REM column mappings
         displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
         id_field! = new Field("CUST_NUM", "ID")
         city_field! = new Field("CITY", "CITY")
+        city_field!.setCustomCssClass("listSubtitleField")
         addr_field! = new Field("BILL_ADDR1", "ADDRESS")
 
         

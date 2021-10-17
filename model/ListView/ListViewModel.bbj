@@ -48,15 +48,18 @@ classend
 class public Field
    field private BBjString dataColumn$ 
    field private BBjString dataColumnAlias$ 
+   field private BBjString customCssClass$
 
    method public Field()
     #dataColumn$ = ""
     #dataColumnAlias$ = ""
+    #customCssClass$ = ""
    methodend
 
    method public Field(BBjString dataColumn$, BBjString dataColumnAlias$)
     #dataColumn$ = dataColumn$
     #dataColumnAlias$ = dataColumnAlias$
+    #customCssClass$ = ""
    methodend
 
    method public Field(BBjString dataColumn$)
@@ -80,6 +83,13 @@ class public Field
     #dataColumnAlias$ = dataColumnAlias$
    methodend
 
+   method public BBjString getCustomCssClass()
+      methodret #customCssClass$
+   methodend
+
+   method public void setCustomCssClass(BBjString customCssClass$)
+      #customCssClass$ = customCssClass$
+   methodend
 classend
 
 class public Cell
