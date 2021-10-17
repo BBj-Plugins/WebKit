@@ -1,0 +1,145 @@
+
+use java.util.HashSet
+
+class public ListViewModel
+    field private BBjString listPanelTitle$
+    field private BBjString databaseName$
+
+    field private BBjVector columnMappings! = new BBjVector()
+    field private BBjString tableName$
+
+    method public ListViewModel() 
+        #listPanelTitle$ = ""
+    methodend
+
+    method public ListViewModel(BBjString listPanelTitle$)
+        #listPanelTitle$ = listPanelTitle$
+    methodend
+
+    method public BBjVector getColumnMappings()
+        methodret #columnMappings!
+    methodend
+
+    method public void setColumnMappings(BBjVector columnMappings!)
+        #columnMappings! = columnMappings!
+    methodend
+
+    method public void setDatabaseName(BBjString databaseName$)
+        #databaseName$ = databaseName$
+    methodend
+
+    method public BBjString getDatabaseName()
+        methodret #databaseName$
+    methodend
+
+    method public void setTableName(BBjString tableName$)
+        #tableName$ = tableName$
+    methodend
+
+    method public BBjString getTableName()
+        methodret #tableName$
+    methodend
+
+    method public BBjString getListPanelTitle()
+        methodret #listPanelTitle$
+    methodend
+classend
+
+class public Field
+   field private BBjString dataColumn$ 
+   field private BBjString dataColumnAlias$ 
+
+   method public Field()
+    #dataColumn$ = ""
+    #dataColumnAlias$ = ""
+   methodend
+
+   method public Field(BBjString dataColumn$, BBjString dataColumnAlias$)
+    #dataColumn$ = dataColumn$
+    #dataColumnAlias$ = dataColumnAlias$
+   methodend
+
+   method public Field(BBjString dataColumn$)
+    #dataColumn$ = dataColumn$
+    #dataColumnAlias$ = dataColumn$
+   methodend
+
+   method public BBjString getDataColumn()
+    methodret #dataColumn$
+   methodend
+
+   method public void setDataColumn(BBjString dataColumn$)
+    #dataColumn$ = dataColumn$
+   methodend
+
+   method public BBjString getDataColumnAlias()
+    methodret #dataColumnAlias$
+   methodend
+
+   method public void setDataColumnAlias(BBjString dataColumnAlias$)
+    #dataColumnAlias$ = dataColumnAlias$
+   methodend
+
+classend
+
+class public Cell
+    field private BBjVector fields! = new BBjVector()
+
+    method public Cell()
+    methodend
+
+    method public Cell(BBjVector fields!)
+        #fields! = fields!
+    methodend
+
+    method public BBjVector getFields()
+     methodret #fields!
+    methodend
+
+    method public void setDataFields(BBjVector fields!)
+     #fields! = fields!
+    methodend
+classend
+
+class public ListColumnModel
+    field private BBjString columnDisplayName$
+    field private BBjNumber columnPosition
+    field private Cell cellStructure!
+
+    method public ListColumnModel()
+        #columnDisplayName$ = ""
+        #columnPosition = 0
+    methodend
+
+    method public ListColumnModel(BBjString columnDisplayName$, BBjNumber columnPosition)
+        #columnDisplayName$ = columnDisplayName$
+        #columnPosition = columnPosition
+    methodend
+
+    method public BBjString getColumnDisplayName()
+        methodret #columnDisplayName$
+    methodend
+
+    method public BBjString getColumnName()
+        methodret #columnName$
+    methodend
+
+    method public BBjString getColumnAlias()
+        methodret #columnAlias$
+    methodend
+
+    method public BBjNumber getColumnPosition()
+        methodret #columnPosition
+    methodend
+
+    method public Cell getCellStructure()
+        methodret #cellStructure!
+    methodend
+
+    method public void setCellStructure(Cell cellStructure!)
+        #cellStructure! = cellStructure!
+    methodend
+
+classend
+
+
