@@ -6,6 +6,7 @@ class public ListViewModel
     field private BBjString databaseName$
 
     field private BBjVector columnMappings! = new BBjVector()
+    field private Boolean actionColumnStatus! = 1
     field private BBjString tableName$
 
     method public ListViewModel() 
@@ -42,6 +43,14 @@ class public ListViewModel
 
     method public BBjString getListPanelTitle()
         methodret #listPanelTitle$
+    methodend
+
+    method public void setActionColumnStatus(Boolean actionColumnStatus!)
+        #actionColumnStatus! = actionColumnStatus!
+    methodend
+
+    method public Boolean getActionColumnStatus()
+        methodret #actionColumnStatus!
     methodend
 classend
 

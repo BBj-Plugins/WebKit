@@ -22,6 +22,10 @@ class public ListView extends BBjWidget
         #redraw(1)
     methodend
 
+    method public BBjString getProperColumnWidth(BBjString columnWidth$, BBjNumber deduction)
+        methodret " calc(" + columnWidth$ + " - " + str(deduction) + "px)"
+    methodend
+
 
     method public void redraw(Boolean init!)
         listHeader! = new ListHeader(#window!, "Customer")
@@ -37,14 +41,29 @@ class public ListView extends BBjWidget
         columnHeader!.addPanelStyle("columnHeaderPanel")
 
         gridTemplateColumns$ = ""
+        ClientUtil.consoleLog(str(#listDataModel!.getActionColumnStatus()))
+        deduction = 0
+        actionColumnWidth = 246
+        actionColumnStatus! = #listDataModel!.getActionColumnStatus() 
+        if actionColumnStatus! = 1 THEN
+            deduction = actionColumnWidth/numOfColumns
+        fi
 
         for i = 0 to numOfColumns - 1
             columnMapping! = columnMappings!.get(i)
             columnName! =columnHeader!.addStaticText(columnHeader!.getAvailableControlID(),0,0,0,0, columnMapping!.getColumnDisplayName())
             columnName!.addStyle("columnName")
             columnName!.setStyle("grid-column", str(columnMapping!.getColumnPosition()))
-            gridTemplateColumns$ = gridTemplateColumns$ + str(columnMapping!.getColumnWidth())
+            gridTemplateColumns$ = gridTemplateColumns$ + #getProperColumnWidth(columnMapping!.getColumnWidth(), deduction)
         NEXT i
+
+        REM render action column header
+        actionColumnName! =columnHeader!.addStaticText(columnHeader!.getAvailableControlID(),0,0,0,0, "Actions")
+        actionColumnName!.addStyle("columnName")
+        actionColumnName!.addStyle("actionColumnName")
+        actionColumnName!.setStyle("grid-column", str(numOfColumns + 1))
+        gridTemplateColumns$ = gridTemplateColumns$ + str(actionColumnWidth) + "px"
+
         columnHeader!.setPanelStyle("grid-template-columns", gridTemplateColumns$)
 
         for i = 0 to rows!.size() - 1
@@ -76,6 +95,18 @@ class public ListView extends BBjWidget
                     _field!.setStyle("grid-row", str(k + 1))
                 NEXT k
             NEXT j
+
+            REM render action cells
+            if actionColumnStatus! <> 1 THEN
+                continue
+            fi
+            actionCellWrapper! = dataRowWindow!.addChildWindow(dataRowWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            actionCellWrapper!.addStyle("cellWrapper actionCellWrapper")
+            actionCellWrapper!.setStyle("grid-column", str(numOfColumns + 1))
+            actionCellWrapper!.addPanelStyle("cellWrapperPanel")
+
+            actionItem! = actionCellWrapper!.addStaticText(actionCellWrapper!.getAvailableControlID(),0,0,0,0, "M")
+            actionItem!.addStyle("field")
         NEXT i
 
 
