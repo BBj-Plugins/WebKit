@@ -1,0 +1,66 @@
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.bc.SqlQueryBC
+use java.util.HashMap
+
+class public DbUtil
+    field private BBjString databaseName$
+
+    method public DbUtil()
+    methodend
+
+    method public DbUtil(BBjString databaseName$)
+        #databaseName$ = databaseName$
+    methodend
+
+    method public void setDatabaseName(BBjString databaseName$)
+        #databaseName$ = databaseName$
+    methodend
+
+    method private BBjString getQueryBuilder(BBjString tableName$, HashMap columns!, BBjString contraints$)
+        query! = "SELECT "
+
+        if columns!.size() = 0 THEN
+            query! = query! + "*"
+        else
+            it! = columns!.keySet().iterator()
+            index = 0
+            while it!.hasNext()
+                if index <> 0 THEN
+                    query! = query! + ", "
+                fi
+                column! = it!.next()
+                columnAlias! = columns!.get(column!)
+                query! = query! + str(column!.toUpperCase()) + " AS "+ str(columnAlias!.toUpperCase())
+                index = index + 1
+            wend
+        fi
+        query! = query! + " FROM " + str(tableName$)
+
+        if id$ <> "" THEN
+            query! = query! + " WHERE " + contraints$
+        fi
+        methodret query!
+    methodend
+
+    method public ResultSet get(BBjString tableName$, HashMap columns!, BBjString contraints$)
+        
+      declare SqlQueryBC sbc!
+      declare ResultSet rs!
+
+      sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(#databaseName$))
+      query! = #getQueryBuilder(tableName$, columns!, contraints$)
+      rs! = sbc!.retrieve(query!)
+      methodret rs!
+    methodend
+
+    method public ResultSet get(BBjString tableName$, HashMap columns!)
+        constraints$ = ""
+        methodret #get(tableName$, columns!, constraints$)
+    methodend
+
+    method public ResultSet get(BBjString tableName$)
+        columns! = new HashMap()
+        constraints$ = ""
+        methodret #get(tableName$, columns!, constraints$)
+    methodend
+classend
