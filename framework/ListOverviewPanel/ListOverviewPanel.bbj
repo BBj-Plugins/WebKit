@@ -1,76 +1,62 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/DbUtil.bbj::DbUtil
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/ListView/ListView.bbj::ListView
+use ::WebKit/model/ListView/ListViewModel.bbj::ListViewModel
+use ::WebKit/model/ListView/ListViewModel.bbj::ListColumnModel
+use java.util.HashMap
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.bc.SqlQueryBC
 
 class public ListOverviewPanel
     field private BBjChildWindow window!
 
-    field private BBjString databaseName$
+    field private ListViewModel listDataModel!
 
-    field private BBjString tableName$
-
-    field private BBjString listTitle$
+    field private DbUtil dbUtil!
 
     field private ResultSet RS!
 
     method public ListOverviewPanel(BBjWindow parent!)
         REM init
+        DynamicLoader.addLocalCSS("WebKit/framework/ListOverviewPanel/ListOverviewPanel.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #window!.setStyle("margin", "40px 38px 80px 52px")
+        #window!.addStyle("listWindow")
+        #dbUtil! = new DbUtil()
     methodend
 
-    method public void setDatabaseName(BBjString databaseName$)
-        #databaseName$ = databaseName$
-    methodend
-
-    method public BBjString getDatabaseName()
-        methodret #databaseName$
-    methodend
-
-    method public void setTableName(BBjString tableName$)
-        #tableName$ = tableName$
-    methodend
-
-    method public BBjString getTableName()
-        methodret #tableName$
-    methodend
-
-    method public void setListTitle(BBjString listTitle$)
-        #listTitle$ = listTitle$
-    methodend
-
-    method public BBjString getListTitle()
-        methodret #listTitle$
+    method public void setListDataModel(ListViewModel listDataModel!)
+        #listDataModel! = listDataModel!
     methodend
 
     method public void loadData()
-      declare SqlQueryBC sbc!
-      declare ResultSet rs!
+      databaseName$ = #listDataModel!.getDatabaseName()
+      tableName$ = #listDataModel!.getTableName()
+      #dbUtil!.setDatabaseName(databaseName$)
 
-      sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(#databaseName$))
-      rs! = sbc!.retrieve("SELECT  * FROM " + #tableName$)
-      #RS! = rs!
-      columns! = rs!.getColumnNames()
-
-      REM for i = 0 to columns!.size() - 1
-      REM   ClientUtil.consoleLog(columns!.get(i))
-      REM NEXT i
+      columnNames! = new HashMap()
+      columnMappings! = #listDataModel!.getColumnMappings()
+      
+      numOfColumns = columnMappings!.size()
+      for i = 0 to numOfColumns - 1
+        columnMapping! = columnMappings!.get(i)
+        cellStructure! = columnMapping!.getCellStructure()
+        fields! = cellStructure!.getFields()
+        for j = 0 to fields!.size() - 1
+          _field! = fields!.get(j)
+          columnNames!.put(_field!.getDataColumn(), _field!.getDataColumnAlias())
+        NEXT j
+      NEXT i
+      #RS! = #dbUtil!.get(tableName$, columnNames!)
     methodend
 
     method public Boolean doModal()
-        Headline! = #window!.addStaticText(100,0,0,0,0, #listTitle$)
-        Headline!.setStyle("font-family", "Lato")
-        Headline!.setStyle("font-style", "normal")
-        Headline!.setStyle("font-weight", "700")
-        Headline!.setStyle("font-size", "32px")
-        Headline!.setStyle("height", "38px")
-        Headline!.setStyle("width", "156px")
-        REM Headline!.addStyle("tilesheadline")       
+        Headline! = #window!.addStaticText(100,0,0,0,0, #listDataModel!.getListPanelTitle())
+        Headline!.addStyle("headline")
         
         #loadData()
 
-        listView! = new ListView(#window!, #RS!)
+        listView! = new ListView(#window!, #RS!, #listDataModel!)
 
         methodret 1
     methodend
