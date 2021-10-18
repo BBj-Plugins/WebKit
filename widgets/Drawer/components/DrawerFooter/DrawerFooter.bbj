@@ -7,7 +7,7 @@ use ::WebKit/widgets/common/CircularAvatar/CircularAvatar.bbj::CircularAvatar
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.bbj::DrawerMenuTile
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
-use ::Webkit/model/Icon.bbj::Icon
+use ::WebKit/model/Icon.bbj::Icon
 
 class public DrawerFooter extends BBjWidget implements Icon
 
