@@ -16,11 +16,9 @@ class public ListView extends BBjWidget implements Icon
 
     method public ListView(BBjWindow parent!, ResultSet RS!, ListViewDataModel listDataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/ListView/ListView.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-
         #RS! = rs!
         #listDataModel! = listDataModel!
-        #redraw(1)
+        #super!.create(parent!, parent!.getAvailableControlID())
     methodend
 
     method public BBjString getProperColumnWidth(BBjString columnWidth$, BBjNumber deduction)
@@ -29,6 +27,7 @@ class public ListView extends BBjWidget implements Icon
 
 
     method public void redraw(Boolean init!)
+        #window! = #getCanvas()
         listHeader! = new ListHeader(#window!, "Customer")
 
         rows! = #RS!.getDataRows()

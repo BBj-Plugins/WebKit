@@ -9,14 +9,12 @@ class public ListHeader extends BBjWidget
 
     method public ListHeader(BBjWindow parent!, BBjString entity$)
         DynamicLoader.addLocalCSS("WebKit/widgets/ListView/components/ListHeader/ListHeader.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-
         #entity$ = entity$
-
-        #redraw(1)
+        #super!.create(parent!, parent!.getAvailableControlID())
     methodend
 
     method public void redraw(Boolean init!)
+        #window! = #getCanvas()
         #window!.addPanelStyle("headerPanel")
 
         createBtn! = #window!.addButton(1,0,0,0,0,"Create Customer")
