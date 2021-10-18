@@ -8,6 +8,7 @@ class public ListViewModel
     field private BBjVector columnMappings! = new BBjVector()
     field private Boolean actionColumnStatus! = 1
     field private BBjString tableName$
+    field private BBjNumber rowLimit = -1
 
     method public ListViewModel() 
         #listPanelTitle$ = ""
@@ -51,6 +52,14 @@ class public ListViewModel
 
     method public Boolean getActionColumnStatus()
         methodret #actionColumnStatus!
+    methodend
+
+    method public void setRowLimit(BBjNumber rowLimit)
+        #rowLimit = rowLimit
+    methodend
+
+    method public BBjNumber getRowLimit()
+        methodret #rowLimit 
     methodend
 classend
 

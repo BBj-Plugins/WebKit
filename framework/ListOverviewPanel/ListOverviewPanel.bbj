@@ -32,6 +32,7 @@ class public ListOverviewPanel
     method public void loadData()
       databaseName$ = #listDataModel!.getDatabaseName()
       tableName$ = #listDataModel!.getTableName()
+      rowLimit = #listDataModel!.getRowLimit()
       #dbUtil!.setDatabaseName(databaseName$)
 
       columnNames! = new HashMap()
@@ -47,7 +48,7 @@ class public ListOverviewPanel
           columnNames!.put(_field!.getDataColumn(), _field!.getDataColumnAlias())
         NEXT j
       NEXT i
-      #RS! = #dbUtil!.get(tableName$, columnNames!)
+      #RS! = #dbUtil!.get(tableName$, columnNames!, rowLimit)
     methodend
 
     method public Boolean doModal()
