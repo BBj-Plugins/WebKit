@@ -76,10 +76,10 @@ class public PortalFrame
         wend
 
         REM initialize footerMenu
-        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","WebKit/demo/assets/home.svg")
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","home")
         footerMenuItem!.setProgram("void")
         footerMenuItem!.setCallback("onChangeTheme")
-        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","WebKit/demo/assets/log-out.png")
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","logout")
         footerMenuItem!.setProgram("void")
         footerMenuItem!.setCallback("onLogout")
 

@@ -1,0 +1,20 @@
+rem /**
+rem  * Icon
+rem  * 
+rem  * @author ""
+rem  */
+interface public Icon
+    method public BBjStaticText setIcon(BBjChildWindow childWindow!, String icon!, String pool!)
+        if icon! <> null() then
+            methodret childWindow!.addStaticText(childWindow!.getAvailableControlID(),0,0,0,0, "<html><bbj-icon pool="""+ pool! + """ name=""" + icon! + """></bbj-icon></html>" ,$0000$)
+        endif
+            methodret null()
+    methodend
+
+    method public BBjStaticText setIcon(BBjChildWindow childWindow!, String icon!)
+        if icon! <> null() then
+            methodret childWindow!.addStaticText(childWindow!.getAvailableControlID(),0,0,0,0, "<html><bbj-icon name=""" + icon! + """></bbj-icon></html>" ,$0000$)
+        endif
+            methodret null()
+    methodend
+interfaceend

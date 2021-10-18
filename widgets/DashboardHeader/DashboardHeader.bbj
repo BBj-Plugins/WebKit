@@ -81,7 +81,6 @@ class public DashboardHeader extends BBjWidget
         #entryWrapper!.setDockStyle("flex","1")
             
         #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
         #iconWrapper!.setDockStyle("align-self","flex-start")
         #iconWrapper!.setDockStyle("margin","8px 12px 8px 12px")
         
@@ -149,10 +148,6 @@ class public DashboardHeader extends BBjWidget
         throw "Invalid ID", 400
     methodend
     
-    method public void onIconPressed(BBjMouseDownEvent event!)
-        #fireEvent(#ON_ICON_PRESSED,"")
-    methodend 
-
     method public void enableIcon(Boolean value!)
         #showIcon! = value!
         #redraw(0)

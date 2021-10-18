@@ -1,0 +1,114 @@
+rem use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
+use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
+
+class public LoginDialogBuilder 
+
+    method public static void addMemory(LoginDialogWindow dialog!, BBjString memory$)
+        dialog!.setMemory(memory$)
+    methodend
+      
+    method public static void addLogo(LoginDialogWindow dialog!, BBjString url$)
+        id! = dialog!.getContent().getAvailableControlID()
+        logo! = dialog!.getContent().addImageCtrl(id!,0,0,0,0, url$)
+        logo!.addStyle("logo")
+    methodend
+
+    method public static void addPageTitle (LoginDialogWindow dialog!, BBjString title$)
+        pageTitle! = dialog!.getContent().addStaticText(dialog!.getContent().getAvailableControlID(),0,0,0,0,title$)
+        pageTitle!.addStyle("loginPageTitle")
+    methodend
+   
+    method public static void addTextField (LoginDialogWindow dialog!, BBjString message$)
+        infoMessage! = dialog!.getContent().addStaticText(dialog!.getContent().getAvailableControlID(),0,0,0,0,message$)
+        infoMessage!.addStyle("infoMessage")
+    methodend
+
+    method public static void addUsernameInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString memory$, int ordNum!)
+        dialog!.setUsername(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), "user"))
+        dialog!.getUsername().setLoginDialog(dialog!) 
+        dialog!.getUsername()
+        dialog!.getUsername().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onUserIconPressed")
+        dialog!.getUsername().setLabel("Username")
+        dialog!.getUsername().setPlaceHolder("name@company.com")
+        dialog!.getUsername().setDockStyle("margin-top","50px")
+        dialog!.getUsername().setFieldReq(fieldReq!)
+        dialog!.getUsername().setFieldType("username")
+        if memory$ <> "" then
+            dialog!.getUsername().setText(memory$)
+        endif
+    methodend
+
+    method public static void addPasswordInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString placeholder$ , BBjString fieldType!, int ordNum!)
+        dialog!.setPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"eye",1))
+        dialog!.getPassword().setLoginDialog(dialog!) 
+        dialog!.getPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
+        dialog!.getPassword().setLabel(label$)
+        dialog!.getPassword().setPlaceHolder(placeholder$)
+        dialog!.getPassword().setDockStyle("margin-top","13px")
+        dialog!.getPassword().setFieldReq(fieldReq!)
+        dialog!.getPassword().setFieldType(fieldType!)
+    methodend
+
+    method public static void addRepeatPasswordInput(LoginDialogWindow dialog!, IFieldReq fieldReq!, BBjString label$, BBjString placeholder$, int ordnum!)
+       dialog!.setRepeatPassword(new InputField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(),"eye",1))
+       dialog!.getRepeatPassword().setLoginDialog(dialog!) 
+       dialog!.getRepeatPassword().setCallback(InputField.ON_SUFFIX_PRESSED,dialog!,"onShowPasswordIconPressed")
+       dialog!.getRepeatPassword().setLabel(label$)
+       dialog!.getRepeatPassword().setPlaceHolder(placeholder$)
+       dialog!.getRepeatPassword().setDockStyle("margin-top","28px")
+       dialog!.getRepeatPassword().setFieldReq(fieldReq!)
+       dialog!.getRepeatPassword().setFieldType("repeatpassword")
+    methodend
+
+    method public static void addRememberMeBox(LoginDialogWindow dialog!)
+        rememberMe! = dialog!.getContent().addCheckBox(dialog!.getContent().getAvailableControlID(),0,0,0,0,"Keep me signed in")
+        rememberMe!.setStyle("margin-top","32px")
+        rememberMe!.addStyle("loginWidgetCheckBoxStyle")
+        rememberMe!.addStyle("loginWidgetCheckBoxLabel")
+        rememberMe!.addStyle("loginWidgetCheckBoxInputWrapper")
+        rememberMe!.addStyle("loginWidgetCheckBoxControl")
+    methodend
+
+    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$, int ordNum!)
+        #addSubmitButton(dialog!, label$, methodName$, "", ordNum!)
+    methodend
+    
+    method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$, BBjString methodLocation$, int ordNum!)
+        dialog!.setSubmitButton(dialog!.getContent().addButton(dialog!.getContent().getAvailableControlID(),0,0,0,0,label$))
+        
+        if methodLocation$ =  "" then 
+            dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,methodName$)
+        else 
+            dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,dialog!,methodName$)
+        endif
+
+        dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_ENTER,dialog!,"onButtonHover")
+        dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_EXIT,dialog!,"onButtonHoverExit")
+        dialog!.getSubmitButton().setStyle("margin-top","40px")
+        dialog!.getSubmitButton().addStyle("loginWidgetBtnStyle")
+        dialog!.getSubmitButton().addStyle("loginWidgetBtnLabel")
+        dialog!.getSubmitButton().addStyle("loginWidgetBtnControl")
+        
+    methodend
+
+    method public static void addRedirect(LoginDialogWindow dialog!, BBjString redirectText$, BBjString methodName$)
+        declare BBjStaticText redirectText!
+        declare BBjChildWindow linkWrapper!
+    
+        linkWrapper! = dialog!.getContent().addChildWindow(dialog!.getContent().getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,dialog!,methodName$)
+        linkWrapper!.setDockStyle("grid-row-start","6")
+        linkWrapper!.setDockStyle("margin-top","16px")
+        linkWrapper!.setDockStyle("justify-self","center")
+        linkWrapper!.setDockStyle("height","fit-content")
+        linkWrapper!.setDockStyle("width","fit-content")
+        
+        redirectText! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,redirectText$)
+        dialog!.setRedirect(redirectText!)
+        redirectText!.addStyle("forgotPwStlye")
+        redirectText!.setCallback(BBjAPI.ON_MOUSE_ENTER,dialog!,"onForgotPwHover")
+        redirectText!.setCallback(BBjAPI.ON_MOUSE_EXIT,dialog!,"onForgotPwHoverExit")
+    methodend
+classend
