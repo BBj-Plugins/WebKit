@@ -207,7 +207,7 @@ class public LoginDialog
         else  
             declare BBjString user$
             if #loginWindow! <> null() then 
-                user$ = "lol" 
+                user$ = "" 
 
                 #loginWindow!.getContent().destroy()
                 #loginWindow! = null()
