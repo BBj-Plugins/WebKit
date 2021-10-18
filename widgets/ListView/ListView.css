@@ -33,6 +33,10 @@
 .actionCellWrapper{
     justify-self: end;
 }
+.actionCellWrapperPanel{
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+}
 
 .cellWrapperPanel{
     display: grid;
