@@ -1,18 +1,21 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use com.basiscomponents.db.DataRow
+use java.util.Date
+use java.text.SimpleDateFormat
 
 class public CalendarEntryWidget extends BBjWidget
 
     field private BBjChildWindow window!
-    field private BBjStaticText eventTimezoneText!
+    field private BBjStaticText eventTimeText!
     field private BBjStaticText eventTitleText!
     field private BBjStaticText eventDayText!
-    field private BBjString eventTimezone! = ""
+    field private BBjString eventEndTime!
+    field private BBjString eventStartTime!
     field private BBjString eventTitle! = ""
-    field private BBjString eventDay! = ""
-    field private DataRow data!
-    field private BBjString colorProp!
+    field private BBjString eventDay!
+    field private Date eventDate!
+    field private BBjString color!
 
     method public CalendarEntryWidget(BBjChildWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Calendar/components/CalendarEntryWidget.css")
@@ -27,7 +30,8 @@ class public CalendarEntryWidget extends BBjWidget
     method public void redraw(Boolean init!)
         if !init! then
             methodret
-        endif
+        endif 
+        
         #window! = #getCanvas()
         
         #window!.setCallback(#window!.ON_MOUSE_DOWN, #this!, "onTap")
@@ -42,31 +46,45 @@ class public CalendarEntryWidget extends BBjWidget
         #window!.addStyle("calendarEntryStyle")
         #window!.addPanelStyle("calendarEntryPanelStyle")
 
-        #eventTitleText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"EventTitle")
+        #eventTitleText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
         #eventTitleText!.addStyle("eventTitleStyle")
         
-        #eventTimezoneText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0, "EventTimezone")
-        #eventTimezoneText!.addStyle("eventTimezoneStyle")
+        #eventTimeText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+        #eventTimeText!.addStyle("eventTimezoneStyle")
         
-        #eventDayText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"EventDay")
+        #eventDayText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0, "")
         #eventDayText!.addStyle("eventDayStyle")
     methodend
     
-    method public void onTap(BBjMouseDownEvent ev!)
+    method public void onTap(BBjMouseDownEvent event!)
         a=MSGBOX("Open Entry")
     methodend
     
     method public void setEventTitle(BBjString eventTitle!)
-        #eventTitle! = eventTitle! 
-        #redraw(BBjAPI.TRUE)
+        #eventTitle! = eventTitle!
+        #eventTitleText!.setText(#eventTitle!)
     methodend
     
-    method public void setEventTimezone(BBjString eventTimezone!)
-        #eventTimezone! = eventTimezone! 
-        #redraw(BBjAPI.TRUE)
+    method public void setEventDay(BBjString eventDay!)
+        #eventDay! = eventDay!
+        #eventDayText!.setText(#eventDay!)
     methodend
     
-    method public void setColor(BBjString colorProp!)
-        #colorProp! = colorProp!
+    method public void setEventTime(BBjString eventStartTime!, BBjString eventEndTime!)
+        #eventStartTime! = eventStartTime!
+        #eventEndTime! = eventEndTime!
+        #eventTimeText!.setText(#eventStartTime! + "-" + #eventEndTime!)
+    methodend
+    
+    method public void setEventDate(Date eventDate!)
+        #eventDate! = eventDate!
+    methodend
+    
+    method public void setColor(BBjString color!)
+        #color! = color!
+    methodend
+    
+    method public void getEventDay()
+        methodret #eventDay!
     methodend
 classend

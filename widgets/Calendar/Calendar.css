@@ -34,7 +34,7 @@
 .filterStyle {
 	align-self: center;
 	justify-self: end;
-	width: min-content;
+	width: 100px;
 	--bbj-button-color-on-default-text: black;
 }
 
@@ -53,7 +53,7 @@
 .calendarEntriesStyle {
 	height: 100%;
 	width: 100%;
-	overflow: unset;
+	overflow: scroll;
 }
 
 .calendarEntriesStyle::-webkit-scrollbar {
@@ -64,7 +64,6 @@
 	height: 100%;
 	width: 100%;
 	display: grid;
-	overflow: scroll;
 	grid-template-rows: auto;
 	row-gap: 10px;
 }

@@ -3,17 +3,18 @@ use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/Calendar/components/CalendarEntryWidget.bbj::CalendarEntryWidget
 use ::WebKit/widgets/Calendar/CalendarEntry.bbj::CalendarEntry
 
-use java.text.SimpleDateFormat
-use com.basiscomponents.db.DataRow
-
+use java.util.Date
+use java.util.Calendar
 
 class public Calendar extends BBjWidget
     
     field private BBjChildWindow window!
     field private BBjVector calendarEntries! = new BBjVector()
+    field private BBjVector sortedCalendarEntries! = new BBjVector()
     field private BBjChildWindow calendarEntriesWidgetWrapper!
     field private BBjStaticText placeholder!
-    
+    field private BBjListButton filter!
+
     method public Calendar(BBjChildWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Calendar/Calendar.css")
         #super!.create(wnd!, wnd!.getAvailableControlID())
@@ -26,18 +27,8 @@ class public Calendar extends BBjWidget
     
     method public void redraw(Boolean init!)
         if !init! then
-REM             if #calendarEntries!.size() = 0 then
-REM                 methodret
-REM             endif
-            
-            #placeholder!.destroy()
-            for i=0 to #calendarEntries!.size() - 1
-                calendarEntry! = CAST(CalendarEntry, #calendarEntries!.getItem(i))
-                
-                widget! = new CalendarEntryWidget(#calendarEntriesWidgetWrapper!)
-                widget!.setEventTitle(calendarEntry!.getEventTitle())
-                widget!.setEventTimezone(calendarEntry!.getEventTimezone())
-            next i
+            #calendarEntriesWidgetWrapper!.destroy()
+            #drawCalendarEntriesWrapper()
             methodret
         endif
         
@@ -60,63 +51,142 @@ REM             endif
         widgetTitle! = header!.addStaticText(header!.getAvailableControlID(),0,0,0,0,"CALENDAR")
         widgetTitle!.addStyle("widgetTitleStyle")
         
-        declare BBjListButton filter!
-        filter! = header!.addListButton(header!.getAvailableControlID(),0,0,0,0,"")
-        filter!.addItem("This week")
-        filter!.addItem("This day")
-        filter!.addStyle("filterStyle")
-        filter!.selectIndex(0)
+        #filter! = header!.addListButton(header!.getAvailableControlID(),0,0,0,0,"")
+        #filter!.setCallback(#filter!.ON_LIST_SELECT, #this!, "filter")
+        #filter!.addStyle("filterStyle")
+        #filter!.addItem("All")
+        #filter!.addItem("This Day")
+        #filter!.addItem("This Week")
+        #filter!.addItem("Next Week")
+        #filter!.selectIndex(0)
         
+        #drawCalendarEntriesWrapper()
+    methodend
+
+    method public void setEntries(BBjVector vect!)
+        #calendarEntries! = CAST(BBjVector, vect!.clone())
+        #sortedCalendarEntries! = CAST(BBjVector, #calendarEntries!.clone())
+        if #calendarEntries! = null() then
+            methodret
+        endif
+        
+        if #calendarEntries!.size() = 0 then
+            methodret
+        endif
+        
+        if #calendarEntries!.size() <> 0 then
+            #placeholder!.setStyle("display", "none")
+        endif
+        #redraw(0)
+    methodend
+    
+REM     method public void addCalendarEntry(CalendarEntry calendarEntry!)
+REM         #calendarEntries!.addItem(calendarEntry!)
+REM     methodend
+REM     
+REM     method public void updateCalendarEntry(CalendarEntry calendarEntry!)
+REM         for i= 1 to #calendarEntries!.size() - 1       
+REM             if #calendarEntries!.getItem(i).getID() = calendarEntry!.getID() then
+REM                 #calendarEntries!.setItem(i,calendarEntry!)
+REM             endif  
+REM         next i
+REM         
+REM         for i= 1 to #sortedCalendarEntries!.size() - 1       
+REM             if #sortedCalendarEntries!.getItem(i).getID() = calendarEntry!.getID() then
+REM                 #sortedCalendarEntries!.setItem(i,calendarEntry!)
+REM             endif  
+REM         next i
+REM     methodend
+REM     
+REM     method public void deleteCalendarEntry(BBjNumber id!)
+REM         for i=1 to #calendarEntries!.size() - 1 
+REM             if #calendarEntries!.getItem(i).getID() = id! then
+REM                 #calendarEntries!.removeItem(i)
+REM             endif  
+REM         next i
+REM     methodend
+
+    method public void filter(BBjListSelectEvent event!)
+        calendarNow! = Calendar.getInstance()
+        
+        filter! = event!.getSelectedItem()
+        #sortedCalendarEntries!.clear()
+        
+        if filter! = "All" then
+            #setEntries(#calendarEntries!)
+            #redraw(0)
+        endif
+        
+        if filter! = "This Day" then
+            for i=0 to #calendarEntries!.size() - 1
+                if CAST(CalendarEntry, #calendarEntries!.getItem(i)).getDate().getDay() <> new Date(System.currentTimeMillis()).getDay()
+                    continue
+                endif
+REM                 if CAST(CalendarEntry, #calendarEntries!.getItem(i)).getDate().getWeek() <> calendarNow!.WEEK_OF_YEAR
+REM                     continue
+REM                 endif
+                if CAST(CalendarEntry, #calendarEntries!.getItem(i)).getDate().getMonth() <> new Date(System.currentTimeMillis()).getMonth()
+                    continue
+                endif
+                if CAST(CalendarEntry, #calendarEntries!.getItem(i)).getDate().getYear() <> new Date(System.currentTimeMillis()).getYear()
+                    continue
+                endif
+                #sortedCalendarEntries!.add(#calendarEntries!.getItem(i))
+            next i
+            #redraw(0)
+        endif
+        
+        rem TODO: Find function, maybe java.util.Calendar.getWeek() ??
+        if filter! = "This Week" then
+            for i=0 to #calendarEntries!.size() - 1
+REM                 if CAST(CalendarEntry, #calendarEntries!.getItem(i)).getDate().getWeek() <> calendarNow!.getInstance().WEEK_OF_YEAR
+REM                     continue
+REM                 endif
+REM                 if CAST(CalendarEntry, #calendarEntries!.getItem(i)).getDate().getMonth() <> new Date(System.currentTimeMillis()).getMonth()
+REM                     continue
+REM                 endif
+REM                 if CAST(CalendarEntry, #calendarEntries!.getItem(i)).getDate().getYear() <> new Date(System.currentTimeMillis()).getYear()
+REM                     continue
+REM                 endif
+REM                 #sortedCalendarEntries!.add(#calendarEntries!.getItem(i))
+REM             next i
+            #redraw(0)
+        endif
+        methodret
+    methodend
+    
+    method private void drawCalendarEntriesWrapper()
         #calendarEntriesWidgetWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #calendarEntriesWidgetWrapper!.setDockStyle("height", "100%")
         #calendarEntriesWidgetWrapper!.setDockStyle("width", "100%")
-        #calendarEntriesWidgetWrapper!.setDockStyle("overflow", "auto")
         
         #calendarEntriesWidgetWrapper!.addStyle("calendarEntriesStyle")
-        #calendarEntriesWidgetWrapper!.setStyle("height", "100%")
+        #calendarEntriesWidgetWrapper!.setStyle("height", "min-content")
+
         #calendarEntriesWidgetWrapper!.addPanelStyle("calendarEntriesPanelStyle")
+        #calendarEntriesWidgetWrapper!.setPanelStyle("overflow", "auto")
         
-        if (#calendarEntries!.size() = 0) then
-            #placeholder! = #calendarEntriesWidgetWrapper!.addStaticText(#calendarEntriesWidgetWrapper!.getAvailableControlID(),0,0,0,0,"No content available to display.")
-            #placeholder!.setStyle("justify-self", "center")
-            #placeholder!.setStyle("align-self", "center")
+        #placeholder! = #calendarEntriesWidgetWrapper!.addStaticText(#calendarEntriesWidgetWrapper!.getAvailableControlID(),0,0,0,0,"No content available to display.")
+        #placeholder!.setStyle("justify-self", "center")
+        #placeholder!.setStyle("align-self", "center")
+        if #sortedCalendarEntries!.size() = 0 then
+            #placeholder!.setStyle("display", "block")
             methodret
         endif
+        
+        if #sortedCalendarEntries!.size() <> 0 then
+            #placeholder!.setStyle("display", "none")
+        endif
+        
+        for i=0 to #sortedCalendarEntries!.size() - 1
+            widget! = new CalendarEntryWidget(#calendarEntriesWidgetWrapper!)
+            widget!.setEventTitle(CAST(CalendarEntry, #sortedCalendarEntries!.get(i)).getEventTitle())
+            widget!.setEventTime(CAST(CalendarEntry, #sortedCalendarEntries!.get(i)).getEventStartTime(),CAST(CalendarEntry, #sortedCalendarEntries!.get(i)).getEventEndTime())
+            widget!.setEventDay(CAST(CalendarEntry, #sortedCalendarEntries!.get(i)).getEventDay())
+        next i
     methodend
     
     method public BBjVector getCalendarEntries()
-       methodret #calendarEntries!
-    methodend
-    
-    method public void addCalendarEntries(BBjVector vect!)
-        declare CalendarEntry calendarEntry!
-        while (i% <= vect!.size() - 1)
-            #calendarEntries!.addItem(#calendarEntries!.size() - 1, calendarEntry!)
-            i% = i% + 1
-        wend
-    methodend
-    
-    method public void addCalendarEntry(CalendarEntry calendarEntry!)
-        #calendarEntries!.addItem(calendarEntry!)
-    methodend
-    
-    method public void updateCalendarEntry(CalendarEntry calendarEntry!)
-        i% = 1
-        while i% <= #calendarEntries!.size() - 1       
-            if #calendarEntries!.getItem(i%).getID() = calendarEntry!.getID() then
-                #calendarEntries!.setItem(i%,calendarEntry!)
-            endif  
-            i% = i% + 1
-        wend
-    methodend
-    
-    method public void deleteCalendarEntry(CalendarEntry calendarEntry!)
-        i% = 1
-        while i% <= #calendarEntries!.size() - 1       
-            if #calendarEntries!.getItem(i%).getID() = calendarEntry!.getID() then
-                #calendarEntries!.removeItem(i%)
-            endif  
-            i% = i% + 1
-        wend
+       methodret #sortedCalendarEntries!
     methodend
 classend
