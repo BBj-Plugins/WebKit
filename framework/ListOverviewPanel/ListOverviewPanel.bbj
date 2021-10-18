@@ -52,8 +52,11 @@ class public ListOverviewPanel
     methodend
 
     method public Boolean doModal()
-        Headline! = #window!.addStaticText(100,0,0,0,0, #listDataModel!.getListPanelTitle())
-        Headline!.addStyle("headline")
+        listPanelTitle$ = #listDataModel!.getListPanelTitle()
+        if listPanelTitle$ <> null() THEN
+            Headline! = #window!.addStaticText(100,0,0,0,0, #listDataModel!.getListPanelTitle())
+            Headline!.addStyle("headline")
+        fi
         
         #loadData()
 
