@@ -1,22 +1,9 @@
-
-
-
 .dashboardCustomerPanelStyle {
-    margin:2rem 0rem 0rem 0rem;
     padding: 1rem;
     width: fit-content;
     height: fit-content;
     background-color: white;
     border-radius: 8px;
-    /* padding: 1rem;
-    min-height: 250px;
-    height: 30% - 4rem;
-    max-width: 500px;
-    
-    
-    display: flex;
-    align-items: center;
-    overflow-x: auto !important;   */
 } 
 
 .customerDashboardInput {
