@@ -118,8 +118,11 @@ class public LoginDialogWindow extends BBjWidget
         #username!.onInputChange(event!)
 
         #username!.getInputField().removeStyle("error")
-        #password!.setSubText("")
-        #password!.getInputField().removeStyle("error")
+        
+        if #password! <> null()
+            #password!.setSubText("")
+            #password!.getInputField().removeStyle("error")
+        endif
     methodend
 
     method public void validatePassword(BBjEditModifyEvent event!)
