@@ -1,8 +1,8 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/model/ListView/ListViewModel.bbj::ListViewModel
-use ::WebKit/model/ListView/ListViewModel.bbj::ListColumnModel
-use ::WebKit/model/ListView/ListViewModel.bbj::Field
-use ::WebKit/model/ListView/ListViewModel.bbj::Cell
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/ListView/Column.bbj::ListColumnModel
+use ::WebKit/model/ListView/Field.bbj::Field
+use ::WebKit/model/ListView/Cell.bbj::Cell
 use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
 
 
@@ -16,9 +16,9 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         #super!.create(wnd!,id!)
     methodend
 
-    method public ListViewModel initalizeListDataModel()
-        declare ListViewModel listDataModel!
-        listDataModel! = new ListViewModel("Customers")
+    method public ListViewDataModel initalizeListDataModel()
+        declare ListViewDataModel listDataModel!
+        listDataModel! = new ListViewDataModel("Customers")
         
         listDataModel!.setDatabaseName("ChileCompany")
         listDataModel!.setTableName("Customer")

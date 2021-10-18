@@ -1,0 +1,50 @@
+use ::WebKit/model/ListView/Cell.bbj::Cell
+
+class public ListColumnModel
+    field private BBjString columnDisplayName$
+    field private BBjNumber columnPosition
+    field private BBjString columnWidth$
+    field private Cell cellStructure!
+
+    method public ListColumnModel()
+        #columnDisplayName$ = ""
+        #columnPosition = 0
+    methodend
+
+    method public ListColumnModel(BBjString columnDisplayName$, BBjNumber columnPosition)
+        #columnDisplayName$ = columnDisplayName$
+        #columnPosition = columnPosition
+    methodend
+
+    method public BBjString getColumnDisplayName()
+        methodret #columnDisplayName$
+    methodend
+
+    method public BBjString getColumnName()
+        methodret #columnName$
+    methodend
+
+    method public BBjString getColumnAlias()
+        methodret #columnAlias$
+    methodend
+
+    method public BBjNumber getColumnPosition()
+        methodret #columnPosition
+    methodend
+
+    method public BBjString getColumnWidth()
+        methodret #columnWidth$
+    methodend
+
+    method public Cell getCellStructure()
+        methodret #cellStructure!
+    methodend
+
+    method public void setCellStructure(Cell cellStructure!)
+        #cellStructure! = cellStructure!
+    methodend
+
+    method public void setColumnWidth(BBjString columnWidth$)
+        #columnWidth$ = columnWidth$
+    methodend
+classend

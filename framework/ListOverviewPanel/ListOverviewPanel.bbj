@@ -2,8 +2,8 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/util/DbUtil.bbj::DbUtil
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/ListView/ListView.bbj::ListView
-use ::WebKit/model/ListView/ListViewModel.bbj::ListViewModel
-use ::WebKit/model/ListView/ListViewModel.bbj::ListColumnModel
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/ListView/Column.bbj::ListColumnModel
 use java.util.HashMap
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.bc.SqlQueryBC
@@ -11,7 +11,7 @@ use com.basiscomponents.bc.SqlQueryBC
 class public ListOverviewPanel
     field private BBjChildWindow window!
 
-    field private ListViewModel listDataModel!
+    field private ListViewDataModel listDataModel!
 
     field private DbUtil dbUtil!
 
@@ -25,7 +25,7 @@ class public ListOverviewPanel
         #dbUtil! = new DbUtil()
     methodend
 
-    method public void setListDataModel(ListViewModel listDataModel!)
+    method public void setListDataModel(ListViewDataModel listDataModel!)
         #listDataModel! = listDataModel!
     methodend
 
