@@ -95,6 +95,10 @@ class public ListView extends BBjWidget implements Icon
                     fi
                     _field!.setStyle("grid-row", str(k + 1))
                 NEXT k
+                if j = 0 THEN
+                    actionItem! = #setIcon(cellWrapper!, "dots-vertical")
+                    actionItem!.addStyle("mobile-ellipsis-menu")
+                fi
             NEXT j
 
             REM render action cells

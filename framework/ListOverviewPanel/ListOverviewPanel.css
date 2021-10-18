@@ -9,3 +9,9 @@
     font-size: 32px;
     font-family: Lato;
 }
+
+@media screen and (max-width: 425px) {
+    .listWindow{
+        margin: 40px 20px 80px 20px !important;
+    }
+}

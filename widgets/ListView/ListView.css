@@ -57,3 +57,26 @@
     font-size: 14px;
     line-height: 17px;
 }
+
+.mobile-ellipsis-menu{
+    display: none !important;
+}
+
+
+@media screen and (max-width: 425px) {
+    .columnHeaderPanel{
+        grid-template-columns: 100% !important;
+    }
+
+    .dataRowPanel{
+        grid-template-columns: 100% !important;
+    }
+    .cellWrapperPanel{
+        grid-template-columns: 90% 10% !important;
+    }
+
+    .mobile-ellipsis-menu{
+        display: inline !important;
+        grid-column: 2;
+    }
+}
