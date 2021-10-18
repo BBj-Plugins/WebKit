@@ -19,6 +19,7 @@
 	justify-self: start;
 	font-size: 14px;
 	line-height: 16.8px;
+	grid-area: 1 / 1 / 2 / 2;
 }
 
 .eventTimezoneStyle {
@@ -29,6 +30,7 @@
 	justify-self: start;
 	font-size: 12px;
 	line-height: 14.4px;
+	grid-area: 2 / 1 / 3 / 3;
 }
 
 .eventDayStyle {
@@ -39,4 +41,5 @@
 	justify-self: end;
 	font-size: 12px;
 	line-height: 14.4px;
+	grid-area: 2 / 2 / 3 / 3;
 }

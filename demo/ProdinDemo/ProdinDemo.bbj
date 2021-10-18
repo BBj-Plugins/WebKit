@@ -2,6 +2,8 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
 
+use java.util.Date
+
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
 DynamicLoader.init()
@@ -140,8 +142,16 @@ class public ProdinDemo
         
         declare Calendar calendar!
         calendar! = new Calendar(calendarWrapper!)
-        calendar!.addCalendarEntry(new CalendarEntry(1000, "Call Erik", "13:00 PM - 13:45 PM", "Today"))
-        calendar!.redraw(BBjAPI.FALSE)
+        
+        declare BBjVector data!
+        data! = new BBjVector()
+        data!.addItem(new CalendarEntry(1000, "Call Erik", "13:00 PM", "13:45 PM", "Today", new Date()))
+        data!.addItem(new CalendarEntry(1001, "Weekly Sales Meeting", "13:10 PM", "14:00 PM", "Tomorrow", new Date(2021, 10, 9)))
+        data!.addItem(new CalendarEntry(1002, "Mobile CRM demo", "13:10 PM", "14:00 PM", "10.10.2021", new Date(2021, 10, 10)))
+        data!.addItem(new CalendarEntry(1003, "Visit with Corp Inc.", "13:10 PM", "14:00 PM", "11.10.2021", new Date(2021, 10, 11)))
+        data!.addItem(new CalendarEntry(1004, "Mobile CRM demo", "13:10 PM", "14:00 PM", "11.10.2021", new Date(2021, 10, 11)))
+        
+        calendar!.setEntries(data!)
     methodend
     
     method public void onLogin(BBjCustomEvent event!)

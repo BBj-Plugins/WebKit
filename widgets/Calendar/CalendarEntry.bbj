@@ -1,22 +1,33 @@
+use java.util.Date
+use java.text.SimpleDateFormat
+
 class public CalendarEntry
     field private BBjInt id!
     field private BBjString eventTitle!
-    field private BBjString eventTimezone!
+    field private BBjString eventStartTime!
+    field private BBjString eventEndTime!
     field private BBjString eventDay!
+    field private Date date!
     
-    method public CalendarEntry(BBjInt id!, BBjString eventTitle!, BBjString eventTimezone!, BBjString eventDay!)
+    method public CalendarEntry(BBjInt id!, BBjString eventTitle!, BBjString eventStartTime!, BBjString eventEndTime!, BBjString eventDay!, Date date!)
         #id! = id!
         #eventTitle! = eventTitle!
-        #eventTimezone! = eventTimezone!
+        #eventStartTime! = eventStartTime!
+        #eventEndTime! = eventEndTime!
         #eventDay! = eventDay!
+        #date! = date!
     methodend
     
     method public void setEventTitle(BBjString eventTitle!)
         #eventTitle! = eventTitle!
     methodend
     
-    method public void setEventTimezone(BBjString eventTimezone!)
-        #eventTimezone! = eventTimezone!
+    method public void setEventStartTime(BBjString eventStartTime!)
+        #eventStartTime! = eventStartTime!
+    methodend
+    
+    method public void setEventEndTime(BBjString eventEndTime!)
+        #eventEndTime! = eventEndTime!
     methodend
     
     method public void setEventDay(BBjString eventDay!)
@@ -31,12 +42,19 @@ class public CalendarEntry
         methodret #eventTitle!
     methodend
     
-    method public BBjString getEventTimezone()
-        declare SimpleDateFormat sdf!
-        methodret #eventTimezone!
+    method public BBjString getEventStartTime()
+        methodret #eventStartTime!
+    methodend
+
+    method public BBjString getEventEndTime()
+        methodret #eventEndTime!
+    methodend
+        
+    method public BBjString getEventDay()
+        methodret #eventDay!
     methodend
     
-    method public BBjString getEventDay()
-        methodret #eventTitle!
+    method public Date getDate()
+        methodret #date!
     methodend
 classend
