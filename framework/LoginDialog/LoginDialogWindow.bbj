@@ -319,7 +319,7 @@ class public LoginDialogWindow extends BBjWidget
         username$ = #memory$
         
         if username$ = "" then
-            #loginDialog!.requestForgotPasswordToken(#username!.getText()) 
+            #loginDialog!.requestForgotPasswordToken(#username!.getInput()) 
         else 
             #loginDialog!.requestForgotPasswordToken(username$) 
         endif     
