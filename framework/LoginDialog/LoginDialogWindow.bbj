@@ -137,6 +137,14 @@ class public LoginDialogWindow extends BBjWidget
 
             #repeatPassword!.setSubText("")
     methodend
+    
+     method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+        if #password!.isPasswordVisible() then 
+            #password!.setPasswordVisible(0)
+        else
+            #password!.setPasswordVisible(1)
+        endif    
+    methodend
 
     method public void validateRepeatPassword(BBjEditModifyEvent event!)
         if #repeatPassword! = null() then 
@@ -312,7 +320,6 @@ class public LoginDialogWindow extends BBjWidget
 
     method public void gotoNewPassword(BBjButtonPushEvent event!)
         #loginDialog!.gotoNewPassword(#memory$)
-        rem print memory$; escape
     methodend
 
     method public void requestForgotPasswordToken(BBjButtonPushEvent event!)      

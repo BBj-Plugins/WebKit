@@ -48,7 +48,7 @@ class public LoginDialogBuilder
         
         dialog!.getUsername().setLabel("Username")
         dialog!.getUsername().setPlaceHolder("name@company.com")
-        dialog!.getUsername().setSuffix("WebKit/framework/LoginDialog/assets/user.png")
+        dialog!.getUsername().setSuffix("user")
 
         dialog!.getUsername().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateUsername")
     methodend
@@ -63,7 +63,6 @@ class public LoginDialogBuilder
 
         dialog!.getPassword().setLabel(label$)
         dialog!.getPassword().setPlaceHolder(placeholder$)
-        dialog!.getPassword().setSuffix("WebKit/framework/LoginDialog/assets/eye.png")
 
         if isNewPassword! then 
             dialog!.getPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateNewPassword")
@@ -82,7 +81,6 @@ class public LoginDialogBuilder
 
         dialog!.getRepeatPassword().setLabel(label$)
         dialog!.getRepeatPassword().setPlaceHolder(placeholder$)
-        dialog!.getRepeatPassword().setSuffix("WebKit/framework/LoginDialog/assets/eye.png")
 
         dialog!.getRepeatPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateRepeatPassword")
     methodend

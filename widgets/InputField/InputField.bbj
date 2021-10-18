@@ -1,12 +1,12 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-
+use ::WebKit/model/Icon.bbj::Icon
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
 
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 
-class public InputField extends BBjWidget 
+class public InputField extends BBjWidget implements Icon
 
     field protected BBjChildWindow window!
     field protected IValidator validator!
@@ -16,7 +16,9 @@ class public InputField extends BBjWidget
     field protected BBjChildWindow suffixWrapper!
     field protected BBjChildWindow subTextWnd!
     field protected BBjStaticText subText!
-
+    field private BBjString suffixIconPath!
+    field private BBjStaticText fieldIcon!
+    
     field protected Boolean valid! = Boolean.FALSE
 
     method public InputField(BBjChildWindow wnd!, IValidator validator!)
@@ -86,22 +88,14 @@ class public InputField extends BBjWidget
         #inputField!.setPlaceholder(placeholder!)
     methodend
 
-
     method public void setSuffix(BBjString suffixPath!)  
-        if #suffixWrapper! <> null() then
-            #suffixWrapper!.destroy()
-        endif 
-
-        #suffixWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #suffixWrapper!.setDockStyle("grid-row-start","2")
-        #suffixWrapper!.setDockStyle("grid-column-start","2")
-        #suffixWrapper!.setDockStyle("height","fit-content")
-        #suffixWrapper!.setDockStyle("width","fit-content")
-        #suffixWrapper!.setDockStyle("align-self","end")
-        #suffixWrapper!.setDockStyle("justify-self","end")
-        suffixIcon! = #suffixWrapper!.addImageCtrl(#suffixWrapper!.getAvailableControlID(),0,0,0,0,suffixPath!)
-   
-        #suffixWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
+        #suffixIconPath! = suffixPath!
+        #createIcon()
+    methodend
+    
+    method public void setSuffixIcon(BBjString suffixIcon!)
+        #suffixIconPath! = suffixIcon!
+        #createIcon()
     methodend
 
     method public BBjString getSubText()
@@ -117,6 +111,27 @@ class public InputField extends BBjWidget
     rem ||||||||||||||||||||||||||||||||||||||||||||
     rem |||||||||||||||| CALLBACKS |||||||||||||||||
     rem ||||||||||||||||||||||||||||||||||||||||||||
+                    
+    method private void createPasswordField(Boolean init!)
+        if !init! then 
+            #inputField!.destroy()
+        endif
+        
+        #passwordField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
+        #passwordField!.addStyle("inputFieldStyle")
+        #passwordField!.addStyle("inputFieldStyleInputWrapper")
+        #passwordField!.addStyle("inputFieldStyleInput")
+        #passwordField!.setLeftMargin(0)
+        #passwordField!.setPasswordVisible(0)
+        #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
+        #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
+        #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
+    methodend
+    
+    method private void createIcon()
+        #fieldIcon! =  #setIcon(#window!, #suffixIconPath!)
+        #fieldIcon!.addStyle("inputFieldIcon")
+    methodend
 
     method public void onHoverStart(BBjMouseEnterEvent event!)
         #label!.addStyle("hover")
@@ -134,7 +149,6 @@ class public InputField extends BBjWidget
     method public void onFocusLost(BBjLostFocusEvent event!)
         #label!.removeStyle("focus")
         #inputField!.removeStyle("focus")
-
     methodend
 
     method public void onInputChange(BBjEditModifyEvent event!)

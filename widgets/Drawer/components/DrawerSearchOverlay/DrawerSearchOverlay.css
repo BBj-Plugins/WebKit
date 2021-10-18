@@ -86,8 +86,6 @@
 }
 
 .drawerSearchWidgetInputPrefix {
-    grid-column-start: 1;
-    grid-row-start: 1;
     align-self: center;
     justify-self: center;
     height: 24px;
