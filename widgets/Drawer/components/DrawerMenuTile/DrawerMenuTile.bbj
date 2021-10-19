@@ -1,7 +1,8 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/model/Icon.bbj::Icon
 
-class public DrawerMenuTile extends BBjWidget 
+class public DrawerMenuTile extends BBjWidget implements Icon
 
     field private BBjChildWindow window!
     
@@ -27,15 +28,11 @@ class public DrawerMenuTile extends BBjWidget
     methodend
     
     method public void redraw(Boolean init!)
-        declare BBjImageCtrl icon!
+        declare BBjStaticText icon!
         declare BBjStaticText title!
          #window!.addPanelStyle("drawerMenuTilePanelStyle")
-        if init! then 
-            test$=BBjAPI().getFileSystem().resolvePath(#iconPath!,err=*next)
-            if test$="" then
-                #iconPath! =  "WebKit/framework/LoginDialog/assets/clearpixel.png"
-            endif
-            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,#iconPath!)
+
+            icon! = #setIcon(#window!, #iconPath!)
             icon!.addStyle("drawerMenuTileIconStyle")
             icon!.addStyle("menuIconAnimationOpen")
             icon!.addStyle("menuIconAnimationClose")

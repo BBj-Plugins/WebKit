@@ -1,0 +1,17 @@
+.listWindow{
+    margin: 40px 38px 80px 52px;
+}
+
+.headline{
+    height: 38px;
+    width: 156px;
+    font-weight: 700;
+    font-size: 32px;
+    font-family: Lato;
+}
+
+@media screen and (max-width: 425px) {
+    .listWindow{
+        margin: 40px 20px 80px 20px !important;
+    }
+}

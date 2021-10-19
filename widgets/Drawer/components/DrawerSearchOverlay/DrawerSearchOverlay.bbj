@@ -2,11 +2,12 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/widgets/common/SearchOverlayEntry/SearchOverlayEntry.bbj::SearchOverlayEntry
+use ::WebKit/model/Icon.bbj::Icon
 
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 
-class public DrawerSearchOverlay extends BBjWidget 
+class public DrawerSearchOverlay extends BBjWidget implements Icon
     
     field private Overlay overlay!
     
@@ -137,7 +138,7 @@ class public DrawerSearchOverlay extends BBjWidget
     
     method private void createSearchWnd()
         declare BBjChildWindow inputWrapper!
-        declare BBjImageCtrl inputPrefix!
+        declare BBjStaticText inputPrefix!
         declare BBjInputE inputField!
         
         #searchWnd! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
@@ -147,7 +148,7 @@ class public DrawerSearchOverlay extends BBjWidget
         inputWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         inputWrapper!.addPanelStyle("drawerSearchWidgetInputWrapperPanelStyle")
         
-        inputPrefix! = inputWrapper!.addImageCtrl(inputWrapper!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/search.png")
+        inputPrefix! = #setIcon(inputWrapper!, "search")
         inputPrefix!.addStyle("drawerSearchWidgetInputPrefix")
         
         inputField! = inputWrapper!.addInputE(inputWrapper!.getAvailableControlID(),0,0,0,0)

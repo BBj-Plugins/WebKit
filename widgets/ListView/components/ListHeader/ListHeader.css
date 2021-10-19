@@ -1,0 +1,15 @@
+.headerPanel{
+    margin-top: 40px;
+    background: var(--bbj-color-white);
+    display: flex;
+    height: 68px;
+    border-radius: 8px 8px 0px 0px;
+    border-bottom: 1px solid #DDE0E1;
+}
+
+.createBtn{
+    margin: 13px 24px !important;
+    margin-left: auto !important;
+    height: 43px;
+    width: 141px;
+}

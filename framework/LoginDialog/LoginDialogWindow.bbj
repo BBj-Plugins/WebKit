@@ -157,10 +157,8 @@ class public LoginDialogWindow
      method public void onShowPasswordIconPressed(BBjCustomEvent event!)
         if #password!.isPasswordVisible() then 
             #password!.setPasswordVisible(0)
-            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye.png")
         else
             #password!.setPasswordVisible(1)
-            #password!.setSuffixIcon("WebKit/framework/LoginDialog/assets/eye-off.png")
         endif    
     methodend
 
@@ -191,7 +189,6 @@ class public LoginDialogWindow
 
     method public void gotoNewPassword(BBjButtonPushEvent event!)
         #loginDialog!.gotoNewPassword(#memory$)
-        rem print memory$; escape
     methodend
 
     method public void requestForgotPasswordToken(BBjButtonPushEvent event!)      

@@ -1,4 +1,9 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/ListView/Column.bbj::ListColumnModel
+use ::WebKit/model/ListView/Field.bbj::Field
+use ::WebKit/model/ListView/Cell.bbj::Cell
+use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
 
 
 class public ChileCompanyDashboardPanel extends BBjWidget
@@ -10,6 +15,54 @@ class public ChileCompanyDashboardPanel extends BBjWidget
     method public ChileCompanyDashboardPanel(BBjWindow wnd!, BBjInt id!)
         #super!.create(wnd!,id!)
     methodend
+
+    method public ListViewDataModel initalizeListDataModel()
+        declare ListViewDataModel listDataModel!
+        listDataModel! = new ListViewDataModel("Customers")
+        
+        listDataModel!.setDatabaseName("ChileCompany")
+        listDataModel!.setTableName("Customer")
+
+        displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
+        id_field! = new Field("CUST_NUM", "ID")
+        city_field! = new Field("CITY", "CITY")
+        city_field!.setCustomCssClass("listSubtitleField")
+        addr_field! = new Field("BILL_ADDR1", "ADDRESS")
+
+        
+        firstColumnFields! = new BBjVector()
+        firstColumnFields!.add(displayName_field!)
+        firstColumnFields!.add(city_field!)
+        firstColumnCell! = new Cell(firstColumnFields!)
+        firstColumn! = new ListColumnModel("Your Reference", 1)
+        firstColumn!.setColumnWidth("50%")
+        firstColumn!.setCellStructure(firstColumnCell!)
+
+        secondColumnFields! = new BBjVector()
+        secondColumnFields!.add(id_field!)
+        secondColumnCell! = new Cell(secondColumnFields!)
+        secondColumn! = new ListColumnModel("Customer ID", 2)
+        secondColumn!.setColumnWidth("25%")
+        secondColumn!.setCellStructure(secondColumnCell!)
+
+        thirdColumnFields! = new BBjVector()
+        thirdColumnFields!.add(addr_field!)
+        thirdColumnCell! = new Cell(thirdColumnFields!)
+        thirdColumn! = new ListColumnModel("Address", 3)
+        thirdColumn!.setColumnWidth("25%")
+        thirdColumn!.setCellStructure(thirdColumnCell!)
+
+        declare BBjVector columnMappings!
+        columnMappings! = new BBjVector()
+
+        columnMappings!.add(firstColumn!)
+        columnMappings!.add(secondColumn!)
+        columnMappings!.add(thirdColumn!)
+
+        listDataModel!.setColumnMappings(columnMappings!)
+        
+        methodret listDataModel!
+    methodend
     
     rem /**
     rem  * @Override
@@ -20,12 +73,11 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         
         declare BBjChildWindow canvas!
         if f_init!>0 then
-            canvas! = #getCanvas()    
-            Headline! = canvas!.addStaticText(100,0,0,0,0,"Dashboard")
-            Headline!.addStyle("tilesheadline")       
-            
-            canvas!.addStaticText(101,0,0,0,0,"Hello World!")
-                 
+            canvas! = #getCanvas() 
+            listDataModel! = #initalizeListDataModel()
+            listOverviewPanel! = new ListOverviewPanel(canvas!)
+            listOverviewPanel!.setListDataModel(listDataModel!)
+            listOverviewPanel!.doModal()
         FI
         
     methodend    

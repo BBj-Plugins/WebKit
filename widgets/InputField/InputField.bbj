@@ -1,10 +1,10 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-
+use ::WebKit/model/Icon.bbj::Icon
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 
-class public InputField extends BBjWidget 
+class public InputField extends BBjWidget implements Icon
     field private IFieldReq fieldReq!
     field private BBjString fieldType!
 
@@ -18,6 +18,7 @@ class public InputField extends BBjWidget
 
     field private BBjImageCtrl suffixIcon!
     field private BBjChildWindow iconWrapper!
+    field private BBjStaticText fieldIcon!
     
     field private Boolean isPasswordField! = 0
     field private BBjString suffixIconPath!
@@ -40,9 +41,10 @@ class public InputField extends BBjWidget
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
         #suffixIconPath! = suffixIcon!
+      
         #super!.create(wnd!,id!)
+        #createIcon()
     methodend 
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, Boolean isPasswordField!)
@@ -54,7 +56,6 @@ class public InputField extends BBjWidget
     
     method public InputField(BBjChildWindow wnd!, BBjInt id!, BBjString suffixIcon!, Boolean isPasswordField!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
-
         #isPasswordField! = isPasswordField!
         #suffixIconPath! = suffixIcon!
         #super!.create(wnd!,id!)
@@ -121,7 +122,7 @@ class public InputField extends BBjWidget
 
     method public void setSuffixIcon(BBjString suffixIcon!)
         #suffixIconPath! = suffixIcon!
-        #createSuffixIcon()
+        #createIcon()
     methodend
 
     method public void setPasswordField(Boolean enabled!)
@@ -178,10 +179,8 @@ class public InputField extends BBjWidget
                 #inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
                 
             endif
-            if #suffixIconPath! <> null() then 
-                #createSuffixIcon()
-            endif
-        endif  
+
+        endif
     methodend
     
     method private void createPasswordField(Boolean init!)
@@ -199,27 +198,11 @@ class public InputField extends BBjWidget
         #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
     methodend
     
-    method private void createSuffixIcon()
-        #iconWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #iconWrapper!.setDockStyle("grid-row-start","2")
-        #iconWrapper!.setDockStyle("grid-column-start","2")
-        #iconWrapper!.setDockStyle("height","fit-content")
-        #iconWrapper!.setDockStyle("width","fit-content")
-        #iconWrapper!.setDockStyle("align-self","end")
-        #iconWrapper!.setDockStyle("justify-self","end")
-        #iconWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onIconPressed")
-        
-       
-        if #suffixIcon! <> null() then
-            #suffixIcon!.destroy()
-            #suffixIcon! = null()
-        endif 
-     
-        if #isPasswordField! = Boolean.FALSE then    
-            #suffixIcon! = #iconWrapper!.addImageCtrl(#iconWrapper!.getAvailableControlID(),0,0,0,0,#suffixIconPath!)
-        endif
+    method private void createIcon()
+        #fieldIcon! =  #setIcon(#window!, #suffixIconPath!)
+        #fieldIcon!.addStyle("inputFieldIcon")
     methodend
-    
+
     rem ||||||| CALLBACKS ||||||||
     method public void onHoverStart(BBjMouseEnterEvent event!)
         #label!.addStyle("hover")
