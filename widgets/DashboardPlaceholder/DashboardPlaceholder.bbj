@@ -84,7 +84,7 @@ class public DashboardWidgetHeader extends BBjWidget
         title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#title$)
         title!.addStyle("dashboardWidgetHeaderTitle")
 
-        setting1! = #window!.addStaticText( #window!.getAvailableControlID(),0,0,0,0,"This week []")
+        setting1! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"This week []")
         setting1!.addStyle("dashboardWidgetHeaderTitle")
         setting1!.addStyle("setting")
     methodend

@@ -170,7 +170,6 @@ class public LoginDialog
         LoginDialogBuilder.addUsernameInput(wnd!, #fieldReq!, memory$)
         LoginDialogBuilder.addPasswordInput(wnd!, #fieldReq!,"Password", "Your password", "password")
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
-        
         LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login", 3)
         if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")  
     methodend

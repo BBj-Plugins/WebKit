@@ -29,7 +29,6 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         city_field!.setCustomCssClass("listSubtitleField")
         addr_field! = new Field("BILL_ADDR1", "ADDRESS")
 
-        
         firstColumnFields! = new BBjVector()
         firstColumnFields!.add(displayName_field!)
         firstColumnFields!.add(city_field!)

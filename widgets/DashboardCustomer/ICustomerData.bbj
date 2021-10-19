@@ -1,0 +1,5 @@
+use com.basiscomponents.db.ResultSet
+
+interface public ICustomerData
+    method public ResultSet getData()
+interfaceend

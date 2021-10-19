@@ -7,21 +7,36 @@ REM  */
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/ListView/Column.bbj::ListColumnModel
+use ::WebKit/model/ListView/Field.bbj::Field
+use ::WebKit/model/ListView/Cell.bbj::Cell
+use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
+
+use ::WebKit/widgets/ListView/ListView.bbj::ListView
+use ::WebKit/widgets/DashboardCustomer/ICustomerData.bbj::ICustomerData
+
 use ::Webkit/widgets/DashboardPlaceholder/DashboardPlaceholder.bbj::DashboardWidgetHeader
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
+
+
+rem  NEED interface
+
 
 class public DashboardCustomer extends BBjWidget
 
     field private BBjChildWindow window!
     field private BBjChildWindow wrapper!
+    field private ICustomerData customerData!
 
-    method public DashboardCustomer(BBjWindow wnd!)
-        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardCustomer/DashboardCustomer.css")
-        #super!.create(wnd!,wnd!.getAvailableControlID())
+    method public DashboardCustomer(BBjWindow wnd!, ICustomerData customerData!)
+        rem DynamicLoader.addLocalCSS("WebKit/widgets/DashboardCustomer/DashboardCustomer.css")
+        #this!(wnd!,wnd!.getAvailableControlID(), customerData!)
     methodend
 
-    method public DashboardCustomer(BBjWindow wnd!, BBjInt id!)
+    method public DashboardCustomer(BBjWindow wnd!, BBjInt id!, ICustomerData customerData!)
         DynamicLoader.addLocalCSS("WebKit/widgets/DashboardCustomer/DashboardCustomer.css")
+        #customerData! = customerData!
         #super!.create(wnd!,id!)
     methodend
     
@@ -37,6 +52,64 @@ class public DashboardCustomer extends BBjWidget
 
         #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
 
+        rem print  #customerData!.getData() ; escape
+
+        rem model! = #initalizeListDataModel()
+        rem table! = new ListView(#window!, #customerData!.getData(), model!)
+
     methodend
+
+    method public ListViewDataModel initalizeListDataModel()
+        declare ListViewDataModel listDataModel!
+        listDataModel! = new ListViewDataModel("Customers")
+        
+        listDataModel!.setDatabaseName("Customers")
+        listDataModel!.setTableName("Customers")
+
+  
+        id_field! = new Field("CUSTOMERDESC", "CUSTOMERDESC")
+        city_field! = new Field("YEAR", "YEAR")
+        rem city_field!.setCustomCssClass("listSubtitleField")
+        rem addr_field! = new Field("AMTSALES", "AMTSALES")
+
+        
+        firstColumnFields! = new BBjVector()
+        firstColumnFields!.add(id_field!)
+        rem firstColumnFields!.add(city_field!)
+        firstColumnCell! = new Cell(firstColumnFields!)
+        firstColumn! = new ListColumnModel("Customer", 1)
+        firstColumn!.setColumnWidth("50%")
+        firstColumn!.setCellStructure(firstColumnCell!)
+
+        secondColumnFields! = new BBjVector()
+        secondColumnFields!.add(city_field!)
+        secondColumnCell! = new Cell(secondColumnFields!)
+        secondColumn! = new ListColumnModel("Year", 2)
+        secondColumn!.setColumnWidth("50%")
+        secondColumn!.setCellStructure(secondColumnCell!)
+
+        rem thirdColumnFields! = new BBjVector()
+        rem thirdColumnFields!.add(addr_field!)
+        rem thirdColumnCell! = new Cell(thirdColumnFields!)
+        rem thirdColumn! = new ListColumnModel("Sales", 3)
+        rem thirdColumn!.setColumnWidth("25%")
+        rem thirdColumn!.setCellStructure(thirdColumnCell!)
+
+        declare BBjVector columnMappings!
+        columnMappings! = new BBjVector()
+
+        columnMappings!.add(firstColumn!)
+        columnMappings!.add(secondColumn!)
+        rem columnMappings!.add(thirdColumn!)
+        
+        listDataModel!.setRowLimit(10)
+        listDataModel!.setColumnMappings(columnMappings!)
+        listDataModel!.setActionColumnStatus(0)
+        
+    methodret listDataModel!
+methodend
+
+
+
 
 classend
