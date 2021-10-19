@@ -35,7 +35,7 @@ class public DashboardCustomer extends BBjWidget
 
         header! = new DashboardWidgetHeader(#window!, "YOUR CUSTOMERS")
 
-        #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at cursus ipsum, ut sollicitudin odio. Quisque blandit leo nec purus facilisis, vitae interdum mi placerat. Quisque sodales at nisi sed posuere. Etiam ut cursus lacus. Fusce fermentum suscipit rhoncus. Donec eget metus tortor. Donec ac felis accumsan, vehicula tortor non, eleifend lorem. Suspendisse molestie pharetra felis, id cursus mauris convallis quis. Vivamus urna metus, gravida eu blandit et, egestas ac nisi. Praesent odio dui, faucibus ac posuere id, elementum id sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dictum lacus pharetra justo aliquet dictum. Morbi tristique sem a risus laoreet euismod eu sed sapien.")
+        #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
 
     methodend
 
