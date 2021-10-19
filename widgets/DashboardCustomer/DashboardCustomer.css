@@ -1,14 +1,29 @@
 .dashboardCustomerPanelStyle {
-    padding: 1rem;
-    width: fit-content;
-    height: fit-content;
+    height: 100%;
+    width: 100%;
+
+    /* padding: 2rem; */
+    /* width: fit-content;
+    height: fit-content; */
     background-color: white;
     border-radius: 8px;
 } 
 
+.dashboardCustomerWrapper {
+    margin: 1em;
+    padding: 1em;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dashboardCustomerWrapper > div {
+    width: 3fr;
+}
+
 .customerDashboardInput {
     margin-top: 30px;
-    width: 140px;
+    
 }
 
 

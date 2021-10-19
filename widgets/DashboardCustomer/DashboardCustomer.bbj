@@ -7,11 +7,13 @@ REM  */
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
+use ::Webkit/widgets/DashboardPlaceholder/DashboardPlaceholder.bbj::DashboardWidgetHeader
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 
 class public DashboardCustomer extends BBjWidget
 
     field private BBjChildWindow window!
+    field private BBjChildWindow wrapper!
 
     method public DashboardCustomer(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/DashboardCustomer/DashboardCustomer.css")
@@ -24,7 +26,6 @@ class public DashboardCustomer extends BBjWidget
     methodend
     
     method public void redraw(Boolean init!)
-
         #window! = #getCanvas()
         #window!.addPanelStyle("dashboardCustomerPanelStyle")
         #window!.setDockStyle("width","100%")
@@ -32,19 +33,9 @@ class public DashboardCustomer extends BBjWidget
         #window!.setStyle("width","100%")
         #window!.setStyle("height","100%")
 
-        #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Dashboard Widget")
+        header! = new DashboardWidgetHeader(#window!, "YOUR CUSTOMERS")
 
-        input! = new InputField(#window!, #window!.getAvailableControlID())
-        input!.addStyle("customerDashboardInput")
-        input!.setLabel("Add Customer: ")
-
-        submit! = #window!.addButton(1,0,0,0,0,"Add Customer")
-        rem submit!.setCallback(BBjAPI().ON_MOUSE_ENTER,dialog!,"onButtonHover")
-        rem submit!.setCallback(BBjAPI().ON_MOUSE_EXIT,dialog!,"onButtonHoverExit")
-        rem submit!.setStyle("margin-top","40px")
-        submit!.addStyle("standardButtonStyle")
-        submit!.addStyle("standardButtonLabel")
-        submit!.addStyle("standardButtonControl")
+        #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at cursus ipsum, ut sollicitudin odio. Quisque blandit leo nec purus facilisis, vitae interdum mi placerat. Quisque sodales at nisi sed posuere. Etiam ut cursus lacus. Fusce fermentum suscipit rhoncus. Donec eget metus tortor. Donec ac felis accumsan, vehicula tortor non, eleifend lorem. Suspendisse molestie pharetra felis, id cursus mauris convallis quis. Vivamus urna metus, gravida eu blandit et, egestas ac nisi. Praesent odio dui, faucibus ac posuere id, elementum id sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dictum lacus pharetra justo aliquet dictum. Morbi tristique sem a risus laoreet euismod eu sed sapien.")
 
     methodend
 

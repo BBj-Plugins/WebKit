@@ -1,0 +1,68 @@
+.dashboardPlaceholder {
+    background-color: white;
+    /* width: 350px;
+    height: 350px; */
+    border-radius: 8px;
+}
+
+
+.dashboardPlaceholder.small {
+    /* background-color: red !important; */
+    height: 180px;
+}
+
+.dashboardPlaceholder.tall {
+
+    height: 320px;
+}
+
+
+.dashboardPlaceholder.medium {
+    /* background-color: orange !important; */
+    height: 160px;
+}
+
+.dashboardPlaceholder.large {
+    /* background-color: teal !important; */
+    height: 300px;
+}
+
+
+
+.customer-img {
+    /* background-size: contain; */
+    width: 200px;
+    height: 300px;
+    /* object-fit: cover; */
+}
+
+.img {
+    width: 200px;
+    height: 300px;
+    /* object-fit: cover; */
+}
+
+
+/* |||||||||||||| Dashboard Widget Header |||||||||||||| */
+
+.dashboardWidgetHeader {
+    height: 25px;
+    padding: 10px;
+    border-bottom: #E1EAEA solid 1px;
+    /* background-color: white; */
+}
+
+.dashboardWidgetHeaderTitle {
+    font-weight: var(--bbj-font-weight-lighter);
+    font-size: 9px;
+    letter-spacing: 0.09rem;
+    color: #A1A5A7;
+}
+
+
+.dashboardWidgetHeaderTitle.setting {
+    float: right;
+    margin-top: 2px;
+    color: #333E40;
+    font-size: 12px;
+}
