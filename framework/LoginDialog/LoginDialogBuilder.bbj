@@ -12,7 +12,7 @@ class public LoginDialogBuilder
     method public static void addLogo(LoginDialogWindow dialog!, BBjString url$)
         id! = dialog!.getContent().getAvailableControlID()
         logo! = dialog!.getContent().addImageCtrl(id!,0,0,0,0, url$)
-        logo!.addStyle("logo")
+        logo!.addStyle("loginlogo")
     methodend
 
     method public static void addPageTitle (LoginDialogWindow dialog!, BBjString title$)

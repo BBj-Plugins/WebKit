@@ -2,14 +2,9 @@
     width: 460px;
     height: 531px;
     background-color: white;
-    position: absolute !important;
-    top:0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
+    position: fixed !important;
     margin: auto !important;
     border-radius: 16px;
-    margin: 30px;
     box-shadow: var(--bbj-shadow-l);
 }
 
@@ -18,14 +13,19 @@
     align-self : center;
 }
 
-
 .mainWndPanelStyle {
     place-self: center;
 }
 
-.logo {
-    margin-top: 0px !important;
-    margin-left: 0px !important;
+.loginlogo {
+    height:100px;
+    margin-top:10px;
+    margin-left:10px;
+    background-image:none;
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position-x:left;
+    background-position-y:top;
 }
 
 .loginWrapperPanelStyle {
@@ -40,7 +40,7 @@
 .loginWidgetContentPanelStyle {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    height: calc(531px - 112px);
+    height: calc(511px - 12px);
 }
 
 .loginWidgetBtnStyle {
@@ -143,6 +143,15 @@
     .loginWrapperPanelStyle {
         background-image: url('/files/prodinRes/prodin_login_background_phone.png');
     }
+
+    .loginlogo {
+        margin-top:20px;
+        margin-bottom:10px;     
+        background-size:contain;
+        background-repeat:no-repeat;
+        background-position-x:center;
+        background-position-y:center;
+   }
 }
 
 @media screen and(max-width:800px) {

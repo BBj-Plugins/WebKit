@@ -10,16 +10,7 @@
      background-position-x:left;
      background-position-y:top;
 }
-.loginlogo {
-     height:100px;
-     margin-top:10px;
-     margin-left:10px;
-     background-image:none;
-     background-size:contain;
-     background-repeat:no-repeat;
-     background-position-x:left;
-     background-position-y:top;
-}
+
 
 
 .avatar {
@@ -50,7 +41,6 @@
 .loginlogo {
      margin-top:20px;
      margin-bottom:50px;     
-     background-image:url(https://www.basis.com/sites/all/themes/basis/logo.png);
      background-size:contain;
      background-repeat:no-repeat;
      background-position-x:center;
