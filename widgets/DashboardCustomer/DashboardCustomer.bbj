@@ -50,65 +50,85 @@ class public DashboardCustomer extends BBjWidget
 
         header! = new DashboardWidgetHeader(#window!, "YOUR CUSTOMERS")
 
-        #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+        rem #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed tortor nec sapien scelerisque pulvinar at nec dolor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin hendrerit augue at ipsum iaculis mollis. Curabitur sagittis, erat quis maximus ultricies, neque ante mollis ante, eget vulputate neque ligula non lectus. Suspendisse vel condimentum diam. Suspendisse quis mi viverra magna ornare euismod. Maecenas efficitur elementum dictum. Ut vulputate vehicula metus. Nulla nunc felis, ultrices posuere blandit condimentum, blandit ac diam. Cras ultrices magna vel diam sagittis malesuada. Mauris vestibulum, tellus at blandit condimentum, dolor nisl auctor lectus, nec fringilla orci mauris at mauris. Aenean quis maximus metus. Vestibulum vitae efficitur nisl, eu rhoncus ipsum. ")
+      
 
-        rem print  #customerData!.getData() ; escape
+        rem model! = #initalizeListDataModel()
+        rem table! = new ListView(#window!, #customerData!.getData(), model!)
 
-        model! = #initalizeListDataModel()
-        table! = new ListView(#window!, #customerData!.getData(), model!)
+        declare BBjChildWindow canvas!
+        if init!>0 then
+            canvas! = #getCanvas() 
+            listDataModel! = #initalizeListDataModel()
+            listOverviewPanel! = new ListOverviewPanel(canvas!)
+            listOverviewPanel!.setListDataModel(listDataModel!)
+            listOverviewPanel!.doModal()
+        FI
 
     methodend
+
+
 
     method public ListViewDataModel initalizeListDataModel()
         declare ListViewDataModel listDataModel!
         listDataModel! = new ListViewDataModel("Customers")
         
-        listDataModel!.setDatabaseName("Customers")
-        listDataModel!.setTableName("Customers")
+        rem listDataModel!.setDatabaseName("ChileCompany")
+        rem listDataModel!.setTableName("Customer")
+        listDataModel!.setDatabaseName("PNP_P3D")
+        listDataModel!.setTableName("ARSTM01")
 
-  
-        id_field! = new Field("CUSTOMERDESC", "CUSTOMERDESC")
-        city_field! = new Field("YEAR", "YEAR")
+        rem listDataModel!
+        rem displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
+        desc_field! = new Field("ARTK", "ARTK")
+        rem city_field! = new Field("CITY", "CITY")
         rem city_field!.setCustomCssClass("listSubtitleField")
-        sales_field! = new Field("AMTSALES", "AMTSALES")
+        rem addr_field! = new Field("BILL_ADDR1", "ADDRESS")
 
-        
         firstColumnFields! = new BBjVector()
-        firstColumnFields!.add(id_field!)
+        firstColumnFields!.add(desc_field!)
+        rem firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
-        firstColumn! = new ListColumnModel("Customer", 1)
-        firstColumn!.setColumnWidth("50%")
+        firstColumn! = new ListColumnModel("Your Reference", 1)
+        firstColumn!.setColumnWidth("100%")
         firstColumn!.setCellStructure(firstColumnCell!)
 
-        secondColumnFields! = new BBjVector()
-        secondColumnFields!.add(city_field!)
-        secondColumnCell! = new Cell(secondColumnFields!)
-        secondColumn! = new ListColumnModel("Year", 2)
-        secondColumn!.setColumnWidth("25%")
-        secondColumn!.setCellStructure(secondColumnCell!)
+        rem secondColumnFields! = new BBjVector()
+        rem secondColumnFields!.add(id_field!)
+        rem secondColumnCell! = new Cell(secondColumnFields!)
+        rem secondColumn! = new ListColumnModel("Customer ID", 2)
+        rem secondColumn!.setColumnWidth("25%")
+        rem secondColumn!.setCellStructure(secondColumnCell!)
 
-        thirdColumnFields! = new BBjVector()
-        thirdColumnFields!.add(sales_field!)
-        thirdColumnCell! = new Cell(thirdColumnFields!)
-        thirdColumn! = new ListColumnModel("Sales", 3)
-        thirdColumn!.setColumnWidth("25%")
-        thirdColumn!.setCellStructure(thirdColumnCell!)
+        rem thirdColumnFields! = new BBjVector()
+        rem thirdColumnFields!.add(addr_field!)
+        rem thirdColumnCell! = new Cell(thirdColumnFields!)
+        rem thirdColumn! = new ListColumnModel("Address", 3)
+        rem thirdColumn!.setColumnWidth("25%")
+        rem thirdColumn!.setCellStructure(thirdColumnCell!)
 
         declare BBjVector columnMappings!
         columnMappings! = new BBjVector()
 
         columnMappings!.add(firstColumn!)
-        columnMappings!.add(secondColumn!)
-        columnMappings!.add(thirdColumn!)
-        
-        listDataModel!.setRowLimit(10)
+        rem columnMappings!.add(secondColumn!)
+        rem columnMappings!.add(thirdColumn!)
+
         listDataModel!.setColumnMappings(columnMappings!)
-        listDataModel!.setActionColumnStatus(0)
         
-    methodret listDataModel!
-methodend
+        methodret listDataModel!
+    methodend
 
-
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    rem method public void redraw(Boolean f_init!)
+        
+  
+        
+    rem methodend  
 
 
 classend
