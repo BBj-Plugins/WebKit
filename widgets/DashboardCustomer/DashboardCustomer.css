@@ -1,7 +1,7 @@
 .dashboardCustomerPanelStyle {
     height: 100%;
     width: 100%;
-
+    max-height: 500px;
     /* padding: 2rem; */
     /* width: fit-content;
     height: fit-content; */

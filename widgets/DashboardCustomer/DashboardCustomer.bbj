@@ -54,8 +54,8 @@ class public DashboardCustomer extends BBjWidget
 
         rem print  #customerData!.getData() ; escape
 
-        rem model! = #initalizeListDataModel()
-        rem table! = new ListView(#window!, #customerData!.getData(), model!)
+        model! = #initalizeListDataModel()
+        table! = new ListView(#window!, #customerData!.getData(), model!)
 
     methodend
 
@@ -70,12 +70,11 @@ class public DashboardCustomer extends BBjWidget
         id_field! = new Field("CUSTOMERDESC", "CUSTOMERDESC")
         city_field! = new Field("YEAR", "YEAR")
         rem city_field!.setCustomCssClass("listSubtitleField")
-        rem addr_field! = new Field("AMTSALES", "AMTSALES")
+        sales_field! = new Field("AMTSALES", "AMTSALES")
 
         
         firstColumnFields! = new BBjVector()
         firstColumnFields!.add(id_field!)
-        rem firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
         firstColumn! = new ListColumnModel("Customer", 1)
         firstColumn!.setColumnWidth("50%")
@@ -85,22 +84,22 @@ class public DashboardCustomer extends BBjWidget
         secondColumnFields!.add(city_field!)
         secondColumnCell! = new Cell(secondColumnFields!)
         secondColumn! = new ListColumnModel("Year", 2)
-        secondColumn!.setColumnWidth("50%")
+        secondColumn!.setColumnWidth("25%")
         secondColumn!.setCellStructure(secondColumnCell!)
 
-        rem thirdColumnFields! = new BBjVector()
-        rem thirdColumnFields!.add(addr_field!)
-        rem thirdColumnCell! = new Cell(thirdColumnFields!)
-        rem thirdColumn! = new ListColumnModel("Sales", 3)
-        rem thirdColumn!.setColumnWidth("25%")
-        rem thirdColumn!.setCellStructure(thirdColumnCell!)
+        thirdColumnFields! = new BBjVector()
+        thirdColumnFields!.add(sales_field!)
+        thirdColumnCell! = new Cell(thirdColumnFields!)
+        thirdColumn! = new ListColumnModel("Sales", 3)
+        thirdColumn!.setColumnWidth("25%")
+        thirdColumn!.setCellStructure(thirdColumnCell!)
 
         declare BBjVector columnMappings!
         columnMappings! = new BBjVector()
 
         columnMappings!.add(firstColumn!)
         columnMappings!.add(secondColumn!)
-        rem columnMappings!.add(thirdColumn!)
+        columnMappings!.add(thirdColumn!)
         
         listDataModel!.setRowLimit(10)
         listDataModel!.setColumnMappings(columnMappings!)
