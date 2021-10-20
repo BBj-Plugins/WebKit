@@ -1,0 +1,20 @@
+use ::WebKit/model/ListView/Field.bbj::Field
+
+class public Cell
+    field private BBjVector fields! = new BBjVector()
+
+    method public Cell()
+    methodend
+
+    method public Cell(BBjVector fields!)
+        #fields! = fields!
+    methodend
+
+    method public BBjVector getFields()
+     methodret #fields!
+    methodend
+
+    method public void setDataFields(BBjVector fields!)
+     #fields! = fields!
+    methodend
+classend
