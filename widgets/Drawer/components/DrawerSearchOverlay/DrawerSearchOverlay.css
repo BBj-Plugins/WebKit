@@ -20,7 +20,7 @@
 
 /* TODO adjust when in mini drawer form */
 .drawerSearchWidgetOverlayPanelStyle {
-    position: absolute !important;
+    position: fixed !important;
     left: 26px !important;
     top: 300px !important;
     z-index: 99 !important;

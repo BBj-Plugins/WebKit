@@ -12,7 +12,6 @@ DynamicLoader.loadThemeFile("WebKit/demo/ProdinDemo/ProdinDemo.css")
 DynamicLoader.addLocalCSS("WebKit/demo/assets/demo.css")
 DynamicLoader.addLocalCSS("WebKit/css/webkit.css")
 
-
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/prodin_logo.png","prodinRes")
@@ -63,15 +62,15 @@ class public ProdinDemo
     
     method public void show()
         if #mainWindow! = null() then   
-            declare LoginDialog login!
-            login! = new LoginDialog("Prodin Demo", new SampleAuthProvider())
-            login!.setLogo("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
-            login!.setAllowRemember(Boolean.TRUE)
+            rem declare LoginDialog login!
+            rem login! = new LoginDialog("Prodin Demo", new SampleAuthProvider())
+            rem login!.setLogo("WebKit/demo/ProdinDemo/assets/prodin_logo.png")
+            rem login!.setAllowRemember(Boolean.TRUE)
 
-            if !login!.doModal() then
-                a=msgbox("ERROR",0,"Error while logging in")
-                release
-            fi
+            rem if !login!.doModal() then
+            rem     a=msgbox("ERROR",0,"Error while logging in")
+            rem     release
+            rem fi
             #initializeDrawer()
         endif
         process_events

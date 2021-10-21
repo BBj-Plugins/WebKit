@@ -55,6 +55,6 @@
 .drawerOpenIcon{
     left: 91px;
     top: 88px;
-    position: absolute;
+    position: fixed !important;
     z-index: 101;
 }
