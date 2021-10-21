@@ -2,45 +2,7 @@
     height: 100%;
     width: 100%;
     max-height: 500px;
-    /* padding: 2rem; */
-    /* width: fit-content;
-    height: fit-content; */
     background-color: white;
     border-radius: 8px;
 } 
 
-.dashboardCustomerWrapper {
-    margin: 1em;
-    padding: 1em;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-.dashboardCustomerWrapper > div {
-    width: 3fr;
-}
-
-.customerDashboardInput {
-    margin-top: 30px;
-    
-}
-
-
-.standardButtonStyle {
-    height: 32px;
-    width: 110px;
-}
-
-.standardButtonLabel::part(label) {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 17px;
-    color: #FFFFFF;
-}
-
-.standardButtonControl::part(control) {
-    border-radius: 8px;
-    background: var(--bbj-color-primary);
-}

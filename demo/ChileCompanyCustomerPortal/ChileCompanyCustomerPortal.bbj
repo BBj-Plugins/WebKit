@@ -1,5 +1,3 @@
-prefix "D:/basis/bbj/plugins/ D:\appl\STD\DEV\LIVE\DWC\test-dwc\ " + pfx
-
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
