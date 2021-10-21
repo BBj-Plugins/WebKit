@@ -10,6 +10,7 @@ class public LoginDialogWindow
     field private InputField username! 
     field private InputField password! 
     field private InputField repeatPassword! 
+    field private BBjCheckBox rememberMe!
     field private BBjButton submitButton!
     field private BBjStaticText redirect!
 
@@ -61,6 +62,14 @@ class public LoginDialogWindow
 
     method public void setRepeatPassword(InputField repeatPassword!)
         #repeatPassword! = repeatPassword! 
+    methodend
+
+    method public BBjCheckBox getRememberMe()
+        methodret #rememberMe!
+    methodend
+
+    method public void setRememberMe (BBjCheckBox rememberMe!)
+        #rememberMe! = rememberMe!
     methodend
 
     method public BBjButton getSubmitButton()
