@@ -1,0 +1,14 @@
+use com.basiscomponents.db.ResultSet
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/widgets/DashboardCustomer/ICustomerData.bbj::ICustomerData
+
+
+class public SampleCustomerData implements ICustomerData
+    method public ResultSet getData()
+        methodret new ResultSet()
+    methodend
+
+    method public ListViewDataModel initalizeListDataModel()
+        methodret new ListViewDataModel()
+    methodend 
+classend
