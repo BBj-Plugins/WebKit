@@ -7,14 +7,15 @@ REM  */
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
+
+rem use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
+
+use ::WebKit/widgets/DashboardCustomer/ICustomerData.bbj::ICustomerData
+use ::WebKit/widgets/ListView/ListView.bbj::ListView
 use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
 use ::WebKit/model/ListView/Column.bbj::ListColumnModel
 use ::WebKit/model/ListView/Field.bbj::Field
 use ::WebKit/model/ListView/Cell.bbj::Cell
-use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
-
-use ::WebKit/widgets/ListView/ListView.bbj::ListView
-use ::WebKit/widgets/DashboardCustomer/ICustomerData.bbj::ICustomerData
 
 use ::Webkit/widgets/DashboardPlaceholder/DashboardPlaceholder.bbj::DashboardWidgetHeader
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
@@ -50,21 +51,8 @@ class public DashboardCustomer extends BBjWidget
 
         header! = new DashboardWidgetHeader(#window!, "YOUR CUSTOMERS")
 
-        rem #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed tortor nec sapien scelerisque pulvinar at nec dolor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin hendrerit augue at ipsum iaculis mollis. Curabitur sagittis, erat quis maximus ultricies, neque ante mollis ante, eget vulputate neque ligula non lectus. Suspendisse vel condimentum diam. Suspendisse quis mi viverra magna ornare euismod. Maecenas efficitur elementum dictum. Ut vulputate vehicula metus. Nulla nunc felis, ultrices posuere blandit condimentum, blandit ac diam. Cras ultrices magna vel diam sagittis malesuada. Mauris vestibulum, tellus at blandit condimentum, dolor nisl auctor lectus, nec fringilla orci mauris at mauris. Aenean quis maximus metus. Vestibulum vitae efficitur nisl, eu rhoncus ipsum. ")
-      
-
-        rem model! = #initalizeListDataModel()
-        rem table! = new ListView(#window!, #customerData!.getData(), model!)
-
-        declare BBjChildWindow canvas!
-        if init!>0 then
-            canvas! = #getCanvas() 
-            listDataModel! = #initalizeListDataModel()
-            listOverviewPanel! = new ListOverviewPanel(canvas!)
-            listOverviewPanel!.setListDataModel(listDataModel!)
-            listOverviewPanel!.doModal()
-        FI
-
+        rem model! = 
+        listViewWidget! = new ListView(#window!, #customerData!.getData(), #initalizeListDataModel())
     methodend
 
 
@@ -75,44 +63,49 @@ class public DashboardCustomer extends BBjWidget
         
         rem listDataModel!.setDatabaseName("ChileCompany")
         rem listDataModel!.setTableName("Customer")
-        listDataModel!.setDatabaseName("PNP_P3D")
-        listDataModel!.setTableName("ARSTM01")
-
-        rem listDataModel!
-        rem displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
-        desc_field! = new Field("ARTK", "ARTK")
-        rem city_field! = new Field("CITY", "CITY")
-        rem city_field!.setCustomCssClass("listSubtitleField")
-        rem addr_field! = new Field("BILL_ADDR1", "ADDRESS")
+        rem listDataModel!.setDatabaseName("PNP_P3D")
+        rem listDataModel!.setTableName("ARSTM01")
+      
+        desc_field! = new Field("CUSTOMERDESC", "CUSTOMERDESC")
+        year1_field! = new Field("2018", "2018")
+        year2_field! = new Field("2019", "2019")
+        year3_field! = new Field("2020", "2020")
 
         firstColumnFields! = new BBjVector()
         firstColumnFields!.add(desc_field!)
-        rem firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
-        firstColumn! = new ListColumnModel("Your Reference", 1)
-        firstColumn!.setColumnWidth("100%")
+        firstColumn! = new ListColumnModel("Customer", 1)
+        firstColumn!.setColumnWidth("25%")
         firstColumn!.setCellStructure(firstColumnCell!)
 
-        rem secondColumnFields! = new BBjVector()
-        rem secondColumnFields!.add(id_field!)
-        rem secondColumnCell! = new Cell(secondColumnFields!)
-        rem secondColumn! = new ListColumnModel("Customer ID", 2)
-        rem secondColumn!.setColumnWidth("25%")
-        rem secondColumn!.setCellStructure(secondColumnCell!)
+        secondColumnFields! = new BBjVector()
+        secondColumnFields!.add(year1_field!)
+        secondColumnCell! = new Cell(secondColumnFields!)
+        secondColumn! = new ListColumnModel("2018", 2)
+        secondColumn!.setColumnWidth("25%")
+        secondColumn!.setCellStructure(secondColumnCell!)
 
-        rem thirdColumnFields! = new BBjVector()
-        rem thirdColumnFields!.add(addr_field!)
-        rem thirdColumnCell! = new Cell(thirdColumnFields!)
-        rem thirdColumn! = new ListColumnModel("Address", 3)
-        rem thirdColumn!.setColumnWidth("25%")
-        rem thirdColumn!.setCellStructure(thirdColumnCell!)
+        thirdColumnFields! = new BBjVector()
+        thirdColumnFields!.add(year2_field!)
+        thirdColumnCell! = new Cell(thirdColumnFields!)
+        thirdColumn! = new ListColumnModel("2019", 3)
+        thirdColumn!.setColumnWidth("25%")
+        thirdColumn!.setCellStructure(thirdColumnCell!)
+
+        fourthColumnFields! = new BBjVector()
+        fourthColumnFields!.add(year3_field!)
+        fourthColumnCell! = new Cell(fourthColumnFields!)
+        fourthColumn! = new ListColumnModel("2020", 3)
+        fourthColumn!.setColumnWidth("50%")
+        fourthColumn!.setCellStructure(fourthColumnCell!)
 
         declare BBjVector columnMappings!
         columnMappings! = new BBjVector()
 
         columnMappings!.add(firstColumn!)
-        rem columnMappings!.add(secondColumn!)
-        rem columnMappings!.add(thirdColumn!)
+        columnMappings!.add(secondColumn!)
+        columnMappings!.add(thirdColumn!)
+        columnMappings!.add(fourthColumn!)
 
         listDataModel!.setColumnMappings(columnMappings!)
         
