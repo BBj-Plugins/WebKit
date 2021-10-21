@@ -43,7 +43,6 @@ class public DbUtil
         if constraints$ <> "" THEN
             query! = query! + " WHERE " + contraints$
         fi
-    
         methodret query!
     methodend
 
