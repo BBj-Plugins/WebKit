@@ -7,12 +7,8 @@ REM  */
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
-
-rem use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
-
 use ::WebKit/widgets/DashboardCustomer/ICustomerData.bbj::ICustomerData
 use ::WebKit/widgets/ListView/ListView.bbj::ListView
-use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
 use ::WebKit/model/ListView/Column.bbj::ListColumnModel
 use ::WebKit/model/ListView/Field.bbj::Field
 use ::WebKit/model/ListView/Cell.bbj::Cell
@@ -20,18 +16,12 @@ use ::WebKit/model/ListView/Cell.bbj::Cell
 use ::Webkit/widgets/DashboardPlaceholder/DashboardPlaceholder.bbj::DashboardWidgetHeader
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 
-
-rem  NEED interface
-
-
 class public DashboardCustomer extends BBjWidget
-
     field private BBjChildWindow window!
     field private BBjChildWindow wrapper!
     field private ICustomerData customerData!
 
     method public DashboardCustomer(BBjWindow wnd!, ICustomerData customerData!)
-        rem DynamicLoader.addLocalCSS("WebKit/widgets/DashboardCustomer/DashboardCustomer.css")
         #this!(wnd!,wnd!.getAvailableControlID(), customerData!)
     methodend
 
@@ -50,78 +40,6 @@ class public DashboardCustomer extends BBjWidget
         #window!.setStyle("height","100%")
 
         header! = new DashboardWidgetHeader(#window!, "YOUR CUSTOMERS")
-
-        rem model! = 
-        listViewWidget! = new ListView(#window!, #customerData!.getData(), #initalizeListDataModel())
+        listViewWidget! = new ListView(#window!, #customerData!.getData(), #customerData!.initalizeListDataModel())
     methodend
-
-
-
-    method public ListViewDataModel initalizeListDataModel()
-        declare ListViewDataModel listDataModel!
-        listDataModel! = new ListViewDataModel("Customers")
-        
-        rem listDataModel!.setDatabaseName("ChileCompany")
-        rem listDataModel!.setTableName("Customer")
-        rem listDataModel!.setDatabaseName("PNP_P3D")
-        rem listDataModel!.setTableName("ARSTM01")
-      
-        desc_field! = new Field("CUSTOMERDESC", "CUSTOMERDESC")
-        year1_field! = new Field("2018", "2018")
-        year2_field! = new Field("2019", "2019")
-        year3_field! = new Field("2020", "2020")
-
-        firstColumnFields! = new BBjVector()
-        firstColumnFields!.add(desc_field!)
-        firstColumnCell! = new Cell(firstColumnFields!)
-        firstColumn! = new ListColumnModel("Customer", 1)
-        firstColumn!.setColumnWidth("25%")
-        firstColumn!.setCellStructure(firstColumnCell!)
-
-        secondColumnFields! = new BBjVector()
-        secondColumnFields!.add(year1_field!)
-        secondColumnCell! = new Cell(secondColumnFields!)
-        secondColumn! = new ListColumnModel("2018", 2)
-        secondColumn!.setColumnWidth("25%")
-        secondColumn!.setCellStructure(secondColumnCell!)
-
-        thirdColumnFields! = new BBjVector()
-        thirdColumnFields!.add(year2_field!)
-        thirdColumnCell! = new Cell(thirdColumnFields!)
-        thirdColumn! = new ListColumnModel("2019", 3)
-        thirdColumn!.setColumnWidth("25%")
-        thirdColumn!.setCellStructure(thirdColumnCell!)
-
-        fourthColumnFields! = new BBjVector()
-        fourthColumnFields!.add(year3_field!)
-        fourthColumnCell! = new Cell(fourthColumnFields!)
-        fourthColumn! = new ListColumnModel("2020", 3)
-        fourthColumn!.setColumnWidth("50%")
-        fourthColumn!.setCellStructure(fourthColumnCell!)
-
-        declare BBjVector columnMappings!
-        columnMappings! = new BBjVector()
-
-        columnMappings!.add(firstColumn!)
-        columnMappings!.add(secondColumn!)
-        columnMappings!.add(thirdColumn!)
-        columnMappings!.add(fourthColumn!)
-
-        listDataModel!.setColumnMappings(columnMappings!)
-        
-        methodret listDataModel!
-    methodend
-
-    rem /**
-    rem  * @Override
-    rem  * This method is called whenever the widget needs to be rendered
-    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
-    rem  */
-    rem method public void redraw(Boolean f_init!)
-        
-  
-        
-    rem methodend  
-
-
 classend
