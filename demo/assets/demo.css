@@ -11,8 +11,6 @@
      background-position-y:top;
 }
 
-
-
 .avatar {
     height:50px;
     width:50px;
@@ -37,15 +35,4 @@
 	 div .logo{
 	    margin-top:3px;
 	}
-	
-.loginlogo {
-     margin-top:20px;
-     margin-bottom:50px;     
-     background-size:contain;
-     background-repeat:no-repeat;
-     background-position-x:center;
-     background-position-y:center;
-}
-
-	
 }
