@@ -1,13 +1,9 @@
 .dashboardPlaceholder {
     background-color: white;
-    /* width: 350px;
-    height: 350px; */
     border-radius: 8px;
 }
 
-
 .dashboardPlaceholder.small {
-    /* background-color: red !important; */
     height: 180px;
 }
 
@@ -16,35 +12,15 @@
     height: 320px;
 }
 
-
 .dashboardPlaceholder.medium {
-    /* background-color: orange !important; */
     height: 160px;
 }
 
 .dashboardPlaceholder.large {
-    /* background-color: teal !important; */
     height: 300px;
 }
-
-
-
-.customer-img {
-    /* background-size: contain; */
-    width: 200px;
-    height: 300px;
-    /* object-fit: cover; */
-}
-
-.img {
-    width: 200px;
-    height: 300px;
-    /* object-fit: cover; */
-}
-
 
 /* |||||||||||||| Dashboard Widget Header |||||||||||||| */
-
 .dashboardWidgetHeader {
     height: 25px;
     padding: 10px;
