@@ -12,10 +12,12 @@
     justify-content: space-around;
 }
 
+
 .dashboardTaskCardDescFont {
     color: #333E40;
     font-size: 12px;
     line-height: 5px;
+    
 }
 
 .dashboardTaskCardSmallFont {

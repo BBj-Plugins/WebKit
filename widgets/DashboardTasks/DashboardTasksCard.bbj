@@ -47,26 +47,34 @@ class public DashboardTasksCard extends BBjWidget
         rem rightColumn!.addPanelStyle("rcol")
 
         markComplete! = leftColumn!.addCheckBox(leftColumn!.getAvailableControlID(),0,0,0,0,"")
-        markComplete!.setStyle("margin-top", "2rem")
+        markComplete!.setStyle("margin-top", "1.2rem")
         markComplete!.setStyle("margin-left", "2rem")
 
         companyWrapper! = rightColumn!.addChildWindow(rightColumn!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         rem companyWrapper!.setPanelStyle("background", "red")
+        companyWrapper!.setDockStyle("height", "18px")
         companyName! = companyWrapper!.addStaticText(companyWrapper!.getAvailableControlID(),0,0,0,0,#company$)
+        
         companyName!.addStyle("dashboardTaskCardSmallFont")
 
         descWrapper! = rightColumn!.addChildWindow(rightColumn!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         rem descWrapper!.setPanelStyle("background", "blue")
+        descWrapper!.setDockStyle("height", "18px")
         desc! = descWrapper!.addStaticText(descWrapper!.getAvailableControlID(),0,0,0,0,#desc$)
         desc!.addStyle("dashboardTaskCardDescFont")
 
-        dueDateWrapper! = rightColumn!.addChildWindow(rightColumn!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        
+        footerWrapper! = rightColumn!.addChildWindow(rightColumn!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         rem dueDateWrapper!.setPanelStyle("background", "pink")
-        dueDate! = dueDateWrapper!.addStaticText(dueDateWrapper!.getAvailableControlID(),0,0,0,0,#dueDate$)
+        footerWrapper!.setDockStyle("height", "19px")
+        rem footerWrapper!.setDockStyle("display", "flex")
+        dueDate! = footerWrapper!.addStaticText(footerWrapper!.getAvailableControlID(),0,0,0,0,#dueDate$ + "                               ")
+        rem dueDate!.setStyle("flex-basis", "80%")
         dueDate!.addStyle("dashboardTaskCardSmallFont")
 
-
-        
+        priority! = footerWrapper!.addStaticText(footerWrapper!.getAvailableControlID(),0,0,0,0,#priority$)
+        priority!.addStyle("dashboardTaskCardSmallFont")
+        priority!.setStyle("text-align", "right")
     methodend
 
 classend
