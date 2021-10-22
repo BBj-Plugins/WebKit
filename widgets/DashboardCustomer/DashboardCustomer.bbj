@@ -19,7 +19,7 @@ use ::WebKit/widgets/InputField/InputField.bbj::InputField
 
 class public DashboardCustomer extends BBjWidget
     field private BBjChildWindow window!
-    field private BBjChildWindow wrapper!
+    rem field private BBjChildWindow wrapper!
     field private ICustomerData customerData!
 
 

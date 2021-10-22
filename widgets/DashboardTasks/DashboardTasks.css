@@ -1,0 +1,27 @@
+.dashboardTasksPanelStyle {
+    height: 100%;
+    width: 100%;
+    max-height: 500px;
+    background-color: white;
+    border-radius: 8px;
+} 
+
+
+.dashboardTasksCardPanelStyle {
+    display: flex;
+    justify-content: space-around;
+}
+
+.dashboardTaskCardDescFont {
+    color: #333E40;
+    font-size: 12px;
+    line-height: 5px;
+}
+
+.dashboardTaskCardSmallFont {
+    font-weight: var(--bbj-font-weight-lighter);
+    font-size: 9px;
+    letter-spacing: 0.09rem;
+    line-height: 5px;
+    color: #A1A5A7;
+}

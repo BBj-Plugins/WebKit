@@ -1,0 +1,49 @@
+REM /**
+REM  * DashboardCustomer.bbj
+REM  * @author IanHupkes
+REM  *
+REM  */
+
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+rem use ::WebKit/widgets/ListView/ListView.bbj::ListView
+rem use ::WebKit/model/ListView/Column.bbj::ListColumnModel
+rem use ::WebKit/model/ListView/Field.bbj::Field
+rem use ::WebKit/model/ListView/Cell.bbj::Cell
+
+use ::Webkit/widgets/DashboardPlaceholder/DashboardPlaceholder.bbj::DashboardWidgetHeader
+rem use ::WebKit/widgets/DashboardCustomer/ICustomerData.bbj::ICustomerData
+rem use ::Webkit/widgets/DashboardCustomer/SampleCustomerData.bbj::SampleCustomerData
+rem use ::WebKit/widgets/InputField/InputField.bbj::InputField
+
+use ::WebKit/widgets/DashboardTasks/DashboardTasksCard.bbj::DashboardTasksCard
+
+class public DashboardTasks extends BBjWidget
+    field private BBjChildWindow window!
+
+    method public DashboardTasks(BBjWindow wnd!)
+        #this!(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public DashboardTasks(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardTasks/DashboardTasks.css")
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public void redraw(Boolean init!)
+        #window! = #getCanvas()
+        #window!.addPanelStyle("dashboardTasksPanelStyle")
+        #window!.setDockStyle("width","100%")
+        #window!.setDockStyle("height","100%")
+        #window!.setStyle("width","100%")
+        #window!.setStyle("height","100%")
+
+        header! = new DashboardWidgetHeader(#window!, "TASKS")
+
+        task! = new DashboardTasksCard(#window!, "Twitter Inc.", "Reschedule appointment", "Due: 11/12/2020","Priority: High")
+        task2! = new DashboardTasksCard(#window!, "Random Studios B.V.", "Lorem ipsum magnus dio verusi pentum", "Due: 11/12/2020","Priority: High")
+        task3! = new DashboardTasksCard(#window!, "Dropbox company", "Lorem ipsum magnus dio verusi pentum", "Due: 11/12/2020","Priority: High")
+
+    methodend
+classend
