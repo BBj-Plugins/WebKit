@@ -2,8 +2,8 @@
 /* TODO adjust when in mini drawer form */
 .formControlPanel{
     position: fixed !important;
-    top: 100px !important;
-    left: 450px !important;
+    top: 10vh !important;
+    left: 35vw !important;
     z-index: 99 !important;
     width: 750px;
     height: 700px;
