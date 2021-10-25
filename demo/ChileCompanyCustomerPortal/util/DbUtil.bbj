@@ -1,3 +1,4 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.bc.SqlQueryBC
 use java.util.HashMap
@@ -16,7 +17,7 @@ class public DbUtil
         #databaseName$ = databaseName$
     methodend
 
-    method private BBjString getQueryBuilder(BBjString tableName$, HashMap columns!, BBjString contraints$, BBjNumber rowLimit)
+    method private BBjString getQueryBuilder(BBjString tableName$, HashMap columns!, BBjString constraints$, BBjNumber rowLimit)
         query! = "SELECT "
 
         if rowLimit <> -1
@@ -41,18 +42,18 @@ class public DbUtil
         query! = query! + " FROM " + str(tableName$)
 
         if constraints$ <> "" THEN
-            query! = query! + " WHERE " + contraints$
+            query! = query! + " WHERE " + constraints$
         fi
         methodret query!
     methodend
 
-    method public ResultSet get(BBjString tableName$, HashMap columns!, BBjString contraints$, BBjNumber rowLimit)
+    method public ResultSet get(BBjString tableName$, HashMap columns!, BBjString constraints$, BBjNumber rowLimit)
         
       declare SqlQueryBC sbc!
       declare ResultSet rs!
 
       sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(#databaseName$))
-      query! = #getQueryBuilder(tableName$, columns!, contraints$, rowLimit)
+      query! = #getQueryBuilder(tableName$, columns!, constraints$, rowLimit)
       rs! = sbc!.retrieve(query!)
       methodret rs!
     methodend
@@ -88,6 +89,7 @@ class public DbUtil
 
     method public ResultSet get(BBjString tableName$, BBjString constraints$)
         columns! = new HashMap()
+        rowLimit = -1
         methodret #get(tableName$, columns!, constraints$, rowLimit)
     methodend
 classend

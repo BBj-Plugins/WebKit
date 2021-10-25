@@ -39,6 +39,7 @@ class public ChileCompanyDashboardPanel extends BBjWidget
 
         displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
         id_field! = new Field("CUST_NUM", "ID")
+        id_field!.setIsPrimaryColumn(1)
         city_field! = new Field("CITY", "CITY")
         city_field!.setCustomCssClass("listSubtitleField")
         addr_field! = new Field("BILL_ADDR1", "ADDRESS")
@@ -117,6 +118,7 @@ class public ChileCompanyDashboardPanel extends BBjWidget
             listOverviewPanel!.setResultSet(#RS!)
             listOverviewPanel!.doModal()
             BBjAPI().setCustomEventCallback("ON_HEADER_ITEM_PRESSED", #this!, "onHeaderMenuItemClick")
+            BBjAPI().setCustomEventCallback("ON_EDIT_PRESSED", #this!, "onEditPressed")
         FI
         
     methodend    
@@ -129,11 +131,17 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         swend
     methodend
 
+    method public void onEditPressed(BBjCustomEvent ev!)
+        id$ = str(ev!.getObject())
+        #showEditForm(id$)
+    methodend
+
     method public void showCreateForm()
-        REM formControlPanel! = new FormControlPanel(#getCanvas())
-        REM formControlPanel!.setResultSet(#RS!)
-        REM formControlPanel!.show()
         createCustomerForm! = new ChileCompanyCustomerForm(#getCanvas())
+    methodend
+
+    method public void showEditForm(BBjString id$)
+        editCustomerForm! = new ChileCompanyCustomerForm(#getCanvas(), id$)
     methodend
 
     method public ResultSet loadData(ListViewDataModel listDataModel!)

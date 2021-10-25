@@ -16,7 +16,9 @@ class public FormControlPanel
 
     field private DataRow dataRow!
 
-    field private Boolean isEdit!
+    field private Boolean isEdit! = 0
+
+    field private BBjString entityName$
 
     method public FormControlPanel(BBjWindow parent!)
         DynamicLoader.addLocalCSS("WebKit/framework/FormControlPanel/FormControlPanel.css")
@@ -41,15 +43,28 @@ class public FormControlPanel
         methodret #RS!
     methodend
 
+    method public void setEntityName(BBjString entityName$)
+        #entityName$ = entityName$
+    methodend
+
+    method public void setIsEdit(Boolean isEdit!)
+        #isEdit! = isEdit!
+    methodend
+
     method public void drawForm(BBjChildWindow modalWnd!)
        columnNames! = #RS!.getColumnNames()
        columnCount! = #RS!.getColumnCount()
-       ClientUtil.consoleLog(str(columnCount!))
 
        topWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
        topWnd!.addStyle("topWndPanel")
 
-       modalHeader! = topWnd!.addStaticText(topWnd!.getAvailableControlID(),0,0,0,0, "Create Customer")
+       modalTitle$ = ""
+       if #isEdit! = 0 THEN
+           modalTitle$ = modalTitle$ + "Create " + #entityName$
+       else
+           modalTitle$ = modalTitle$ + "Edit " + #entityName$
+       fi
+       modalHeader! = topWnd!.addStaticText(topWnd!.getAvailableControlID(),0,0,0,0, modalTitle$)
        modalHeader!.addStyle("modalHeader")
 
        topDivider! = new Divider(modalWnd!)
@@ -59,8 +74,12 @@ class public FormControlPanel
        formWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
        formWnd!.addPanelStyle("formPanel")
 
-       ClientUtil.consoleLog("inside form control")
+       dataObject! = null()
+       if #isEdit! = 1 THEN
+          dataRows! = #RS!.getDataRows()
 
+          dataObject! = dataRows!.get(0)
+       fi
 
        for i = 0 to columnNames!.size() - 1
            fieldWnd! = formWnd!.addChildWindow(formWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
@@ -76,10 +95,15 @@ class public FormControlPanel
            fieldWnd!.addStyle("edit-field")
 
            columnName! = columnNames!.get(i)
-           ClientUtil.consoleLog(#RS!.getColumnLabel(i))
            _fieldLabel! = new InputField(fieldWnd!)
-           _fieldLabel!.setPlaceHolder(columnName!)
+
+           if #isEdit! = 1 THEN
+             _fieldLabel!.setText(str(dataObject!.getFieldValue(columnName!)))
+           else
+             _fieldLabel!.setPlaceHolder(columnName!)
+           fi
            _fieldLabel!.setLabel(columnName!)
+
 
         NEXT i
         bottomDivider! = new Divider(modalWnd!)

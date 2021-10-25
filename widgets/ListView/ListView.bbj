@@ -13,6 +13,8 @@ class public ListView extends BBjWidget implements Icon
 
     field private ListViewDataModel listDataModel!
 
+    field public static BBjNumber ON_EDIT_PRESSED = 1234
+
     method public ListView(BBjWindow parent!)
         DynamicLoader.addLocalCSS("WebKit/widgets/ListView/ListView.css")
         #super!.create(parent!, parent!.getAvailableControlID())
@@ -104,9 +106,17 @@ class public ListView extends BBjWidget implements Icon
                 cellWrapper!.setStyle("grid-column", str(columnMapping!.getColumnPosition()))
                 cellWrapper!.addPanelStyle("cellWrapperPanel")
 
+                declare BBjString primaryColumnValue$ 
+
                 for k = 0 to _fields!.size() - 1
                     _fieldValue! = _fields!.get(k)
-                    _field! = cellWrapper!.addStaticText(cellWrapper!.getAvailableControlID(),0,0,0,0, dataObject!.getFieldValue(_fieldValue!.getDataColumnAlias()))
+                    currentFieldValue$ = str(dataObject!.getFieldValue(_fieldValue!.getDataColumnAlias()))
+
+                    if _fieldValue!.getIsPrimaryColumn() = 1 THEN
+                        primaryColumnValue$ = currentFieldValue$ 
+                    fi
+
+                    _field! = cellWrapper!.addStaticText(cellWrapper!.getAvailableControlID(),0,0,0,0, currentFieldValue$)
                     _field!.addStyle("field")
                     customCssClass$ = _fieldValue!.getCustomCssClass()
                     if customCssClass$ = ""
@@ -131,11 +141,31 @@ class public ListView extends BBjWidget implements Icon
             actionCellWrapper!.setStyle("grid-column", str(numOfColumns + 1))
             actionCellWrapper!.addPanelStyle("actionCellWrapperPanel")
 
-            actionItem! = #setIcon(actionCellWrapper!, "edit")
-            actionItem! = #setIcon(actionCellWrapper!, "clipboard")
-            actionItem! = #setIcon(actionCellWrapper!, "dots-vertical")
+            editActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            editActionWrapper!.setText(primaryColumnValue$)
+            editActionItem! = #setIcon(editActionWrapper!, "edit")
+            editActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onEditPressed")
+
+            clipboardActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            clipboardActionItem! = #setIcon(clipboardActionWrapper!, "clipboard")
+            clipboardActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onClipboardPressed")
+
+            dotActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            dotActionItem! = #setIcon(dotActionWrapper!, "dots-vertical")
+            dotActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
         NEXT i
+    methodend
 
+    method public void onEditPressed(BBjMouseDownEvent ev!)
+        REM ClientUtil.consoleLog(str(ev!.getControl().getText()))
+        id$ = str(ev!.getControl().getText())
+        #fireEvent(#ON_EDIT_PRESSED, id$)
+    methodend
 
+    method public void onClipboardPressed(BBjMouseDownEvent ev!)
+        ClientUtil.consoleLog(str(ev!.getControl()))
+    methodend
+    method public void onDotsPressed(BBjMouseDownEvent ev!)
+        ClientUtil.consoleLog(str(ev!.getControl()))
     methodend
 classend

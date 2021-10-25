@@ -16,8 +16,6 @@ class public ListOverviewPanel
 
     field private ResultSet RS!
 
-    field public static BBjNumber ON_HEADER_ITEM_PRESSED = 1234
-
     method public ListOverviewPanel(BBjWindow parent!)
         REM init
         DynamicLoader.addLocalCSS("WebKit/framework/ListOverviewPanel/ListOverviewPanel.css")
@@ -52,12 +50,17 @@ class public ListOverviewPanel
         listView! = new ListView(#window!)
         listView!.setListDataModel(#listDataModel!)
         listView!.setResultSet(#RS!)
+        listView!.setCallback(listView!.getON_EDIT_PRESSED(), #this!, "onEditPressed")
 
         methodret 1
     methodend
 
     method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
        BBjAPI().postCustomEvent("ON_HEADER_ITEM_PRESSED", ev!.getObject())
+    methodend
+
+    method public void onEditPressed(BBjCustomEvent ev!)
+       BBjAPI().postCustomEvent("ON_EDIT_PRESSED", ev!.getObject())
     methodend
 
 classend

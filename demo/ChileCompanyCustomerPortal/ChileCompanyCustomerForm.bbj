@@ -10,7 +10,7 @@ use com.basiscomponents.db.DataRow
 class public ChileCompanyCustomerForm extends BBjWidget
     field private DbUtil dbUtil!
 
-    field private BBjNumber id = -1
+    field private BBjString id$ = "-1"
 
     method public ChileCompanyCustomerForm(BBjWindow wnd!)
         #super!.create(wnd!,wnd!.getAvailableControlID())
@@ -18,6 +18,16 @@ class public ChileCompanyCustomerForm extends BBjWidget
 
     method public ChileCompanyCustomerForm(BBjWindow wnd!, BBjInt id!)
         #super!.create(wnd!,id!)
+    methodend
+
+    method public ChileCompanyCustomerForm(BBjWindow wnd!, BBjString id$)
+        #id$ = id$
+        #super!.create(wnd!, wnd!.getAvailableControlID())
+    methodend
+
+    method public void setID(BBjString id$)
+        #id$ = id$
+        #redraw(1)
     methodend
     
     rem /**
@@ -33,6 +43,10 @@ class public ChileCompanyCustomerForm extends BBjWidget
             formControlPanel! = new FormControlPanel(canvas!)
             rs! = #loadData()
             formControlPanel!.setResultSet(rs!)
+            if #id$ <> "-1" THEN
+                formControlPanel!.setIsEdit(1)
+            fi
+            formControlPanel!.setEntityName("Customer")
             formControlPanel!.show()
         FI
         
@@ -41,7 +55,7 @@ class public ChileCompanyCustomerForm extends BBjWidget
     method public ResultSet loadData()
         #dbUtil! = new DbUtil("ChileCompany")
         tableName$ = "CUSTOMER"
-        constraints$ = "CUST_NUM = " + str(id)
+        constraints$ = "CUST_NUM = '" + str(#id$) + "'"
 
         RS! = #dbUtil!.get(tableName$, constraints$)
         methodret RS!
