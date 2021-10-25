@@ -17,15 +17,15 @@ ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.cs
 ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerPortal.css")
 startover: 
 
-login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
-login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
-
-login!.setAllowRemember(Boolean.TRUE)
-
-if !login!.doModal() then
-    a=msgbox("ERROR",0,"Error while logging in")
-    release
-fi
+REM login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
+REM login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
+REM 
+REM login!.setAllowRemember(Boolean.TRUE)
+REM 
+REM if !login!.doModal() then
+REM     a=msgbox("ERROR",0,"Error while logging in")
+REM     release
+REM fi
 
 declare Menu m!
 declare MenuItem i!
@@ -98,7 +98,7 @@ headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompan
 headerMenuItem!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
 portal! = new PortalFrame()
-portal!.setUsername(login!.getUser())
+portal!.setUsername("trifiasco")
 portal!.setMenu(m!)
 portal!.setFooterMenu(footerMenu!)
 portal!.setHeaderMenu(headerMenu!)

@@ -1,54 +1,37 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-use ::WebKit/util/DbUtil.bbj::DbUtil
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/ListView/ListView.bbj::ListView
+use ::WebKit/widgets/ListView/components/ListHeader/ListHeader.bbj::ListHeader
 use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
 use ::WebKit/model/ListView/Column.bbj::ListColumnModel
-use java.util.HashMap
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.bc.SqlQueryBC
 
 class public ListOverviewPanel
     field private BBjChildWindow window!
 
+    field private BBjWindow parent!
+
     field private ListViewDataModel listDataModel!
 
-    field private DbUtil dbUtil!
-
     field private ResultSet RS!
+
+    field public static BBjNumber ON_HEADER_ITEM_PRESSED = 1234
 
     method public ListOverviewPanel(BBjWindow parent!)
         REM init
         DynamicLoader.addLocalCSS("WebKit/framework/ListOverviewPanel/ListOverviewPanel.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addStyle("listWindow")
-        #dbUtil! = new DbUtil()
+        #parent! = parent!
     methodend
 
     method public void setListDataModel(ListViewDataModel listDataModel!)
         #listDataModel! = listDataModel!
     methodend
 
-    method public void loadData()
-      databaseName$ = #listDataModel!.getDatabaseName()
-      tableName$ = #listDataModel!.getTableName()
-      rowLimit = #listDataModel!.getRowLimit()
-      #dbUtil!.setDatabaseName(databaseName$)
-
-      columnNames! = new HashMap()
-      columnMappings! = #listDataModel!.getColumnMappings()
-      
-      numOfColumns = columnMappings!.size()
-      for i = 0 to numOfColumns - 1
-        columnMapping! = columnMappings!.get(i)
-        cellStructure! = columnMapping!.getCellStructure()
-        fields! = cellStructure!.getFields()
-        for j = 0 to fields!.size() - 1
-          _field! = fields!.get(j)
-          columnNames!.put(_field!.getDataColumn(), _field!.getDataColumnAlias())
-        NEXT j
-      NEXT i
-      #RS! = #dbUtil!.get(tableName$, columnNames!, rowLimit)
+    method public void setResultSet(ResultSet rs!)
+        #RS! = rs!
     methodend
 
     method public Boolean doModal()
@@ -57,12 +40,24 @@ class public ListOverviewPanel
             Headline! = #window!.addStaticText(100,0,0,0,0, #listDataModel!.getListPanelTitle())
             Headline!.addStyle("headline")
         fi
-        
-        #loadData()
 
-        listView! = new ListView(#window!, #RS!, #listDataModel!)
+        if #listDataModel!.getHasListHeader() = 1 THEN
+            listHeaderDataModel! = #listDataModel!.getHeaderDataModel()
+            listHeader! = new ListHeader(#window!)
+            listHeader!.setListHeaderDataModel(listHeaderDataModel!)
+            listHeader!.setCallback(listHeader!.getON_HEADER_ITEM_PRESSED(), #this!, "onHeaderMenuItemClick")
+        fi
+        
+        REM listView! = new ListView(#window!, #RS!, #listDataModel!)
+        listView! = new ListView(#window!)
+        listView!.setListDataModel(#listDataModel!)
+        listView!.setResultSet(#RS!)
 
         methodret 1
+    methodend
+
+    method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
+       BBjAPI().postCustomEvent("ON_HEADER_ITEM_PRESSED", ev!.getObject())
     methodend
 
 classend

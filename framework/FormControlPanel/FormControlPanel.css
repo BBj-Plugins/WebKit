@@ -1,0 +1,43 @@
+
+/* TODO adjust when in mini drawer form */
+.formControlPanel{
+    position: fixed !important;
+    top: 100px !important;
+    left: 450px !important;
+    z-index: 99 !important;
+    width: 750px;
+    height: 700px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--bbj-shadow-l);
+    backdrop-filter: drop-shadow(2px 4px 6px black);
+    /*
+     *overflow: scroll !important;
+     */
+}
+
+.formPanel{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /*
+     *margin-top: 65px;
+     */
+    padding: 30px;
+
+    height: 500px;
+    overflow-y: scroll !important;
+}
+
+.edit-field{
+    padding: 15px;
+}
+
+.topWndPanel{
+    height: 60px;
+    padding: 10px;
+}
+
+.modalHeader{
+    margin: 25px;
+    font-size: 25px;
+}
