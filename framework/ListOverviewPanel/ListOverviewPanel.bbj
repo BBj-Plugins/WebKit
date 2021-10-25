@@ -20,7 +20,6 @@ class public ListOverviewPanel
         REM init
         DynamicLoader.addLocalCSS("WebKit/framework/ListOverviewPanel/ListOverviewPanel.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        #window!.addStyle("listWindow")
         #parent! = parent!
     methodend
 
