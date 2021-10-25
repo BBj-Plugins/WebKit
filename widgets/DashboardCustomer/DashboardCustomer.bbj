@@ -12,14 +12,13 @@ use ::WebKit/model/ListView/Column.bbj::ListColumnModel
 use ::WebKit/model/ListView/Field.bbj::Field
 use ::WebKit/model/ListView/Cell.bbj::Cell
 
-use ::Webkit/widgets/DashboardPlaceholder/DashboardPlaceholder.bbj::DashboardWidgetHeader
+use ::Webkit/widgets/DashboardWidgetHeader/DashboardWidgetHeader.bbj::DashboardWidgetHeader
 use ::WebKit/widgets/DashboardCustomer/ICustomerData.bbj::ICustomerData
 use ::Webkit/widgets/DashboardCustomer/SampleCustomerData.bbj::SampleCustomerData
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 
 class public DashboardCustomer extends BBjWidget
     field private BBjChildWindow window!
-    rem field private BBjChildWindow wrapper!
     field private ICustomerData customerData!
 
 
