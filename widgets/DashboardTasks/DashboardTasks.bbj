@@ -62,7 +62,7 @@ class public DashboardTasks extends BBjWidget
  
         resultSet! = #tasksData!.getData()
 
-        if  resultSet! <> null() AND  resultSet!.size() > 1
+        if  resultSet! <> null() AND  resultSet!.size() > 0
             for i = 1 to resultSet!.size()
                 if i < 5
                     dr! = cast(DataRow, resultSet!.get(resultSet!.size() - i))
