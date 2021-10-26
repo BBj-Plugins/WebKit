@@ -1,0 +1,5 @@
+use com.basiscomponents.db.ResultSet
+
+interface public ITasksData
+    method public ResultSet getData()
+interfaceend
