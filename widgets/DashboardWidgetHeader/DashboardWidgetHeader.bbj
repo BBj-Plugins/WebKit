@@ -1,0 +1,30 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+class public DashboardWidgetHeader extends BBjWidget
+    field private BBjChildWindow window!
+    field private BBjString title$
+    
+    method public DashboardWidgetHeader(BBjWindow wnd!)
+        #this!(wnd!, "PLACEHOLDER WIDGET")
+    methodend
+
+    method public DashboardWidgetHeader(BBjWindow wnd!, BBjString title$)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DashboardWidgetHeader/DashboardWidgetHeader.css")
+
+        #title$ = title$
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public void redraw(Boolean init!)
+        #window! = #getCanvas()
+        #window!.addPanelStyle("dashboardWidgetHeader")
+
+        title! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#title$)
+        title!.addStyle("dashboardWidgetHeaderTitle")
+
+        setting1! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"This week []")
+        setting1!.addStyle("dashboardWidgetHeaderTitle")
+        setting1!.addStyle("setting")
+    methodend
+classend
