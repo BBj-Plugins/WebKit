@@ -124,7 +124,7 @@ class public LoginDialog
                 
                 if #authProvider!.checkLogin(user$,pass$) then
                     #User$ = user$
-                    if rememberMe! <> null() AND rememberMe!.isSelected() then
+                    if #loginWindow!.getRememberMe() <> null() AND  #loginWindow!.getRememberMe().isSelected() then
                         token$ = #authProvider!.getToken()
                         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
                     fi
@@ -308,4 +308,3 @@ l!.setAllowRemember(Boolean.TRUE)
 if l!.doModal() then
     a=msgbox(l!.getUser(),0,"SUCCESS")
 fi
-

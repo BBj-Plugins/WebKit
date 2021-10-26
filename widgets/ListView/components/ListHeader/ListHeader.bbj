@@ -1,0 +1,25 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+class public ListHeader extends BBjWidget
+    field private BBjChildWindow window!
+
+    field private BBjString entity$
+
+
+    method public ListHeader(BBjWindow parent!, BBjString entity$)
+        DynamicLoader.addLocalCSS("WebKit/widgets/ListView/components/ListHeader/ListHeader.css")
+        #entity$ = entity$
+        #super!.create(parent!, parent!.getAvailableControlID())
+    methodend
+
+    method public void redraw(Boolean init!)
+        #window! = #getCanvas()
+        #window!.addPanelStyle("headerPanel")
+
+        createBtn! = #window!.addButton(1,0,0,0,0,"Create Customer")
+        REM CreateBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
+        createBtn!.addStyle("createBtn")
+        createBtn!.setAttribute("theme", "primary")
+    methodend
+classend

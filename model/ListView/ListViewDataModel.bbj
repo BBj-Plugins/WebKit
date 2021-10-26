@@ -1,0 +1,64 @@
+
+use java.util.HashSet
+
+class public ListViewDataModel
+    field private BBjString listPanelTitle$
+    field private BBjString databaseName$
+
+    field private BBjVector columnMappings! = new BBjVector()
+    field private Boolean actionColumnStatus! = 1
+    field private BBjString tableName$
+    field private BBjNumber rowLimit = -1
+
+    method public ListViewDataModel() 
+        #listPanelTitle$ = ""
+    methodend
+
+    method public ListViewDataModel(BBjString listPanelTitle$)
+        #listPanelTitle$ = listPanelTitle$
+    methodend
+
+    method public BBjVector getColumnMappings()
+        methodret #columnMappings!
+    methodend
+
+    method public void setColumnMappings(BBjVector columnMappings!)
+        #columnMappings! = columnMappings!
+    methodend
+
+    method public void setDatabaseName(BBjString databaseName$)
+        #databaseName$ = databaseName$
+    methodend
+
+    method public BBjString getDatabaseName()
+        methodret #databaseName$
+    methodend
+
+    method public void setTableName(BBjString tableName$)
+        #tableName$ = tableName$
+    methodend
+
+    method public BBjString getTableName()
+        methodret #tableName$
+    methodend
+
+    method public BBjString getListPanelTitle()
+        methodret #listPanelTitle$
+    methodend
+
+    method public void setActionColumnStatus(Boolean actionColumnStatus!)
+        #actionColumnStatus! = actionColumnStatus!
+    methodend
+
+    method public Boolean getActionColumnStatus()
+        methodret #actionColumnStatus!
+    methodend
+
+    method public void setRowLimit(BBjNumber rowLimit)
+        #rowLimit = rowLimit
+    methodend
+
+    method public BBjNumber getRowLimit()
+        methodret #rowLimit 
+    methodend
+classend

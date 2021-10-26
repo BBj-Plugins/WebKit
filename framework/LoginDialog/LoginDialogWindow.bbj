@@ -8,11 +8,11 @@ class public LoginDialogWindow extends BBjWidget
 
     field private LoginDialog loginDialog!
     field private BBjChildWindow content!
-
-    field private InputField username!
-    field private PasswordField password! 
-    field private PasswordField repeatPassword!
-
+    
+    field private InputField username! 
+    field private InputField password! 
+    field private InputField repeatPassword! 
+    field private BBjCheckBox rememberMe!
     field private BBjButton submitButton!
     field private BBjStaticText redirect!
 
@@ -63,6 +63,14 @@ class public LoginDialogWindow extends BBjWidget
 
     method public void setRepeatPassword(PasswordField repeatPassword!)
         #repeatPassword! = repeatPassword! 
+    methodend
+
+    method public BBjCheckBox getRememberMe()
+        methodret #rememberMe!
+    methodend
+
+    method public void setRememberMe (BBjCheckBox rememberMe!)
+        #rememberMe! = rememberMe!
     methodend
 
     method public BBjButton getSubmitButton()
