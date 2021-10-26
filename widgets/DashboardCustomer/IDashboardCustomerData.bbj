@@ -1,7 +1,0 @@
-use com.basiscomponents.db.ResultSet
-use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
-
-interface public ICustomerData
-    method public ResultSet getData()
-    method public ListViewDataModel initalizeListDataModel()
-interfaceend

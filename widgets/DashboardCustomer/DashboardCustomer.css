@@ -1,9 +1,0 @@
-.dashboardCustomerPanelStyle {
-    height: 100%;
-    width: 100%;
-    min-height: 200px;
-    max-height: 600px;
-    background-color: var(--bbj-color-white);
-    border-radius: 8px;
-} 
-
