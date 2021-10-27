@@ -10,8 +10,8 @@ class public LoginDialogWindow extends BBjWidget
     field private BBjChildWindow content!
     
     field private InputField username! 
-    field private InputField password! 
-    field private InputField repeatPassword! 
+    field private PasswordField password! 
+    field private PasswordField repeatPassword! 
     field private BBjCheckBox rememberMe!
     field private BBjButton submitButton!
     field private BBjStaticText redirect!
