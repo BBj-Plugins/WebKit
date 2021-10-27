@@ -41,3 +41,8 @@
     margin: 25px;
     font-size: 25px;
 }
+
+.footerWnd{
+    display: flex;
+    justify-content: flex-end;
+}
