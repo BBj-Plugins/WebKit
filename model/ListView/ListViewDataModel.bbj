@@ -1,4 +1,5 @@
 
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
 use java.util.HashSet
 
 class public ListViewDataModel
@@ -9,6 +10,9 @@ class public ListViewDataModel
     field private Boolean actionColumnStatus! = 1
     field private BBjString tableName$
     field private BBjNumber rowLimit = -1
+
+    field private Boolean hasListHeader! = 0
+    field private ListHeaderDataModel listHeaderDataModel!
 
     method public ListViewDataModel() 
         #listPanelTitle$ = ""
@@ -60,5 +64,21 @@ class public ListViewDataModel
 
     method public BBjNumber getRowLimit()
         methodret #rowLimit 
+    methodend
+
+    method public void setHasListHeader(Boolean hasListHeader!)
+        #hasListHeader! = hasListHeader!
+    methodend
+
+    method public Boolean getHasListHeader()
+        methodret #hasListHeader!
+    methodend
+
+    method public void setHeaderDataModel(ListHeaderDataModel listHeaderDataModel!)
+        #listHeaderDataModel! = listHeaderDataModel! 
+    methodend
+
+    method public ListHeaderDataModel getHeaderDataModel()
+        methodret #listHeaderDataModel!
     methodend
 classend

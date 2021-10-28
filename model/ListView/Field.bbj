@@ -1,6 +1,7 @@
 class public Field
    field private BBjString dataColumn$ 
    field private BBjString dataColumnAlias$ 
+   field private Boolean isPrimaryColumn! = 0
    field private BBjString customCssClass$
 
    method public Field()
@@ -42,5 +43,13 @@ class public Field
 
    method public void setCustomCssClass(BBjString customCssClass$)
       #customCssClass$ = customCssClass$
+   methodend
+
+   method public Boolean getIsPrimaryColumn()
+      methodret #isPrimaryColumn!
+   methodend
+
+   method public void setIsPrimaryColumn(Boolean isPrimaryColumn!)
+      #isPrimaryColumn! = isPrimaryColumn!
    methodend
 classend

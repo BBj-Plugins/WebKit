@@ -1,0 +1,72 @@
+
+class public ListHeaderMenuItem
+    field private BBjNumber id
+    field private BBjString menuLabel$
+    field private BBjString menuCallback$
+
+    field private BBjString menuCssClass$
+    field private BBjString menuTheme$
+
+    method public ListHeaderMenuItem()
+    methodend
+
+    method public ListHeaderMenuItem(BBjNumber id)
+        #id = id
+    methodend
+
+    method public void setID(BBjNumber id)
+        #id = id
+    methodend
+
+    method public BBjNumber getID()
+        methodret #id
+    methodend
+
+    method public BBjString getMenuLabel()
+        methodret #menuLabel$
+    methodend
+
+    method public void setMenuLabel(BBjString menuLabel$)
+        #menuLabel$ =menuLabel$
+    methodend
+
+    method public BBjString getMenuCallback()
+        methodret #menuCallback$
+    methodend
+
+    method public void setMenuCallback(BBjString menuCallback$)
+        #menuCallback$ = menuCallback$
+    methodend
+
+    method public BBjString getMenuCssClass()
+        methodret #menuCssClass$
+    methodend
+
+    method public void setMenuCssClass(BBjString menuCssClass$)
+        #menuCssClass$ = menuCssClass$
+    methodend
+
+    method public BBjString getMenuTheme()
+        methodret #menuTheme$
+    methodend
+
+    method public void setMenuTheme(BBjString menuTheme$)
+        #menuTheme$ = menuTheme$
+    methodend
+classend
+
+class public ListHeaderDataModel
+    field private BBjVector menuItems! = new BBjVector()
+
+    method public ListHeaderDataModel()
+    methodend
+
+    method public void setMenuItems(BBjVector menuItems!)
+        #menuItems! = menuItems!
+    methodend
+
+    method public BBjVector getMenuItems()
+        methodret #menuItems!
+    methodend
+
+classend
