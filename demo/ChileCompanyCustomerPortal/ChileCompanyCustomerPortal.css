@@ -22,12 +22,10 @@
 
 .listWindow{
     margin: 40px 38px 80px 52px;
-    height: calc(100% - 268px);
 }
 
 .listPanel{
-    height: 500px;
-    width: 50vw;
+    height: calc(100vh - 268px);
     overflow-y: scroll !important;
     padding: 0px 16px 16px;
     background-color: var(--bbj-color-white);
