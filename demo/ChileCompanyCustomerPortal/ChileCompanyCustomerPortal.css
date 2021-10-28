@@ -8,8 +8,35 @@
     line-height: 17px;
 }
 
+.listTitleField{
+    height: 17px;
+
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .listWindow{
     margin: 40px 38px 80px 52px;
+    height: calc(100% - 268px);
+}
+
+.listPanel{
+    height: 500px;
+    width: 50vw;
+    overflow-y: scroll !important;
+    padding: 0px 16px 16px;
+    background-color: var(--bbj-color-white);
+}
+
+@media screen and (max-width: 425px) {
+    .listWindow{
+        margin: 40px 20px 80px 20px !important;
+    }
 }
 
 :root{

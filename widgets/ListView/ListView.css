@@ -7,7 +7,6 @@
 
 .columnHeaderPanel{
     display: grid;
-    height: 49px;
     border-bottom: 1px solid #DDE0E1;
 }
 
