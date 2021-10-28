@@ -21,7 +21,7 @@ class public LoginDialogBuilder
     method public static void addLogo(LoginDialogWindow dialog!, BBjString url$)
         id! = dialog!.getContent().getAvailableControlID()
         logo! = dialog!.getContent().addImageCtrl(id!,0,0,0,0, url$)
-        logo!.addStyle("logo")
+        logo!.addStyle("loginlogo")
     methodend
 
     method public static void addPageTitle (LoginDialogWindow dialog!, BBjString title$)
@@ -100,13 +100,13 @@ class public LoginDialogBuilder
     
     method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$)
         dialog!.setSubmitButton(dialog!.getContent().addButton(dialog!.getContent().getAvailableControlID(),0,0,0,0,label$))
-        
+         
         if methodName$ = "login" then 
             dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
         else 
             dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,dialog!,methodName$)
         endif
-
+ 
         dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_ENTER,dialog!,"onButtonHover")
         dialog!.getSubmitButton().setCallback(BBjAPI().ON_MOUSE_EXIT,dialog!,"onButtonHoverExit")
         dialog!.getSubmitButton().setStyle("margin-top","40px")

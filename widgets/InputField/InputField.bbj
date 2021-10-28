@@ -4,8 +4,6 @@ use ::WebKit/model/Icon.bbj::Icon
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
 
-use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
-
 class public InputField extends BBjWidget implements Icon
 
     field protected BBjChildWindow window!
@@ -112,21 +110,21 @@ class public InputField extends BBjWidget implements Icon
     rem |||||||||||||||| CALLBACKS |||||||||||||||||
     rem ||||||||||||||||||||||||||||||||||||||||||||
                     
-    method private void createPasswordField(Boolean init!)
-        if !init! then 
-            #inputField!.destroy()
-        endif
+    rem method private void createPasswordField(Boolean init!)
+    rem     if !init! then 
+    rem         #inputField!.destroy()
+    rem     endif
         
-        #passwordField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
-        #passwordField!.addStyle("inputFieldStyle")
-        #passwordField!.addStyle("inputFieldStyleInputWrapper")
-        #passwordField!.addStyle("inputFieldStyleInput")
-        #passwordField!.setLeftMargin(0)
-        #passwordField!.setPasswordVisible(0)
-        #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
-        #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
-        #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
-    methodend
+    rem     #passwordField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
+    rem     #passwordField!.addStyle("inputFieldStyle")
+    rem     #passwordField!.addStyle("inputFieldStyleInputWrapper")
+    rem     #passwordField!.addStyle("inputFieldStyleInput")
+    rem     #passwordField!.setLeftMargin(0)
+    rem     #passwordField!.setPasswordVisible(0)
+    rem     #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
+    rem     #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
+    rem     #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
+    rem methodend
     
     method private void createIcon()
         #fieldIcon! =  #setIcon(#window!, #suffixIconPath!)

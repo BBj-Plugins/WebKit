@@ -172,7 +172,7 @@ class public LoginDialog
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
-
+ 
     method public void buildResponseContent(LoginDialogWindow wnd!, BBjString memory$,  BBjString title$, BBjString response$, Boolean retry!, BBjString methodName$ )
         LoginDialogBuilder.addMemory(wnd!, memory$)
         LoginDialogBuilder.addLogo(wnd!, #logoURL$)
