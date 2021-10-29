@@ -44,8 +44,6 @@ class public DashboardTasks extends BBjWidget
         #window!.addPanelStyle("dashboardTasksPanelStyle")
         #window!.setDockStyle("width","100%")
         #window!.setDockStyle("height","100%")
-        #window!.setStyle("width","100%")
-        #window!.setStyle("height","100%")
 
         #header! = new DashboardWidgetHeader(#window!, "TASKS")
 
