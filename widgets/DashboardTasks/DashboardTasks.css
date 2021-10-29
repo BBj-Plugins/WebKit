@@ -2,7 +2,7 @@
     height: 100%;
     width: 100%;
     min-height: 200px;
-    background-color: var(--bbj-color-white);
+    background-color: var(--bbj-color-white #fff);
     border-radius: 8px;
 } 
 
@@ -18,15 +18,13 @@
 /*  REDIRECT LINK */
 .dashboardTasksLink {
     padding: 1.5rem;
-    color: #6883BA;
-    color: var(--bbj-link-hover);
+    color: var(--bbj-link-hover #6883BA);
     font-size: var(--bbj-font-size-s);
     font-weight: var(--bbj-font-weight-lighter);
 }
 
 .dashboardTasksLink:hover {
-    color: rgb(138, 197, 231);
-    color: var(--bbj-link-hover-color);
+    color: var(--bbj-link-hover-color #8ac5e7);
     cursor: pointer;
 }
 
@@ -44,8 +42,7 @@
 }
 
 .dashboardTask:hover {
-    background-color: rgb(231, 231, 231);  
-    background-color: var(--bbj-tile-background-hover);
+    background-color: var(--bbj-tile-background-hover #e7e7e7);
     cursor: pointer;
 }
 
@@ -57,13 +54,12 @@
 .dashboardTaskCardCheckBoxInputWrapper::part(input-wrapper) {
     width: 22px;
     height: 22px;
-    border:solid 1px #E1EAEA;
-    border:solid 1px var(--bbj-border-color);
+    border:solid 1px var(--bbj-border-color #E1EAEA);
     border-radius: 4px;
 }
 
 .dashboardTaskCardCheckBoxControl::part(control) {
-    --bbj-color-default: var(--bbj-color-white);
+    --bbj-color-default: var(--bbj-color-white #fff);
 }
 
 .dashboardTaskCardCheckBoxIcon::part(checked-icon) {
@@ -72,8 +68,7 @@
 
 /* TASKCARD FONTS */
 .dashboardTaskCardTitleFont {
-    color: #333E40;
-    color: var(--bbj-font-dark);
+    color: var(--bbj-font-dark #333E40);
     font-size: var(--bbj-font-size-s);
 }
 
@@ -82,8 +77,7 @@
     font-weight: var(--bbj-font-weight-lighter);
     font-size: var(--bbj-font-size-xxs);
     line-height: 16.4px;
-    color: #A1A5A7;
-    color: var(--bbj-font-light);
+    color: var(--bbj-font-light #A1A5A7);
 }
 
 .dashboardTaskCardSmallFont.priority {
