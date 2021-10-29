@@ -14,6 +14,6 @@
 .dashboardWidgetHeaderTitle.setting {
     float: right;
     margin-top: 2px;
-    color: var(--bbj-fontdark #333E40);
+    color: var(--bbj-font-dark #333E40);
     font-size: var(--bbj-font-size-s);
 }
