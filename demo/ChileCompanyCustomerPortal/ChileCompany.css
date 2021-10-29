@@ -33,7 +33,7 @@
     
     /* TYPOGRAPHY */
     /* ==================== */
-    --bbj-font-family-sans: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --bbj-font-family-sans: 'Lato', -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     --bbj-font-family-mono: Menlo, Monaco, 'Courier New', monospace;
     --bbj-font-size-xxs: 0.75rem;
     --bbj-font-size-xs: 0.8125rem;

@@ -36,6 +36,7 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         
         listDataModel!.setDatabaseName("ChileCompany")
         listDataModel!.setTableName("Customer")
+        listDataModel!.setListPanelCssClassName("listPanel")
 
         displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
         id_field! = new Field("CUST_NUM", "ID")
@@ -43,6 +44,7 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         city_field! = new Field("CITY", "CITY")
         city_field!.setCustomCssClass("listSubtitleField")
         addr_field! = new Field("BILL_ADDR1", "ADDRESS")
+        addr_field!.setCustomCssClass("listTitleField")
 
         
         firstColumnFields! = new BBjVector()

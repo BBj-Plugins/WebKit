@@ -56,7 +56,12 @@ class public ListView extends BBjWidget implements Icon
 
         rows! = #RS!.getDataRows()
         listWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        listWrapper!.addPanelStyle("listWrapperPanelStyle")
+        listWrapperPanelStyle$ = #listDataModel!.getListPanelCssClassName() 
+        if listWrapperPanelStyle$ <> "" THEN
+            listWrapper!.addPanelStyle(listWrapperPanelStyle$)
+        else
+            listWrapper!.addPanelStyle("listWrapperPanelStyle")
+        fi
 
         columnMappings! = #listDataModel!.getColumnMappings()
         numOfColumns = columnMappings!.size() 
