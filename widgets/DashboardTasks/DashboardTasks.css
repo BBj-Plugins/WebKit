@@ -18,13 +18,15 @@
 /*  REDIRECT LINK */
 .dashboardTasksLink {
     padding: 1.5rem;
-    color: #0b74c0;
+    color: #6883BA;
+    color: var(--bbj-link-hover);
     font-size: var(--bbj-font-size-s);
     font-weight: var(--bbj-font-weight-lighter);
 }
 
 .dashboardTasksLink:hover {
     color: rgb(138, 197, 231);
+    color: var(--bbj-link-hover-color);
     cursor: pointer;
 }
 
@@ -43,6 +45,7 @@
 
 .dashboardTask:hover {
     background-color: rgb(231, 231, 231);  
+    background-color: var(--bbj-tile-background-hover);
     cursor: pointer;
 }
 
@@ -54,7 +57,8 @@
 .dashboardTaskCardCheckBoxInputWrapper::part(input-wrapper) {
     width: 22px;
     height: 22px;
-    border:solid 1px #DDE0E1;
+    border:solid 1px #E1EAEA;
+    border:solid 1px var(--bbj-border-color);
     border-radius: 4px;
 }
 
@@ -69,6 +73,7 @@
 /* TASKCARD FONTS */
 .dashboardTaskCardTitleFont {
     color: #333E40;
+    color: var(--bbj-font-dark);
     font-size: var(--bbj-font-size-s);
 }
 
@@ -78,6 +83,7 @@
     font-size: var(--bbj-font-size-xxs);
     line-height: 16.4px;
     color: #A1A5A7;
+    color: var(--bbj-font-light);
 }
 
 .dashboardTaskCardSmallFont.priority {
