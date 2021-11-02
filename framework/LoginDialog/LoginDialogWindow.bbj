@@ -1,7 +1,7 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
-use ::WebKit/widgets/InputField/extensions/UsernameField.bbj::UsernameField
+use ::WebKit/widgets/InputField/extensions/TextField.bbj::TextField
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
@@ -11,7 +11,7 @@ class public LoginDialogWindow extends BBjWidget
     field private LoginDialog loginDialog!
     field private BBjChildWindow content!
     
-    field private UsernameField username! 
+    field private TextField username! 
     field private PasswordField password! 
     field private PasswordField repeatPassword! 
     field private BBjCheckBox rememberMe!
@@ -43,11 +43,11 @@ class public LoginDialogWindow extends BBjWidget
         methodret #content!
     methodend
 
-    method public UsernameField getUsername()
+    method public TextField getUsername()
         methodret #username!
     methodend
 
-    method public void setUsername(UsernameField username!)
+    method public void setUsername(TextField username!)
         #username! = username!
     methodend
 
@@ -128,7 +128,7 @@ class public LoginDialogWindow extends BBjWidget
         #username!.getInputField().removeStyle("error")
         
         if #password! <> null()
-            #password!.setSubText("")
+            #password!.setErrorMessage("")
             #password!.getInputField().removeStyle("error")
         endif
     methodend
@@ -143,7 +143,7 @@ class public LoginDialogWindow extends BBjWidget
     method public void validateNewPassword(BBjEditModifyEvent event!)
             #password!.onInputChange(event!)
 
-            #repeatPassword!.setSubText("")
+            #repeatPassword!.setErrorMessage("")
     methodend
     
      method public void onShowPasswordIconPressed(BBjCustomEvent event!)
@@ -163,13 +163,13 @@ class public LoginDialogWindow extends BBjWidget
         newPassword! = #password!.getInput()
         repeatPassword! = #repeatPassword!.getInput()
         if newPassword! <> repeatPassword! then 
-            #repeatPassword!.setSubText("Passwords don't match")
+            #repeatPassword!.setErrorMessage("Passwords don't match")
         else
-            #repeatPassword!.setSubText("")
+            #repeatPassword!.setErrorMessage("")
         endif
 
         if repeatPassword! = "" then 
-            #repeatPassword!.setSubText("")
+            #repeatPassword!.setErrorMessage("")
         endif
     methodend
 
@@ -177,7 +177,7 @@ class public LoginDialogWindow extends BBjWidget
         #username!.getInputField().addStyle("error")   
         #password!.getInputField().addStyle("error")
         #password!.setInput("")
-        #password!.setSubText("Invalid username and password combination")
+        #password!.setErrorMessage("Invalid username and password combination")
         #password!.setText("")
     methodend
 

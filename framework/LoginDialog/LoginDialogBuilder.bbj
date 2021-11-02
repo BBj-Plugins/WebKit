@@ -2,7 +2,7 @@ rem use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
-use ::WebKit/widgets/InputField/extensions/UsernameField.bbj::UsernameField
+use ::WebKit/widgets/InputField/extensions/TextField.bbj::TextField
 
 
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
@@ -39,7 +39,7 @@ class public LoginDialogBuilder
     methodend
 
     method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!, BBjString memory$)
-        dialog!.setUsername(new UsernameField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!, dialog!))
+        dialog!.setUsername(new TextField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!))
         dialog!.getUsername().setDockStyle("margin-top","50px")
 
         if memory$ <> "" then 

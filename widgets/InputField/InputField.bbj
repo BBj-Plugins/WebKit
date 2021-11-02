@@ -12,8 +12,8 @@ class public InputField extends BBjWidget implements Icon
     field protected BBjStaticText label!
     field protected BBjEditBox inputField!
     field protected BBjChildWindow suffixWrapper!
-    field protected BBjChildWindow subTextWnd!
-    field protected BBjStaticText subText!
+    field protected BBjChildWindow errorMessageWnd!
+    field protected BBjStaticText errorMessage!
     field private BBjString suffixIconPath!
     field private BBjStaticText fieldIcon!
     
@@ -38,10 +38,10 @@ class public InputField extends BBjWidget implements Icon
             #label! = #window!.addStaticText( #window!.getAvailableControlID(),0,0,0,0,"")
             #label!.addStyle("inputFieldLabelStyle")
  
-            #subTextWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            #subTextWnd!.addStyle("inputFieldSubTextWindow")
-            #subText! = #subTextWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
-            #subText!.addStyle("inputFieldSubTextStyle")
+            #errorMessageWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #errorMessageWnd!.addStyle("inputFieldSubTextWindow")
+            #errorMessage! = #errorMessageWnd!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+            #errorMessage!.addStyle("inputFieldSubTextStyle")
                 
             #inputField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"")
             #inputField!.addStyle("inputFieldStyle")
@@ -97,11 +97,11 @@ class public InputField extends BBjWidget implements Icon
     methodend
 
     method public BBjString getSubText()
-        methodret #subText!.getText()
+        methodret #errorMessage!.getText()
     methodend
 
-    method public void setSubText(BBjString subText!)
-        #subText!.setText(subText!)
+    method public void setErrorMessage(BBjString errorMessage!)
+        #errorMessage!.setText(errorMessage!)
     methodend
 
 
@@ -109,23 +109,7 @@ class public InputField extends BBjWidget implements Icon
     rem ||||||||||||||||||||||||||||||||||||||||||||
     rem |||||||||||||||| CALLBACKS |||||||||||||||||
     rem ||||||||||||||||||||||||||||||||||||||||||||
-                    
-    rem method private void createPasswordField(Boolean init!)
-    rem     if !init! then 
-    rem         #inputField!.destroy()
-    rem     endif
-        
-    rem     #passwordField! = #window!.addEditBox(#window!.getAvailableControlID(),0,0,0,0,"",$0400$)
-    rem     #passwordField!.addStyle("inputFieldStyle")
-    rem     #passwordField!.addStyle("inputFieldStyleInputWrapper")
-    rem     #passwordField!.addStyle("inputFieldStyleInput")
-    rem     #passwordField!.setLeftMargin(0)
-    rem     #passwordField!.setPasswordVisible(0)
-    rem     #passwordField!.setCallback(BBjAPI.ON_GAINED_FOCUS,#this!,"onFocusGained")
-    rem     #passwordField!.setCallback(BBjAPI.ON_LOST_FOCUS,#this!,"onFocusLost")
-    rem     #passwordField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onChange")
-    rem methodend
-    
+ 
     method private void createIcon()
         #fieldIcon! =  #setIcon(#window!, #suffixIconPath!)
         #fieldIcon!.addStyle("inputFieldIcon")
@@ -151,23 +135,19 @@ class public InputField extends BBjWidget implements Icon
 
     method public void onInputChange(BBjEditModifyEvent event!)     
         if event!.getText() = "" then 
-            #subText!.setText("") 
+            #errorMessage!.setText("") 
         else 
             if #validator! <> null() then
-                #subText!.setText(#validator!.validate(#inputField!.getText()))
-                if #subText!.getText() <> "" then 
-                    #inputField!.addStyle("error")
+                #errorMessage!.setText(#validator!.validate(#inputField!.getText()))
+                if #errorMessage!.getText() <> "" then 
+                    #inputField!.addStyle("errorMessage")
                     #valid! = Boolean.FALSE 
                 else 
-                    #inputField!.removeStyle("error")
+                    #inputField!.removeStyle("errorMessage")
                     #valid! = Boolean.TRUE 
                 endif
             endif
         endif
     methodend 
     
-    method public void onIconPressed(BBjMouseDownEvent event!)
-        rem to be overwritten by PasswordField
-    methodend
-
 classend
