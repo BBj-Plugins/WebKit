@@ -3,6 +3,7 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/model/Icon.bbj::Icon
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 class public InputField extends BBjWidget implements Icon
 
@@ -11,7 +12,6 @@ class public InputField extends BBjWidget implements Icon
     
     field protected BBjStaticText label!
     field protected BBjEditBox inputField!
-    field protected BBjChildWindow suffixWrapper!
     field protected BBjChildWindow errorMessageWnd!
     field protected BBjStaticText errorMessage!
     field private BBjString suffixIconPath!
@@ -20,14 +20,10 @@ class public InputField extends BBjWidget implements Icon
     field protected Boolean valid! = Boolean.FALSE
 
     method public InputField(BBjChildWindow wnd!, IValidator validator!)
-         #this!(wnd!,wnd!.getAvailableControlID(), validator!)
-    methodend
-    
-    method public InputField(BBjChildWindow wnd!, BBjInt id!, IValidator validator!)
-        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
-        #validator! = validator!
-        #super!.create(wnd!,id!)
+         #validator! = validator!
+         #super!.create(wnd!, wnd!.getAvailableControlID())
     methodend
     
     method public void redraw(Boolean init!)
@@ -133,16 +129,21 @@ class public InputField extends BBjWidget implements Icon
         #inputField!.removeStyle("focus")
     methodend
 
-    method public void onInputChange(BBjEditModifyEvent event!)     
+    method public void onInputChange(BBjEditModifyEvent event!)  
+
+        ClientUtil.consoleLog("dhetteri....")
         if event!.getText() = "" then 
+            ClientUtil.consoleLog("uporer if e text nai")
             #errorMessage!.setText("") 
         else 
             if #validator! <> null() then
                 #errorMessage!.setText(#validator!.validate(#inputField!.getText()))
                 if #errorMessage!.getText() <> "" then 
+                    ClientUtil.consoleLog("error paisi")
                     #inputField!.addStyle("errorMessage")
                     #valid! = Boolean.FALSE 
                 else 
+                    ClientUtil.consoleLog("Bhallagtesena, Bashay jabo.")
                     #inputField!.removeStyle("errorMessage")
                     #valid! = Boolean.TRUE 
                 endif

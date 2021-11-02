@@ -9,10 +9,7 @@ use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 class public TextField extends InputField
 
     method public TextField (BBjChildWindow wnd!, IValidator validator!)
-        #this!(wnd!,wnd!.getAvailableControlID(), validator!)
+        #super!(wnd!, validator!)
     methodend
 
-    method public TextField (BBjChildWindow wnd!, BBjInt id!, IValidator validator!)
-        #super!(wnd!,id!, validator!)
-    methodend
 classend
