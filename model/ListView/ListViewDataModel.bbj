@@ -4,6 +4,7 @@ use java.util.HashSet
 
 class public ListViewDataModel
     field private BBjString listPanelTitle$
+    field private BBjString listPanelCssClassName$
     field private BBjString databaseName$
 
     field private BBjVector columnMappings! = new BBjVector()
@@ -20,6 +21,14 @@ class public ListViewDataModel
 
     method public ListViewDataModel(BBjString listPanelTitle$)
         #listPanelTitle$ = listPanelTitle$
+    methodend
+
+    method public void setListPanelCssClassName(BBjString className$)
+        #listPanelCssClassName$ = className$
+    methodend
+
+    method public BBjString getListPanelCssClassName()
+        methodret #listPanelCssClassName$
     methodend
 
     method public BBjVector getColumnMappings()

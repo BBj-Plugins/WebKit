@@ -7,7 +7,6 @@
 
 .columnHeaderPanel{
     display: grid;
-    height: 49px;
     border-bottom: 1px solid #DDE0E1;
 }
 
@@ -66,6 +65,7 @@
 @media screen and (max-width: 425px) {
     .columnHeaderPanel{
         grid-template-columns: 100% !important;
+        height: 49px;
     }
 
     .dataRowPanel{
