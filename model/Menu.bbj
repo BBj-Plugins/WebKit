@@ -10,6 +10,7 @@ class public MenuItem
     field private BBjNumber StartType
     field private BBjString Program$
     field private BBjString Callback$
+    field private BBjString CustomEventName$
 
     method private MenuItem()
     methodend
@@ -104,6 +105,14 @@ class public MenuItem
 
     method public BBjString getCallback()
         methodret #Callback$
+    methodend
+
+    method public BBjString getCustomEventName()
+        methodret #CustomEventName$
+    methodend
+
+    method public void setCustomEventName(BBjString customEventName$)
+        #CustomEventName$ = customEventName$
     methodend
 
 classend
