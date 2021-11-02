@@ -149,7 +149,7 @@ class public InputField extends BBjWidget implements Icon
         #inputField!.removeStyle("focus")
     methodend
 
-    method public void onInputChange(BBjEditModifyEvent event!)
+    method public void onInputChange(BBjEditModifyEvent event!)     
         if event!.getText() = "" then 
             #subText!.setText("") 
         else 

@@ -1,6 +1,7 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
+use ::WebKit/widgets/InputField/extensions/UsernameField.bbj::UsernameField
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 
@@ -9,7 +10,7 @@ class public LoginDialogWindow extends BBjWidget
     field private LoginDialog loginDialog!
     field private BBjChildWindow content!
     
-    field private InputField username! 
+    field private UsernameField username! 
     field private PasswordField password! 
     field private PasswordField repeatPassword! 
     field private BBjCheckBox rememberMe!
@@ -41,11 +42,11 @@ class public LoginDialogWindow extends BBjWidget
         methodret #content!
     methodend
 
-    method public InputField getUsername()
+    method public UsernameField getUsername()
         methodret #username!
     methodend
 
-    method public void setUsername(InputField username!)
+    method public void setUsername(UsernameField username!)
         #username! = username!
     methodend
 
@@ -186,120 +187,6 @@ class public LoginDialogWindow extends BBjWidget
         #password!.setText("")
     methodend
 
-
-
-
-     
-
-
-
-
-
-
-
-
-
-    rem method public void setSubmit(Boolean canSubmit!)
-    rem     if canSubmit! then 
-    rem         #submitButton!.removeStyle("disabled")
-    rem         #submitButton!.setEnabled(1)
-    rem     else 
-    rem         #submitButton!.addStyle("disabled")
-    rem         #submitButton!.setEnabled(0)
-    rem     endif   
-    rem methodend
-
-    rem method public void validateInputField(InputField inputField!, BBjString fieldType!)
-    rem     input! = inputField!.getText()
-
-    rem     if input!.length() > 0 then
-    rem         if fieldType! <> null() or fieldType! <> "" then
-    rem             switch fieldType!
-    rem                 case "username"
-    rem                     res! = #loginDialog!.getFieldReq().username(input!)
-    rem                     inputField!.setSubText(res!)
-                        
-    rem                     if res! <> "" then
-    rem                         inputField!.setValid(Boolean.FALSE)
-    rem                     else 
-    rem                         inputField!.setValid(Boolean.TRUE)
-    rem                     endif
-    rem                 break
-
-    rem                 case "password"
-    rem                     res! = #loginDialog!.getFieldReq().password(input!)
-    rem                     inputField!.setSubText(res!)
-                        
-    rem                     if res! <> "" then
-    rem                         inputField!.setValid(Boolean.FALSE)
-    rem                     else 
-    rem                         inputField!.setValid(Boolean.TRUE)
-    rem                     endif
-    rem                 break
-                    
-    rem                 case "newpassword"
-    rem                     res! = #loginDialog!.getFieldReq().newPassword(input!)
-    rem                     inputField!.setSubText(res!)
-                        
-    rem                     if res! <> "" then
-    rem                         inputField!.setValid(Boolean.FALSE)
-    rem                     else 
-    rem                         inputField!.setValid(Boolean.TRUE)
-    rem                     endif
-    rem                 break    
-                    
-    rem                 case "repeatpassword"
-    rem                     res! = #loginDialog!.getFieldReq().repeatPassword(input!, #password!.getText())
-    rem                     inputField!.setSubText(res!) 
-
-    rem                     if res! <> "" then
-    rem                         inputField!.setValid(Boolean.FALSE)
-    rem                     else 
-    rem                         inputField!.setValid(Boolean.TRUE)
-    rem                     endif
-    rem                 break        
-    rem             swend
-    rem         endif
-    rem     else 
-    rem         rem FOR DEVELOPMENT SO THEY CAN LOGIN WITHOUT PASSWORD
-    rem         if fieldType! = "password" then 
-    rem             inputField!.setValid(Boolean.TRUE)
-    rem         else 
-    rem             inputField!.setValid(Boolean.FALSE)
-    rem         endif
-    rem     endif    
-    rem methodend
-
-    rem method public void validateAllInputFields()
-    rem     if #username! <> null() then 
-    rem         #validateInputField(#username!,#usernameInputFieldType!)
-    rem     endif
-    rem     if #password! <> null() then
-    rem         #validateInputField(#password!,#passwordInputFieldType!)
-    rem     endif
-    rem     if #repeatPassword! <> null() then
-    rem         #validateInputField(#repeatPassword!,#repeatPasswordInputFieldType!)
-    rem     endif
-    rem methodend
-
-    rem method public Boolean canSubmit()
-    rem     if #username! <> null() then 
-    rem         if #username!.getValid() <> Boolean.TRUE then 
-    rem             methodret Boolean.FALSE
-    rem         endif
-    rem     endif
-    rem     if #password! <> null() then 
-    rem         if #password!.getValid() <> Boolean.TRUE then 
-    rem             methodret Boolean.FALSE
-    rem         endif
-    rem     endif
-    rem     if #repeatPassword! <> null() then 
-    rem         if #repeatPassword!.getValid() <> Boolean.TRUE then 
-    rem             methodret Boolean.FALSE
-    rem         endif
-    rem     endif
-    rem     methodret Boolean.TRUE
-    rem methodend
 
     method public void clearStyles()
         if #username! <> null() then 

@@ -23,11 +23,5 @@ class public UsernameField extends InputField
     method public void onIconPressed(BBjMouseDownEvent event!)
         print "on User Icon pressed" ; escape
     methodend
-
-    method public void onInputChange(BBjEditModifyEvent event!)
-        
-    methodend
-
-
-
+    
 classend

@@ -39,7 +39,7 @@ class public LoginDialogBuilder
     methodend
 
     method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!, BBjString memory$)
-        dialog!.setUsername(new UsernameField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!,dialog!))
+        dialog!.setUsername(new UsernameField(dialog!.getContent(),dialog!.getContent().getAvailableControlID(), validator!, dialog!))
         dialog!.getUsername().setDockStyle("margin-top","50px")
 
         if memory$ <> "" then 

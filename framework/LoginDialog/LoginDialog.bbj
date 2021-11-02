@@ -44,7 +44,7 @@ class public LoginDialog
     field public Boolean LoginWithMicrosoft! = Boolean.FALSE
     field public Boolean LoginWithGoogle! = Boolean.FALSE
 
-    field private AccountProfile Profile!
+    field private AccountProfile profile!
     field public BBjString User$ = ""
 
     field private BBjString logoURL$
@@ -84,8 +84,9 @@ class public LoginDialog
         methodret #loginWindow!
     methodend
 
+
     method public AccountProfile getProfile()
-        methodret #Profile!
+        methodret #profile!
     methodend
 
     method public static void clearRememberToken()
@@ -137,10 +138,10 @@ class public LoginDialog
            onGoogleLogin:
            onMicrosoftLogin:
                 ev! = BBjAPI().getLastEvent()
-                profile! = ev!.getObject()
-                if #authProvider!.checkLoginWithAccountProfile(profile!) then
-                    #User$ = str(profile!.getFullName())
-                    #Profile! = CAST(AccountProfile,profile!)
+                userProfile! = ev!.getObject()
+                if #authProvider!.checkLoginWithAccountProfile(userProfile!) then
+                    #User$ = str(userProfile!.getFullName())
+                    #profile! = CAST(AccountProfile,userProfile!)
                     #window!.destroy()
                     methodret Boolean.TRUE
                 fi
