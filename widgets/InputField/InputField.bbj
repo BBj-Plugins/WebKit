@@ -159,6 +159,7 @@ class public InputField extends BBjWidget implements Icon
                     #inputField!.addStyle("error")
                     #valid! = Boolean.FALSE 
                 else 
+                    #inputField!.removeStyle("error")
                     #valid! = Boolean.TRUE 
                 endif
             endif
