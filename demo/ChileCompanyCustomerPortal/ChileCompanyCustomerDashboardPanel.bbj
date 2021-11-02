@@ -121,7 +121,8 @@ class public ChileCompanyDashboardPanel extends BBjWidget
             listOverviewPanel!.setResultSet(#RS!)
             listOverviewPanel!.doModal()
             BBjAPI().setCustomEventCallback("ON_HEADER_ITEM_PRESSED", #this!, "onHeaderMenuItemClick")
-            BBjAPI().setCustomEventCallback("ON_EDIT_PRESSED", #this!, "onEditPressed")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_EDIT_PRESSED", #this!, "onEditPressed")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_DELETE_PRESSED", #this!, "onDeletePressed")
         FI
         
     methodend    
@@ -137,6 +138,11 @@ class public ChileCompanyDashboardPanel extends BBjWidget
     method public void onEditPressed(BBjCustomEvent ev!)
         id$ = str(ev!.getObject())
         #showEditForm(id$)
+    methodend
+
+    method public void onDeletePressed(BBjCustomEvent ev!)
+        id$ = str(ev!.getObject())
+        ClientUtil.consoleLog("item to be deleted with id: "+ id$)
     methodend
 
     method public void showCreateForm()
