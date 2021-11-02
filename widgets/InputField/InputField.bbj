@@ -130,20 +130,15 @@ class public InputField extends BBjWidget implements Icon
     methodend
 
     method public void onInputChange(BBjEditModifyEvent event!)  
-
-        ClientUtil.consoleLog("dhetteri....")
         if event!.getText() = "" then 
-            ClientUtil.consoleLog("uporer if e text nai")
             #errorMessage!.setText("") 
         else 
             if #validator! <> null() then
                 #errorMessage!.setText(#validator!.validate(#inputField!.getText()))
                 if #errorMessage!.getText() <> "" then 
-                    ClientUtil.consoleLog("error paisi")
                     #inputField!.addStyle("errorMessage")
                     #valid! = Boolean.FALSE 
                 else 
-                    ClientUtil.consoleLog("Bhallagtesena, Bashay jabo.")
                     #inputField!.removeStyle("errorMessage")
                     #valid! = Boolean.TRUE 
                 endif
