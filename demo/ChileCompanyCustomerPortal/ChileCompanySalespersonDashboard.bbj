@@ -1,7 +1,8 @@
+
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/demo/ChileCompanyCustomerPortal/util/DbUtil.bbj::DbUtil
-use ::WebKit/demo/ChileCompanyCustomerPortal/forms/ChileCompanyCustomerForm.bbj::ChileCompanyCustomerForm
+use ::WebKit/demo/ChileCompanyCustomerPortal/forms/ChileCompanySalespersonForm.bbj::ChileCompanySalespersonForm
 use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
 use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
 use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderMenuItem
@@ -17,80 +18,102 @@ use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 
 
-class public ChileCompanyDashboardPanel extends BBjWidget
+class public ChileCompanySalespersonDashboard extends BBjWidget
     field private DbUtil dbUtil!
 
     field private ResultSet RS!
 
-    method public ChileCompanyDashboardPanel(BBjWindow wnd!)
+    method public ChileCompanySalespersonDashboard (BBjWindow wnd!)
+        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
-    method public ChileCompanyDashboardPanel(BBjWindow wnd!, BBjInt id!)
+    method public ChileCompanySalespersonDashboard (BBjWindow wnd!, BBjInt id!)
+        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.css")
         #super!.create(wnd!,id!)
     methodend
 
-    method public ListViewDataModel initalizeListDataModel()
+    method public ListViewDataModel initalizeItemListDataModel()
         declare ListViewDataModel listDataModel!
-        listDataModel! = new ListViewDataModel("Customers")
+        listDataModel! = new ListViewDataModel()
         
         listDataModel!.setDatabaseName("ChileCompany")
-        listDataModel!.setTableName("Customer")
-        listDataModel!.setListPanelCssClassName("listPanel")
+        listDataModel!.setTableName("SALESREP")
+        listDataModel!.setListPanelCssClassName("itemListPanel")
+        REM listDataModel!.setActionColumnStatus(0)
 
-        displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
-        id_field! = new Field("CUST_NUM", "ID")
+        id_field! = new Field("SALESPERSON", "ID")
+        displayName_field! = new Field("NAME", "NAME")
         id_field!.setIsPrimaryColumn(1)
-        city_field! = new Field("CITY", "CITY")
+
+        address1_field! = new Field("ADDRESS")
+        address2_field! = new Field("ADDRESS2")
+        address2_field!.setCustomCssClass("listSubtitleField")
+        city_field! = new Field("CITY + ', ' + STATE", "META_ADDRESS")
         city_field!.setCustomCssClass("listSubtitleField")
-        addr_field! = new Field("BILL_ADDR1", "ADDRESS")
-        addr_field!.setCustomCssClass("listTitleField")
+        REM state_field! = new Field("STATE")
+        zip_field! = new Field("ZIP") 
+        zip_field!.setCustomCssClass("listSubtitleField")
+
+        phone_field! = new Field("PHONE")
+
+        idColumnFields! = new BBjVector()
+        idColumnFields!.add(id_field!)
+        idColumnCell! = new Cell(idColumnFields!)
+        idColumn! = new ListColumnModel("Id", 1)
+        idColumn!.setColumnWidth("15%")
+        idColumn!.setCellStructure(idColumnCell!)
 
         
         firstColumnFields! = new BBjVector()
         firstColumnFields!.add(displayName_field!)
         firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
-        firstColumn! = new ListColumnModel("Your Reference", 1)
-        firstColumn!.setColumnWidth("50%")
+        firstColumn! = new ListColumnModel("Salesperson Name", 2)
+        firstColumn!.setColumnWidth("30%")
         firstColumn!.setCellStructure(firstColumnCell!)
 
         secondColumnFields! = new BBjVector()
-        secondColumnFields!.add(id_field!)
+        secondColumnFields!.add(address1_field!)
+        secondColumnFields!.add(address2_field!)
+        REM secondColumnFields!.add(state_field!)
+        secondColumnFields!.add(zip_field!)
         secondColumnCell! = new Cell(secondColumnFields!)
-        secondColumn! = new ListColumnModel("Customer ID", 2)
-        secondColumn!.setColumnWidth("25%")
+        secondColumn! = new ListColumnModel("Address", 3)
+        secondColumn!.setColumnWidth("35%")
         secondColumn!.setCellStructure(secondColumnCell!)
 
         thirdColumnFields! = new BBjVector()
-        thirdColumnFields!.add(addr_field!)
+        thirdColumnFields!.add(phone_field!)
         thirdColumnCell! = new Cell(thirdColumnFields!)
-        thirdColumn! = new ListColumnModel("Address", 3)
-        thirdColumn!.setColumnWidth("25%")
+        thirdColumn! = new ListColumnModel("Phone", 4)
+        thirdColumn!.setColumnWidth("20%")
         thirdColumn!.setCellStructure(thirdColumnCell!)
 
         declare BBjVector columnMappings!
         columnMappings! = new BBjVector()
 
+        columnMappings!.add(idColumn!)
         columnMappings!.add(firstColumn!)
         columnMappings!.add(secondColumn!)
         columnMappings!.add(thirdColumn!)
 
         listDataModel!.setColumnMappings(columnMappings!)
-        listDataModel!.setRowLimit(10)
+        listDataModel!.setRowLimit(15)
 
         REM initialize list header data model
-        listHeaderDataModel! = #initializeListHeaderDataModel()
+        listHeaderDataModel! = #initializeItemListHeaderDataModel()
         listDataModel!.setHasListHeader(1)
         listDataModel!.setHeaderDataModel(listHeaderDataModel!)
+
         
         methodret listDataModel!
     methodend
 
-    method public ListHeaderDataModel initializeListHeaderDataModel()
+    method public ListHeaderDataModel initializeItemListHeaderDataModel()
        listHeaderMenu_create! = new ListHeaderMenuItem() 
        listHeaderMenu_create!.setID(1)
-       listHeaderMenu_create!.setMenuLabel("Create Customer")
+       listHeaderMenu_create!.setMenuLabel("Create Salesperson")
        listHeaderMenu_create!.setMenuCallback("ON_CREATE_BUTTON_PRESSED")
        listHeaderMenu_create!.setMenuCssClass("createBtn")
        listHeaderMenu_create!.setMenuTheme("primary")
@@ -102,6 +125,19 @@ class public ChileCompanyDashboardPanel extends BBjWidget
        listHeaderDataModel!.setMenuItems(headerMenus!)
        methodret listHeaderDataModel!
     methodend
+
+    method public void renderItemList(BBjChildWindow wnd!)
+            listDataModel! = #initalizeItemListDataModel()
+            #RS! = #loadData(listDataModel!)
+            listOverviewPanel! = new ListOverviewPanel(wnd!)
+            listOverviewPanel!.setListDataModel(listDataModel!)
+            listOverviewPanel!.setResultSet(#RS!)
+            listOverviewPanel!.doModal()
+            BBjAPI().setCustomEventCallback("ON_HEADER_ITEM_PRESSED", #this!, "onHeaderMenuItemClick")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_EDIT_PRESSED", #this!, "onEditPressed")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_DELETE_PRESSED", #this!, "onDeletePressed")
+    methodend
+
     
     rem /**
     rem  * @Override
@@ -113,16 +149,12 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         declare BBjChildWindow canvas!
         if f_init!>0 then
             canvas! = #getCanvas() 
-            canvas!.addStyle("listWindow")
-            listDataModel! = #initalizeListDataModel()
-            #RS! = #loadData(listDataModel!)
-            listOverviewPanel! = new ListOverviewPanel(canvas!)
-            listOverviewPanel!.setListDataModel(listDataModel!)
-            listOverviewPanel!.setResultSet(#RS!)
-            listOverviewPanel!.doModal()
-            BBjAPI().setCustomEventCallback("ON_HEADER_ITEM_PRESSED", #this!, "onHeaderMenuItemClick")
-            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_EDIT_PRESSED", #this!, "onEditPressed")
-            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_DELETE_PRESSED", #this!, "onDeletePressed")
+            canvas!.addStyle("dashboardWindow")
+            canvas!.addPanelStyle("dashboardWindowPanel")
+            itemWnd! =  canvas!.addChildWindow(canvas!.getAvailableControlID(), 0, 0, 0, 0, "", $00100800$, BBjAPI().getSysGui().getAvailableContext())
+            itemWnd!.addStyle("itemWnd")
+
+            #renderItemList(itemWnd!)
         FI
         
     methodend    
@@ -146,11 +178,11 @@ class public ChileCompanyDashboardPanel extends BBjWidget
     methodend
 
     method public void showCreateForm()
-        createCustomerForm! = new ChileCompanyCustomerForm(#getCanvas())
+        createItemForm! = new ChileCompanySalespersonForm(#getCanvas())
     methodend
 
     method public void showEditForm(BBjString id$)
-        editCustomerForm! = new ChileCompanyCustomerForm(#getCanvas(), id$)
+        editItemForm! = new ChileCompanySalespersonForm(#getCanvas(), id$)
     methodend
 
     method public ResultSet loadData(ListViewDataModel listDataModel!)

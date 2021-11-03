@@ -1,0 +1,51 @@
+.dashboardWindow{
+    margin: 40px 38px 80px 52px;
+}
+
+.dashboardWindowPanel{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.itemWnd{
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 5px;
+}
+
+.categoryWnd{
+    grid-row: 2;
+    grid-column: 2;
+    margin: 5px;
+}
+
+.countryWnd{
+    grid-row: 2;
+    grid-column: 1;
+    margin: 10px;
+}
+
+.itemListPanel{
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll !important;
+    padding: 0px 16px 16px;
+    background-color: var(--bbj-color-white);
+}
+
+.categoryListPanel{
+    height: 30vh;
+    width: 100%;
+    overflow-y: scroll !important;
+    padding: 0px 16px 16px;
+    background-color: var(--bbj-color-white);
+}
+
+.countryListPanel{
+    height: 30vh;
+    width: 100%;
+    overflow-y: scroll !important;
+    padding: 0px 16px 16px;
+    background-color: var(--bbj-color-white);
+}

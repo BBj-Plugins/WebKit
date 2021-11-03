@@ -18,15 +18,15 @@ ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.cs
 ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerPortal.css")
 startover: 
 
-login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
-login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
-
-login!.setAllowRemember(Boolean.TRUE)
-
-if !login!.doModal() then
-    a=msgbox("ERROR",0,"Error while logging in")
-    release
-fi
+REM login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
+REM login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
+REM 
+REM login!.setAllowRemember(Boolean.TRUE)
+REM 
+REM if !login!.doModal() then
+REM     a=msgbox("ERROR",0,"Error while logging in")
+REM     release
+REM fi
 
 declare Menu m!
 declare MenuItem i!
@@ -36,8 +36,8 @@ i! = m!.addMenuItem(m!.getRoot(),103,"Customers","List of Customers","users")
 i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
-i! = m!.addMenuItem(m!.getRoot(),100,"Home","Go to the Home - Dashboard","home")
-i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
+i! = m!.addMenuItem(m!.getRoot(),100,"Salesperson","Salesperson - Dashboard","user")
+i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.bbj::ChileCompanySalespersonDashboard")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
 i! = m!.addMenuItem(m!.getRoot(),101,"CD-Store BUI","CD BUI","music")
@@ -89,6 +89,7 @@ declare Menu headerMenu!
 declare MenuItem headerMenuItem!
 headerMenu! = new Menu()
 headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),500,"My Dashboard","Dashboard","home")
+headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyMyDashboard.bbj::ChileCompanyMyDashboard")
 
 headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),501,"Home-footer1","Go to the Home - Dashboard","home")
 headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
@@ -99,7 +100,7 @@ headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompan
 headerMenuItem!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
 portal! = new PortalFrame()
-portal!.setUsername(login!.getUser())
+REM portal!.setUsername(login!.getUser())
 portal!.setMenu(m!)
 portal!.setFooterMenu(footerMenu!)
 portal!.setHeaderMenu(headerMenu!)
