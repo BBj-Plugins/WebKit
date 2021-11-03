@@ -190,7 +190,9 @@ class public ListView extends BBjWidget implements Icon
     methodend
 
     method public void onActionItemPressed(BBjMouseDownEvent ev!)
-        #overlayWidget!.onOverlayDissmiss(null())
+        if #overlayWidget! <> null() THEN 
+            #overlayWidget!.onOverlayDissmiss(null())
+        fi
         itemId$ = ev!.getControl().getText()
         menuId = ev!.getControl().getID()
         menu! = #listDataModel!.getActionMenus()
