@@ -15,8 +15,10 @@ class public InputField extends BBjWidget implements Icon
     field protected BBjChildWindow errorMessageWnd!
     field protected BBjStaticText errorMessage!
     field private BBjString suffixIconPath!
+    field public BBjString id!
     field private BBjStaticText fieldIcon!
-    
+    field public static BBjNumber ON_INPUT_CHANGE = 4444
+
     field protected Boolean valid! = Boolean.FALSE
 
     method public InputField(BBjChildWindow wnd!, IValidator validator!)
@@ -78,6 +80,10 @@ class public InputField extends BBjWidget implements Icon
         #label!.setText(label!)
     methodend
 
+    method public void setId(BBjString id!)
+        #id! = id!
+    methodend
+
     method public void setPlaceHolder(BBjString placeholder!)
         #inputField!.setPlaceholder(placeholder!)
     methodend
@@ -94,6 +100,10 @@ class public InputField extends BBjWidget implements Icon
 
     method public BBjString getSubText()
         methodret #errorMessage!.getText()
+    methodend
+    
+    method public BBjString getId()
+        methodret #id!
     methodend
 
     method public void setErrorMessage(BBjString errorMessage!)
@@ -130,6 +140,7 @@ class public InputField extends BBjWidget implements Icon
     methodend
 
     method public void onInputChange(BBjEditModifyEvent event!)  
+        ClientUtil.consoleLog(event!.getText())
         if event!.getText() = "" then 
             #errorMessage!.setText("") 
         else 
@@ -144,6 +155,7 @@ class public InputField extends BBjWidget implements Icon
                 endif
             endif
         endif
+        #fireEvent(#ON_INPUT_CHANGE, "")
     methodend 
     
 classend

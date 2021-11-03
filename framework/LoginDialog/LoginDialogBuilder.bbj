@@ -3,7 +3,9 @@ use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
 use ::WebKit/widgets/InputField/extensions/TextField.bbj::TextField
-
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::UsernameValidator
@@ -11,8 +13,7 @@ use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::PasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::NewPasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::RepeatPasswordValidator
 
-class public LoginDialogBuilder 
-
+class public LoginDialogBuilder extends BBjWidget
     method public static void addMemory(LoginDialogWindow dialog!, BBjString memory$)
         dialog!.setMemory(memory$)
     methodend
@@ -46,10 +47,12 @@ class public LoginDialogBuilder
         endif
         
         dialog!.getUsername().setLabel("Username")
+        dialog!.getUsername().setId("Hello")
         dialog!.getUsername().setPlaceHolder("name@company.com")
         dialog!.getUsername().setSuffix("user")
+        ClientUtil.consoleLog(dialog!.getUsername().getId())
 
-        dialog!.getUsername().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateUsername")
+        rem dialog!.getUsername().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateUsername")
     methodend
 
     method public static void addPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$)
@@ -62,12 +65,6 @@ class public LoginDialogBuilder
 
         dialog!.getPassword().setLabel(label$)
         dialog!.getPassword().setPlaceHolder(placeholder$)
-
-        if isNewPassword! then 
-            dialog!.getPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateNewPassword")
-        else     
-            dialog!.getPassword().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validatePassword")
-        endif
     methodend
 
     method public static void addRepeatPasswordInput(LoginDialogWindow dialog!, IValidator validator!, BBjString label$, BBjString placeholder$)
@@ -132,4 +129,5 @@ class public LoginDialogBuilder
         redirectText!.setCallback(BBjAPI.ON_MOUSE_ENTER,dialog!,"onForgotPwHover")
         redirectText!.setCallback(BBjAPI.ON_MOUSE_EXIT,dialog!,"onForgotPwHoverExit")
     methodend
+
 classend

@@ -118,34 +118,7 @@ class public LoginDialogWindow extends BBjWidget
     method public void onButtonHoverExit(BBjMouseExitEvent event!)
         #submitButton!.removeStyle("hover")
     methodend
-
-    rem ||||||||||||||||||||||||||||||||||||||||||||
-    rem ||||||||| LOGIN INPUT VALIDATION |||||||||||
-    rem ||||||||||||||||||||||||||||||||||||||||||||
-    method public void validateUsername(BBjEditModifyEvent event!)
-        #username!.onInputChange(event!)
-
-        #username!.getInputField().removeStyle("error")
         
-        if #password! <> null()
-            #password!.setErrorMessage("")
-            #password!.getInputField().removeStyle("error")
-        endif
-    methodend
-
-    method public void validatePassword(BBjEditModifyEvent event!)
-        #password!.onInputChange(event!)
-        
-        #username!.getInputField().removeStyle("error")
-        #password!.getInputField().removeStyle("error")
-    methodend
-
-    method public void validateNewPassword(BBjEditModifyEvent event!)
-            #password!.onInputChange(event!)
-
-            #repeatPassword!.setErrorMessage("")
-    methodend
-    
      method public void onShowPasswordIconPressed(BBjCustomEvent event!)
         if #password!.isPasswordVisible() then 
             #password!.setPasswordVisible(0)
@@ -154,7 +127,7 @@ class public LoginDialogWindow extends BBjWidget
         endif    
     methodend
 
-    method public void validateRepeatPassword(BBjEditModifyEvent event!)
+    method public void validateRepeatPassword(BBjCustomEvent event!)
         if #repeatPassword! = null() then 
             a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
             rem GOTO LOGIN - break out method
@@ -172,6 +145,25 @@ class public LoginDialogWindow extends BBjWidget
             #repeatPassword!.setErrorMessage("")
         endif
     methodend
+
+    method public void validateRepeatPassword(BBjEditModifyEvent event!)
+    if #repeatPassword! = null() then 
+        a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
+        rem GOTO LOGIN - break out method
+    endif
+
+    newPassword! = #password!.getInput()
+    repeatPassword! = #repeatPassword!.getInput()
+    if newPassword! <> repeatPassword! then 
+        #repeatPassword!.setErrorMessage("Passwords don't match")
+    else
+        #repeatPassword!.setErrorMessage("")
+    endif
+
+    if repeatPassword! = "" then 
+        #repeatPassword!.setErrorMessage("")
+    endif
+methodend
 
     method public void onBadLogin() 
         #username!.getInputField().addStyle("error")   
