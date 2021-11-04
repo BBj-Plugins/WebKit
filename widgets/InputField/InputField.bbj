@@ -27,6 +27,12 @@ class public InputField extends BBjWidget implements Icon
          #validator! = validator!
          #super!.create(wnd!, wnd!.getAvailableControlID())
     methodend
+
+    method public InputField(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
+
+        #super!.create(wnd!, wnd!.getAvailableControlID())
+    methodend
     
     method public void redraw(Boolean init!)
         if init! then
@@ -130,7 +136,6 @@ class public InputField extends BBjWidget implements Icon
     methodend
 
     method public void onInputChange(BBjEditModifyEvent event!)  
-        ClientUtil.consoleLog(event!.getText())
         if event!.getText() = "" then 
             #errorMessage!.setText("") 
         else 

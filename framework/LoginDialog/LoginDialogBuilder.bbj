@@ -47,10 +47,8 @@ class public LoginDialogBuilder extends BBjWidget
         endif
         
         dialog!.getUsername().setLabel("Username")
-        dialog!.getUsername().setId("Hello")
         dialog!.getUsername().setPlaceHolder("name@company.com")
         dialog!.getUsername().setSuffix("user")
-        ClientUtil.consoleLog(dialog!.getUsername().getId())
 
         rem dialog!.getUsername().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateUsername")
     methodend
