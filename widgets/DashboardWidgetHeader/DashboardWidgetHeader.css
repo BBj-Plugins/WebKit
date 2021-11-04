@@ -1,0 +1,19 @@
+.dashboardWidgetHeader {
+    height: 25px;
+    padding: 10px;
+    border-bottom: var(--bbj-border-color #E1EAEA) solid 1px;
+}
+
+.dashboardWidgetHeaderTitle {
+    font-weight: var(--bbj-font-weight-lighter);
+    font-size: var(--bbj-font-size-xs);
+    letter-spacing: 0.09rem;
+    color: var(--bbj-font-light #A1A5A7);
+}
+
+.dashboardWidgetHeaderTitle.setting {
+    float: right;
+    margin-top: 2px;
+    color: var(--bbj-font-dark #333E40);
+    font-size: var(--bbj-font-size-s);
+}
