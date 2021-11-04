@@ -101,7 +101,7 @@ class public FormControlPanel
            _fieldLabel! = new InputField(fieldWnd!)
 
            if #isEdit! = 1 THEN
-             _fieldLabel!.setText(str(#dataRow!.getFieldValue(columnName!)))
+             _fieldLabel!.getInputField().setText(str(#dataRow!.getFieldValue(columnName!)))
            else
              _fieldLabel!.setPlaceHolder(columnName!)
            fi
