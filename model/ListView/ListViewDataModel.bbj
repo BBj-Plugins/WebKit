@@ -1,21 +1,46 @@
 
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
 use java.util.HashSet
 
 class public ListViewDataModel
     field private BBjString listPanelTitle$
+    field private BBjString listPanelCssClassName$
     field private BBjString databaseName$
 
     field private BBjVector columnMappings! = new BBjVector()
     field private Boolean actionColumnStatus! = 1
+    field private Menu actionMenus!
     field private BBjString tableName$
     field private BBjNumber rowLimit = -1
 
+    field private Boolean hasListHeader! = 0
+    field private ListHeaderDataModel listHeaderDataModel!
+
     method public ListViewDataModel() 
         #listPanelTitle$ = ""
+
+        declare MenuItem i!
+        #actionMenus! = new Menu()
+
+        i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 1, "Edit", "Edit", "edit")
+        i!.setCustomEventName("ON_ACTION_ITEM_EDIT_PRESSED")
+        i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 2, "Delete", "Delete", "archive")
+        i!.setCustomEventName("ON_ACTION_ITEM_DELETE_PRESSED")
     methodend
 
     method public ListViewDataModel(BBjString listPanelTitle$)
+        #this!()
         #listPanelTitle$ = listPanelTitle$
+    methodend
+
+    method public void setListPanelCssClassName(BBjString className$)
+        #listPanelCssClassName$ = className$
+    methodend
+
+    method public BBjString getListPanelCssClassName()
+        methodret #listPanelCssClassName$
     methodend
 
     method public BBjVector getColumnMappings()
@@ -60,5 +85,29 @@ class public ListViewDataModel
 
     method public BBjNumber getRowLimit()
         methodret #rowLimit 
+    methodend
+
+    method public void setHasListHeader(Boolean hasListHeader!)
+        #hasListHeader! = hasListHeader!
+    methodend
+
+    method public Boolean getHasListHeader()
+        methodret #hasListHeader!
+    methodend
+
+    method public void setHeaderDataModel(ListHeaderDataModel listHeaderDataModel!)
+        #listHeaderDataModel! = listHeaderDataModel! 
+    methodend
+
+    method public ListHeaderDataModel getHeaderDataModel()
+        methodret #listHeaderDataModel!
+    methodend
+
+    method public Menu getActionMenus()
+        methodret #actionMenus!
+    methodend
+
+    method public void setActionMenus(Menu menu!)
+        #actionMenus! = menu!
     methodend
 classend

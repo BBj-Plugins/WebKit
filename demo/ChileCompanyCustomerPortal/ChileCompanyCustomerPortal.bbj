@@ -4,18 +4,19 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
-
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
-
-
 
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
+ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 ClientUtil.addLocalCSS("WebKit/demo/assets/demo.css")
 ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
 ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerPortal.css")
 startover: 
+
+wnd! = BBjAPI().openSysGui("X0").addWindow(10,10,200,200,"Flexbox",$00000010$)
+wnd!.setCallback(BBjAPI.ON_CLOSE,"onClose")
 
 login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
 login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
@@ -27,7 +28,7 @@ if !login!.doModal() then
     release
 fi
 
-declare Menu m!
+declare Menu m! 
 declare MenuItem i!
 m! = new Menu()
 
@@ -35,8 +36,8 @@ i! = m!.addMenuItem(m!.getRoot(),103,"Customers","List of Customers","users")
 i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
-i! = m!.addMenuItem(m!.getRoot(),100,"Home","Go to the Home - Dashboard","home")
-i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
+i! = m!.addMenuItem(m!.getRoot(),100,"Salesperson","Salesperson - Dashboard","user")
+i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.bbj::ChileCompanySalespersonDashboard")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
 i! = m!.addMenuItem(m!.getRoot(),101,"CD-Store BUI","CD BUI","music")
@@ -88,6 +89,7 @@ declare Menu headerMenu!
 declare MenuItem headerMenuItem!
 headerMenu! = new Menu()
 headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),500,"My Dashboard","Dashboard","home")
+headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyMyDashboard.bbj::ChileCompanyMyDashboard")
 
 headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),501,"Home-footer1","Go to the Home - Dashboard","home")
 headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
@@ -104,8 +106,6 @@ portal!.setFooterMenu(footerMenu!)
 portal!.setHeaderMenu(headerMenu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo_white_sm.png")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_white_sm.png")
-
-
 
 portal!.doModal()
 

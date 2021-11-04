@@ -1,0 +1,3 @@
+interface public IValidator
+    method public BBjString validate(BBjString field$)
+interfaceend

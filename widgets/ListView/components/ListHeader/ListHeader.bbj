@@ -1,25 +1,58 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/demo/ChileCompanyCustomerPortal/util/DbUtil.bbj::DbUtil
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderMenuItem
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+use com.basiscomponents.db.ResultSet
 
 class public ListHeader extends BBjWidget
     field private BBjChildWindow window!
 
-    field private BBjString entity$
+    field private BBjWindow superParent!
 
+    field private ListHeaderDataModel listHeaderDataModel!
 
-    method public ListHeader(BBjWindow parent!, BBjString entity$)
+    field public static BBjNumber ON_HEADER_ITEM_PRESSED = 1234
+
+    method public ListHeader(BBjWindow parent!)
         DynamicLoader.addLocalCSS("WebKit/widgets/ListView/components/ListHeader/ListHeader.css")
-        #entity$ = entity$
         #super!.create(parent!, parent!.getAvailableControlID())
+    methodend
+
+    method public void setListHeaderDataModel(ListHeaderDataModel listHeaderDataModel!)
+        #listHeaderDataModel! = listHeaderDataModel!
+        #redraw(1)
+    methodend
+
+    method public ListHeaderDataModel getListHeaderDataModel()
+        methodret #listHeaderDataModel! 
     methodend
 
     method public void redraw(Boolean init!)
         #window! = #getCanvas()
         #window!.addPanelStyle("headerPanel")
 
-        createBtn! = #window!.addButton(1,0,0,0,0,"Create Customer")
-        REM CreateBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
-        createBtn!.addStyle("createBtn")
-        createBtn!.setAttribute("theme", "primary")
+        if #listHeaderDataModel! = null() THEN
+            methodret
+        fi
+        listMenuItems! = #listHeaderDataModel!.getMenuItems()
+
+        for i = 0 to listMenuItems!.size() - 1
+            menu! = listMenuItems!.get(i)
+            item! = #window!.addButton(menu!.getID(),0,0,0,0,menu!.getMenuLabel())
+            item!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!, "onMenuItemBtnPress")
+            item!.addStyle(menu!.getMenuCssClass())
+            item!.setAttribute("theme", menu!.getMenuTheme())
+        NEXT i
+    methodend
+
+    method public void onMenuItemBtnPress(BBjButtonPushEvent ev!)
+       ClientUtil.consoleLog(str(ev!.getControl().getID()))
+       btnId! = ev!.getControl().getID()
+       #fireEvent(#ON_HEADER_ITEM_PRESSED, btnId!)
     methodend
 classend
