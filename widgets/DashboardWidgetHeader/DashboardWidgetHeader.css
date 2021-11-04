@@ -1,5 +1,4 @@
 
-
 .dashboardWidgetHeader:hover .widgetHeaderSettingDropdownPanel {
     display: block;
 }
@@ -29,12 +28,9 @@
     padding-bottom: 0.5rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    /* border-bottom: #E1EAEA solid 1px; */
     border-bottom: var(--bbj-border-color) solid 1px;
-
     display: flex;
 }
-
 
 /*  SETTING */
 .widgetHeaderSettingDropdown::part(control) {
@@ -48,15 +44,12 @@
     top: 28px !important;
     z-index: 99 !important;
     width: 120px;
-    /* height: 180px; */
     background-color: var(--bbj-color-white, #FFF);
     border-radius: 8px;
     box-shadow: var(--bbj-shadow-l);
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
-
-
 
 /* FONTS */
 .dashboardWidgetHeaderText.title {

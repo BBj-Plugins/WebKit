@@ -18,7 +18,7 @@
 /*  REDIRECT LINK */
 .dashboardTasksLink {
     padding: 1.5rem;
-    color: var(--bbj-link-color #6883BA);
+    color: var(--bbj-link-color, #6883BA);
     font-size: var(--bbj-font-size-s);
     font-weight: var(--bbj-font-weight-lighter);
 }

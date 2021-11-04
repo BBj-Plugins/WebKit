@@ -70,7 +70,7 @@ class public DashboardTasks extends BBjWidget
             linkWrapper! = #content!.addChildWindow(#content!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             linkWrapper!.setDockStyle("padding", "1rem")
             
-            link! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"See all >")
+            link! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"To Tasks panel >")
             link!.addStyle("dashboardTasksLink")
 
             linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onLinkClick")
