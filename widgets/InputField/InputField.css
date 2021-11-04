@@ -38,8 +38,8 @@
     grid-row-start: 1;
 }
 
-.inputFieldLabelStyle.hover {
-    color: var(--bbj-color-primary) !important;
+.inputFieldLabelStyle:hover {
+    color: var(--bbj-color-primary);
 }
 
 .inputFieldLabelStyle.focus {
