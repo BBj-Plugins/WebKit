@@ -148,23 +148,23 @@ class public LoginDialog
         #buildLoginContent(wnd!,"")    
     methodend
 
-    method public void buildLoginContent(LoginDialogWindow wnd!, BBjString username$)         
-        #buildLoginContent(wnd!,"","")  
+    method public void buildLoginContent(LoginDialogWindow wnd!, BBjString user$)         
+        #buildLoginContent(wnd!,user$,"")  
     methodend
 
-    method public void buildLoginContent(LoginDialogWindow wnd!, BBjString username$, BBjString loginResponse$)
+    method public void buildLoginContent(LoginDialogWindow wnd!, BBjString user$, BBjString loginResponse$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
-        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), memory$)
+        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), user$)
         LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), "Password", "Your password")
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
         LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login")
         if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")  
     methodend
 
-    method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString memory$)
+    method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString user$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
-        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), memory$)
+        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), user$)
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
@@ -202,8 +202,9 @@ class public LoginDialog
             #buildResponseContent(#responseWindow!, "", "Something went wrong" ,"It seems you cannot use this functionality.", Boolean.FALSE, "")  
         else  
             declare BBjString user$
+           
             if #loginWindow! <> null() then 
-                user$ = "" 
+                user$ = #loginWindow!.getUsername().getInputField().getText()
 
                 #loginWindow!.getContent().destroy()
                 #loginWindow! = null()
@@ -221,13 +222,13 @@ class public LoginDialog
     method public void gotoLogin(BBjString loginResponse$)
         declare BBjString user$
         if #loginWindow! <> null() then 
-            user$ = #loginWindow!.getUsername().getText()
+            user$ = #loginWindow!.getUsername().getInputField().getText()
             #loginWindow!.getContent().destroy()
             #loginWindow! = null()
         endif
 
         if #forgotPwWindow! <> null() then 
-            user$ = #forgotPwWindow!.getUsername().getText()
+            user$ = #forgotPwWindow!.getUsername().getInputField().getText()
             #forgotPwWindow!.getContent().destroy()
             #forgotPwWindow! = null()
         endif
@@ -237,9 +238,9 @@ class public LoginDialog
             #responseWindow! = null()
         endif
 
-        if loginResponse$ <> "" then
+        if user$ <> "" then
             #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildLoginContent(#loginWindow!, user$, loginResponse$) 
+            #buildLoginContent(#loginWindow!, user$) 
         else
             #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
             #buildLoginContent(#loginWindow!, user$)   
