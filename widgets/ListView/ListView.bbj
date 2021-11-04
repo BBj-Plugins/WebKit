@@ -3,11 +3,15 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
 use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 
 class public ListView extends BBjWidget implements Icon
     field private BBjChildWindow window!
+    field private BBjChildWindow parent!
 
     field private ResultSet RS!
 
@@ -15,8 +19,14 @@ class public ListView extends BBjWidget implements Icon
 
     field public static BBjNumber ON_EDIT_PRESSED = 1234
 
+    field private BBjChildWindow overlay!
+    field private BBjChildWindow listWrapper!
+    
+    field private Overlay overlayWidget!
+
     method public ListView(BBjWindow parent!)
         DynamicLoader.addLocalCSS("WebKit/widgets/ListView/ListView.css")
+        #parent! = CAST(BBjChildWindow, parent!)
         #super!.create(parent!, parent!.getAvailableControlID())
     methodend
 
@@ -24,6 +34,7 @@ class public ListView extends BBjWidget implements Icon
         DynamicLoader.addLocalCSS("WebKit/widgets/ListView/ListView.css")
         #RS! = rs!
         #listDataModel! = listDataModel!
+        #parent! = CAST(BBjChildWindow, parent!)
         #super!.create(parent!, parent!.getAvailableControlID())
     methodend
 
@@ -70,7 +81,6 @@ class public ListView extends BBjWidget implements Icon
         columnHeader!.addPanelStyle("columnHeaderPanel")
 
         gridTemplateColumns$ = ""
-        ClientUtil.consoleLog(str(#listDataModel!.getActionColumnStatus()))
         deduction = 0
         actionColumnWidth = 246
         actionColumnStatus! = #listDataModel!.getActionColumnStatus() 
@@ -102,6 +112,8 @@ class public ListView extends BBjWidget implements Icon
 
             dataObject! = rows!.get(i)
 
+            declare BBjChildWindow actionCellWrapper!
+
             for j = 0 to numOfColumns - 1
                 columnMapping! = columnMappings!.get(j)
                 cellStructure! = columnMapping!.getCellStructure()
@@ -132,45 +144,105 @@ class public ListView extends BBjWidget implements Icon
                     _field!.setStyle("grid-row", str(k + 1))
                 NEXT k
                 if j = 0 THEN
-                    actionItem! = #setIcon(cellWrapper!, "dots-vertical")
+                    actionCellWrapper! = CAST(BBjChildWindow, cellWrapper!.addChildWindow(cellWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
+                    actionItem! = #setIcon(actionCellWrapper!, "dots-vertical")
                     actionItem!.addStyle("mobile-ellipsis-menu")
+                    actionCellWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
                 fi
             NEXT j
+            actionCellWrapper!.setText(primaryColumnValue$)
 
             REM render action cells
             if actionColumnStatus! <> 1 THEN
                 continue
             fi
-            actionCellWrapper! = dataRowWindow!.addChildWindow(dataRowWindow!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            actionCellWrapper!.addStyle("cellWrapper actionCellWrapper")
-            actionCellWrapper!.setStyle("grid-column", str(numOfColumns + 1))
-            actionCellWrapper!.addPanelStyle("actionCellWrapperPanel")
+            #listWrapper! = CAST(BBjChildWindow, listWrapper!)
+            #renderActionMenus(dataRowWindow!, numOfColumns, primaryColumnValue$, i)
 
-            editActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            editActionWrapper!.setText(primaryColumnValue$)
-            editActionItem! = #setIcon(editActionWrapper!, "edit")
-            editActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onEditPressed")
-
-            clipboardActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            clipboardActionItem! = #setIcon(clipboardActionWrapper!, "clipboard")
-            clipboardActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onClipboardPressed")
-
-            dotActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-            dotActionItem! = #setIcon(dotActionWrapper!, "dots-vertical")
-            dotActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
         NEXT i
     methodend
 
-    method public void onEditPressed(BBjMouseDownEvent ev!)
-        REM ClientUtil.consoleLog(str(ev!.getControl().getText()))
-        id$ = str(ev!.getControl().getText())
-        #fireEvent(#ON_EDIT_PRESSED, id$)
+    method public void renderActionMenus(BBjChildWindow parent!, BBjNumber numOfColumns, BBjString primaryColumnValue$, BBjNumber rowIndex)
+        actionCellWrapper! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        actionCellWrapper!.addStyle("cellWrapper actionCellWrapper")
+        actionCellWrapper!.setStyle("grid-column", str(numOfColumns + 1))
+        actionCellWrapper!.addPanelStyle("actionCellWrapperPanel")
+
+        actionMenu! = #listDataModel!.getActionMenus()
+
+        menuitems! = actionMenu!.getChildren(actionMenu!.getRoot()) 
+        it! = menuitems!.iterator()
+        while it!.hasNext()
+            declare auto MenuItem menuitem!
+            menuitem! = it!.next()
+            id% = menuitem!.getNodeId()
+
+            actionItemWrapper! = actionCellWrapper!.addChildWindow(id%, 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            actionItemWrapper!.setText(primaryColumnValue$)
+            actionItemItem! = #setIcon(actionItemWrapper!, menuitem!.getIcon())
+            actionItemWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onActionItemPressed")
+        wend
+
+        dotActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        dotActionWrapper!.setText(primaryColumnValue$)
+        dotActionItem! = #setIcon(dotActionWrapper!, "dots-vertical")
+        dotActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
     methodend
 
-    method public void onClipboardPressed(BBjMouseDownEvent ev!)
-        ClientUtil.consoleLog(str(ev!.getControl()))
+    method public void onActionItemPressed(BBjMouseDownEvent ev!)
+        if #overlayWidget! <> null() THEN 
+            #overlayWidget!.onOverlayDissmiss(null())
+        fi
+        itemId$ = ev!.getControl().getText()
+        menuId = ev!.getControl().getID()
+        menu! = #listDataModel!.getActionMenus()
+        menuItem! = menu!.getItem(menuId)
+        BBjAPI().postCustomEvent(menuItem!.getCustomEventName(), ev!.getControl().getText())
     methodend
+
     method public void onDotsPressed(BBjMouseDownEvent ev!)
-        ClientUtil.consoleLog(str(ev!.getControl()))
+        screenPositionX! = ev!.getControl().getScreenX()
+        screenPositionY! = ev!.getControl().getScreenY()
+        primaryColumnValue$ = ev!.getControl().getText()
+        #createActionMenuOverlay(#parent!, primaryColumnValue$, screenPositionX!, screenPositionY!)
+        #overlayWidget! = new Overlay(#parent!,#overlay!)
+        #overlayWidget!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmiss")
+    methodend
+
+    method public void onOverlayDissmiss(BBjCustomEvent event!)
+        #overlay!.destroy()
+    methodend
+
+    method public void createActionMenuOverlay(BBjChildWindow parent!, BBjString primaryColumnValue$, BBjNumber screenPositionX, BBjNumber screenPositionY)
+        declare BBjChildWindow contentWrapper!
+        
+        #overlay! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #overlay!.addPanelStyle("menuOverlayPanelStyle")
+        offsetY$ = str(screenPositionY) + "px"
+        #overlay!.setPanelStyle("top", offsetY$)
+        
+        contentWrapper! = #overlay!.addChildWindow(#overlay!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        contentWrapper!.addPanelStyle("menuOverlayContentWrapper")
+
+        actionMenu! = #listDataModel!.getActionMenus()
+        templateRows! = ""
+
+        menuitems! = actionMenu!.getChildren(actionMenu!.getRoot()) 
+        it! = menuitems!.iterator()
+        while it!.hasNext()
+            declare auto MenuItem menuitem!
+            menuitem! = it!.next()
+            id% = menuitem!.getNodeId()
+            templateRows! = templateRows! + " 48px" 
+
+            actionItemWrapper! = contentWrapper!.addChildWindow(id%, 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            actionItemWrapper!.addStyle("menuActionItemWrapper")
+            actionItemWrapper!.setText(primaryColumnValue$)
+            actionItemIcon! = #setIcon(actionItemWrapper!, menuitem!.getIcon())
+            actionItemText! = actionItemWrapper!.addStaticText(actionItemWrapper!.getAvailableControlID(),0,0,0,0, menuitem!.getCaption())
+            actionItemWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onActionItemPressed")
+
+        wend
+        contentWrapper!.setPanelStyle("grid-template-rows",templateRows!)
     methodend
 classend

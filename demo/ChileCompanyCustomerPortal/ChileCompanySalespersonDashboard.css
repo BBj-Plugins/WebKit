@@ -1,0 +1,46 @@
+.dashboardWindow{
+    margin: 40px 38px 80px 52px;
+}
+
+.dashboardWindowPanel{
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+.itemWnd{
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 5px;
+}
+
+
+.itemListPanel{
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll !important;
+    padding: 0px 16px 16px;
+    background-color: var(--bbj-color-white);
+}
+
+.listSubtitleField{
+    height: 17px;
+
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 17px;
+}
+
+.listTitleField{
+    height: 17px;
+
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

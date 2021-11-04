@@ -31,6 +31,7 @@
 
 .actionCellWrapper{
     justify-self: end;
+    cursor: pointer;
 }
 .actionCellWrapperPanel{
     display: grid;
@@ -59,6 +60,27 @@
 
 .mobile-ellipsis-menu{
     display: none !important;
+}
+
+.menuOverlayPanelStyle{
+    position: absolute !important;
+    z-index: 99 !important;
+    border-radius: 8px;
+    right: 16px;
+    width: 220px;
+    background-color: white;
+    box-shadow: var(--bbj-shadow-l);
+
+}
+
+.menuOverlayContentWrapper{
+    margin: 10px;
+    display: grid;
+    grid-template-rows: 50% 50%;
+
+}
+.menuActionItemWrapper{
+    cursor: pointer;
 }
 
 
