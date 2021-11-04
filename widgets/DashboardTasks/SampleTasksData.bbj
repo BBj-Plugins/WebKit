@@ -1,0 +1,10 @@
+use com.basiscomponents.db.ResultSet
+
+use ::WebKit/widgets/DashboardTasks/IDashboardTasksData.bbj::ITasksData
+
+
+class public SampleTasksData implements ITasksData
+    method public ResultSet getData()
+        methodret new ResultSet()
+    methodend
+classend
