@@ -1,0 +1,78 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+class public DashboardTasksCard extends BBjWidget
+
+    field private BBjChildWindow window!
+
+    field private BBjString company$
+    field private BBjString desc$
+    field private BBjString dueDate$
+    field private BBjString priority$ 
+
+    field private BBjStaticText title!
+    field private BBjCheckBox markComplete!
+
+    method public DashboardTasksCard(BBjWindow wnd!, BBjString company$, BBjString desc$, BBjString dueDate$, BBjString priority$ )
+        #company$ = company$
+        #desc$ = desc$
+        #dueDate$ = dueDate$
+        #priority$ = priority$
+
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public void redraw(Boolean init!)
+        declare BBjChildWindow leftColumn!
+        declare BBjChildWindow rightColumn!
+        declare BBjCheckBox markComplete!
+        declare BBjChildWindow titleWrapper!
+
+        #window! = #getCanvas()
+        #window!.addPanelStyle("dashboardTasksCardPanelStyle")
+        #window!.setDockStyle("width","100%")
+        #window!.setDockStyle("height","100%")
+
+        #window!.addStyle("dashboardTask")
+        #window!.setStyle("width","100%")
+        #window!.setStyle("height","100%")
+      
+  
+        leftColumn! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        leftColumn!.setDockStyle("flex-basis", "5%")
+
+        rightColumn! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rightColumn!.setDockStyle("flex-basis", "80%")
+
+        #markComplete! = leftColumn!.addCheckBox(leftColumn!.getAvailableControlID(),0,0,0,0,"")
+        #markComplete!.setStyle("margin-top", "1.2rem")
+        #markComplete!.addStyle("dashboardTaskCardCheckBoxInputWrapper")
+        #markComplete!.addStyle("dashboardTaskCardCheckBoxControl")
+
+        companyWrapper! = rightColumn!.addChildWindow(rightColumn!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        companyWrapper!.setDockStyle("height", "18px")
+        companyName! = companyWrapper!.addStaticText(companyWrapper!.getAvailableControlID(),0,0,0,0,#company$)
+        companyName!.addStyle("dashboardTaskCardSmallFont")
+
+        titleWrapper! = rightColumn!.addChildWindow(rightColumn!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #title! = titleWrapper!.addStaticText(titleWrapper!.getAvailableControlID(),0,0,0,0,#desc$)
+        #title!.addStyle("dashboardTaskCardTitleFont")
+
+        footerWrapper! = rightColumn!.addChildWindow(rightColumn!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        footerWrapper!.setDockStyle("height", "18px")
+        footerWrapper!.addPanelStyle("dashboardTaskCardFooterPanel")
+ 
+        dueDate! = footerWrapper!.addStaticText(footerWrapper!.getAvailableControlID(),0,0,0,0,#dueDate$)
+        dueDate!.addStyle("dashboardTaskCardSmallFont")
+
+        priority! = footerWrapper!.addStaticText(footerWrapper!.getAvailableControlID(),0,0,0,0,#priority$)
+        priority!.addStyle("dashboardTaskCardSmallFont")
+        priority!.addStyle("priority")
+
+        #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onBodyClick")  
+    methodend
+
+    method public void onBodyClick(BBjMouseDownEvent event!)
+        a = msgbox(#desc$)
+    methodend
+classend
