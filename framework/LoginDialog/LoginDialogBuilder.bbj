@@ -38,12 +38,12 @@ class public LoginDialogBuilder extends BBjWidget
         #addUsernameInput(dialog!, validator!, "")
     methodend
 
-    method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!, BBjString memory$)
+    method public static void addUsernameInput(LoginDialogWindow dialog!,IValidator validator!, BBjString user$)
         dialog!.setUsername(new TextField(dialog!.getContent(), validator!))
         dialog!.getUsername().setDockStyle("margin-top","50px")
 
-        if memory$ <> "" then 
-            dialog!.getUsername().setInput(memory$)
+        if user$ <> "" then 
+            dialog!.getUsername().setInput(user$)
         endif
         
         dialog!.getUsername().setLabel("Username")
