@@ -19,7 +19,7 @@ wnd! = BBjAPI().openSysGui("X0").addWindow(10,10,200,200,"Flexbox",$00000010$)
 wnd!.setCallback(BBjAPI.ON_CLOSE,"onClose")
 
 login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
-login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
+login!.setLogo("WebKit/demo/assets/chile-3.jpeg")
 
 login!.setAllowRemember(Boolean.TRUE)
 
@@ -104,8 +104,8 @@ portal!.setUsername(login!.getUser())
 portal!.setMenu(m!)
 portal!.setFooterMenu(footerMenu!)
 portal!.setHeaderMenu(headerMenu!)
-portal!.setLogoUrl("WebKit/demo/assets/basislogo_white_sm.png")
-portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_white_sm.png")
+portal!.setLogoUrl("WebKit/demo/assets/chile-3.jpeg")
+portal!.setLogoSmallUrl("WebKit/demo/assets/chile-3-small.jpeg")
 
 portal!.doModal()
 

@@ -52,7 +52,7 @@ class public PortalFrame
         drawerDataModel! = new DrawerModel()
         drawerDataModel!.setLogoUrl(#LogoUrl!)
         drawerDataModel!.setLogoSmallUrl(#LogoSmallUrl!)
-        drawerDataModel!.setTilesTextHeader("Browse!")
+        drawerDataModel!.setTilesTextHeader("Browse")
         drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
         drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
 

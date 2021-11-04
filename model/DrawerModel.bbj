@@ -20,8 +20,8 @@ class public DrawerModel
     field public BBjString AvatarSize!
 
     method public DrawerModel()
-        #LogoUrl! = "WebKit/demo/assets/basislogo_white.png"
-        #LogoSmallUrl! = "WebKit/demo/assets/basislogo_white_sm.png"
+        #LogoUrl! = "WebKit/demo/assets/chile.jpg"
+        #LogoSmallUrl! = "WebKit/demo/assets/chile-small.jpg"
         #TilesTextHeader! = "Browse"
 
         #DrawerCloseIcon! = ""
