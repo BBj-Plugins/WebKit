@@ -1,0 +1,35 @@
+use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
+
+class public UsernameValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+        if field!.length() > 0 and field!.length() < 3 then 
+            methodret "username too short"
+        endif
+        methodret ""
+    methodend
+classend
+
+class public PasswordValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+        if field!.length() > 0 and field!.length() < 6 then 
+            methodret "Password too short"
+        endif
+        methodret ""
+    methodend
+classend
+
+class public NewPasswordValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+        if field!.length() > 0 and field!.length() < 6 then 
+            methodret "Password too short"
+        endif
+        methodret ""
+    methodend
+classend
+
+class public RepeatPasswordValidator implements IValidator
+    method public BBjString validate(BBjString field!)
+        REM don't need to do anything
+        methodret ""
+    methodend
+classend

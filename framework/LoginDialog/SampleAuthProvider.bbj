@@ -8,9 +8,9 @@ class public SampleAuthProvider implements IAuthProvider
     field private BBjString token!
     field private AccountProfile profile!
 
-    method public Boolean checkLogin(BBjString Username!, BBjString Password!)
-           #token! = com.basis.api.admin.BBjAdminFactory.getAuthToken(Username!, Password!,err=invalid)
-           #profile!= new BBjUser(Username!)
+    method public Boolean checkLogin(BBjString username!, BBjString password!)
+           #token! = com.basis.api.admin.BBjAdminFactory.getAuthToken(username!, password!, err=invalid)
+           #profile!= new BBjUser(username!)
            methodret Boolean.TRUE
            
            invalid:
