@@ -178,14 +178,16 @@ class public ListView extends BBjWidget implements Icon
             id% = menuitem!.getNodeId()
 
             actionItemWrapper! = actionCellWrapper!.addChildWindow(id%, 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            actionItemWrapper!.addStyle("actionItemWrapper")
             actionItemWrapper!.setText(primaryColumnValue$)
             actionItemItem! = #setIcon(actionItemWrapper!, menuitem!.getIcon())
             actionItemWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onActionItemPressed")
         wend
 
         dotActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        dotActionWrapper!.addStyle("actionItemWrapper")
         dotActionWrapper!.setText(primaryColumnValue$)
-        dotActionItem! = #setIcon(dotActionWrapper!, "dots-vertical")
+        dotActionItem! = #setIcon(dotActionWrapper!, "more-vertical")
         dotActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
     methodend
 
@@ -240,6 +242,7 @@ class public ListView extends BBjWidget implements Icon
             actionItemWrapper!.setText(primaryColumnValue$)
             actionItemIcon! = #setIcon(actionItemWrapper!, menuitem!.getIcon())
             actionItemText! = actionItemWrapper!.addStaticText(actionItemWrapper!.getAvailableControlID(),0,0,0,0, menuitem!.getCaption())
+            actionItemText!.addStyle("menuActionItemText")
             actionItemWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onActionItemPressed")
 
         wend
