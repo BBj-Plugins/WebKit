@@ -69,7 +69,7 @@
     /* background-color:  #212737; */
     background: rgba(33, 39, 55, 0.6);
     /* opacity: 0.6; */
-    position: absolute !important;
+    position: fixed;
     top: 0px !important;
 }
 

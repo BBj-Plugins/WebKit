@@ -63,14 +63,13 @@
 }
 
 .menuOverlayPanelStyle{
-    position: absolute !important;
+    position: fixed;
     z-index: 99 !important;
     border-radius: 8px;
     right: 16px;
     width: 220px;
     background-color: white;
     box-shadow: var(--bbj-shadow-l);
-
 }
 
 .menuOverlayContentWrapper{
