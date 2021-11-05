@@ -145,7 +145,7 @@ class public ListView extends BBjWidget implements Icon
                 NEXT k
                 if j = 0 THEN
                     actionCellWrapper! = CAST(BBjChildWindow, cellWrapper!.addChildWindow(cellWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
-                    actionItem! = #setIcon(actionCellWrapper!, "dots-vertical")
+                    actionItem! = #setIcon(actionCellWrapper!, "more-vertical")
                     actionItem!.addStyle("mobile-ellipsis-menu")
                     actionCellWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
                 fi
