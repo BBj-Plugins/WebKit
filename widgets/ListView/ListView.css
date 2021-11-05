@@ -6,7 +6,7 @@
 }
 
 .columnHeaderPanel{
-    padding: 0px 16px 16px 0px;
+    padding: 0px 16px 0px 16px;
     display: grid;
     border-bottom: 1px solid #DDE0E1;
 }
@@ -25,7 +25,7 @@
 
 .dataRowPanel{
     display: grid;
-    padding: 0px 16px 16px 0px;
+    padding: 0px 16px 0px 16px;
     height: 74px;
     border-bottom: 1px solid #DDE0E1;
 }
@@ -91,6 +91,11 @@
 }
 
 .menuActionItemText{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--bbj-color-black);
     margin: 5px;
 }
 
