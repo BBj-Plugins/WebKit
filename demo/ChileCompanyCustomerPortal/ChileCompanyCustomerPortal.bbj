@@ -13,6 +13,7 @@ ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 ClientUtil.addLocalCSS("WebKit/demo/assets/demo.css")
 ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
 ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerPortal.css")
+iconPool$ = STBL("icon-pool", "feather")
 startover: 
 
 wnd! = BBjAPI().openSysGui("X0").addWindow(10,10,200,200,"Flexbox",$00000010$)
