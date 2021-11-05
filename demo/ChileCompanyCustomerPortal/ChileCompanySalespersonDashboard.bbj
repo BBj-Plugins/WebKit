@@ -35,12 +35,11 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
 
     method public ListViewDataModel initalizeItemListDataModel()
         declare ListViewDataModel listDataModel!
-        listDataModel! = new ListViewDataModel()
+        listDataModel! = new ListViewDataModel("Salesperson")
         
         listDataModel!.setDatabaseName("ChileCompany")
         listDataModel!.setTableName("SALESREP")
-        listDataModel!.setListPanelCssClassName("itemListPanel")
-        REM listDataModel!.setActionColumnStatus(0)
+        listDataModel!.setListPanelCssClassName("salesrepListPanel")
 
         id_field! = new Field("SALESPERSON", "ID")
         displayName_field! = new Field("NAME", "NAME")
@@ -60,7 +59,7 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
         idColumnFields! = new BBjVector()
         idColumnFields!.add(id_field!)
         idColumnCell! = new Cell(idColumnFields!)
-        idColumn! = new ListColumnModel("Id", 1)
+        idColumn! = new ListColumnModel("Id", 2)
         idColumn!.setColumnWidth("15%")
         idColumn!.setCellStructure(idColumnCell!)
 
@@ -69,7 +68,7 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
         firstColumnFields!.add(displayName_field!)
         firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
-        firstColumn! = new ListColumnModel("Salesperson Name", 2)
+        firstColumn! = new ListColumnModel("Salesperson Name", 1)
         firstColumn!.setColumnWidth("30%")
         firstColumn!.setCellStructure(firstColumnCell!)
 
@@ -93,8 +92,8 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
         declare BBjVector columnMappings!
         columnMappings! = new BBjVector()
 
-        columnMappings!.add(idColumn!)
         columnMappings!.add(firstColumn!)
+        columnMappings!.add(idColumn!)
         columnMappings!.add(secondColumn!)
         columnMappings!.add(thirdColumn!)
 
@@ -152,7 +151,7 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
             canvas!.addStyle("dashboardWindow")
             canvas!.addPanelStyle("dashboardWindowPanel")
             itemWnd! =  canvas!.addChildWindow(canvas!.getAvailableControlID(), 0, 0, 0, 0, "", $00100800$, BBjAPI().getSysGui().getAvailableContext())
-            itemWnd!.addStyle("itemWnd")
+            itemWnd!.addStyle("salesrepWnd")
 
             #renderItemList(itemWnd!)
         FI
