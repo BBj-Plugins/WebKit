@@ -52,7 +52,7 @@ class public PortalFrame
         drawerDataModel! = new DrawerModel()
         drawerDataModel!.setLogoUrl(#LogoUrl!)
         drawerDataModel!.setLogoSmallUrl(#LogoSmallUrl!)
-        drawerDataModel!.setTilesTextHeader("Browse!")
+        drawerDataModel!.setTilesTextHeader("Browse")
         drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
         drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
 
@@ -76,10 +76,10 @@ class public PortalFrame
         wend
 
         REM initialize footerMenu
-        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","home")
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","moon")
         footerMenuItem!.setProgram("void")
         footerMenuItem!.setCallback("onChangeTheme")
-        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","logout")
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","log-out")
         footerMenuItem!.setProgram("void")
         footerMenuItem!.setCallback("onLogout")
 

@@ -27,8 +27,11 @@
 .listPanel{
     height: calc(100vh - 268px);
     overflow-y: scroll !important;
-    padding: 0px 16px 16px;
     background-color: var(--bbj-color-white);
+}
+
+.hydrated{
+    color: var(--bbj-color-gray);
 }
 
 @media screen and (max-width: 425px) {

@@ -1,0 +1,16 @@
+
+.itemDashboardWindow{
+    margin: 40px 38px 80px 52px;
+}
+
+.itemListPanel{
+    height: calc(100vh - 268px);
+    overflow-y: scroll !important;
+    background-color: var(--bbj-color-white);
+}
+
+@media screen and (max-width: 425px) {
+    .itemDashboardWindow{
+        margin: 40px 20px 80px 20px;
+    }
+}

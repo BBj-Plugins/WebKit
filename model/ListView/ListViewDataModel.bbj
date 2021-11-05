@@ -24,9 +24,9 @@ class public ListViewDataModel
         declare MenuItem i!
         #actionMenus! = new Menu()
 
-        i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 1, "Edit", "Edit", "edit")
+        i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 1, "Edit", "Edit", "edit-2")
         i!.setCustomEventName("ON_ACTION_ITEM_EDIT_PRESSED")
-        i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 2, "Delete", "Delete", "archive")
+        i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 2, "Delete", "Delete", "trash-2")
         i!.setCustomEventName("ON_ACTION_ITEM_DELETE_PRESSED")
     methodend
 
