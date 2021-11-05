@@ -82,7 +82,7 @@
         }
     .drawerMobileShadowPanelStyle {
       display: block !important;
-        }  
+        }
 }
 
 .drawerTilesTextHeaderStyle{
@@ -96,10 +96,26 @@
 .drawerTilesWrapper{
     display: grid;
     overflow: auto !important;
-    height: calc(100vh - 440px);
+    max-height: calc(100vh - 445px);
 }
 
 .drawerFooterWrapper{
+    position: absolute !important;
+    top: calc(100vh - 117px) !important;
     display: grid;
     height: 117px;
+}
+
+.bottomDivider{
+    position: absolute !important;
+    top: calc(100vh - 116px) !important;
+}
+
+.drawerClosed .drawerFooterWrapper{
+    top: calc(100vh - 64px) !important;
+    height: 64px;
+}
+
+.drawerClosed .bottomDivider{
+    top: calc(100vh - 64px) !important;
 }

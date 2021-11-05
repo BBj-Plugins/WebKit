@@ -41,7 +41,7 @@
 .headerMenuContentWrapper{
     overflow: auto !important;
     padding: 0px;
-    height: 120px;
+    max-height: 120px;
 }
 
 .drawerHeaderLogo {
