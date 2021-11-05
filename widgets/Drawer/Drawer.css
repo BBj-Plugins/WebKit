@@ -47,6 +47,15 @@
     width: 300px;
 }
 
+.drawerOpen.drawerStyle{
+    width: 300px;
+}
+
+.drawerClosed.drawerStyle{
+    width: 104px;
+}
+
+
 .drawerOpen .drawerAnimationOpen {
     animation-name: drawerAnimationOpen;
     animation-duration: var(--drawer-animation-duration);
@@ -82,7 +91,11 @@
         }
     .drawerMobileShadowPanelStyle {
       display: block !important;
-        }  
+        }
+        
+	.drawerClosed.drawerStyle{
+	    width: 0px;
+	}          
 }
 
 .drawerTilesTextHeaderStyle{
