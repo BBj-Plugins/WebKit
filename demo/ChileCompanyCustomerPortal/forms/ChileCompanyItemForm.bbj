@@ -47,7 +47,7 @@ class public ChileCompanyItemForm extends BBjWidget
             if #id$ <> "-1" THEN
                 formControlPanel!.setIsEdit(1)
             fi
-            formControlPanel!.setEntityName("ITEM")
+            formControlPanel!.setEntityName("Item")
             formControlPanel!.show()
         FI
         
