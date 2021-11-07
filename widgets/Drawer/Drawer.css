@@ -47,6 +47,15 @@
     width: 300px;
 }
 
+.drawerOpen.drawerStyle{
+    width: 300px;
+}
+
+.drawerClosed.drawerStyle{
+    width: 104px;
+}
+
+
 .drawerOpen .drawerAnimationOpen {
     animation-name: drawerAnimationOpen;
     animation-duration: var(--drawer-animation-duration);
@@ -69,7 +78,7 @@
     /* background-color:  #212737; */
     background: rgba(33, 39, 55, 0.6);
     /* opacity: 0.6; */
-    position: absolute !important;
+    position: fixed;
     top: 0px !important;
 }
 
@@ -83,6 +92,10 @@
     .drawerMobileShadowPanelStyle {
       display: block !important;
         }
+        
+	.drawerClosed.drawerStyle{
+	    width: 0px;
+	}          
 }
 
 .drawerTilesTextHeaderStyle{
@@ -100,14 +113,14 @@
 }
 
 .drawerFooterWrapper{
-    position: absolute !important;
+    position: fixed;
     top: calc(100vh - 117px) !important;
     display: grid;
     height: 117px;
 }
 
 .bottomDivider{
-    position: absolute !important;
+    position: fixed;
     top: calc(100vh - 116px) !important;
 }
 

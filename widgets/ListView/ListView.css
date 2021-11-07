@@ -69,7 +69,7 @@
 }
 
 .menuOverlayPanelStyle{
-    position: absolute !important;
+    position: fixed;
     z-index: 99 !important;
     border-radius: 8px;
     right: 16px;
