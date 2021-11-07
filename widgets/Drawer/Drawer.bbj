@@ -53,6 +53,8 @@ class public Drawer extends BBjWidget
     method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.addStyle("drawerStyle")        
+        #window!.addStyle("drawerOpen")
         #window!.addPanelStyle("drawerPanelStyle")
         #window!.addPanelStyle("drawerAnimationOpen")
         #window!.addPanelStyle("drawerAnimationClose")
