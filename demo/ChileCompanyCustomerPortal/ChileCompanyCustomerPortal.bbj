@@ -6,6 +6,11 @@ use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
+startover: 
+
+begin
+
+
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
@@ -14,7 +19,6 @@ ClientUtil.addLocalCSS("WebKit/demo/assets/demo.css")
 ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
 ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerPortal.css")
 iconPool$ = STBL("icon-pool", "feather")
-startover: 
 
 wnd! = BBjAPI().openSysGui("X0").addWindow(10,10,200,200,"Flexbox",$00000010$)
 wnd!.setCallback(BBjAPI.ON_CLOSE,"onClose")
