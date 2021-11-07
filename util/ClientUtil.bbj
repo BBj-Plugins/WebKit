@@ -12,7 +12,7 @@ class public ClientUtil
     methodend
 
     method public static void init()
-      if ClientUtil.getInjHtml() = null() then
+      if ClientUtil.getInjHtml() = null() OR ClientUtil.getInjHtml().isDestroyed() then
           declare BBjSysGui sg!
           sg! =  BBjAPI().openSysGui("X0")
           rem create our helper window and give it a context that is likely far away from any application context IDs
