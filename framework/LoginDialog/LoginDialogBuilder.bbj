@@ -93,7 +93,7 @@ class public LoginDialogBuilder extends BBjWidget
     methodend
     
     method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$, BBjString methodName$)
-        dialog!.setSubmitButton(dialog!.getContent().addButton(dialog!.getContent().getAvailableControlID(),0,0,0,0,label$))
+        dialog!.setSubmitButton(dialog!.getContent().addButton(1,0,0,0,0,label$))
          
         if methodName$ = "login" then 
             dialog!.getSubmitButton().setCallback(BBjAPI().ON_BUTTON_PUSH,"login")
