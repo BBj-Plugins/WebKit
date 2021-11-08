@@ -5,8 +5,6 @@ class public DashboardWidgetHeader extends BBjWidget
     field private BBjChildWindow window!
 
     field private BBjChildWindow titleWindow!
-    field private BBjChildWindow filterWindow!
-    field private BBjChildWindow settingDropdown!
 
     field private BBjString title$
     
