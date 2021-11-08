@@ -88,7 +88,8 @@ class public EmbedPanel extends BBjWidget
         appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
         appConfig! = appServer!.makeEmptyAppConfig()
         appConfig!.setProgramName(source$)
-        
+        appConfig!.setDwcEnabled(1)
+        appConfig!.setBuiEnabled(1)
         appConfig!.setConfigFile(config$)
         if classpath! <> null() then
             appConfig!.setClasspathName(classpath!)

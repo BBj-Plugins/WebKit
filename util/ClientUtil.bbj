@@ -43,7 +43,10 @@ class public ClientUtil
 
       ch=unt
       open (ch)cssfile$
-      read record (ch,siz=128000)style$
+      size = dec(fin(ch)(1,4)) 
+      if size>1 then
+        read record (ch,siz=size)style$
+      fi
       close (ch)
       
       style! = style$
@@ -83,7 +86,10 @@ class public ClientUtil
 
       ch=unt
       open (ch)cssfile$
-      read record (ch,siz=128000)style$
+      size = dec(fin(ch)(1,4)) 
+      if size>1 then
+        read record (ch,siz=size)style$
+      fi
       close (ch)
 
       style! = style$
@@ -110,7 +116,10 @@ class public ClientUtil
 
       ch=unt
       open (ch)jsfile$
-      read record (ch,siz=128000)js$
+      size = dec(fin(ch)(1,4)) 
+      if size>1 then
+        read record (ch,siz=size)js$
+      fi
       close (ch)
       
     
