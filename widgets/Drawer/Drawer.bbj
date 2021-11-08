@@ -128,8 +128,9 @@ class public Drawer extends BBjWidget
             declare DrawerMenuTileEntry entry!
             declare BBjChildWindow spacer!
             
-            for i = 0 to #tiles!.size() -1
-                entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
+            it! = #tiles!.iterator()
+            while it!.hasNext()
+                entry! = cast(DrawerMenuTileEntry,it!.next())
                 tile! = new DrawerMenuTile(#tilesWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
                 tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
                 templateRows! = templateRows! + " 48px" 
@@ -138,7 +139,7 @@ class public Drawer extends BBjWidget
                     spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
                     spacer!.setDockStyle("height","12px")
                 endif
-            next i
+            wend
             #tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
         endif
     methodend
