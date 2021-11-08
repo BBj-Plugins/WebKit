@@ -39,7 +39,7 @@
 
 .widgetHeaderSettingDropdownPanel {
     display:none;
-    position: absolute !important;
+    position: fixed !important;
     left: 25px !important;
     top: 28px !important;
     z-index: 99 !important;

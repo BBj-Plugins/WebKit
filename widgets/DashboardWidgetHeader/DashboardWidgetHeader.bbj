@@ -29,11 +29,6 @@ class public DashboardWidgetHeader extends BBjWidget
         #window!.addStyle("dashboardWidgetHeader")
         #window!.addPanelStyle("dashboardWidgetHeaderPanel")
 
-        #window!.setDockStyle("overflow", "visible !important")
-        #window!.setStyle("overflow", "visible !important")
-
-        #window!.setPanelStyle("overflow", "visible !important")
-
         #titleWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
         #titleWindow!.setDockStyle("flex-basis", "50%")
 
@@ -41,63 +36,59 @@ class public DashboardWidgetHeader extends BBjWidget
             title!.addStyle("dashboardWidgetHeaderText")
             title!.addStyle("title")
 
-        setting! =   #window!.addChildWindow( #window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem setting! =   #window!.addChildWindow( #window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
             
-            setting!.setDockStyle("margin-left", "auto")
-            setting!.addStyle("dashboardWidgetHeaderSetting")
-            setting!.addPanelStyle("dashboardWidgetHeaderSettingPanel")
+        rem     setting!.setDockStyle("margin-left", "auto")
+        rem     setting!.addStyle("dashboardWidgetHeaderSetting")
+        rem     setting!.addPanelStyle("dashboardWidgetHeaderSettingPanel")
 
-                settingHeader! = setting!.addChildWindow(setting!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                settingHeader!.setPanelStyle("display", "flex")
-                    settingName! = settingHeader!.addStaticText(settingHeader!.getAvailableControlID(),0,0,0,0,"Amounts:   ")
-                    settingName!.addStyle("dashboardWidgetHeaderText")
-                    settingName!.addStyle("filter")
-                    settingName!.addStyle("name")
+        rem         settingHeader! = setting!.addChildWindow(setting!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem         settingHeader!.setPanelStyle("display", "flex")
+        rem             settingName! = settingHeader!.addStaticText(settingHeader!.getAvailableControlID(),0,0,0,0,"Amounts:   ")
+        rem             settingName!.addStyle("dashboardWidgetHeaderText")
+        rem             settingName!.addStyle("filter")
+        rem             settingName!.addStyle("name")
                     
-                    settingVar! = settingHeader!.addStaticText(settingHeader!.getAvailableControlID(),0,0,0,0,"Unweighted ")
-                    settingVar!.addStyle("dashboardWidgetHeaderText")
-                    settingVar!.addStyle("filter")
+        rem             settingVar! = settingHeader!.addStaticText(settingHeader!.getAvailableControlID(),0,0,0,0,"Unweighted ")
+        rem             settingVar!.addStyle("dashboardWidgetHeaderText")
+        rem             settingVar!.addStyle("filter")
 
-                    iconWrapper! = settingHeader!.addChildWindow(settingHeader!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                    img! = iconWrapper!.addImageCtrl(iconWrapper!.getAvailableControlID(),0,0,0,0,"WebKit/widgets/DashboardWidgetHeader/assets/drawer_footer_arrow_down.png")
+        rem             iconWrapper! = settingHeader!.addChildWindow(settingHeader!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem             img! = iconWrapper!.addImageCtrl(iconWrapper!.getAvailableControlID(),0,0,0,0,"WebKit/widgets/DashboardWidgetHeader/assets/drawer_footer_arrow_down.png")
 
-                    iconWrapper!.addStyle("widgetHeaderIconWrapper")
-                    img!.addStyle("widgetHeaderIconWrapper")
+        rem             iconWrapper!.addStyle("widgetHeaderIconWrapper")
+        rem             img!.addStyle("widgetHeaderIconWrapper")
                     
 
-                #settingDropdown! = setting!.addChildWindow(setting!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                #settingDropdown!.addStyle("widgetHeaderSettingDropdown")
-                #settingDropdown!.addPanelStyle("widgetHeaderSettingDropdownPanel")
+        rem         #settingDropdown! = setting!.addChildWindow(setting!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem         #settingDropdown!.addStyle("widgetHeaderSettingDropdown")
+        rem         #settingDropdown!.addPanelStyle("widgetHeaderSettingDropdownPanel")
 
 
-                    dropdownTextBox! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                    dropdownTextBox!.addStyle("widgetHeaderSettingDropdownItemBox")
-                    dropdownTextBox!.addStyle("top")
-                    dropdownText! = dropdownTextBox!.addStaticText(dropdownTextBox!.getAvailableControlID(),0,0,0,0,"Amount")
-                    dropdownText!.addStyle("widgetHeaderSettingDropdownItem")
+        rem             dropdownTextBox! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem             dropdownTextBox!.addStyle("widgetHeaderSettingDropdownItemBox")
+        rem             dropdownTextBox!.addStyle("top")
+        rem             dropdownText! = dropdownTextBox!.addStaticText(dropdownTextBox!.getAvailableControlID(),0,0,0,0,"Amount")
+        rem             dropdownText!.addStyle("widgetHeaderSettingDropdownItem")
           
 
-                    dropdownTextBox2! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                    dropdownTextBox2!.addStyle("widgetHeaderSettingDropdownItemBox")
-                    dropdownText2! = dropdownTextBox2!.addStaticText(dropdownTextBox2!.getAvailableControlID(),0,0,0,0,"Misc")
-                    dropdownText2!.addStyle("widgetHeaderSettingDropdownItem")
+        rem             dropdownTextBox2! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem             dropdownTextBox2!.addStyle("widgetHeaderSettingDropdownItemBox")
+        rem             dropdownText2! = dropdownTextBox2!.addStaticText(dropdownTextBox2!.getAvailableControlID(),0,0,0,0,"Misc")
+        rem             dropdownText2!.addStyle("widgetHeaderSettingDropdownItem")
 
-                    dropdownTextBox3! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                    dropdownTextBox3!.addStyle("widgetHeaderSettingDropdownItemBox")
-                    dropdownText3! = dropdownTextBox3!.addStaticText(dropdownTextBox3!.getAvailableControlID(),0,0,0,0,"Filter")
-                    dropdownText3!.addStyle("widgetHeaderSettingDropdownItem")
+        rem             dropdownTextBox3! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem             dropdownTextBox3!.addStyle("widgetHeaderSettingDropdownItemBox")
+        rem             dropdownText3! = dropdownTextBox3!.addStaticText(dropdownTextBox3!.getAvailableControlID(),0,0,0,0,"Filter")
+        rem             dropdownText3!.addStyle("widgetHeaderSettingDropdownItem")
 
-                    dropdownTextBox4! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-                    dropdownTextBox4!.addStyle("widgetHeaderSettingDropdownItemBox")
-                    dropdownText4! = dropdownTextBox4!.addStaticText(dropdownTextBox4!.getAvailableControlID(),0,0,0,0,"Setting")
-                    dropdownText4!.addStyle("widgetHeaderSettingDropdownItem")         
+        rem             dropdownTextBox4! = #settingDropdown!.addChildWindow(#settingDropdown!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        rem             dropdownTextBox4!.addStyle("widgetHeaderSettingDropdownItemBox")
+        rem             dropdownText4! = dropdownTextBox4!.addStaticText(dropdownTextBox4!.getAvailableControlID(),0,0,0,0,"Setting")
+        rem             dropdownText4!.addStyle("widgetHeaderSettingDropdownItem")         
     methodend
 
-    method public void settingHover(BBjMouseEnterEvent event!)
-        #settingDropdown!.addPanelStyle("show")
-    methodend
-    
-    method public void settingHoverExit(BBjMouseExitEvent event!)
-        #settingDropdown!.removePanelStyle("show")
+    method public addSetting(BBjString setting$)
+
     methodend
 classend
