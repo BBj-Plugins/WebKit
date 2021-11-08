@@ -47,6 +47,15 @@
     width: 300px;
 }
 
+.drawerOpen.drawerStyle{
+    width: 300px;
+}
+
+.drawerClosed.drawerStyle{
+    width: 104px;
+}
+
+
 .drawerOpen .drawerAnimationOpen {
     animation-name: drawerAnimationOpen;
     animation-duration: var(--drawer-animation-duration);
@@ -69,7 +78,7 @@
     /* background-color:  #212737; */
     background: rgba(33, 39, 55, 0.6);
     /* opacity: 0.6; */
-    position: absolute !important;
+    position: fixed;
     top: 0px !important;
 }
 
@@ -82,7 +91,11 @@
         }
     .drawerMobileShadowPanelStyle {
       display: block !important;
-        }  
+        }
+        
+	.drawerClosed.drawerStyle{
+	    width: 0px;
+	}          
 }
 
 .drawerTilesTextHeaderStyle{
@@ -96,10 +109,26 @@
 .drawerTilesWrapper{
     display: grid;
     overflow: auto !important;
-    height: calc(100vh - 440px);
+    max-height: calc(100vh - 445px);
 }
 
 .drawerFooterWrapper{
+    position: fixed;
+    top: calc(100vh - 117px) !important;
     display: grid;
     height: 117px;
+}
+
+.bottomDivider{
+    position: fixed;
+    top: calc(100vh - 116px) !important;
+}
+
+.drawerClosed .drawerFooterWrapper{
+    top: calc(100vh - 64px) !important;
+    height: 64px;
+}
+
+.drawerClosed .bottomDivider{
+    top: calc(100vh - 64px) !important;
 }

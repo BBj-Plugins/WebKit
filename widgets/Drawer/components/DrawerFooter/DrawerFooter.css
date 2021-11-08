@@ -104,7 +104,7 @@
 }
 
 .drawerFooterOverlayPanelStyle {
-    position: absolute !important;
+    position: fixed;
     bottom: 99px !important;
     left: 34px !important;
     top: auto !important;

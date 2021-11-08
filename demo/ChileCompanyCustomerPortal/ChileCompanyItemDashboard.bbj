@@ -1,8 +1,7 @@
-
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/demo/ChileCompanyCustomerPortal/util/DbUtil.bbj::DbUtil
-use ::WebKit/demo/ChileCompanyCustomerPortal/forms/ChileCompanySalespersonForm.bbj::ChileCompanySalespersonForm
+use ::WebKit/demo/ChileCompanyCustomerPortal/forms/ChileCompanyItemForm.bbj::ChileCompanyItemForm
 use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
 use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
 use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderMenuItem
@@ -18,43 +17,35 @@ use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 
 
-class public ChileCompanySalespersonDashboard extends BBjWidget
+class public ChileCompanyItemDashboard extends BBjWidget
     field private DbUtil dbUtil!
 
     field private ResultSet RS!
 
-    method public ChileCompanySalespersonDashboard (BBjWindow wnd!)
-        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.css")
+    method public ChileCompanyItemDashboard (BBjWindow wnd!)
+        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyItemDashboard.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
-    method public ChileCompanySalespersonDashboard (BBjWindow wnd!, BBjInt id!)
-        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.css")
+    method public ChileCompanyItemDashboard (BBjWindow wnd!, BBjInt id!)
+        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyItemDashboard.css")
         #super!.create(wnd!,id!)
     methodend
 
     method public ListViewDataModel initalizeItemListDataModel()
         declare ListViewDataModel listDataModel!
-        listDataModel! = new ListViewDataModel("Salesperson")
+        listDataModel! = new ListViewDataModel("Products")
         
         listDataModel!.setDatabaseName("ChileCompany")
-        listDataModel!.setTableName("SALESREP")
-        listDataModel!.setListPanelCssClassName("salesrepListPanel")
+        listDataModel!.setTableName("Item")
+        listDataModel!.setListPanelCssClassName("itemListPanel")
 
-        id_field! = new Field("SALESPERSON", "ID")
-        displayName_field! = new Field("NAME", "NAME")
+        displayName_field! = new Field("DESCRIPTION", "DESCRIPTION")
+        id_field! = new Field("ITEM_NUM", "ID")
         id_field!.setIsPrimaryColumn(1)
-
-        address1_field! = new Field("ADDRESS")
-        address2_field! = new Field("ADDRESS2")
-        address2_field!.setCustomCssClass("listSubtitleField")
-        city_field! = new Field("CITY + ', ' + STATE", "META_ADDRESS")
-        city_field!.setCustomCssClass("listSubtitleField")
-        REM state_field! = new Field("STATE")
-        zip_field! = new Field("ZIP") 
-        zip_field!.setCustomCssClass("listSubtitleField")
-
-        phone_field! = new Field("PHONE")
+        cost_field! = new Field("COST")
+        weight_field! = new Field("WEIGHT")
+        price_field! = new Field("PRICE")
 
         idColumnFields! = new BBjVector()
         idColumnFields!.add(id_field!)
@@ -66,28 +57,31 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
         
         firstColumnFields! = new BBjVector()
         firstColumnFields!.add(displayName_field!)
-        firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
-        firstColumn! = new ListColumnModel("Salesperson Name", 1)
-        firstColumn!.setColumnWidth("30%")
+        firstColumn! = new ListColumnModel("Product Description", 1)
+        firstColumn!.setColumnWidth("40%")
         firstColumn!.setCellStructure(firstColumnCell!)
 
         secondColumnFields! = new BBjVector()
-        secondColumnFields!.add(address1_field!)
-        secondColumnFields!.add(address2_field!)
-        REM secondColumnFields!.add(state_field!)
-        secondColumnFields!.add(zip_field!)
+        secondColumnFields!.add(cost_field!)
         secondColumnCell! = new Cell(secondColumnFields!)
-        secondColumn! = new ListColumnModel("Address", 3)
-        secondColumn!.setColumnWidth("35%")
+        secondColumn! = new ListColumnModel("Cost", 3)
+        secondColumn!.setColumnWidth("15%")
         secondColumn!.setCellStructure(secondColumnCell!)
 
         thirdColumnFields! = new BBjVector()
-        thirdColumnFields!.add(phone_field!)
+        thirdColumnFields!.add(weight_field!)
         thirdColumnCell! = new Cell(thirdColumnFields!)
-        thirdColumn! = new ListColumnModel("Phone", 4)
-        thirdColumn!.setColumnWidth("20%")
+        thirdColumn! = new ListColumnModel("Weight", 4)
+        thirdColumn!.setColumnWidth("15%")
         thirdColumn!.setCellStructure(thirdColumnCell!)
+
+        priceColumnFields! = new BBjVector()
+        priceColumnFields!.add(price_field!)
+        priceColumnCell! = new Cell(priceColumnFields!)
+        priceColumn! = new ListColumnModel("Price", 5)
+        priceColumn!.setColumnWidth("15%")
+        priceColumn!.setCellStructure(priceColumnCell!)
 
         declare BBjVector columnMappings!
         columnMappings! = new BBjVector()
@@ -96,6 +90,7 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
         columnMappings!.add(idColumn!)
         columnMappings!.add(secondColumn!)
         columnMappings!.add(thirdColumn!)
+        columnMappings!.add(priceColumn!)
 
         listDataModel!.setColumnMappings(columnMappings!)
         listDataModel!.setRowLimit(15)
@@ -112,7 +107,7 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
     method public ListHeaderDataModel initializeItemListHeaderDataModel()
        listHeaderMenu_create! = new ListHeaderMenuItem() 
        listHeaderMenu_create!.setID(1)
-       listHeaderMenu_create!.setMenuLabel("Create Salesperson")
+       listHeaderMenu_create!.setMenuLabel("Create Item")
        listHeaderMenu_create!.setMenuCallback("ON_CREATE_BUTTON_PRESSED")
        listHeaderMenu_create!.setMenuCssClass("createBtn")
        listHeaderMenu_create!.setMenuTheme("primary")
@@ -147,13 +142,9 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
         
         declare BBjChildWindow canvas!
         if f_init!>0 then
-            canvas! = #getCanvas() 
-            canvas!.addStyle("dashboardWindow")
-            canvas!.addPanelStyle("dashboardWindowPanel")
-            itemWnd! =  canvas!.addChildWindow(canvas!.getAvailableControlID(), 0, 0, 0, 0, "", $00100800$, BBjAPI().getSysGui().getAvailableContext())
-            itemWnd!.addStyle("salesrepWnd")
-
-            #renderItemList(itemWnd!)
+            canvas! = #getCanvas()
+            canvas!.addStyle("itemDashboardWindow")
+            #renderItemList(canvas!)
         FI
         
     methodend    
@@ -177,11 +168,11 @@ class public ChileCompanySalespersonDashboard extends BBjWidget
     methodend
 
     method public void showCreateForm()
-        createItemForm! = new ChileCompanySalespersonForm(#getCanvas())
+        createItemForm! = new ChileCompanyItemForm(#getCanvas())
     methodend
 
     method public void showEditForm(BBjString id$)
-        editItemForm! = new ChileCompanySalespersonForm(#getCanvas(), id$)
+        editItemForm! = new ChileCompanyItemForm(#getCanvas(), id$)
     methodend
 
     method public ResultSet loadData(ListViewDataModel listDataModel!)

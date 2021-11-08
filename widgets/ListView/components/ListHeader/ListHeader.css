@@ -13,3 +13,7 @@
     height: 43px;
     width: 141px;
 }
+
+.createBtn::part(control) {
+    border-radius: 8px;
+}

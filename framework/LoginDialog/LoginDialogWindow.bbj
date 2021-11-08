@@ -171,6 +171,12 @@ methodend
         #password!.setInput("")
         #password!.setErrorMessage("Invalid username and password combination")
         #password!.setText("")
+        
+        if len(#username!.getInputField().getText())=0 then
+            #username!.getInputField().focus()
+        else
+            #password!.getInputField().focus()
+        fi
     methodend
 
 
