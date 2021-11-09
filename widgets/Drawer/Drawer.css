@@ -114,7 +114,6 @@
 
 .drawerFooterWrapper{
     position: fixed;
-    /* background-color: green; */
     top: calc(100vh - 117px) !important;
     width: 300px;
     display: grid;
