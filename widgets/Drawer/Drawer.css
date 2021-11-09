@@ -114,7 +114,9 @@
 
 .drawerFooterWrapper{
     position: fixed;
+    /* background-color: green; */
     top: calc(100vh - 117px) !important;
+    width: 300px;
     display: grid;
     height: 117px;
 }
@@ -122,13 +124,14 @@
 .bottomDivider{
     position: fixed;
     top: calc(100vh - 116px) !important;
+    width: 300px;
 }
 
 .drawerClosed .drawerFooterWrapper{
-    top: calc(100vh - 64px) !important;
-    height: 64px;
+    top: calc(100vh - 90px) !important;
+    height: 90px;
 }
 
-.drawerClosed .bottomDivider{
-    top: calc(100vh - 64px) !important;
+.drawerClosed .bottomDivider {
+    width: 104px;
 }

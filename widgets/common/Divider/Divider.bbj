@@ -28,7 +28,6 @@ class public Divider extends BBjWidget
             #window!.setPanelStyle("margin-bottom", str(#marginBottom!))
         else 
             #window!.setPanelStyle("height", "1px")
-            #window!.setPanelStyle("width", "100%")
             #window!.setPanelStyle("background-color", "black")
         endif
     methodend
