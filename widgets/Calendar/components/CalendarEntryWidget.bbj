@@ -1,8 +1,12 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/widgets/Calendar/CalendarEntry.bbj::CalendarEntry
 use com.basiscomponents.db.DataRow
 use java.util.Date
 use java.text.SimpleDateFormat
+use java.util.Calendar
+use java.sql.Timestamp
+use java.util.HashMap
 
 class public CalendarEntryWidget extends BBjWidget
 
@@ -10,16 +14,20 @@ class public CalendarEntryWidget extends BBjWidget
     field private BBjStaticText eventTimeText!
     field private BBjStaticText eventTitleText!
     field private BBjStaticText eventDayText!
-    field private BBjString eventEndTime!
-    field private BBjString eventStartTime!
+    field private Calendar eventStartTime!
+    field private Calendar eventEndTime!
     field private BBjString eventTitle! = ""
     field private BBjString eventDay!
     field private Date eventDate!
     field private BBjString color!
+    field private HashMap types!
 
+    rem /**
+    rem  @param BBjChildWindow wnd!
+    rem  Constructor
+    rem  */
     method public CalendarEntryWidget(BBjChildWindow wnd!)
-        DynamicLoader.addLocalCSS("WebKit/widgets/Calendar/components/CalendarEntryWidget.css")
-        #super!.create(wnd!, wnd!.getAvailableControlID())
+        #this!(wnd!, wnd!.getAvailableControlID())
     methodend
     
     method public CalendarEntryWidget(BBjChildWindow wnd!, BBjInt id!)
@@ -27,14 +35,49 @@ class public CalendarEntryWidget extends BBjWidget
         #super!.create(wnd!, id!)
     methodend
     
+    rem /**
+    rem  @param Boolean init!
+    rem  Redraws the UI when needed
+    rem  */
     method public void redraw(Boolean init!)
         if !init! then
+            rem TODO
             methodret
         endif 
         
-        #window! = #getCanvas()
+        #types! = new HashMap()
         
+        #window! = #getCanvas()
+        #eventTitleText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+        #eventTimeText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+        #eventDayText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0, "")
         #window!.setCallback(#window!.ON_MOUSE_DOWN, #this!, "onTap")
+        
+        #setStyles()
+    methodend
+    
+    rem /**
+    rem  @param BBjMouseDownEvent event!
+    rem  Execute Code when Widget is tapped
+    rem  */
+    method public void onTap(BBjMouseDownEvent event!)
+        a=MSGBOX("Open Entry")
+    methodend
+    
+    rem /**
+    rem  @param CalendarEntry entry!
+    rem  Set Widget data.
+    rem  */
+    method public void setData(CalendarEntry entry!)
+        #setTitle(entry!.getTitle())
+        #setTime(entry!.getStartCalendar().getTimeInMillis(), entry!.getEndCalendar().getTimeInMillis())
+        #setDay(entry!.getDay())
+    methodend
+    
+    rem /**
+    rem  Set the Styles to fit the Figma
+    rem  */
+    method private void setStyles()
         #window!.setDockStyle("height", "59px")
         #window!.setDockStyle("width", "100%")
         #window!.setDockStyle("opacity","0.7")
@@ -45,46 +88,76 @@ class public CalendarEntryWidget extends BBjWidget
 
         #window!.addStyle("calendarEntryStyle")
         #window!.addPanelStyle("calendarEntryPanelStyle")
-
-        #eventTitleText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
+        
         #eventTitleText!.addStyle("eventTitleStyle")
-        
-        #eventTimeText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
         #eventTimeText!.addStyle("eventTimezoneStyle")
-        
-        #eventDayText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0, "")
         #eventDayText!.addStyle("eventDayStyle")
     methodend
     
-    method public void onTap(BBjMouseDownEvent event!)
-        a=MSGBOX("Open Entry")
-    methodend
-    
-    method public void setEventTitle(BBjString eventTitle!)
+    rem /**
+    rem  @param BBjString eventTitle!
+    rem  Set title of Widget
+    rem  */
+    method public void setTitle(BBjString eventTitle!)
         #eventTitle! = eventTitle!
         #eventTitleText!.setText(#eventTitle!)
     methodend
     
-    method public void setEventDay(BBjString eventDay!)
+    rem /**
+    rem  @param BBjString eventDay!
+    rem  Set Day of Widget
+    rem  */
+    method public void setDay(BBjString eventDay!)
         #eventDay! = eventDay!
         #eventDayText!.setText(#eventDay!)
     methodend
     
-    method public void setEventTime(BBjString eventStartTime!, BBjString eventEndTime!)
-        #eventStartTime! = eventStartTime!
-        #eventEndTime! = eventEndTime!
-        #eventTimeText!.setText(#eventStartTime! + "-" + #eventEndTime!)
+    rem /**
+    rem  @param Calendar eventStartTime!, Calendar eventEndTime!
+    rem  Set Time of Widget
+    rem  */
+    method public void setTime(long eventStartTime!, long eventEndTime!)
+        declare SimpleDateFormat sdf!
+        sdf! = new SimpleDateFormat("HH:MM")
+        
+        cal! = Calendar.getInstance()
+        cal!.setTimeInMillis(eventStartTime!)
+        #eventStartTime! = CAST(Calendar, cal!.clone())
+        
+        cal!.setTimeInMillis(eventEndTime!)
+        #eventEndTime! = CAST(Calendar, cal!.clone())
+        
+        startTime! = sdf!.format(#eventStartTime!.getTime())
+        endTime! = sdf!.format(#eventEndTime!.getTime())
+        #eventTimeText!.setText(startTime! + " - " + endTime!)
     methodend
     
-    method public void setEventDate(Date eventDate!)
+    rem /**
+    rem  @param Date eventDate!
+    rem  Set Date of Widget
+    rem  */
+    method public void setDate(Date eventDate!)
         #eventDate! = eventDate!
     methodend
     
+    rem /**
+    rem  @param BBjString color!
+    rem  Set color of Widget
+    rem  */
     method public void setColor(BBjString color!)
         #color! = color!
+        #window!.setDockStyle("background-color", #color!)
     methodend
     
-    method public void getEventDay()
+    method public void setType(BBjString type!, BBjString color!)
+        #setColor(color!)
+    methodend
+    
+    rem /**
+    rem  @return BBjString eventDay!
+    rem  Returns the Day that is used in the Widget
+    rem  */
+    method public BBjString getDay()
         methodret #eventDay!
     methodend
 classend

@@ -1,60 +1,168 @@
 use java.util.Date
 use java.text.SimpleDateFormat
+use java.sql.Timestamp
+use java.util.Calendar
 
 class public CalendarEntry
     field private BBjInt id!
     field private BBjString eventTitle!
-    field private BBjString eventStartTime!
-    field private BBjString eventEndTime!
+    field private Timestamp eventStartTime!
+    field private Timestamp eventEndTime!
+    field private Calendar eventStartCalendar!
+    field private Calendar eventEndCalendar!
     field private BBjString eventDay!
-    field private Date date!
+    field private BBjString entryType!
     
-    method public CalendarEntry(BBjInt id!, BBjString eventTitle!, BBjString eventStartTime!, BBjString eventEndTime!, BBjString eventDay!, Date date!)
+    rem /**
+    rem  @param BBjInt id!, BBjString eventTitle!, BBjString eventStartTime!, BBjString eventEndTime!, BBjString eventDay!, Date date!
+    rem  Constructor of Class CalendarEntry
+    rem  */
+    method public CalendarEntry(BBjInt id!, BBjString eventTitle!, Timestamp eventStartTime!, Timestamp eventEndTime!, BBjString entryType!)
         #id! = id!
         #eventTitle! = eventTitle!
-        #eventStartTime! = eventStartTime!
-        #eventEndTime! = eventEndTime!
-        #eventDay! = eventDay!
-        #date! = date!
+        #entryType! = entryType!
+        
+        declare Calendar cal!
+        cal! = Calendar.getInstance()
+        
+        cal!.setTimeInMillis(eventStartTime!.getTime())
+        #eventStartCalendar! = cast(Calendar, cal!.clone())
+        
+        cal!.setTimeInMillis(eventEndTime!.getTime())
+        #eventEndCalendar! = cast(Calendar, cal!.clone())
+        
+        #eventDay! = #getDisplayDate()
     methodend
     
-    method public void setEventTitle(BBjString eventTitle!)
+    rem /**
+    rem  @param BBjString eventTitle!
+    rem  Set Event Title of CalendarEntry
+    rem  */
+    method public void setTitle(BBjString eventTitle!)
         #eventTitle! = eventTitle!
     methodend
     
-    method public void setEventStartTime(BBjString eventStartTime!)
+    rem /**
+    rem  @param BBjString eventStartTime!
+    rem  Set Event Start Time of CalendarEntry
+    rem  */
+    method public void setStartTime(BBjString eventStartTime!)
         #eventStartTime! = eventStartTime!
     methodend
     
-    method public void setEventEndTime(BBjString eventEndTime!)
+    rem /**
+    rem  @param BBjString eventEndTime!
+    rem  Set Event End Time of CalendarEntry
+    rem  */
+    method public void setEndTime(BBjString eventEndTime!)
         #eventEndTime! = eventEndTime!
     methodend
     
-    method public void setEventDay(BBjString eventDay!)
+    rem /**
+    rem  @param BBjString eventDay!
+    rem  Set Event Day of CalendarEntry
+    rem  */
+    method public void setDay(BBjString eventDay!)
         #eventDay! = eventDay!
     methodend
     
+    rem /**
+    rem  @param BBjString entryType!
+    rem  Set Event Type of CalendarEntry
+    rem  */
+    method public void setType(BBjString entryType!)
+        #entryType! = entryType!
+    methodend
+    
+    rem /**
+    rem  @return BBjInt id!
+    rem  Return ID of CalendarEntry
+    rem  */
     method public BBjInt getID()
         methodret #id!
     methodend
     
-    method public BBjString getEventTitle()
+    rem /**
+    rem  @return BBjString eventTitle!
+    rem  Return Event Title of CalendarEntry
+    rem  */
+    method public BBjString getTitle()
         methodret #eventTitle!
     methodend
     
-    method public BBjString getEventStartTime()
+    rem /**
+    rem  @return BBjString eventStartTime!
+    rem  Return Event Start Time of CalendarEntry
+    rem  */
+    method public Timestamp getStartTime()
         methodret #eventStartTime!
     methodend
-
-    method public BBjString getEventEndTime()
+    
+    rem /**
+    rem  @return BBjString eventEndTime!
+    rem  Return Event End Time of CalendarEntry
+    rem  */
+    method public Timestamp getEndTime()
         methodret #eventEndTime!
     methodend
         
-    method public BBjString getEventDay()
+    rem /**
+    rem  @return BBjString eventDay!
+    rem  Return Event Day of CalendarEntry
+    rem  */
+    method public BBjString getDay()
         methodret #eventDay!
     methodend
     
-    method public Date getDate()
-        methodret #date!
+    rem /**
+    rem  @return BBjString
+    rem  Returns if day is Today, Tomorrow or later
+    rem  */
+    method private BBjString getDisplayDate()
+        declare SimpleDateFormat sdf!
+        sdf! = new SimpleDateFormat("d MMM, YYYY")
+        date! = sdf!.format(#eventStartCalendar!.getTime())
+        cal! = Calendar.getInstance()
+        cal!.setTimeInMillis(System.currentTimeMillis())
+
+        if #eventStartCalendar!.get(Calendar.DAY_OF_MONTH) = cal!.get(Calendar.DAY_OF_MONTH) + 1 then
+            methodret "Tomorrow"
+        endif
+        
+        if #eventStartCalendar!.get(Calendar.DAY_OF_MONTH) = cal!.get(Calendar.DAY_OF_MONTH)then
+            methodret "Today"
+        endif
+        
+        if #eventStartCalendar!.get(Calendar.DAY_OF_MONTH) <> cal!.get(Calendar.DAY_OF_MONTH) then
+            methodret str(date!)
+        endif
+        
+        if #eventStartCalendar!.get(Calendar.MONTH) <> cal!.get(Calendar.MONTH) then
+            methodret str(date!)
+        endif
+        
+        if #eventStartCalendar!.get(Calendar.YEAR) <> cal!.get(Calendar.YEAR) then
+            methodret str(date!)
+        endif
+    methodend
+    
+    rem /**
+    rem  @return java.util.Calendar calendar!
+    rem  Return Calendar of CalendarEntry
+    rem  */
+    method public Calendar getStartCalendar()
+        methodret #eventStartCalendar!
+    methodend
+
+    rem /** 
+    rem  @return java.util.Calendar calendar!
+    rem  Return Calendar of CalendarEntry
+    rem  */
+    method public Calendar getEndCalendar()
+        methodret #eventStartCalendar!
+    methodend
+    
+    method public BBjString getType()
+        methodret #entryType!
     methodend
 classend

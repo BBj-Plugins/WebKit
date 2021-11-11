@@ -3,6 +3,7 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
 
 use java.util.Date
+use java.sql.Timestamp
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
@@ -145,12 +146,16 @@ class public ProdinDemo
         
         declare BBjVector data!
         data! = new BBjVector()
-        data!.addItem(new CalendarEntry(1000, "Call Erik", "13:00 PM", "13:45 PM", "Today", new Date()))
-        data!.addItem(new CalendarEntry(1001, "Weekly Sales Meeting", "13:10 PM", "14:00 PM", "Tomorrow", new Date(2021, 10, 9)))
-        data!.addItem(new CalendarEntry(1002, "Mobile CRM demo", "13:10 PM", "14:00 PM", "10.10.2021", new Date(2021, 10, 10)))
-        data!.addItem(new CalendarEntry(1003, "Visit with Corp Inc.", "13:10 PM", "14:00 PM", "11.10.2021", new Date(2021, 10, 11)))
-        data!.addItem(new CalendarEntry(1004, "Mobile CRM demo", "13:10 PM", "14:00 PM", "11.10.2021", new Date(2021, 10, 11)))
         
+        millis! = System.currentTimeMillis()
+        data!.addItem(new CalendarEntry(1000, "Call Erika", new Timestamp(millis!), new Timestamp(millis!), "Type 1"))
+        data!.addItem(new CalendarEntry(1001, "Weekly Sales Meeting", new Timestamp(1635372000000), new Timestamp(1635374010000), "Type 2"))
+        data!.addItem(new CalendarEntry(1002, "Mobile CRM demo", new Timestamp(1635458400000), new Timestamp(1635458400000), "Type 3"))
+        data!.addItem(new CalendarEntry(1003, "Visit with Corp Inc.", new Timestamp(1635544800000), new Timestamp(1635544800000), "Type 1"))
+        data!.addItem(new CalendarEntry(1004, "Mobile CRM demo", new Timestamp(1635631200000), new Timestamp(1635631200000), "Type 2"))
+        data!.addItem(new CalendarEntry(1005, "Next Week Entry", new Timestamp(1635721200000), new Timestamp(1635721200000), "Type 3"))
+        data!.addItem(new CalendarEntry(1007, "Next Week Entry2", new Timestamp(1635721200000), new Timestamp(1635721200000), "Type 3"))
+       
         calendar!.setEntries(data!)
     methodend
     

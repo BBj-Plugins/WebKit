@@ -34,7 +34,8 @@
 .filterStyle {
 	align-self: center;
 	justify-self: end;
-	width: 100px;
+	width: 100%;
+	height: 25px;
 	--bbj-button-color-on-default-text: black;
 }
 
