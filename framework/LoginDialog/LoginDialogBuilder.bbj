@@ -113,7 +113,7 @@ class public LoginDialogBuilder extends BBjWidget
         declare BBjStaticText redirectText!
         declare BBjChildWindow linkWrapper!
     
-        linkWrapper! = dialog!.getContent().addChildWindow(dialog!.getContent().getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        linkWrapper! = dialog!.getContent().addChildWindow(dialog!.getContent().getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,dialog!,methodName$)
         linkWrapper!.setDockStyle("grid-row-start","6")
         linkWrapper!.setDockStyle("margin-top","16px")
