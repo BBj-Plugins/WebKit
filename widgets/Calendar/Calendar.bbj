@@ -17,6 +17,7 @@ class public Calendar extends BBjWidget
     field private BBjListButton filter!
     field private BBjChildWindow header!
     field private BBjStaticText widgetTitle!
+    field private HashMap types!
     
     rem /**
     rem  @param BBjChildWindow wnd!
@@ -45,6 +46,8 @@ class public Calendar extends BBjWidget
             #drawCalendarEntriesWrapper()
             methodret
         endif
+        
+        #types! = new HashMap()
         
         #window! = #getCanvas()
         
@@ -261,7 +264,7 @@ class public Calendar extends BBjWidget
             entry! = CAST(CalendarEntry, #sortedCalendarEntries!.get(i))
         
             widget! = new CalendarEntryWidget(#calendarEntriesWidgetWrapper!)
-            widget!.setData(entry!)
+            widget!.setData(entry!, #types!)
         next i
     methodend
     

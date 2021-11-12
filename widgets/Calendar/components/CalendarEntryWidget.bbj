@@ -20,7 +20,7 @@ class public CalendarEntryWidget extends BBjWidget
     field private BBjString eventDay!
     field private Date eventDate!
     field private BBjString color!
-    field private HashMap types!
+    field private BBjString type!
 
     rem /**
     rem  @param BBjChildWindow wnd!
@@ -45,8 +45,6 @@ class public CalendarEntryWidget extends BBjWidget
             methodret
         endif 
         
-        #types! = new HashMap()
-        
         #window! = #getCanvas()
         #eventTitleText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
         #eventTimeText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"")
@@ -68,10 +66,20 @@ class public CalendarEntryWidget extends BBjWidget
     rem  @param CalendarEntry entry!
     rem  Set Widget data.
     rem  */
-    method public void setData(CalendarEntry entry!)
+    method public void setData(CalendarEntry entry!, HashMap types!)
         #setTitle(entry!.getTitle())
         #setTime(entry!.getStartCalendar().getTimeInMillis(), entry!.getEndCalendar().getTimeInMillis())
         #setDay(entry!.getDay())
+        #setType(entry!.getType())
+        
+        declare BBjString color!
+        color! = str(types!.get(entry!.getType()))
+        
+        if (color!.trim().substring(0, 1) <> "#") then
+            color! = color! + "#"
+        endif
+        
+        #setColor(color!)
     methodend
     
     rem /**
@@ -140,6 +148,10 @@ class public CalendarEntryWidget extends BBjWidget
         #eventDate! = eventDate!
     methodend
     
+    method public void setType(BBjString type!)
+        #type! = type!
+    methodend
+
     rem /**
     rem  @param BBjString color!
     rem  Set color of Widget
@@ -147,10 +159,6 @@ class public CalendarEntryWidget extends BBjWidget
     method public void setColor(BBjString color!)
         #color! = color!
         #window!.setDockStyle("background-color", #color!)
-    methodend
-    
-    method public void setType(BBjString type!, BBjString color!)
-        #setColor(color!)
     methodend
     
     rem /**
