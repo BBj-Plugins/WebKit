@@ -143,18 +143,21 @@ class public ProdinDemo
         
         declare Calendar calendar!
         calendar! = new Calendar(calendarWrapper!)
+        calendar!.addType("Type 1", "#b94d8a")
+        calendar!.addType("Type 2", "#ce4136")
+        calendar!.addType("Type 3", "#16a05d")
         
         declare BBjVector data!
         data! = new BBjVector()
         
         millis! = System.currentTimeMillis()
-        data!.addItem(new CalendarEntry(1000, "Call Erika", new Timestamp(millis!), new Timestamp(millis!), "Type 1"))
-        data!.addItem(new CalendarEntry(1001, "Weekly Sales Meeting", new Timestamp(1635372000000), new Timestamp(1635374010000), "Type 2"))
-        data!.addItem(new CalendarEntry(1002, "Mobile CRM demo", new Timestamp(1635458400000), new Timestamp(1635458400000), "Type 3"))
-        data!.addItem(new CalendarEntry(1003, "Visit with Corp Inc.", new Timestamp(1635544800000), new Timestamp(1635544800000), "Type 1"))
-        data!.addItem(new CalendarEntry(1004, "Mobile CRM demo", new Timestamp(1635631200000), new Timestamp(1635631200000), "Type 2"))
-        data!.addItem(new CalendarEntry(1005, "Next Week Entry", new Timestamp(1635721200000), new Timestamp(1635721200000), "Type 3"))
-        data!.addItem(new CalendarEntry(1007, "Next Week Entry2", new Timestamp(1635721200000), new Timestamp(1635721200000), "Type 3"))
+        data!.addItem(new CalendarEntry(1000, "Call Erika", new Timestamp(millis!), new Timestamp(millis! + (60 * 60 * 1000)), "Type 1"))
+        data!.addItem(new CalendarEntry(1001, "Weekly Sales Meeting", new Timestamp(millis! + (24 * 60 * 60 * 1000)), new Timestamp(millis! + (24 * 60 * 60 * 1000)), "Type 2"))
+        data!.addItem(new CalendarEntry(1002, "Mobile CRM demo", new Timestamp(millis! + (48 * 60 * 60 * 1000)), new Timestamp(millis! + (48 * 60 * 60 * 1000)), "Type 3"))
+        data!.addItem(new CalendarEntry(1003, "Visit with Corp Inc.", new Timestamp(millis! + (72 * 60 * 60 * 1000)), new Timestamp(millis! + (72 * 60 * 60 * 1000)), "Type 1"))
+        data!.addItem(new CalendarEntry(1004, "Mobile CRM demo", new Timestamp(millis! + (96 * 60 * 60 * 1000)), new Timestamp(millis! + (96 * 60 * 60 * 1000)), "Type 2"))
+        data!.addItem(new CalendarEntry(1005, "Next Week Entry", new Timestamp(millis! + (7 * 24 * 60 * 60 * 1000)), new Timestamp(millis! + (7 * 24 * 60 * 60 * 1000)), "Type 3"))
+        data!.addItem(new CalendarEntry(1007, "Next Week Entry2", new Timestamp(millis! + (7 * 24 * 60 * 60 * 1000)), new Timestamp(millis! + (7 * 24 * 60 * 60 * 1000)), "Type 3"))
        
         calendar!.setEntries(data!)
     methodend
