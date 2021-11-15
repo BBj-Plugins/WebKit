@@ -10,7 +10,7 @@ class public CircularAvatar extends BBjWidget
     method public CircularAvatar(BBjWindow parent!, BBjString radius!, BBjString imagePath!)
         DynamicLoader.addLocalCSS("WebKit/widgets/common/CircularAvatar/CircularAvatar.css")
 
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("circularAvatarPanelStyle")
         #window!.setPanelStyle("width", radius!)
         #window!.setPanelStyle("height", radius!)
