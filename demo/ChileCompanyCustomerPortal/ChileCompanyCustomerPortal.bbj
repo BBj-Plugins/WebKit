@@ -23,15 +23,15 @@ iconPool$ = STBL("icon-pool", "feather")
 wnd! = BBjAPI().openSysGui("X0").addWindow(10,10,200,200,"Flexbox",$00000010$)
 wnd!.setCallback(BBjAPI.ON_CLOSE,"onClose")
 
-login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
-login!.setLogo("WebKit/demo/assets/chile-3.jpeg")
+rem login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
+rem login!.setLogo("WebKit/demo/assets/chile-3.jpeg")
 
-login!.setAllowRemember(Boolean.TRUE)
+rem login!.setAllowRemember(Boolean.TRUE)
 
-if !login!.doModal() then
-    a=msgbox("ERROR",0,"Error while logging in")
-    release
-fi
+rem if !login!.doModal() then
+rem     a=msgbox("ERROR",0,"Error while logging in")
+rem     release
+rem fi
 
 declare Menu m! 
 declare MenuItem i!
@@ -57,7 +57,7 @@ headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),500,"My Dashboar
 headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyMyDashboard.bbj::ChileCompanyMyDashboard")
 
 portal! = new PortalFrame()
-portal!.setUsername(login!.getUser())
+portal!.setUsername("saad")
 portal!.setMenu(m!)
 portal!.setHeaderMenu(headerMenu!)
 portal!.setLogoUrl("WebKit/demo/assets/chile-3.jpeg")

@@ -23,7 +23,7 @@ class public Overlay extends BBjWidget
     method public void redraw(Boolean init!)
         if init! then
             #isOpen! = 1
-            #overlayWrapper! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #overlayWrapper! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #overlayWrapper!.setDockStyle("height","100vh")
             #overlayWrapper!.setDockStyle("width","100vw")
             #overlayWrapper!.setDockStyle("position","absolute")

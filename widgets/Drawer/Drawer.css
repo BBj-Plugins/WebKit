@@ -112,16 +112,16 @@
     max-height: calc(100vh - 445px);
 }
 
-.drawerFooterWrapper{
-    position: fixed;
+.drawerFooterWrapper {
+    position: fixed !important;
     top: calc(100vh - 117px) !important;
     width: 300px;
     display: grid;
     height: 117px;
 }
 
-.bottomDivider{
-    position: fixed;
+.bottomDivider {
+    position: fixed !important;
     top: calc(100vh - 116px) !important;
     width: 300px;
 }
