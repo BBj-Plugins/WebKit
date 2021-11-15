@@ -136,7 +136,7 @@ class public Drawer extends BBjWidget
                 templateRows! = templateRows! + " 48px" 
                 if i <> #tiles!.size() -1 then 
                     templateRows! = templateRows! + " 12px"
-                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
                     spacer!.setDockStyle("height","12px")
                 endif
             wend
@@ -146,7 +146,7 @@ class public Drawer extends BBjWidget
     
     method public BBjChildWindow getOptionalControlAboveTiles()
         if #optionalControl! = null() then
-            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         endif
         methodret #optionalControl!
     methodend

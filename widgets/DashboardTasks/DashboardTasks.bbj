@@ -55,9 +55,9 @@ class public DashboardTasks extends BBjWidget
     methodend
 
     method public void buildContent()
-        #content!.destroy()
+        #content!.destroy() 
         #content! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
- 
+    
         resultSet! = #tasksData!.getData()
 
         if  resultSet! <> null() AND  resultSet!.size() > 0

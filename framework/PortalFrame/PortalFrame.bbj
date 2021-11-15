@@ -118,6 +118,7 @@ class public PortalFrame
         header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
         
         header!.setDockStyle("grid-row-start","1")
+        header!.setDockStyle("height", "30px")
         header!.setDockStyle("margin-bottom","8px")
         header!.setDockStyle("margin-top","24px")
         header!.setDockStyle("margin-left","40px")
