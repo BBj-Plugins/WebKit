@@ -18,7 +18,7 @@ class public DrawerSearchWidget extends BBjWidget implements Icon
     
     method public DrawerSearchWidget(BBjChildWindow parent!, DrawerSearchOverlay searchOverlay!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerSearchWidget/DrawerSearchWidget.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerSearchWidgetPanelStyle")
         #window!.addPanelStyle("searchWidgetPanelAnimationOpen")
         #window!.addPanelStyle("searchWidgetPanelAnimationClose")

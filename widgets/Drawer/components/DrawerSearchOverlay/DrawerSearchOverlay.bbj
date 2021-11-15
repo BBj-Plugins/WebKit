@@ -81,7 +81,7 @@ class public DrawerSearchOverlay extends BBjWidget implements Icon
         endif
         
         rem after clearing search the #contetnWrapperWindow is destroyed and null
-        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperPanelStyle")
         
         rows! = ""
@@ -141,11 +141,11 @@ class public DrawerSearchOverlay extends BBjWidget implements Icon
         declare BBjStaticText inputPrefix!
         declare BBjInputE inputField!
         
-        #searchWnd! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #searchWnd! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #searchWnd!.addPanelStyle("drawerSearchWidgetOverlayPanelStyle")
         #searchWnd!.addPanelStyle("drawerSearchWidgetOverlayPanelStyleClosed")
         
-        inputWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        inputWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         inputWrapper!.addPanelStyle("drawerSearchWidgetInputWrapperPanelStyle")
         
         inputPrefix! = #setIcon(inputWrapper!, "search")
@@ -158,7 +158,7 @@ class public DrawerSearchOverlay extends BBjWidget implements Icon
         inputField!.setPlaceholder("Go to customer...")
         inputField!.setCallback(BBjAPI.ON_EDIT_MODIFY,#this!,"onEditModify")
         
-        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperPanelStyle")
         
         if #initialSuggestions! <> null() then 
@@ -192,7 +192,7 @@ class public DrawerSearchOverlay extends BBjWidget implements Icon
         declare BBjStaticText label!
         declare BBjStaticText interActiveLabel!
         
-        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #contentWrapper! = #searchWnd!.addChildWindow(#searchWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #contentWrapper!.addPanelStyle("drawerSearchWidgetContentWrapperEmptySearchPanelStyle")
         
         rem add fields to set the text
