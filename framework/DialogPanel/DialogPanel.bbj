@@ -13,7 +13,7 @@ class public DialogPanel extends BBjWidget implements Icon
     field private Boolean includeCloseIcon! = 1
 
     REM dialog body related
-    field private BBjChildWindow bodyWnd!
+    field public BBjChildWindow bodyWnd!
     
     REM dialog footer related
     field private BBjChildWindow footerWnd!
