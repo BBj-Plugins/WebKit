@@ -1,0 +1,121 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/widgets/common/Divider/Divider.bbj::Divider
+
+class public DialogPanel extends BBjWidget implements Icon
+    field private BBjChildWindow dialogWnd!    
+    field private BBjWindow parent!    
+
+    REM dialog header related
+    field private BBjChildWindow headerWnd!
+    field private BBjString headerTitle$ = "Title"
+    field private Boolean includeCloseIcon! = 1
+
+    REM dialog body related
+    field private BBjChildWindow bodyWnd!
+    
+    REM dialog footer related
+    field private BBjChildWindow footerWnd!
+
+    field private BBjString submitBtnText$ = "Submit"
+    field private BBjString submitBtnTheme$ = "primary"
+    field private BBjString submitBtnCustomCssClass$ = "footerBtn"
+    field public static BBjNumber ON_SUBMIT_BTN_PRESSED = 1234
+
+    field private BBjString cancelBtnText$ = "Cancel"
+    field private BBjString cancelBtnTheme$ = "default"
+    field private BBjString cancelBtnCustomCssClass$ = "footerBtn"
+    field public static BBjNumber ON_CANCEL_BTN_PRESSED = 1234
+
+
+    method public DialogPanel(BBjWindow parent!)
+        DynamicLoader.addLocalCSS("WebKit/framework/DialogPanel/DialogPanel.css")
+
+        #dialogWnd! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+
+        #parent! = parent!
+    methodend
+
+    method public DialogPanel()
+        DynamicLoader.addLocalCSS("WebKit/framework/DialogPanel/DialogPanel.css")
+
+        sysgui! =BBjAPI().openSysGui("X0")
+        declare BBjTopLevelWindow window!
+        window! = CAST(BBjTopLevelWindow,sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"",$01101083$))
+
+        window!.addStyle("dialogWnd")
+        #dialogWnd! = window!.addChildWindow(window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+
+        #parent! = window!
+        
+    methodend
+
+    method public void renderTopBar(BBjChildWindow modalWnd!)
+       #headerWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+       #headerWnd!.addStyle("headerWnd")
+       #headerWnd!.addPanelStyle("headerPanel")
+
+       modalHeader! = #headerWnd!.addStaticText(#headerWnd!.getAvailableControlID(),0,0,0,0, #headerTitle$)
+       modalHeader!.addStyle("headerTitle")
+       
+       closeIconWnd! = #headerWnd!.addChildWindow(#headerWnd!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+       closeIconWnd!.addStyle("closeIconWnd")
+       closeIcon! = #setIcon(closeIconWnd!, "x")
+       closeIcon!.addStyle("closeIcon")
+       closeIconWnd!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!, "onClose")
+
+       topDivider! = new Divider(modalWnd!)
+       topDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
+        
+    methodend
+
+    method public void renderFooter(BBjChildWindow modalWnd!)
+        bottomDivider! = new Divider(modalWnd!)
+        bottomDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
+
+        #footerWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #footerWnd!.addStyle("footerWnd")
+
+        cancelBtn! = #footerWnd!.addButton(2,0,0,0,0, #cancelBtnText$)
+        cancelBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!, "onCancel")
+        cancelBtn!.addStyle(#cancelBtnCustomCssClass$)
+        cancelBtn!.setAttribute("theme", #cancelBtnTheme$)
+
+        createBtn! = #footerWnd!.addButton(1,0,0,0,0,"Submit")
+        createBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!, "onSubmit")
+        createBtn!.addStyle(#submitBtnCustomCssClass$)
+        createBtn!.setAttribute("theme", #submitBtnTheme$)
+    methodend
+
+    method public void onSubmit(BBjButtonPushEvent ev!)
+        #dialogWnd!.destroy()
+        #parent!.destroy()
+        #fireEvent(ON_SUBMIT_BTN_PRESSED, "")
+    methodend
+
+    method public void onCancel(BBjButtonPushEvent ev!)
+        #dialogWnd!.destroy()
+        #parent!.destroy()
+        #fireEvent(ON_CANCEL_BTN_PRESSED, "")
+    methodend
+
+    method public void onClose(BBjMouseDownEvent ev!)
+        #dialogWnd!.destroy()
+        #parent!.destroy()
+        #fireEvent(ON_CANCEL_BTN_PRESSED, "")
+    methodend
+
+    method public void initializeBody(BBjChildWindow modalWnd!)
+       #bodyWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+       #bodyWnd!.addPanelStyle("bodyPanel")
+    methodend
+
+    method public void initializeDialogPanel()
+        #dialogWnd!.addPanelStyle("dialogPanel")
+        #renderTopBar(#dialogWnd!)
+        #initializeBody(#dialogWnd!)
+        #renderFooter(#dialogWnd!)
+    methodend
+
+classend

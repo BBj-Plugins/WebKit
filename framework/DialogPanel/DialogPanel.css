@@ -1,0 +1,100 @@
+.dialogWnd{
+    background: transparent;
+    position: absolute;
+    backdrop-filter: brightness(0.5);
+}
+
+
+/* TODO adjust when in mini drawer form */
+.dialogPanel{
+    position: fixed !important;
+    top: 10vh !important;
+    left: 35vw !important;
+    z-index: 1199 !important;
+    width: 750px;
+    height: 700px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--bbj-shadow-l);
+    backdrop-filter: drop-shadow(2px 4px 6px black);
+}
+
+.bodyPanel{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 30px;
+
+    height: 500px;
+    overflow-y: scroll !important;
+}
+
+
+.headerWnd{
+    height: 60px;
+    padding: 10px;
+}
+
+.headerPanel{
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+
+.headerTitle{
+    margin-left: 25px;
+    font-size: 25px;
+    grid-column: 1;
+}
+
+.closeIconWnd{
+    grid-column: 2;
+    align-self: center;
+    justify-self: center;
+
+    cursor: pointer;
+
+}
+
+.closeIcon{
+    margin-left: 5px;
+}
+
+.footerWnd{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footerBtn{
+    margin: 13px 24px !important;
+    margin-left: auto !important;
+    height: 43px;
+    width: 141px;
+}
+
+.footerBtn::part(control) {
+    border-radius: 8px;
+}
+
+
+@media screen and (max-width: 425px) {
+    .formControlPanel{
+        position: fixed !important;
+        top: 5vh !important;
+        left: 0px !important;
+        z-index: 99 !important;
+        width: 100vw;
+        height: 90vh;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: var(--bbj-shadow-l);
+        backdrop-filter: drop-shadow(2px 4px 6px black);
+    }
+
+    .formPanel{
+        display: grid;
+        grid-template-columns: unset;
+        padding: 30px;
+
+        height: 500px;
+        overflow-y: scroll !important;
+    }
+}
