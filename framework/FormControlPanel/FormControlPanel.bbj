@@ -95,7 +95,7 @@ class public FormControlPanel
             fieldWnd!.setPanelStyle("grid-row", str(i - (columnCount! / 2)))
             fieldWnd!.setPanelStyle("grid-column", "2")
            fi
-        rem    fieldWnd!.addStyle("edit-field")
+           fieldWnd!.addStyle("edit-field")
 
            columnName! = columnNames!.get(i)
            _fieldLabel! = new InputField(fieldWnd!)
