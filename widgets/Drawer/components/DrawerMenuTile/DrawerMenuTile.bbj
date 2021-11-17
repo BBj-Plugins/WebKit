@@ -16,7 +16,7 @@ class public DrawerMenuTile extends BBjWidget implements Icon
     
     method public DrawerMenuTile(BBjWindow parent!,BBjNumber id! ,BBjString icon!, BBjString title!)
          DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.css")
-         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
          #window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDrawerMenuTile")
          #window!.addPanelStyle("menuWndAnimationClose")
          #window!.addPanelStyle("menuWndAnimationOpen")

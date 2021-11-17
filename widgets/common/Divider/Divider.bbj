@@ -14,7 +14,7 @@ class public Divider extends BBjWidget
     field private BBjNumber marginBottom!
 
     method public Divider(BBjWindow parent!)
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #setCanvas(#window!)
         #redraw(1)
     methodend

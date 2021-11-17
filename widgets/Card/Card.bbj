@@ -36,10 +36,10 @@ class public Card extends BBjWidget
 
 
             
-            #ImageCtrl! =  CAST(BBjChildWindow,card!.addChildWindow(card!.getAvailableControlID(),0,0,100,80,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
+            #ImageCtrl! =  CAST(BBjChildWindow,card!.addChildWindow(card!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext()))
             #ImageCtrl!.addPanelStyle("cardimg")
 
-            textframe! =  CAST(BBjChildWindow,card!.addChildWindow(card!.getAvailableControlID(),0,0,100,80,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
+            textframe! =  CAST(BBjChildWindow,card!.addChildWindow(card!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext()))
             textframe!.addPanelStyle("cardtext")
             #HeadlineCtrl! = CAST(BBjStaticText,textframe!.addStaticText(textframe!.getAvailableControlID(),0,0,100,80,""))
             #BodyCtrl! =  CAST(BBjStaticText,textframe!.addStaticText(textframe!.getAvailableControlID(),0,0,100,80,""))

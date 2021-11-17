@@ -52,14 +52,14 @@ class public Drawer extends BBjWidget
     
     method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addStyle("drawerStyle")        
         #window!.addStyle("drawerOpen")
         #window!.addPanelStyle("drawerPanelStyle")
         #window!.addPanelStyle("drawerAnimationOpen")
         #window!.addPanelStyle("drawerAnimationClose")
         
-        #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #shadowWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onShadowTapped")
         #shadowWindow!.addPanelStyle("drawerMobileShadowPanelStyle")
         #shadowWindow!.addStyle("drawerShadow")
@@ -110,14 +110,14 @@ class public Drawer extends BBjWidget
             topDivider! = new Divider(#window!)
             topDivider!.setColor("#DDE0E1")
             
-            #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #tilesWrapper!.addPanelStyle("drawerTilesWrapper")
             
             bottomDivider! = new Divider(#window!)
             bottomDivider!.setColor("#DDE0E1")
             bottomDivider!.addPanelStyle("bottomDivider")
             
-            footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             footerWrapper!.addPanelStyle("drawerFooterWrapper")
             
             footer! = new DrawerFooter(footerWrapper!,#window!,#drawerDataModel!)
@@ -136,7 +136,7 @@ class public Drawer extends BBjWidget
                 templateRows! = templateRows! + " 48px" 
                 if i <> #tiles!.size() -1 then 
                     templateRows! = templateRows! + " 12px"
-                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
                     spacer!.setDockStyle("height","12px")
                 endif
             wend
@@ -146,7 +146,7 @@ class public Drawer extends BBjWidget
     
     method public BBjChildWindow getOptionalControlAboveTiles()
         if #optionalControl! = null() then
-            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         endif
         methodret #optionalControl!
     methodend

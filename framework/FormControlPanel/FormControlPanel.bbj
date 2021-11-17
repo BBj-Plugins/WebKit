@@ -26,7 +26,7 @@ class public FormControlPanel
 
     method public FormControlPanel(BBjWindow parent!)
         DynamicLoader.addLocalCSS("WebKit/framework/FormControlPanel/FormControlPanel.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
 
         #dbUtil! = new DbUtil()
     methodend
@@ -59,7 +59,7 @@ class public FormControlPanel
        columnNames! = #RS!.getColumnNames()
        columnCount! = #RS!.getColumnCount()
 
-       topWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+       topWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
        topWnd!.addStyle("topWndPanel")
 
        modalTitle$ = ""
@@ -75,7 +75,7 @@ class public FormControlPanel
        topDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
 
 
-       formWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+       formWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
        formWnd!.addPanelStyle("formPanel")
 
        if #isEdit! = 1 THEN
@@ -89,11 +89,11 @@ class public FormControlPanel
 
 
            if i < (columnCount! / 2) THEN
-            fieldWnd!.setStyle("grid-column", "1")
-            fieldWnd!.setStyle("grid-row", str(i + 1))
+            fieldWnd!.setPanelStyle("grid-column", "1")
+            fieldWnd!.setPanelStyle("grid-row", str(i + 1))
            else 
-            fieldWnd!.setStyle("grid-row", str(i - (columnCount! / 2)))
-            fieldWnd!.setStyle("grid-column", "2")
+            fieldWnd!.setPanelStyle("grid-row", str(i - (columnCount! / 2)))
+            fieldWnd!.setPanelStyle("grid-column", "2")
            fi
            fieldWnd!.addStyle("edit-field")
 
@@ -112,7 +112,7 @@ class public FormControlPanel
         bottomDivider! = new Divider(modalWnd!)
         bottomDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
 
-        footerWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        footerWnd! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         footerWnd!.addStyle("footerWnd")
 
         cancelBtn! = footerWnd!.addButton(2,0,0,0,0,"Cancel")
@@ -129,7 +129,7 @@ class public FormControlPanel
 
 
     method public void show()
-        #modalWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #modalWnd! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #modalWnd!.addPanelStyle("formControlPanel")
         #drawForm(#modalWnd!)
         

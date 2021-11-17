@@ -27,7 +27,7 @@ class public DashboardWidgetHeader extends BBjWidget
         #window!.addStyle("dashboardWidgetHeader")
         #window!.addPanelStyle("dashboardWidgetHeaderPanel")
 
-        #titleWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #titleWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #titleWindow!.setDockStyle("flex-basis", "50%")
 
             title! = #titleWindow!.addStaticText(#titleWindow!.getAvailableControlID(),0,0,0,0,#title$)
@@ -38,13 +38,13 @@ class public DashboardWidgetHeader extends BBjWidget
 
     rem  This method is currently solely for display purposes. In future updates settings should be connected to the Widgets content
     method public void addSetting(BBjString setting$)
-        setting! =   #window!.addChildWindow( #window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        setting! =   #window!.addChildWindow( #window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             
             setting!.setDockStyle("margin-left", "auto")
             setting!.addStyle("dashboardWidgetHeaderSetting")
             setting!.addPanelStyle("dashboardWidgetHeaderSettingPanel")
 
-                settingHeader! = setting!.addChildWindow(setting!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                settingHeader! = setting!.addChildWindow(setting!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
                 settingHeader!.setPanelStyle("display", "flex")
                     settingName! = settingHeader!.addStaticText(settingHeader!.getAvailableControlID(),0,0,0,0, setting$ + ":  ")
                     settingName!.addStyle("dashboardWidgetHeaderText")
@@ -55,7 +55,7 @@ class public DashboardWidgetHeader extends BBjWidget
                     settingVar!.addStyle("dashboardWidgetHeaderText")
                     settingVar!.addStyle("filter")
 
-                    iconWrapper! = settingHeader!.addChildWindow(settingHeader!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                    iconWrapper! = settingHeader!.addChildWindow(settingHeader!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
                     img! = iconWrapper!.addImageCtrl(iconWrapper!.getAvailableControlID(),0,0,0,0,"WebKit/widgets/DashboardWidgetHeader/assets/drawer_footer_arrow_down.png")
 
                     iconWrapper!.addStyle("widgetHeaderIconWrapper")
