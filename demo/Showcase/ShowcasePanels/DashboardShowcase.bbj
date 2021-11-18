@@ -4,19 +4,19 @@ REM  * @author TimonGeisbauer
 REM  *
 REM  */
 
-use ::WebKit/widgets/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
+use ::WebKit/demo/ShowCase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
 use ::WebKit/widgets/DashboardHeader/DashboardHeader.bbj::DashboardHeader
 use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry
 
-class public DashboardHeaderShowcase extends ShowcaseWidget
+class public DashboardShowcase extends ShowcaseWidget
 
     field private BBjChildWindow window!
 
-    method public DashboardHeaderShowcase(BBjWindow wnd!)
+    method public DashboardShowcase(BBjWindow wnd!)
         #super!(wnd!)
     methodend
     
-    method public DashboardHeaderShowcase(BBjWindow wnd!, BBjInt id!)
+    method public DashboardShowcase(BBjWindow wnd!, BBjInt id!)
         #super!(wnd!,id!)
     methodend
     
