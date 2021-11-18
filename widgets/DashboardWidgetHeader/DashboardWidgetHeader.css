@@ -1,0 +1,28 @@
+
+.dashboardWidgetHeaderPanel {
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-bottom: var(--bbj-border-color) solid 1px;
+    display: flex;
+}
+
+/* FONTS */
+.dashboardWidgetHeaderText.title {
+    color: #A1A5A7;
+    font-size: var(--bbj-font-size-xxs);
+    font-weight: var(--bbj-font-weight-lighter);
+    letter-spacing: 0.09rem; 
+}
+
+.dashboardWidgetHeaderText.filter {
+    margin-top: 2px;
+    color: #212525;
+    font-size: var(--bbj-font-size-xs);
+    font-weight: var(--bbj-font-weight-normal);
+}
+
+.dashboardWidgetHeaderText.filter.name {
+    color: #A1A5A7;
+}

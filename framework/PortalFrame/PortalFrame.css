@@ -38,3 +38,17 @@
         height:100vh;
     }
 }
+
+.account {
+	height:50px;
+	width:250px;
+	text-align: right !important;
+	position:fixed;
+	top:17px;
+	right:75px;
+	font-family:Nunito, sans-serif;
+	font-size:17px;
+	font-style:normal;
+	font-weight:600;
+	color:#FAFAFA;      
+}

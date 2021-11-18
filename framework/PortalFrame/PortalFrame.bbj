@@ -5,7 +5,7 @@ use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/framework/LoginDialog.bbj::LoginDialog
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
@@ -25,7 +25,9 @@ class public PortalFrame
     
     field public BBjString Username!
     field public BBjString Title!
-    field public Menu Menu!
+    field public Menu Menu! = new Menu()
+    field public Menu FooterMenu! = new Menu()
+    field public Menu HeaderMenu! = new Menu()
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
@@ -37,12 +39,22 @@ class public PortalFrame
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+    
+    field private static PortalFrame ThisInstance!
 
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
+        #ThisInstance! = #this!
+    methodend
+    
+    method public static PortalFrame getInstance()
+        if #ThisInstance! = null() then
+            #ThisInstance! = new PortalFrame()
+        fi
+        methodret #ThisInstance!
     methodend
 
-    method private void initializeDrawer(Menu menu!)
+    method private void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
         declare BBjVector menuTiles!
         declare TilesTextHeader header!
 
@@ -50,12 +62,14 @@ class public PortalFrame
         drawerDataModel! = new DrawerModel()
         drawerDataModel!.setLogoUrl(#LogoUrl!)
         drawerDataModel!.setLogoSmallUrl(#LogoSmallUrl!)
-        drawerDataModel!.setTilesTextHeader("Browse!")
+        drawerDataModel!.setTilesTextHeader("Browse")
         drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
         drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
 
         drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         menuTiles! = new BBjVector()
+        footerMenuTiles! = new BBjVector()
+        headerMenuTiles! = new BBjVector()
 
         menuitems! = menu!.getChildren(menu!.getRoot()) 
         it! = menuitems!.iterator()
@@ -70,15 +84,51 @@ class public PortalFrame
             REM btn!.setToolTip(menuitem!.getToolTip())
             REM btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
         wend
+
+        REM initialize footerMenu
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","moon")
+        footerMenuItem!.setProgram("void")
+        footerMenuItem!.setCallback("onChangeTheme")
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","log-out")
+        footerMenuItem!.setProgram("void")
+        footerMenuItem!.setCallback("onLogout")
+
+        footerMenuItems! = footerMenu!.getChildren(footerMenu!.getRoot())
+        it! = footerMenuItems!.iterator()
+
+        while it!.hasNext()
+            declare auto MenuItem footerMenuItem!
+            footerMenuItem! = it!.next()
+            id% = footerMenuItem!.getNodeId()
+            footerMenuTiles!.add(new DrawerMenuTileEntry(id%, footerMenuItem!.getCaption(), footerMenuItem!.getIcon()))
+        wend
+        drawerDataModel!.setFooterMenuTiles(footerMenuTiles!)
+
+
+        REM initialize header menu items
+        headerMenuItems! = headerMenu!.getChildren(headerMenu!.getRoot())
+        it! = headerMenuItems!.iterator()
+
+        while it!.hasNext()
+            declare auto MenuItem headerMenuItem!
+            headerMenuItem! = it!.next()
+            id% = headerMenuItem!.getNodeId()
+            headerMenuTiles!.add(new DrawerMenuTileEntry(id%, headerMenuItem!.getCaption(), headerMenuItem!.getIcon()))
+        wend
+        drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
         #Drawer! = new Drawer(#window!, drawerDataModel!)
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
+        #Drawer!.setCallback(Drawer.ON_DRAWER_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
+        #Drawer!.setCallback(Drawer.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_STATE_CHANGED, #this!, "onDrawerToggle")
+        #Drawer!.setCallback(Drawer.ON_LOGOUT, "logout")
         
         header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
         
         header!.setDockStyle("grid-row-start","1")
+        header!.setDockStyle("height", "30px")
         header!.setDockStyle("margin-bottom","8px")
         header!.setDockStyle("margin-top","24px")
         header!.setDockStyle("margin-left","40px")
@@ -101,7 +151,7 @@ class public PortalFrame
             #Main! = cast(BBjChildWindow,main!)
             #Main!.addStyle("shrinked")
              
-            #initializeDrawer(#Menu!)
+            #initializeDrawer(#Menu!, #FooterMenu!, #HeaderMenu!)
             REM #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
             REM #AccountDisplay!.setCallback(BBjAPI.ON_POPUP_REQUEST,#this!,"onAvatarAreaClick")
             REM 
@@ -121,7 +171,7 @@ class public PortalFrame
             REM     #Avatar!.setDockStyle("background-image","url("+#Profile!.getPictureUrl()+")")
             REM fi
             REM 
-            REM BBjAPI().setCustomEventCallback("logout","logout")
+            BBjAPI().setCustomEventCallback("logout","logout")
             
             
             anchor$ = ClientUtil.getUrlAnchor()
@@ -133,24 +183,37 @@ class public PortalFrame
             process_events
             
             logout:
+                ClientUtil.setUrlAnchor("", "")
                 methodret 1
             
     methodend
     
-    method public void navigateTo(BBjString anchor$)
+    method public BBjWidget navigateTo(BBjString anchor$)
         item! = #Menu!.getItem(anchor$)
         if item! <> null() then
-            #navigateTo(item!)
+            methodret #navigateTo(item!)
         fi
    methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
         nodeId=num(str(ev!.getObject()))
-        item!=#Menu!.getItem(nodeId)
+        item! = #Menu!.getItem(nodeId)
         #navigateTo(item!)
    methodend
+    
+    method public void onFooterMenuItemClick(BBjCustomEvent ev!)
+        nodeId = num(str(ev!.getObject()))
+        item! = #FooterMenu!.getItem(nodeId)
+        #navigateTo(item!)
+    methodend
 
-   method public void navigateTo(MenuItem item!)
+    method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
+        nodeId = num(str(ev!.getObject()))
+        item! = #HeaderMenu!.getItem(nodeId)
+        #navigateTo(item!)
+    methodend
+
+   method public BBjWidget navigateTo(MenuItem item!)
         if #curr_win! <> null() and !#curr_win!.isDestroyed() then
             #curr_win!.setVisible(0)
             #curr_win!=null()
@@ -172,6 +235,11 @@ class public PortalFrame
                 #curr_win!.setVisible(1)
             else
                 pgm$ = item!.getProgram()
+                if pgm$ = "void" then
+                    callback$ = item!.getCallback()
+                    x! = eval("#" + callback$ + "()", err=*next)
+                    methodret x!
+                fi
                 if pgm$>"" then
                     starttype = item!.getStartType()
                     
@@ -205,6 +273,7 @@ class public PortalFrame
             fi
         fi
         ClientUtil.setUrlAnchor(item!.getCaption(),item!.getCaption())
+        methodret #curr_win!
     methodend
     
     method public void onAvatarAreaClick(BBjEvent ev!)
@@ -248,6 +317,12 @@ class public PortalFrame
          #Drawer!.addStyle("draweropen")
          #Drawer!.removeStyle("drawerclosed")
     fi
+    methodend
+
+    method public void onLogout()
+        LoginDialog.clearRememberToken()
+        BBjAPI().postCustomEvent("logout", "")
+        methodret
     methodend
 return
 

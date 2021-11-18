@@ -1,20 +1,21 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/demo/ProdinDemo/ProdinDemo.bbj::ProdinDemo
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
+ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 
 DynamicLoader.init()
 DynamicLoader.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
-DynamicLoader.addLocalCSS("WebKit/demo/ProdinDemo/ProdinDemo.css")
+DynamicLoader.loadThemeFile("WebKit/demo/ProdinDemo/ProdinDemo.css")
 DynamicLoader.addLocalCSS("WebKit/demo/assets/demo.css")
 DynamicLoader.addLocalCSS("WebKit/css/webkit.css")
+
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/prodin_logo.png","prodinRes")
-bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/fonts/Lato-Regular.ttf","prodinRes")
-bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/fonts/Lato-Bold.ttf","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/fonts/feather-icons.ttf","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/prodin_login_background_desktop.png","prodinRes")
 bbjutils!.copyFileToWebServer("WebKit/demo/ProdinDemo/assets/prodin_login_background_tablet.png","prodinRes")
@@ -91,14 +92,14 @@ class public ProdinDemo
         declare Menu m!
         declare MenuItem i!
         m! = new Menu()
-        i! = m!.addMenuItem(m!.getRoot(),101,"Customers","list of all customers","WebKit/demo/ProdinDemo/assets/users.png")
-        i! = m!.addMenuItem(m!.getRoot(),102,"Tasks","list of all tasks","WebKit/demo/ProdinDemo/assets/tasks.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","WebKit/demo/ProdinDemo/assets/proposals.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes", "WebKit/demo/ProdinDemo/assets/shopping-cart.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Customers","list of all quotes","WebKit/demo/ProdinDemo/assets/users.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Tasks","list of all quotes","WebKit/demo/ProdinDemo/assets/tasks.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","WebKit/demo/ProdinDemo/assets/proposals.png")
-        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes","WebKit/demo/ProdinDemo/assets/shopping-cart.png")
+        i! = m!.addMenuItem(m!.getRoot(),101,"Customers","list of all customers","users")
+        i! = m!.addMenuItem(m!.getRoot(),102,"Tasks","list of all tasks","notes")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","send")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes", "shopping-cart")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Customers","list of all quotes","users")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Tasks","list of all quotes","notes")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Quotations","list of all quotes","send")
+        i! = m!.addMenuItem(m!.getRoot(),103,"Products","list of all quotes","shopping-cart")
         methodret m!
     methodend
     

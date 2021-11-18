@@ -42,16 +42,24 @@ class public Drawer extends BBjWidget
 
     field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
 
+    field public static BBjNumber ON_DRAWER_FOOTER_TILE_PRESSED = 132 
+
+    field public static BBjNumber ON_DRAWER_HEADER_TILE_PRESSED = 142 
+
     field public static BBjNumber ON_DRAWER_STATE_CHANGED = 1444
+
+    field public static BBjNumber ON_LOGOUT = 14441
     
     method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.addStyle("drawerStyle")        
+        #window!.addStyle("drawerOpen")
         #window!.addPanelStyle("drawerPanelStyle")
         #window!.addPanelStyle("drawerAnimationOpen")
         #window!.addPanelStyle("drawerAnimationClose")
         
-        #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #shadowWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onShadowTapped")
         #shadowWindow!.addPanelStyle("drawerMobileShadowPanelStyle")
         #shadowWindow!.addStyle("drawerShadow")
@@ -81,14 +89,13 @@ class public Drawer extends BBjWidget
         if init!
             #createDemoData()
             #open! = 1
-            header! = new DrawerHeader(#window!, #drawerDataModel!.getLogoUrl(), #drawerDataModel!.getLogoSmallUrl(), #drawerDataModel!.getDrawerCloseIcon())
+            header! = new DrawerHeader(#window!, #drawerDataModel!.getLogoUrl(),#drawerDataModel!.getLogoSmallUrl(), #drawerDataModel!.getDrawerCloseIcon(), #drawerDataModel!)
             header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
+            header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
             
             drawerOpenIcon! = new DrawerOpenIcon(#window!, #drawerDataModel!.getDrawerOpenIcon())
             drawerOpenIcon!.setCallback(DrawerOpenIcon.ON_DRAWER_OPEN_ICON_PUSH,#this!,"openDrawer")
             #drawerOpenIcon! = drawerOpenIcon!
-            
-            dashboard! = new DashboardWidget(#window!)
             
             #searchOverlay! = new DrawerSearchOverlay(#window!)
             #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
@@ -103,39 +110,43 @@ class public Drawer extends BBjWidget
             topDivider! = new Divider(#window!)
             topDivider!.setColor("#DDE0E1")
             
-            #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #tilesWrapper!.addPanelStyle("drawerTilesWrapper")
             
             bottomDivider! = new Divider(#window!)
             bottomDivider!.setColor("#DDE0E1")
+            bottomDivider!.addPanelStyle("bottomDivider")
             
-            footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             footerWrapper!.addPanelStyle("drawerFooterWrapper")
             
             footer! = new DrawerFooter(footerWrapper!,#window!,#drawerDataModel!)
             footer!.setDockStyle("align-self","center")
+            footer!.setCallback(DrawerFooter.getON_LOGOUT(), #this!, "onLogout")
+            footer!.setCallback(DrawerFooter.ON_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
             
             declare DrawerMenuTileEntry entry!
             declare BBjChildWindow spacer!
             
-            for i = 0 to #tiles!.size() -1
-                entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
+            it! = #tiles!.iterator()
+            while it!.hasNext()
+                entry! = cast(DrawerMenuTileEntry,it!.next())
                 tile! = new DrawerMenuTile(#tilesWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
                 tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
                 templateRows! = templateRows! + " 48px" 
                 if i <> #tiles!.size() -1 then 
                     templateRows! = templateRows! + " 12px"
-                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
                     spacer!.setDockStyle("height","12px")
                 endif
-            next i
+            wend
             #tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
         endif
     methodend
     
     method public BBjChildWindow getOptionalControlAboveTiles()
         if #optionalControl! = null() then
-            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         endif
         methodret #optionalControl!
     methodend
@@ -239,6 +250,14 @@ class public Drawer extends BBjWidget
     method public void onMenuItemClick(BBjCustomEvent event!)
         #fireEvent(#ON_DRAWER_TILE_PRESSED, event!.getObject())
     methodend
+
+    method public void onFooterMenuItemClick(BBjCustomEvent ev!)
+        #fireEvent(#ON_DRAWER_FOOTER_TILE_PRESSED, ev!.getObject())
+    methodend
+
+    method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
+        #fireEvent(#ON_DRAWER_HEADER_TILE_PRESSED, ev!.getObject())
+    methodend
     
     method public void openDrawer(BBjCustomEvent event!)
         #window!.addStyle("drawerOpen")
@@ -249,5 +268,8 @@ class public Drawer extends BBjWidget
     
     method public Boolean isOpen()
         methodret #open!
+    methodend
+    method public void onLogout(BBjCustomEvent ev!)
+       #fireEvent(#ON_LOGOUT, "") 
     methodend
 classend

@@ -1,8 +1,6 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/model/Menu.bbj::MenuItem
-
-
-
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public EmbedPanel extends BBjWidget
 
@@ -10,10 +8,12 @@ class public EmbedPanel extends BBjWidget
     field private BBjHtmlView HtmlView!
     field private MenuItem MenuItem!
     method public EmbedPanel(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/framework/EmbedPanel/EmbedPanel.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
 
     method public EmbedPanel(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/framework/EmbedPanel/EmbedPanel.css")
         #super!.create(wnd!,id!)
     methodend
 
@@ -36,8 +36,6 @@ class public EmbedPanel extends BBjWidget
             #HtmlView!.addStyle("embedframe")    
             #HtmlView!.setRaisedEdge(0)
             #HtmlView!.setClientEdge(0)
-
-            
         FI
         
     methodend
@@ -90,7 +88,8 @@ class public EmbedPanel extends BBjWidget
         appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
         appConfig! = appServer!.makeEmptyAppConfig()
         appConfig!.setProgramName(source$)
-        
+        appConfig!.setDwcEnabled(1)
+        appConfig!.setBuiEnabled(1)
         appConfig!.setConfigFile(config$)
         if classpath! <> null() then
             appConfig!.setClasspathName(classpath!)
@@ -149,6 +148,3 @@ launch_err:
 close_app:
     BBjAPI().getGlobalNamespace().setValue(uid$,"close")
 release
-    
-
-

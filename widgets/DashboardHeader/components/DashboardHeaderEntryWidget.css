@@ -17,7 +17,6 @@
 }
 
 .dashboardHeaderEntryWidgetCountStyle{
-    font-family: 'Lato';
     font-style: normal;
     font-weight: 800;
     font-size: 48px;
@@ -27,7 +26,6 @@
 }
 
 .dashboardHeaderEntryWidgetLabelStyle{
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 16px;

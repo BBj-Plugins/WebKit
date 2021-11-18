@@ -27,7 +27,6 @@
 
 /* these are temp bzw these need to use the webkit/bbj vars later on */
 .dashboardHeaderTextStyle{
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -36,7 +35,6 @@
     height: fit-content;
 }
 .dashboardSubtitleStyle{
-    font-family: 'Lato';
     font-style: normal; 
     font-weight: normal;
     font-size: 13px;
@@ -46,7 +44,6 @@
 }
 
 .dashboardTitleStyle{
-    font-family: 'Lato';
     font-style: normal;
     font-weight: 800;
     font-size: 48px;

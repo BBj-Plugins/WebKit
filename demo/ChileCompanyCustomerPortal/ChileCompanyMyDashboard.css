@@ -1,0 +1,9 @@
+.dashboardWindow{
+    margin: 40px 38px 80px 52px;
+}
+
+.dashboardWindowPanel{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+

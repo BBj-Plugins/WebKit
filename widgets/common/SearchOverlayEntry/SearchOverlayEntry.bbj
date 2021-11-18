@@ -37,7 +37,7 @@ class public SearchOverlayEntry extends BBjWidget
             window! = #getCanvas()
             window!.addPanelStyle("searchOverlayEntryPanelStyle")
             window!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSearchEntryClick")
-            #imageWrapper! = window!.addChildWindow(window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #imageWrapper! = window!.addChildWindow(window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #imageWrapper!.setDockStyle("grid-column-start","1")
             #imageWrapper!.setDockStyle("grid-row-start","1")
             #imageWrapper!.setDockStyle("grid-row-end","2")

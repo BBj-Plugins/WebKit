@@ -1,0 +1,251 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
+
+class public ListView extends BBjWidget implements Icon
+    field private BBjChildWindow window!
+    field private BBjChildWindow parent!
+
+    field private ResultSet RS!
+
+    field private ListViewDataModel listDataModel!
+
+    field public static BBjNumber ON_EDIT_PRESSED = 1234
+
+    field private BBjChildWindow overlay!
+    field private BBjChildWindow listWrapper!
+    
+    field private Overlay overlayWidget!
+
+    method public ListView(BBjWindow parent!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/ListView/ListView.css")
+        #parent! = CAST(BBjChildWindow, parent!)
+        #super!.create(parent!, parent!.getAvailableControlID())
+    methodend
+
+    method public ListView(BBjWindow parent!, ResultSet RS!, ListViewDataModel listDataModel!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/ListView/ListView.css")
+        #RS! = rs!
+        #listDataModel! = listDataModel!
+        #parent! = CAST(BBjChildWindow, parent!)
+        #super!.create(parent!, parent!.getAvailableControlID())
+    methodend
+
+    method public void setResultSet(ResultSet rs!)
+        #RS! = rs!
+        #redraw(1)
+    methodend
+
+    method public void setListDataModel(ListViewDataModel listDataModel!)
+        #listDataModel! = listDataModel!
+        #redraw(1)
+    methodend
+
+    method public BBjString getProperColumnWidth(BBjString columnWidth$, BBjNumber deduction)
+        methodret " calc(" + columnWidth$ + " - " + str(deduction) + "px)"
+    methodend
+
+
+    method public void redraw(Boolean init!)
+        if #listDataModel! = null() THEN
+            REM do nothing
+            methodret
+        fi
+
+        if #RS! = null() THEN
+            REM do nothing
+            methodret
+        fi
+        #window! = #getCanvas()
+
+        rows! = #RS!.getDataRows()
+        listWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        listWrapperPanelStyle$ = #listDataModel!.getListPanelCssClassName() 
+        if listWrapperPanelStyle$ <> "" THEN
+            listWrapper!.addPanelStyle(listWrapperPanelStyle$)
+        else
+            listWrapper!.addPanelStyle("listWrapperPanelStyle")
+        fi
+
+        columnMappings! = #listDataModel!.getColumnMappings()
+        numOfColumns = columnMappings!.size() 
+
+        columnHeader! = listWrapper!.addChildWindow(listWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        columnHeader!.addPanelStyle("columnHeaderPanel")
+
+        gridTemplateColumns$ = ""
+        deduction = 0
+        actionColumnWidth = 246
+        actionColumnStatus! = #listDataModel!.getActionColumnStatus() 
+        if actionColumnStatus! = 1 THEN
+            deduction = actionColumnWidth/numOfColumns
+        fi
+
+        for i = 0 to numOfColumns - 1
+            columnMapping! = columnMappings!.get(i)
+            columnName! =columnHeader!.addStaticText(columnHeader!.getAvailableControlID(),0,0,0,0, columnMapping!.getColumnDisplayName())
+            columnName!.addStyle("columnName")
+            columnName!.setStyle("grid-column", str(columnMapping!.getColumnPosition()))
+            gridTemplateColumns$ = gridTemplateColumns$ + #getProperColumnWidth(columnMapping!.getColumnWidth(), deduction)
+        NEXT i
+
+        REM render action column header
+        actionColumnName! =columnHeader!.addStaticText(columnHeader!.getAvailableControlID(),0,0,0,0, "Actions")
+        actionColumnName!.addStyle("columnName")
+        actionColumnName!.addStyle("actionColumnName")
+        actionColumnName!.setStyle("grid-column", str(numOfColumns + 1))
+        gridTemplateColumns$ = gridTemplateColumns$ + str(actionColumnWidth) + "px"
+
+        columnHeader!.setPanelStyle("grid-template-columns", gridTemplateColumns$)
+
+        for i = 0 to rows!.size() - 1
+            dataRowWindow! = listWrapper!.addChildWindow(listWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            dataRowWindow!.addPanelStyle("dataRowPanel")
+            dataRowWindow!.setPanelStyle("grid-template-columns", gridTemplateColumns$)
+
+            dataObject! = rows!.get(i)
+
+            declare BBjChildWindow actionCellWrapper!
+
+            for j = 0 to numOfColumns - 1
+                columnMapping! = columnMappings!.get(j)
+                cellStructure! = columnMapping!.getCellStructure()
+                _fields! = cellStructure!.getFields()
+                cellWrapper! = dataRowWindow!.addChildWindow(dataRowWindow!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+                cellWrapper!.addStyle("cellWrapper")
+                cellWrapper!.setStyle("grid-column", str(columnMapping!.getColumnPosition()))
+                cellWrapper!.addPanelStyle("cellWrapperPanel")
+
+                declare BBjString primaryColumnValue$ 
+
+                for k = 0 to _fields!.size() - 1
+                    _fieldValue! = _fields!.get(k)
+                    currentFieldValue$ = str(dataObject!.getFieldValue(_fieldValue!.getDataColumnAlias()))
+
+                    if _fieldValue!.getIsPrimaryColumn() = 1 THEN
+                        primaryColumnValue$ = currentFieldValue$ 
+                    fi
+
+                    _field! = cellWrapper!.addStaticText(cellWrapper!.getAvailableControlID(),0,0,0,0, currentFieldValue$)
+                    _field!.addStyle("field")
+                    customCssClass$ = _fieldValue!.getCustomCssClass()
+                    if customCssClass$ = ""
+                        _field!.addStyle("fieldLabel")
+                    else
+                        _field!.addStyle(customCssClass$)
+                    fi
+                    _field!.setStyle("grid-row", str(k + 1))
+                NEXT k
+                if j = 0 THEN
+                    actionCellWrapper! = CAST(BBjChildWindow, cellWrapper!.addChildWindow(cellWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext()))
+                    actionItem! = #setIcon(actionCellWrapper!, "more-vertical")
+                    actionItem!.addStyle("mobile-ellipsis-menu")
+                    actionCellWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
+                fi
+            NEXT j
+            actionCellWrapper!.setText(primaryColumnValue$)
+
+            REM render action cells
+            if actionColumnStatus! <> 1 THEN
+                continue
+            fi
+            #listWrapper! = CAST(BBjChildWindow, listWrapper!)
+            #renderActionMenus(dataRowWindow!, numOfColumns, primaryColumnValue$, i)
+
+        NEXT i
+    methodend
+
+    method public void renderActionMenus(BBjChildWindow parent!, BBjNumber numOfColumns, BBjString primaryColumnValue$, BBjNumber rowIndex)
+        actionCellWrapper! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        actionCellWrapper!.addStyle("cellWrapper actionCellWrapper")
+        actionCellWrapper!.setStyle("grid-column", str(numOfColumns + 1))
+        actionCellWrapper!.addPanelStyle("actionCellWrapperPanel")
+
+        actionMenu! = #listDataModel!.getActionMenus()
+
+        menuitems! = actionMenu!.getChildren(actionMenu!.getRoot()) 
+        it! = menuitems!.iterator()
+        while it!.hasNext()
+            declare auto MenuItem menuitem!
+            menuitem! = it!.next()
+            id% = menuitem!.getNodeId()
+
+            actionItemWrapper! = actionCellWrapper!.addChildWindow(id%, 0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            actionItemWrapper!.addStyle("actionItemWrapper")
+            actionItemWrapper!.setText(primaryColumnValue$)
+            actionItemItem! = #setIcon(actionItemWrapper!, menuitem!.getIcon())
+            actionItemWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onActionItemPressed")
+        wend
+
+        dotActionWrapper! = actionCellWrapper!.addChildWindow(actionCellWrapper!.getAvailableControlID(), 0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        dotActionWrapper!.addStyle("actionItemWrapper")
+        dotActionWrapper!.setText(primaryColumnValue$)
+        dotActionItem! = #setIcon(dotActionWrapper!, "more-vertical")
+        dotActionWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onDotsPressed")
+    methodend
+
+    method public void onActionItemPressed(BBjMouseDownEvent ev!)
+        if #overlayWidget! <> null() THEN 
+            #overlayWidget!.onOverlayDissmiss(null())
+        fi
+        itemId$ = ev!.getControl().getText()
+        menuId = ev!.getControl().getID()
+        menu! = #listDataModel!.getActionMenus()
+        menuItem! = menu!.getItem(menuId)
+        BBjAPI().postCustomEvent(menuItem!.getCustomEventName(), ev!.getControl().getText())
+    methodend
+
+    method public void onDotsPressed(BBjMouseDownEvent ev!)
+        screenPositionX! = ev!.getControl().getScreenX()
+        screenPositionY! = ev!.getControl().getScreenY()
+        primaryColumnValue$ = ev!.getControl().getText()
+        #createActionMenuOverlay(#parent!, primaryColumnValue$, screenPositionX!, screenPositionY!)
+        #overlayWidget! = new Overlay(#parent!,#overlay!)
+        #overlayWidget!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmiss")
+    methodend
+
+    method public void onOverlayDissmiss(BBjCustomEvent event!)
+        #overlay!.destroy()
+    methodend
+
+    method public void createActionMenuOverlay(BBjChildWindow parent!, BBjString primaryColumnValue$, BBjNumber screenPositionX, BBjNumber screenPositionY)
+        declare BBjChildWindow contentWrapper!
+        
+        #overlay! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #overlay!.addPanelStyle("menuOverlayPanelStyle")
+        offsetY$ = str(screenPositionY) + "px"
+        #overlay!.setPanelStyle("top", offsetY$)
+        
+        contentWrapper! = #overlay!.addChildWindow(#overlay!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        contentWrapper!.addPanelStyle("menuOverlayContentWrapper")
+
+        actionMenu! = #listDataModel!.getActionMenus()
+        templateRows! = ""
+
+        menuitems! = actionMenu!.getChildren(actionMenu!.getRoot()) 
+        it! = menuitems!.iterator()
+        while it!.hasNext()
+            declare auto MenuItem menuitem!
+            menuitem! = it!.next()
+            id% = menuitem!.getNodeId()
+            templateRows! = templateRows! + " 48px" 
+
+            actionItemWrapper! = contentWrapper!.addChildWindow(id%, 0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            actionItemWrapper!.addStyle("menuActionItemWrapper")
+            actionItemWrapper!.setText(primaryColumnValue$)
+            actionItemIcon! = #setIcon(actionItemWrapper!, menuitem!.getIcon())
+            actionItemText! = actionItemWrapper!.addStaticText(actionItemWrapper!.getAvailableControlID(),0,0,0,0, menuitem!.getCaption())
+            actionItemText!.addStyle("menuActionItemText")
+            actionItemWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN, #this!, "onActionItemPressed")
+
+        wend
+        contentWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+    methodend
+classend

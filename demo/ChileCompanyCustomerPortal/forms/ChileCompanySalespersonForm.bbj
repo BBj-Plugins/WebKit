@@ -1,0 +1,68 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/demo/ChileCompanyCustomerPortal/util/DbUtil.bbj::DbUtil
+use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
+
+use java.util.HashMap
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
+
+class public ChileCompanySalespersonForm extends BBjWidget
+    field private DbUtil dbUtil!
+
+    field private BBjString id$ = "-1"
+
+    method public ChileCompanySalespersonForm(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public ChileCompanySalespersonForm(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
+
+    method public ChileCompanySalespersonForm(BBjWindow wnd!, BBjString id$)
+        #id$ = id$
+        #super!.create(wnd!, wnd!.getAvailableControlID())
+    methodend
+
+    method public void setID(BBjString id$)
+        #id$ = id$
+        #redraw(1)
+    methodend
+    
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        declare BBjChildWindow canvas!
+        if f_init!>0 then
+            canvas! = #getCanvas() 
+            formControlPanel! = new FormControlPanel(canvas!)
+            BBjAPI().setCustomEventCallback("ON_FORM_SUBMIT", #this!, "onFormSubmit")
+            rs! = #loadData()
+            formControlPanel!.setResultSet(rs!)
+            if #id$ <> "-1" THEN
+                formControlPanel!.setIsEdit(1)
+            fi
+            formControlPanel!.setEntityName("SalesRep")
+            formControlPanel!.show()
+        FI
+        
+    methodend    
+
+    method public void onFormSubmit(BBjCustomEvent ev!)
+        ClientUtil.consoleLog(str(ev!.getObject()))
+    methodend
+
+    method public ResultSet loadData()
+        #dbUtil! = new DbUtil("ChileCompany")
+        tableName$ = "SALESREP"
+        constraints$ = "SALESPERSON = '" + str(#id$) + "'"
+
+        RS! = #dbUtil!.get(tableName$, constraints$)
+        methodret RS!
+    methodend
+classend

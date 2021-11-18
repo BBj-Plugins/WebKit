@@ -2,11 +2,11 @@ use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
 interface public IAuthProvider
     
-    method public Boolean checkLogin(BBjString Username!, BBjString Password!)
+    method public Boolean checkLogin(BBjString username!, BBjString password!)
     method public BBjString getToken()
     method public BBjString getUser()
     method public AccountProfile getProfile()
     method public Boolean checkToken(BBjString token!)
     method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
-    
+
 interfaceend

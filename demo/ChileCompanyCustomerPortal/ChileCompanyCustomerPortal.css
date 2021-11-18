@@ -1,0 +1,45 @@
+.listSubtitleField{
+    height: 17px;
+
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 17px;
+}
+
+.listTitleField{
+    height: 17px;
+
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listWindow{
+    margin: 40px 38px 80px 52px;
+}
+
+.listPanel{
+    height: calc(100vh - 268px);
+    overflow-y: scroll !important;
+    background-color: var(--bbj-color-white);
+}
+
+.hydrated{
+    color: var(--bbj-color-gray);
+}
+
+@media screen and (max-width: 425px) {
+    .listWindow{
+        margin: 40px 20px 80px 20px;
+    }
+}
+
+:root{
+    --bbj-divider-color: #DDE0E1;
+}

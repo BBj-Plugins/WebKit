@@ -12,7 +12,7 @@ class public ClientUtil
     methodend
 
     method public static void init()
-      if ClientUtil.getInjHtml() = null() then
+      if ClientUtil.getInjHtml() = null() OR ClientUtil.getInjHtml().isDestroyed() then
           declare BBjSysGui sg!
           sg! =  BBjAPI().openSysGui("X0")
           rem create our helper window and give it a context that is likely far away from any application context IDs
@@ -43,7 +43,10 @@ class public ClientUtil
 
       ch=unt
       open (ch)cssfile$
-      read record (ch,siz=128000)style$
+      size = dec(fin(ch)(1,4)) 
+      if size>1 then
+        read record (ch,siz=size)style$
+      fi
       close (ch)
       
       style! = style$
@@ -52,7 +55,7 @@ class public ClientUtil
       
       script$ = "var styl  = $doc.createElement('style');"
       script$ = script$ + "styl.textContent = """+style!+""";"
-      script$ = script$ + "$doc.head.appendChild(styl);"
+      script$ = script$ + "$doc.body.appendChild(styl);"
       ret! = #InjHtml!.executeScript(script$)
     methodend
     
@@ -71,27 +74,32 @@ class public ClientUtil
       
     methodend
     
-    
-    method public static void loadThemeFile(BBjString themefile$)
-    
-      if #getInjHtml() = null() then
-        ClientUtil.init()
+    method public static void loadThemeFile(BBjString cssfile$)
+      if pos(cssfile$+$0a$=#alreadyLoaded$)>0 then 
+      methodret
       fi
-          
+      #alreadyLoaded$=#alreadyLoaded$+cssfile$+$0a$
+
+      if #getInjHtml() = null() then
+      ClientUtil.init()
+      fi
+
       ch=unt
-      open (ch)themefile$
-      read record (ch,siz=256000)theme$
+      open (ch)cssfile$
+      size = dec(fin(ch)(1,4)) 
+      if size>1 then
+        read record (ch,siz=size)style$
+      fi
       close (ch)
-      theme$ = ":root {"+$0a$+theme$+$0a$+"}"
-      
-      style! = theme$
+
+      style! = style$
       style! = style!.replaceAll("\r","")
       style! = style!.replaceAll("\n","")
-      
+
       script$ = "var styl  = $doc.createElement('style');"
       script$ = script$ + "styl.textContent = """+style!+""";"
-      script$ = script$ + "$doc.head.appendChild(styl);"
-      ret! = #InjHtml!.executeScript(script$)  
+      script$ = script$ + "$doc.body.appendChild(styl);"
+      ret! = #InjHtml!.executeScript(script$)
     methodend
 
     method public static void addLocalJavascript(BBjString jsfile$)
@@ -108,7 +116,10 @@ class public ClientUtil
 
       ch=unt
       open (ch)jsfile$
-      read record (ch,siz=128000)js$
+      size = dec(fin(ch)(1,4)) 
+      if size>1 then
+        read record (ch,siz=size)js$
+      fi
       close (ch)
       
     

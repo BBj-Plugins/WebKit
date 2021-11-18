@@ -1,7 +1,26 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/demo/ChileCompanyCustomerPortal/util/DbUtil.bbj::DbUtil
+use ::WebKit/demo/ChileCompanyCustomerPortal/forms/ChileCompanyCustomerForm.bbj::ChileCompanyCustomerForm
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderMenuItem
+use ::WebKit/model/ListView/Column.bbj::ListColumnModel
+use ::WebKit/model/ListView/Field.bbj::Field
+use ::WebKit/model/ListView/Cell.bbj::Cell
+use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
+use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
+use ::WebKit/widgets/ListView/ListView.bbj::ListView
+
+use java.util.HashMap
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
 
 
 class public ChileCompanyDashboardPanel extends BBjWidget
+    field private DbUtil dbUtil!
+
+    field private ResultSet RS!
 
     method public ChileCompanyDashboardPanel(BBjWindow wnd!)
         #super!.create(wnd!,wnd!.getAvailableControlID())
@@ -9,6 +28,79 @@ class public ChileCompanyDashboardPanel extends BBjWidget
 
     method public ChileCompanyDashboardPanel(BBjWindow wnd!, BBjInt id!)
         #super!.create(wnd!,id!)
+    methodend
+
+    method public ListViewDataModel initalizeListDataModel()
+        declare ListViewDataModel listDataModel!
+        listDataModel! = new ListViewDataModel("Customers")
+        
+        listDataModel!.setDatabaseName("ChileCompany")
+        listDataModel!.setTableName("Customer")
+        listDataModel!.setListPanelCssClassName("listPanel")
+
+        displayName_field! = new Field("FIRST_NAME + ' ' + LAST_NAME", "DISPLAYNAME")
+        id_field! = new Field("CUST_NUM", "ID")
+        id_field!.setIsPrimaryColumn(1)
+        city_field! = new Field("CITY", "CITY")
+        city_field!.setCustomCssClass("listSubtitleField")
+        addr_field! = new Field("BILL_ADDR1", "ADDRESS")
+        addr_field!.setCustomCssClass("listTitleField")
+
+        
+        firstColumnFields! = new BBjVector()
+        firstColumnFields!.add(displayName_field!)
+        firstColumnFields!.add(city_field!)
+        firstColumnCell! = new Cell(firstColumnFields!)
+        firstColumn! = new ListColumnModel("Your Reference", 1)
+        firstColumn!.setColumnWidth("50%")
+        firstColumn!.setCellStructure(firstColumnCell!)
+
+        secondColumnFields! = new BBjVector()
+        secondColumnFields!.add(id_field!)
+        secondColumnCell! = new Cell(secondColumnFields!)
+        secondColumn! = new ListColumnModel("Customer ID", 2)
+        secondColumn!.setColumnWidth("25%")
+        secondColumn!.setCellStructure(secondColumnCell!)
+
+        thirdColumnFields! = new BBjVector()
+        thirdColumnFields!.add(addr_field!)
+        thirdColumnCell! = new Cell(thirdColumnFields!)
+        thirdColumn! = new ListColumnModel("Address", 3)
+        thirdColumn!.setColumnWidth("25%")
+        thirdColumn!.setCellStructure(thirdColumnCell!)
+
+        declare BBjVector columnMappings!
+        columnMappings! = new BBjVector()
+
+        columnMappings!.add(firstColumn!)
+        columnMappings!.add(secondColumn!)
+        columnMappings!.add(thirdColumn!)
+
+        listDataModel!.setColumnMappings(columnMappings!)
+        listDataModel!.setRowLimit(10)
+
+        REM initialize list header data model
+        listHeaderDataModel! = #initializeListHeaderDataModel()
+        listDataModel!.setHasListHeader(1)
+        listDataModel!.setHeaderDataModel(listHeaderDataModel!)
+        
+        methodret listDataModel!
+    methodend
+
+    method public ListHeaderDataModel initializeListHeaderDataModel()
+       listHeaderMenu_create! = new ListHeaderMenuItem() 
+       listHeaderMenu_create!.setID(1)
+       listHeaderMenu_create!.setMenuLabel("Create Customer")
+       listHeaderMenu_create!.setMenuCallback("ON_CREATE_BUTTON_PRESSED")
+       listHeaderMenu_create!.setMenuCssClass("createBtn")
+       listHeaderMenu_create!.setMenuTheme("primary")
+
+       headerMenus! = new BBjVector()
+       headerMenus!.add(listHeaderMenu_create!)
+
+       listHeaderDataModel! = new ListHeaderDataModel()
+       listHeaderDataModel!.setMenuItems(headerMenus!)
+       methodret listHeaderDataModel!
     methodend
     
     rem /**
@@ -20,14 +112,68 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         
         declare BBjChildWindow canvas!
         if f_init!>0 then
-            canvas! = #getCanvas()    
-            Headline! = canvas!.addStaticText(100,0,0,0,0,"Dashboard")
-            Headline!.addStyle("tilesheadline")       
-            
-            canvas!.addStaticText(101,0,0,0,0,"Hello World!")
-                 
+            canvas! = #getCanvas() 
+            canvas!.addStyle("listWindow")
+            listDataModel! = #initalizeListDataModel()
+            #RS! = #loadData(listDataModel!)
+            listOverviewPanel! = new ListOverviewPanel(canvas!)
+            listOverviewPanel!.setListDataModel(listDataModel!)
+            listOverviewPanel!.setResultSet(#RS!)
+            listOverviewPanel!.doModal()
+            BBjAPI().setCustomEventCallback("ON_HEADER_ITEM_PRESSED", #this!, "onHeaderMenuItemClick")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_EDIT_PRESSED", #this!, "onEditPressed")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_DELETE_PRESSED", #this!, "onDeletePressed")
         FI
         
     methodend    
 
+    method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
+        btnId! = ev!.getObject()
+        switch btnId!
+            case 1
+                #showCreateForm()
+        swend
+    methodend
+
+    method public void onEditPressed(BBjCustomEvent ev!)
+        id$ = str(ev!.getObject())
+        #showEditForm(id$)
+    methodend
+
+    method public void onDeletePressed(BBjCustomEvent ev!)
+        id$ = str(ev!.getObject())
+        ClientUtil.consoleLog("item to be deleted with id: "+ id$)
+    methodend
+
+    method public void showCreateForm()
+        createCustomerForm! = new ChileCompanyCustomerForm(#getCanvas())
+    methodend
+
+    method public void showEditForm(BBjString id$)
+        editCustomerForm! = new ChileCompanyCustomerForm(#getCanvas(), id$)
+    methodend
+
+    method public ResultSet loadData(ListViewDataModel listDataModel!)
+      #dbUtil! = new DbUtil()
+      databaseName$ = listDataModel!.getDatabaseName()
+      tableName$ = listDataModel!.getTableName()
+      rowLimit = listDataModel!.getRowLimit()
+      #dbUtil!.setDatabaseName(databaseName$)
+
+      columnNames! = new HashMap()
+      columnMappings! = listDataModel!.getColumnMappings()
+      
+      numOfColumns = columnMappings!.size()
+      for i = 0 to numOfColumns - 1
+        columnMapping! = columnMappings!.get(i)
+        cellStructure! = columnMapping!.getCellStructure()
+        fields! = cellStructure!.getFields()
+        for j = 0 to fields!.size() - 1
+          _field! = fields!.get(j)
+          columnNames!.put(_field!.getDataColumn(), _field!.getDataColumnAlias())
+        NEXT j
+      NEXT i
+      RS! = #dbUtil!.get(tableName$, columnNames!, rowLimit)
+      methodret RS!
+    methodend
 classend

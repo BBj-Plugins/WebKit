@@ -1,5 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-rem BBjGridExWidget Package
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public TilesList extends BBjWidget
 
@@ -11,10 +11,12 @@ class public TilesList extends BBjWidget
     methodend
 
     method public TilesList(BBjChildWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/TilesList/TilesList.css")
         #super!.create(wnd!)
     methodend
 
     method public TilesList(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/TilesList/TilesList.css")
         #super!.create(wnd!,id!)
     methodend
 
@@ -60,9 +62,9 @@ class public TilesList extends BBjWidget
                 it! = #TileItems!.iterator()
                 i=0
                 while it!.hasNext()
-                    item! =  CAST(BBjChildWindow,area!.addChildWindow(1000+i,0,0,100,80,"",$00100800$,BBjAPI().getSysGui().getAvailableContext()))
+                    item! =  CAST(BBjChildWindow,area!.addChildWindow(1000+i,0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext()))
                     i=i+1
-                    item!.setStyle("box-shadow","0 3px 6px var(--webkit-box-shadow-blur), 0 3px 6px var(--webkit-box-shadow-color)")
+                    item!.setStyle("box-shadow","var(--bbj-shadow-l)")
                     item!.setStyle("margin","5px")
                     item!.setStyle("display","flex")
     

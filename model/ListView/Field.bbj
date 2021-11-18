@@ -1,0 +1,55 @@
+class public Field
+   field private BBjString dataColumn$ 
+   field private BBjString dataColumnAlias$ 
+   field private Boolean isPrimaryColumn! = 0
+   field private BBjString customCssClass$
+
+   method public Field()
+    #dataColumn$ = ""
+    #dataColumnAlias$ = ""
+    #customCssClass$ = ""
+   methodend
+
+   method public Field(BBjString dataColumn$, BBjString dataColumnAlias$)
+    #dataColumn$ = dataColumn$
+    #dataColumnAlias$ = dataColumnAlias$
+    #customCssClass$ = ""
+   methodend
+
+   method public Field(BBjString dataColumn$)
+    #dataColumn$ = dataColumn$
+    #dataColumnAlias$ = dataColumn$
+   methodend
+
+   method public BBjString getDataColumn()
+    methodret #dataColumn$
+   methodend
+
+   method public void setDataColumn(BBjString dataColumn$)
+    #dataColumn$ = dataColumn$
+   methodend
+
+   method public BBjString getDataColumnAlias()
+    methodret #dataColumnAlias$
+   methodend
+
+   method public void setDataColumnAlias(BBjString dataColumnAlias$)
+    #dataColumnAlias$ = dataColumnAlias$
+   methodend
+
+   method public BBjString getCustomCssClass()
+      methodret #customCssClass$
+   methodend
+
+   method public void setCustomCssClass(BBjString customCssClass$)
+      #customCssClass$ = customCssClass$
+   methodend
+
+   method public Boolean getIsPrimaryColumn()
+      methodret #isPrimaryColumn!
+   methodend
+
+   method public void setIsPrimaryColumn(Boolean isPrimaryColumn!)
+      #isPrimaryColumn! = isPrimaryColumn!
+   methodend
+classend

@@ -4,20 +4,27 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
-
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
+startover: 
+
+begin
 
 
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
+ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 ClientUtil.addLocalCSS("WebKit/demo/assets/demo.css")
-ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
-startover: 
+ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
+ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerPortal.css")
+iconPool$ = STBL("icon-pool", "feather")
+
+wnd! = BBjAPI().openSysGui("X0").addWindow(10,10,200,200,"Flexbox",$00000010$)
+wnd!.setCallback(BBjAPI.ON_CLOSE,"onClose")
 
 login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
-login!.setLogo("WebKit/demo/assets/basislogo_white_sm.png")
+login!.setLogo("WebKit/demo/assets/chile-3.jpeg")
 
 login!.setAllowRemember(Boolean.TRUE)
 
@@ -26,50 +33,35 @@ if !login!.doModal() then
     release
 fi
 
-
-declare Menu m!
+declare Menu m! 
 declare MenuItem i!
 m! = new Menu()
-i! = m!.addMenuItem(m!.getRoot(),100,"Home","Go to the Home - Dashboard","WebKit/demo/assets/home.svg")
+
+i! = m!.addMenuItem(m!.getRoot(),101,"Customers","List of Customers","users")
 i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
-i! = m!.addMenuItem(m!.getRoot(),101,"CD-Store BUI","CD BUI","WebKit/demo/assets/music.svg")
-i!.setProgram("BBjGridExWidget/demo/CD-Store.bbj")
-i!.setStartType(1); rem 1 = BUI Program
+i! = m!.addMenuItem(m!.getRoot(),102,"Products","Products - Dashboard","shopping-cart")
+i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyItemDashboard.bbj::ChileCompanyItemDashboard")
+i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
-i! = m!.addMenuItem(m!.getRoot(),102,"CD-Store DWC","CD DWC","WebKit/demo/assets/music.svg")
-i!.setProgram("BBjGridExWidget/demo/CD-Store.bbj")
-i!.setStartType(2); rem 1 = DWC Program
-
-
-i! = m!.addMenuItem(m!.getRoot(),200,"Menu 2","This is menu item two","WebKit/demo/assets/home.svg")
-
-REM s1! = m!.addMenuItem(i!,210,"Menu 2.1","This is Submenu Item 2.1","face")
-
-sx! = m!.addMenuItem(i!,230,"Demo BUI","BUI","WebKit/demo/assets/music.svg")
-sx!.setProgram("BBjGridExWidget/demo/Demo.bbj")
-sx!.setStartType(1); rem 1 = BUI Program
-
-REM s2! = m!.addMenuItem(i!,220,"Menu 2.2","This is Submenu Item 2.2","face")
-s3! = m!.addMenuItem(s2!,221,"Menu 2.2.1","This is Submenu Item 2.2.1","WebKit/demo/assets/home.svg")
-REM s3! = m!.addMenuItem(s2!,222,"Menu 2.2.2","This is Submenu Item 2.2.2","rowing")
+i! = m!.addMenuItem(m!.getRoot(),103,"Salesperson","Salesperson - Dashboard","user")
+i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.bbj::ChileCompanySalespersonDashboard")
+i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
 
-REM s2! = m!.addMenuItem(i!,103,"Menu 2.3","This is Submenu Item 2.3","face")
-
-
-REM i! = m!.addMenuItem(m!.getRoot(),300,"Menu 3","This is menu item three","rowing")
-
-
+declare Menu headerMenu!
+declare MenuItem headerMenuItem!
+headerMenu! = new Menu()
+headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),500,"My Dashboard","Dashboard","home")
+headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyMyDashboard.bbj::ChileCompanyMyDashboard")
 
 portal! = new PortalFrame()
 portal!.setUsername(login!.getUser())
 portal!.setMenu(m!)
-portal!.setLogoUrl("WebKit/demo/assets/basislogo_white_sm.png")
-portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_white_sm.png")
-
-
+portal!.setHeaderMenu(headerMenu!)
+portal!.setLogoUrl("WebKit/demo/assets/chile-3.jpeg")
+portal!.setLogoSmallUrl("WebKit/demo/assets/chile-3-small.jpeg")
 
 portal!.doModal()
 

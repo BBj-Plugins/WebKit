@@ -1,0 +1,210 @@
+
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/demo/ChileCompanyCustomerPortal/util/DbUtil.bbj::DbUtil
+use ::WebKit/demo/ChileCompanyCustomerPortal/forms/ChileCompanySalespersonForm.bbj::ChileCompanySalespersonForm
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
+use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderMenuItem
+use ::WebKit/model/ListView/Column.bbj::ListColumnModel
+use ::WebKit/model/ListView/Field.bbj::Field
+use ::WebKit/model/ListView/Cell.bbj::Cell
+use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
+use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
+use ::WebKit/widgets/ListView/ListView.bbj::ListView
+
+use java.util.HashMap
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
+
+
+class public ChileCompanySalespersonDashboard extends BBjWidget
+    field private DbUtil dbUtil!
+
+    field private ResultSet RS!
+
+    method public ChileCompanySalespersonDashboard (BBjWindow wnd!)
+        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public ChileCompanySalespersonDashboard (BBjWindow wnd!, BBjInt id!)
+        ClientUtil.addLocalCSS("WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.css")
+        #super!.create(wnd!,id!)
+    methodend
+
+    method public ListViewDataModel initalizeItemListDataModel()
+        declare ListViewDataModel listDataModel!
+        listDataModel! = new ListViewDataModel("Salesperson")
+        
+        listDataModel!.setDatabaseName("ChileCompany")
+        listDataModel!.setTableName("SALESREP")
+        listDataModel!.setListPanelCssClassName("salesrepListPanel")
+
+        id_field! = new Field("SALESPERSON", "ID")
+        displayName_field! = new Field("NAME", "NAME")
+        id_field!.setIsPrimaryColumn(1)
+
+        address1_field! = new Field("ADDRESS")
+        address2_field! = new Field("ADDRESS2")
+        address2_field!.setCustomCssClass("listSubtitleField")
+        city_field! = new Field("CITY + ', ' + STATE", "META_ADDRESS")
+        city_field!.setCustomCssClass("listSubtitleField")
+        REM state_field! = new Field("STATE")
+        zip_field! = new Field("ZIP") 
+        zip_field!.setCustomCssClass("listSubtitleField")
+
+        phone_field! = new Field("PHONE")
+
+        idColumnFields! = new BBjVector()
+        idColumnFields!.add(id_field!)
+        idColumnCell! = new Cell(idColumnFields!)
+        idColumn! = new ListColumnModel("Id", 2)
+        idColumn!.setColumnWidth("15%")
+        idColumn!.setCellStructure(idColumnCell!)
+
+        
+        firstColumnFields! = new BBjVector()
+        firstColumnFields!.add(displayName_field!)
+        firstColumnFields!.add(city_field!)
+        firstColumnCell! = new Cell(firstColumnFields!)
+        firstColumn! = new ListColumnModel("Salesperson Name", 1)
+        firstColumn!.setColumnWidth("30%")
+        firstColumn!.setCellStructure(firstColumnCell!)
+
+        secondColumnFields! = new BBjVector()
+        secondColumnFields!.add(address1_field!)
+        secondColumnFields!.add(address2_field!)
+        REM secondColumnFields!.add(state_field!)
+        secondColumnFields!.add(zip_field!)
+        secondColumnCell! = new Cell(secondColumnFields!)
+        secondColumn! = new ListColumnModel("Address", 3)
+        secondColumn!.setColumnWidth("35%")
+        secondColumn!.setCellStructure(secondColumnCell!)
+
+        thirdColumnFields! = new BBjVector()
+        thirdColumnFields!.add(phone_field!)
+        thirdColumnCell! = new Cell(thirdColumnFields!)
+        thirdColumn! = new ListColumnModel("Phone", 4)
+        thirdColumn!.setColumnWidth("20%")
+        thirdColumn!.setCellStructure(thirdColumnCell!)
+
+        declare BBjVector columnMappings!
+        columnMappings! = new BBjVector()
+
+        columnMappings!.add(firstColumn!)
+        columnMappings!.add(idColumn!)
+        columnMappings!.add(secondColumn!)
+        columnMappings!.add(thirdColumn!)
+
+        listDataModel!.setColumnMappings(columnMappings!)
+        listDataModel!.setRowLimit(15)
+
+        REM initialize list header data model
+        listHeaderDataModel! = #initializeItemListHeaderDataModel()
+        listDataModel!.setHasListHeader(1)
+        listDataModel!.setHeaderDataModel(listHeaderDataModel!)
+
+        
+        methodret listDataModel!
+    methodend
+
+    method public ListHeaderDataModel initializeItemListHeaderDataModel()
+       listHeaderMenu_create! = new ListHeaderMenuItem() 
+       listHeaderMenu_create!.setID(1)
+       listHeaderMenu_create!.setMenuLabel("Create Salesperson")
+       listHeaderMenu_create!.setMenuCallback("ON_CREATE_BUTTON_PRESSED")
+       listHeaderMenu_create!.setMenuCssClass("createBtn")
+       listHeaderMenu_create!.setMenuTheme("primary")
+
+       headerMenus! = new BBjVector()
+       headerMenus!.add(listHeaderMenu_create!)
+
+       listHeaderDataModel! = new ListHeaderDataModel()
+       listHeaderDataModel!.setMenuItems(headerMenus!)
+       methodret listHeaderDataModel!
+    methodend
+
+    method public void renderItemList(BBjChildWindow wnd!)
+            listDataModel! = #initalizeItemListDataModel()
+            #RS! = #loadData(listDataModel!)
+            listOverviewPanel! = new ListOverviewPanel(wnd!)
+            listOverviewPanel!.setListDataModel(listDataModel!)
+            listOverviewPanel!.setResultSet(#RS!)
+            listOverviewPanel!.doModal()
+            BBjAPI().setCustomEventCallback("ON_HEADER_ITEM_PRESSED", #this!, "onHeaderMenuItemClick")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_EDIT_PRESSED", #this!, "onEditPressed")
+            BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_DELETE_PRESSED", #this!, "onDeletePressed")
+    methodend
+
+    
+    rem /**
+    rem  * @Override
+    rem  * This method is called whenever the widget needs to be rendered
+    rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
+    rem  */
+    method public void redraw(Boolean f_init!)
+        
+        declare BBjChildWindow canvas!
+        if f_init!>0 then
+            canvas! = #getCanvas() 
+            canvas!.addStyle("dashboardWindow")
+            canvas!.addPanelStyle("dashboardWindowPanel")
+            itemWnd! =  canvas!.addChildWindow(canvas!.getAvailableControlID(), 0, 0, 0, 0, "", $00100800$, BBjAPI().getSysGui().getAvailableContext())
+            itemWnd!.addStyle("salesrepWnd")
+
+            #renderItemList(itemWnd!)
+        FI
+        
+    methodend    
+
+    method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
+        btnId! = ev!.getObject()
+        switch btnId!
+            case 1
+                #showCreateForm()
+        swend
+    methodend
+
+    method public void onEditPressed(BBjCustomEvent ev!)
+        id$ = str(ev!.getObject())
+        #showEditForm(id$)
+    methodend
+
+    method public void onDeletePressed(BBjCustomEvent ev!)
+        id$ = str(ev!.getObject())
+        ClientUtil.consoleLog("item to be deleted with id: "+ id$)
+    methodend
+
+    method public void showCreateForm()
+        createItemForm! = new ChileCompanySalespersonForm(#getCanvas())
+    methodend
+
+    method public void showEditForm(BBjString id$)
+        editItemForm! = new ChileCompanySalespersonForm(#getCanvas(), id$)
+    methodend
+
+    method public ResultSet loadData(ListViewDataModel listDataModel!)
+      #dbUtil! = new DbUtil()
+      databaseName$ = listDataModel!.getDatabaseName()
+      tableName$ = listDataModel!.getTableName()
+      rowLimit = listDataModel!.getRowLimit()
+      #dbUtil!.setDatabaseName(databaseName$)
+
+      columnNames! = new HashMap()
+      columnMappings! = listDataModel!.getColumnMappings()
+      
+      numOfColumns = columnMappings!.size()
+      for i = 0 to numOfColumns - 1
+        columnMapping! = columnMappings!.get(i)
+        cellStructure! = columnMapping!.getCellStructure()
+        fields! = cellStructure!.getFields()
+        for j = 0 to fields!.size() - 1
+          _field! = fields!.get(j)
+          columnNames!.put(_field!.getDataColumn(), _field!.getDataColumnAlias())
+        NEXT j
+      NEXT i
+      RS! = #dbUtil!.get(tableName$, columnNames!, rowLimit)
+      methodret RS!
+    methodend
+classend

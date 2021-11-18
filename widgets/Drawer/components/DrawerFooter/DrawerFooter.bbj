@@ -5,8 +5,11 @@ use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use ::WebKit/widgets/common/CircularAvatar/CircularAvatar.bbj::CircularAvatar
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.bbj::DrawerMenuTile
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/model/Icon.bbj::Icon
 
-class public DrawerFooter extends BBjWidget
+class public DrawerFooter extends BBjWidget implements Icon
 
     field private BBjChildWindow window!
     
@@ -20,11 +23,17 @@ class public DrawerFooter extends BBjWidget
     
     field private Overlay overlayWidget!
 
+    field private BBjVector tiles! = new BBjVector()
+
     field private DrawerModel drawerDataModel!
+
+    field public static BBjNumber ON_LOGOUT = 15321
+
+    field public static BBjNumber ON_FOOTER_TILE_PRESSED = 14321
     
     method public DrawerFooter(BBjWindow parent!, BBjChildWindow drawer!,DrawerModel drawerDataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerFooter/DrawerFooter.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("drawerFooterPanelStyle")
         #window!.addPanelStyle("drawerFooterPanelAnimationOpen")
         #window!.addPanelStyle("drawerFooterPanelAnimationClose")
@@ -33,6 +42,7 @@ class public DrawerFooter extends BBjWidget
         #drawerDataModel! = drawerDataModel!
         #title! = drawerDataModel!.getFooterTitle()
         #subtitle! = drawerDataModel!.getFooterSubTitle()
+        #tiles! = drawerDataModel!.getFooterMenuTiles()
         #parent!= drawer!
         #setCanvas(#window!)
         #redraw(1)
@@ -43,11 +53,11 @@ class public DrawerFooter extends BBjWidget
         declare BBjStaticText subtitle!
         declare CircularAvatar avatar!
         declare BBjChildWindow wrapper!
-        declare BBjImageCtrl icon!
+        declare BBjStaticText icon!
         
         if init! then 
             avatar! = new CircularAvatar(#window!, #drawerDataModel!.getAvatarSize(),#drawerDataModel!.getAvatarUrl())
-            wrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            wrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             wrapper!.addPanelStyle("drawerFooterWrapperWindowClosed")
             wrapper!.addPanelStyle("drawerFooterWrapperWindowSmall")
             wrapper!.addPanelStyle("drawerFooterWrapperWindowLarge")
@@ -63,7 +73,7 @@ class public DrawerFooter extends BBjWidget
             subtitle! = wrapper!.addStaticText(wrapper!.getAvailableControlID(),0,0,0,0,#subtitle!)
             subtitle!.addStyle("drawerFooterSubtitleStyling")
             
-            icon! = #window!.addImageCtrl(#window!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/drawer_footer_arrow_down.png")
+            icon! = #setIcon(#window!, "chevron-down")
             icon!.addStyle("footerIcon")
         endif
     methodend
@@ -85,38 +95,36 @@ class public DrawerFooter extends BBjWidget
         
         REM TODO improve code quality and maybe add option to create more
         
-        #overlay! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        #overlay! = #parent!.addChildWindow(#parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #overlay!.addPanelStyle("drawerFooterOverlayPanelStyle")
         #overlay!.addPanelStyle("drawerFooterOverlayClosedPanelStyle")
         
-        contentWrapper! = #overlay!.addChildWindow(#overlay!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+        contentWrapper! = #overlay!.addChildWindow(#overlay!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         contentWrapper!.addPanelStyle("drawerFooterOverlayContentWrapper")
-  
-        settings! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        settings!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onSettings")
-        settings!.addPanelStyle("drawerFooterOverlaySettingsPanel")
-        settings!.addStyle("drawerFooterOverlaySettings")
+
+        declare DrawerMenuTileEntry entry!
+        declare BBjChildWindow spacer!
+        templateRows! = ""
         
-        settingsIcon! = settings!.addImageCtrl(settings!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/sliders.png")
-        settingsIcon!.addStyle("drawerFooterOverlaySettingsIcon")
-        
-        settingsText! = settings!.addStaticText(settings!.getAvailableControlID(),0,0,0,0,"Settings")
-        settingsText!.addStyle("drawerFooterPopUpTextStyle")
-        settingsText!.setStyle("grid-column-start","2")
-        
-        logout! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
-        logout!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onLogout")
-        logout!.addPanelStyle("drawerFooterOverlayLogoutPanel")
-        logout!.addStyle("drawerFooterOverlayLogout")
-        
-        logoutIcon! = logout!.addImageCtrl(logout!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/log-out.png")
-        logoutIcon!.addStyle("drawerFooterOverlayLogoutIcon")
-        
-        logoutText! = logout!.addStaticText(logout!.getAvailableControlID(),0,0,0,0,"Log Out")
-        logoutText!.addStyle("drawerFooterPopUpTextStyle")
-        logoutText!.setStyle("grid-column-start","2")
+        for i = 0 to #tiles!.size() -1
+            entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
+            tile! = new DrawerMenuTile(contentWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
+            tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
+            templateRows! = templateRows! + " 48px" 
+            if i <> #tiles!.size() -1 then 
+                templateRows! = templateRows! + " 12px"
+                spacer! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+                spacer!.setDockStyle("height","12px")
+            endif
+        next i
+        contentWrapper!.setPanelStyle("grid-template-rows",templateRows!)
     methodend
     
+    method public void onMenuItemClick(BBjCustomEvent ev!)
+        id%  = num(str(ev!.getObject()))
+        #fireEvent(#ON_FOOTER_TILE_PRESSED, id%)
+    methodend
+
     method public void onSettings(BBjMouseDownEvent event!)
         #overlayWidget!.onOverlayDissmiss(null())
         a = msgbox("settings!!")
@@ -126,7 +134,7 @@ class public DrawerFooter extends BBjWidget
         #overlayWidget!.onOverlayDissmiss(null())
         login! = new LoginDialog()
         login!.clearRememberToken()
-        a = msgbox("logout!!")
+        #fireEvent(#ON_LOGOUT, "")
     methodend
     
     method public void onOverlayDissmiss(BBjCustomEvent event!)

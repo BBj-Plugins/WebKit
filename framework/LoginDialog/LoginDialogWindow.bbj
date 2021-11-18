@@ -1,0 +1,223 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
+use ::WebKit/widgets/InputField/extensions/TextField.bbj::TextField
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
+
+class public LoginDialogWindow extends BBjWidget
+
+    field private LoginDialog loginDialog!
+    field private BBjChildWindow content!
+    
+    field private TextField username! 
+    field private PasswordField password! 
+    field private PasswordField repeatPassword! 
+    field private BBjCheckBox rememberMe!
+    field private BBjButton submitButton!
+    field private BBjStaticText redirect!
+
+    field private BBjString memory$
+
+    rem field private BBjStaticText feedback!
+
+    method public LoginDialogWindow(LoginDialog loginDialog!, BBjWindow wrapper!)
+        #loginDialog! = loginDialog!
+        #content! = wrapper!.addChildWindow(wrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #content!.setDockStyle("padding","56px 44px")
+    methodend 
+
+    
+
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem ||||||||||||| GETTERS & SETTERS ||||||||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem method public LoginDialog getLoginDialog())
+    rem     methodret #loginDialog!
+    rem methodend
+
+    method public BBjChildWindow getContent()
+        methodret #content!
+    methodend
+
+    method public TextField getUsername()
+        methodret #username!
+    methodend
+
+    method public void setUsername(TextField username!)
+        #username! = username!
+    methodend
+
+    method public PasswordField getPassword()
+        methodret #password!
+    methodend
+
+    method public void setPassword(PasswordField password!)
+        #password! = password!
+    methodend
+
+    method public PasswordField getRepeatPassword()
+        methodret #repeatPassword!
+    methodend
+
+    method public void setRepeatPassword(PasswordField repeatPassword!)
+        #repeatPassword! = repeatPassword! 
+    methodend
+
+    method public BBjCheckBox getRememberMe()
+        methodret #rememberMe!
+    methodend
+
+    method public void setRememberMe (BBjCheckBox rememberMe!)
+        #rememberMe! = rememberMe!
+    methodend
+
+    method public BBjButton getSubmitButton()
+        methodret #submitButton! 
+    methodend
+
+    method public void setSubmitButton(BBjButton button!)
+        #submitButton! = button!
+    methodend
+
+    method public BBjStaticText getRedirect()
+        methodret #redirect! 
+    methodend
+
+    method public void setRedirect(BBjStaticText redirect!)
+        #redirect!  = redirect! 
+    methodend
+    
+    method public BBjString getMemory()
+        methodret #memory!
+    methodend
+
+    method public void setMemory(BBjString memory$)
+        #memory$ = memory$ 
+    methodend    
+    
+
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    rem |||||||||||||||| CALLBACKS |||||||||||||||||
+    rem ||||||||||||||||||||||||||||||||||||||||||||
+    method public void onForgotPwHover(BBjMouseEnterEvent event!)
+        #redirect!.addStyle("hover")
+    methodend
+
+    method public void onForgotPwHoverExit(BBjMouseExitEvent event!)
+        #redirect!.removeStyle("hover")
+    methodend
+
+    method public void onButtonHover(BBjMouseEnterEvent event!)
+        #submitButton!.addStyle("hover")
+    methodend
+
+    method public void onButtonHoverExit(BBjMouseExitEvent event!)
+        #submitButton!.removeStyle("hover")
+    methodend
+        
+     method public void onShowPasswordIconPressed(BBjCustomEvent event!)
+        if #password!.isPasswordVisible() then 
+            #password!.setPasswordVisible(0)
+        else
+            #password!.setPasswordVisible(1)
+        endif    
+    methodend
+
+    method public void validateRepeatPassword(BBjCustomEvent event!)
+        if #repeatPassword! = null() then 
+            a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
+            rem GOTO LOGIN - break out method
+        endif
+
+        newPassword! = #password!.getInput()
+        repeatPassword! = #repeatPassword!.getInput()
+        if newPassword! <> repeatPassword! then 
+            #repeatPassword!.setErrorMessage("Passwords don't match")
+        else
+            #repeatPassword!.setErrorMessage("")
+        endif
+
+        if repeatPassword! = "" then 
+            #repeatPassword!.setErrorMessage("")
+        endif
+    methodend
+
+    method public void validateRepeatPassword(BBjEditModifyEvent event!)
+    if #repeatPassword! = null() then 
+        a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
+        rem GOTO LOGIN - break out method
+    endif
+
+    newPassword! = #password!.getInput()
+    repeatPassword! = #repeatPassword!.getInput()
+    if newPassword! <> repeatPassword! then 
+        #repeatPassword!.setErrorMessage("Passwords don't match")
+    else
+        #repeatPassword!.setErrorMessage("")
+    endif
+
+    if repeatPassword! = "" then 
+        #repeatPassword!.setErrorMessage("")
+    endif
+methodend
+
+    method public void onBadLogin() 
+        #username!.getInputField().addStyle("error")   
+        #password!.getInputField().addStyle("error")
+        #password!.setInput("")
+        #password!.setErrorMessage("Invalid username and password combination")
+        #password!.setText("")
+        
+        if len(#username!.getInputField().getText())=0 then
+            #username!.getInputField().focus()
+        else
+            #password!.getInputField().focus()
+        fi
+    methodend
+
+
+    method public void clearStyles()
+        if #username! <> null() then 
+            #username!.clearStyle()
+        endif
+        if #password! <> null() then 
+            #password!.clearStyle()
+        endif
+        if #repeatPassword! <> null() then 
+            #repeatPassword!.clearStyle()
+        endif
+    methodend
+
+    rem |||||| REDIRECTS ||||||
+    method public void gotoForgotPassword(BBjMouseDownEvent event!) 
+        #loginDialog!.gotoForgotPassword()
+    methodend  
+
+    method public void gotoLogin(BBjButtonPushEvent event!)
+        #loginDialog!.gotoLogin()
+    methodend
+
+    method public void gotoLogin(BBjMouseDownEvent event!)
+        #loginDialog!.gotoLogin()
+    methodend
+
+    method public void gotoNewPassword(BBjButtonPushEvent event!)
+        #loginDialog!.gotoNewPassword(#memory$)
+    methodend
+
+    method public void requestForgotPasswordToken(BBjButtonPushEvent event!)      
+        username$ = #memory$
+        
+        if username$ = "" then
+            #loginDialog!.requestForgotPasswordToken(#username!.getInput()) 
+        else 
+            #loginDialog!.requestForgotPasswordToken(username$) 
+        endif     
+    methodend
+
+    method public void setPasswordWithToken(BBjButtonPushEvent event!)
+        #loginDialog!.setPasswordWithToken(#password!.getInput()) 
+    methodend
+classend

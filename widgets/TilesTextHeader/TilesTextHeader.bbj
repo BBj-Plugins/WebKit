@@ -12,7 +12,7 @@ class public TilesTextHeader extends BBjWidget
     method public TilesTextHeader(BBjWindow parent!,BBjString text!)
             DynamicLoader.addLocalCSS("WebKit/widgets/TilesTextHeader/TilesTextHeader.css")
 
-            #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+            #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #window!.addPanelStyle("tilesTextHeaderAnimationOpen")
             #window!.addPanelStyle("tilesTextHeaderAnimationClose")
             #setCanvas(cast(BBjChildWindow,parent!))

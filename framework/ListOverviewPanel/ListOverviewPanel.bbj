@@ -1,0 +1,65 @@
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/widgets/ListView/ListView.bbj::ListView
+use ::WebKit/widgets/ListView/components/ListHeader/ListHeader.bbj::ListHeader
+use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
+use ::WebKit/model/ListView/Column.bbj::ListColumnModel
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.bc.SqlQueryBC
+
+class public ListOverviewPanel
+    field private BBjChildWindow window!
+
+    field private BBjWindow parent!
+
+    field private ListViewDataModel listDataModel!
+
+    field private ResultSet RS!
+
+    method public ListOverviewPanel(BBjWindow parent!)
+        REM init
+        DynamicLoader.addLocalCSS("WebKit/framework/ListOverviewPanel/ListOverviewPanel.css")
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #parent! = parent!
+    methodend
+
+    method public void setListDataModel(ListViewDataModel listDataModel!)
+        #listDataModel! = listDataModel!
+    methodend
+
+    method public void setResultSet(ResultSet rs!)
+        #RS! = rs!
+    methodend
+
+    method public Boolean doModal()
+        listPanelTitle$ = #listDataModel!.getListPanelTitle()
+        if listPanelTitle$ <> null() THEN
+            Headline! = #window!.addStaticText(100,0,0,0,0, #listDataModel!.getListPanelTitle())
+            Headline!.addStyle("headline")
+        fi
+
+        if #listDataModel!.getHasListHeader() = 1 THEN
+            listHeaderDataModel! = #listDataModel!.getHeaderDataModel()
+            listHeader! = new ListHeader(#window!)
+            listHeader!.setListHeaderDataModel(listHeaderDataModel!)
+            listHeader!.setCallback(listHeader!.getON_HEADER_ITEM_PRESSED(), #this!, "onHeaderMenuItemClick")
+        fi
+        
+        REM listView! = new ListView(#window!, #RS!, #listDataModel!)
+        listView! = new ListView(#window!)
+        listView!.setListDataModel(#listDataModel!)
+        listView!.setResultSet(#RS!)
+        listView!.setCallback(listView!.getON_EDIT_PRESSED(), #this!, "onEditPressed")
+
+        methodret 1
+    methodend
+
+    method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
+       BBjAPI().postCustomEvent("ON_HEADER_ITEM_PRESSED", ev!.getObject())
+    methodend
+
+    method public void onEditPressed(BBjCustomEvent ev!)
+       BBjAPI().postCustomEvent("ON_EDIT_PRESSED", ev!.getObject())
+    methodend
+
+classend

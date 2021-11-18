@@ -5,7 +5,10 @@ class public DrawerModel
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
     field public BBjString TilesTextHeader!
+
     field public BBjVector MenuTiles!
+    field public BBjVector FooterMenuTiles!
+    field public BBjVector HeaderMenuTiles!
 
     field public BBjString DrawerOpenIcon!
     field public BBjString DrawerCloseIcon!
@@ -17,8 +20,8 @@ class public DrawerModel
     field public BBjString AvatarSize!
 
     method public DrawerModel()
-        #LogoUrl! = "WebKit/demo/assets/basislogo_white.png"
-        #LogoSmallUrl! = "WebKit/demo/assets/basislogo_white_sm.png"
+        #LogoUrl! = "WebKit/demo/assets/chile.jpg"
+        #LogoSmallUrl! = "WebKit/demo/assets/chile-small.jpg"
         #TilesTextHeader! = "Browse"
 
         #DrawerCloseIcon! = ""
@@ -31,7 +34,10 @@ class public DrawerModel
         #AvatarSize! = "32px"
 
         #MenuTiles! = new BBjVector()
-        #MenuTiles!.add(new DrawerMenuTileEntry(1,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
+        #MenuTiles!.add(new DrawerMenuTileEntry(800,"Customers","WebKit/demo/ProdinDemo/assets/users.png"))
+
+        #FooterMenuTiles! = new BBjVector()
+        #HeaderMenuTiles! = new BBjVector()
     methodend
 
     method public DrawerModel(BBjString logoUrl!, BBjString logoSmallUrl!)

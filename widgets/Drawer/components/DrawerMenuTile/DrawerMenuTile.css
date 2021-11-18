@@ -92,12 +92,12 @@
 .drawerMenuTileTextStyle {
     padding-left: 17px;
     align-self: center;
-    font-family: 'Lato';
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    color: var(--webkit-secondary);
+    color: var(--bbj-color-black);
+    cursor: pointer;
 }
 
 .drawerOpen .menuWndAnimationOpen {
