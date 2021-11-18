@@ -38,12 +38,6 @@
     background-size: 100vw 100vh;
 }
 
-.loginWidgetContentPanelStyle {
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    height: calc(531px - 12px);
-}
-
 .loginWidgetBtnStyle {
     grid-row-start: 5;
     height: 43px;
@@ -121,6 +115,7 @@
 }
 
 .loginPageTitle {
+    margin-top: 30px;
 	padding-top: 3rem;
     height:75px;
 	color:var(var(--bbj-color-black));
