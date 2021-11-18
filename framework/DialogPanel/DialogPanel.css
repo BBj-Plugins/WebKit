@@ -4,6 +4,19 @@
     backdrop-filter: brightness(0.5);
 }
 
+.ChildBackground{
+    background-color:dimgrey;
+    opacity:70%;
+    width: 100vw;
+    height: 100vh;
+    z-index:199 !important;
+    position:fixed;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+}
+
 
 /* TODO adjust when in mini drawer form */
 .dialogPanel{
@@ -65,7 +78,6 @@
 
 .footerBtn{
     margin: 13px 24px !important;
-    margin-left: auto !important;
     height: 43px;
     width: 141px;
 }
