@@ -55,7 +55,7 @@ class public ClientUtil
       
       script$ = "var styl  = $doc.createElement('style');"
       script$ = script$ + "styl.textContent = """+style!+""";"
-      script$ = script$ + "$doc.head.appendChild(styl);"
+      script$ = script$ + "$doc.body.appendChild(styl);"
       ret! = #InjHtml!.executeScript(script$)
     methodend
     
