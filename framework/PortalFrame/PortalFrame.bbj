@@ -39,9 +39,19 @@ class public PortalFrame
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+    
+    field private static PortalFrame ThisInstance!
 
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
+        #ThisInstance! = #this!
+    methodend
+    
+    method public static PortalFrame getInstance()
+        if #ThisInstance! = null() then
+            #ThisInstance! = new PortalFrame()
+        fi
+        methodret #ThisInstance!
     methodend
 
     method private void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
@@ -177,10 +187,10 @@ class public PortalFrame
             
     methodend
     
-    method public void navigateTo(BBjString anchor$)
+    method public BBjWidget navigateTo(BBjString anchor$)
         item! = #Menu!.getItem(anchor$)
         if item! <> null() then
-            #navigateTo(item!)
+            methodret #navigateTo(item!)
         fi
    methodend
 
@@ -202,7 +212,7 @@ class public PortalFrame
         #navigateTo(item!)
     methodend
 
-   method public void navigateTo(MenuItem item!)
+   method public BBjWidget navigateTo(MenuItem item!)
         if #curr_win! <> null() and !#curr_win!.isDestroyed() then
             #curr_win!.setVisible(0)
             #curr_win!=null()
@@ -227,7 +237,7 @@ class public PortalFrame
                 if pgm$ = "void" then
                     callback$ = item!.getCallback()
                     x! = eval("#" + callback$ + "()", err=*next)
-                    methodret
+                    methodret x!
                 fi
                 if pgm$>"" then
                     starttype = item!.getStartType()
@@ -262,6 +272,7 @@ class public PortalFrame
             fi
         fi
         ClientUtil.setUrlAnchor(item!.getCaption(),item!.getCaption())
+        methodret #curr_win!
     methodend
     
     method public void onAvatarAreaClick(BBjEvent ev!)
