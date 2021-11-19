@@ -189,10 +189,24 @@ class public PortalFrame
     methodend
     
     method public BBjWidget navigateTo(BBjString anchor$)
+    
+        item! = #HeaderMenu!.getItem(anchor$)
+        if item! <> null() then
+            methodret #navigateTo(item!)
+        fi
+        
         item! = #Menu!.getItem(anchor$)
         if item! <> null() then
             methodret #navigateTo(item!)
         fi
+        
+        item! = #FooterMenu!.getItem(anchor$)
+        if item! <> null() then
+            methodret #navigateTo(item!)
+        fi
+       
+        methodret item!
+        
    methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
