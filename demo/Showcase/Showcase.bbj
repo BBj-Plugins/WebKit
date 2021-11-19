@@ -1,0 +1,45 @@
+REM /**
+REM  * Showcase.bbj
+REM  * @author TimonGeisbauer
+REM  *
+REM  */
+
+
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+
+if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
+
+ClientUtil.init()
+ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+
+iconPool$ = STBL("icon-pool", "fa")
+REM iconPool$ = STBL("icon-pool", "feather")
+
+declare Menu menu!
+declare MenuItem menuItem!
+
+menu! = new Menu()
+
+rem this one is needs a little more attention before it can go public
+REM menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"DashboardHeaderDemo","A demonstration of the DashboardHeader widget","WebKit/demo/assets/home.svg")
+REM menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DashboardShowcase.bbj::DashboardShowcase")
+REM menuItem!.setStartType(0)
+
+menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","far-window-restore")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DialogShowcase.bbj::DialogShowcase")
+menuItem!.setStartType(0)
+
+declare PortalFrame portal!
+
+portal! = new PortalFrame()
+portal!.setMenu(menu!)
+portal!.setLogoUrl("WebKit/demo/assets/basislogo.png")
+portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_sm.png")
+
+portal!.doModal()
+
+release 

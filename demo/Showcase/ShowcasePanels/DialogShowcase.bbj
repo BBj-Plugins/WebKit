@@ -1,0 +1,81 @@
+use ::WebKit/demo/ShowCase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/framework/DialogPanel/DialogPanel.bbj::DialogPanel
+
+
+class public DialogShowcase extends ShowcaseWidget
+
+    field private BBjChildWindow window!
+    field private InputField SubmitButtonTheme!
+    field private InputField SubmitButtonText!
+    field private InputField TitleField!
+    field private BBjCheckBox CbModal!
+    field private BBjCheckBox CbCloseIcon!
+    field private BBjCheckBox CbCloseOutside!
+
+    method public DialogShowcase(BBjWindow wnd!)
+        #super!(wnd!)
+        
+        #setTitle("Dialog Demo")
+        #setIntro("This demo shows the Dialog stuff")
+    methodend
+    
+    method public void redraw(Boolean init!)
+        #super!.redraw(init!)
+        
+        if init! then
+            declare auto BBjChildWindow panel!
+            panel! = #getContentWindow()
+            panel!.setStyle("display","flex")
+            panel!.setStyle("flex-direction","column")
+            panel!.setStyle("row-gap","10px")
+            
+            #TitleField! = new InputField(panel!)
+            #TitleField!.setLabel("Title String")
+            #TitleField!.setInput("Sample Dialog")
+
+            #SubmitButtonText! = new InputField(panel!)
+            #SubmitButtonText!.setLabel("Submit Button Label")
+            #SubmitButtonText!.setInput("Okay")
+
+            #SubmitButtonTheme! = new InputField(panel!)
+            #SubmitButtonTheme!.setLabel("Submit Button Theme")
+            #SubmitButtonTheme!.setInput("primary")
+
+            #CbModal!= panel!.addCheckBox(panel!.getAvailableControlID(),0,0,0,0,"create Application-Modal Dialog")
+            #CbCloseIcon!= panel!.addCheckBox(panel!.getAvailableControlID(),0,0,0,0,"Add Close Icon")
+            #CbCloseOutside!= panel!.addCheckBox(panel!.getAvailableControlID(),0,0,0,0,"A click outside closes the Dialog")
+            
+            BtnShow! = panel!.addButton(panel!.getAvailableControlID(),0,0,0,0,"Create Dialog")
+            BtnShow!.setAttribute("theme","primary")
+            BtnShow!.setAttribute("expanse","xl")
+            BtnShow!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!,"onShowDialog")    
+            
+        endif
+
+
+    methodend
+    
+    method public void onShowDialog(BBjButtonPushEvent ev!)
+        declare DialogPanel dialogPanel!
+        
+        if #CbModal!.isSelected() then
+            dialogPanel! = new DialogPanel()
+        else
+            dialogPanel! = new DialogPanel(#getCanvas())
+        fi
+
+        dialogPanel!.setText(#TitleField!.getInput())
+        dialogPanel!.setSubmitBtnText(#SubmitButtonText!.getInput())
+        dialogPanel!.setSubmitBtnTheme(#SubmitButtonTheme!.getInput())
+        dialogPanel!.setShowCloseIcon(#CbCloseIcon!.isSelected())
+        dialogPanel!.setCloseByOutsideClick(#CbCloseOutside!.isSelected())
+        dialogPanel!.show()
+        
+        dialogBody! = dialogPanel!.getBody()
+        dialogBody!.addStaticText(dialogBody!.getAvailableControlID(), 0, 0, 0, 0, "Sample content for this dialog.")
+        
+    methodend
+    
+    
+classend

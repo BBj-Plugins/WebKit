@@ -8,27 +8,30 @@ class public DialogPanel extends BBjWidget implements Icon
     field private BBjWindow parent!    
 
     REM dialog header related
-    field private BBjChildWindow Header!
-    field public Boolean ShowCloseIcon! = 1
-    field public Boolean CloseByOutsideClick! = 0
+    field private BBjChildWindow header!
+    field private BBjChildWindow closeIconWnd!
+    field private Boolean fShowCloseIcon! = 1
+    field private Boolean closeByOutsideClick! = 0
 
     REM dialog body related
-    field public BBjChildWindow Body!
+    field private BBjChildWindow body!
     
     REM dialog footer related
-    field private BBjChildWindow Footer!
+    field private BBjChildWindow footer!
+    field private BBjButton submitBtn!
+    field private BBjButton cancelBtn!
 
-    field public BBjString SubmitBtnText$ = "Submit"
-    field public BBjString SubmitBtnTheme$ = "primary"
-    field public BBjString SubmitBtnCustomCssClass$ = "footerBtn"
+    field private BBjString submitBtnText$ = "Submit"
+    field private BBjString submitBtnTheme$ = "primary"
+    field private BBjString submitBtnCustomCssClass$ = "footerBtn"
     field public static BBjNumber ON_SUBMIT = 1234
 
-    field public BBjString CancelBtnText$ = "Cancel"
-    field public BBjString CancelBtnTheme$ = "default"
-    field public BBjString CancelBtnCustomCssClass$ = "footerBtn"
+    field private BBjString cancelBtnText$ = "Cancel"
+    field private BBjString cancelBtnTheme$ = "default"
+    field private BBjString cancelBtnCustomCssClass$ = "footerBtn"
     field public static BBjNumber ON_CLOSE = BBjAPI.ON_CLOSE
     
-    field private BBjStaticText LblTitle!
+    field private BBjStaticText lblTitle!
 
 
     method public DialogPanel(BBjWindow canvas!)
@@ -65,44 +68,44 @@ class public DialogPanel extends BBjWidget implements Icon
         
     methodend
 
-    method public void renderTopBar(BBjChildWindow modalWnd!)
-       #Header! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-       #Header!.addStyle("headerWnd")
-       #Header!.addPanelStyle("headerPanel")
+    method public void renderTopBar()
+       #header! = #dialogWnd!.addChildWindow(#dialogWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+       #header!.addStyle("headerWnd")
+       #header!.addPanelStyle("headerPanel")
 
-       #LblTitle! = #Header!.addStaticText(#Header!.getAvailableControlID(),0,0,0,0, #getText())
-       #LblTitle!.addStyle("headerTitle")
+       #lblTitle! = #header!.addStaticText(#header!.getAvailableControlID(),0,0,0,0, #getText())
+       #lblTitle!.addStyle("headerTitle")
        
+       #closeIconWnd! = #header!.addChildWindow(#header!.getAvailableControlID(), 0,0,0,0,"",$00100800$,BBjAPI().getSysGui().getAvailableContext())
+       #closeIconWnd!.addStyle("closeIconWnd")
+       iconpool$=stbl("icon-pool", err=*next)
+       ico$="x"
+       if iconpool$="fa" then ico$="fas-window-close"
+       CloseIcon! = #setIcon(#closeIconWnd!, ico$)
+       CloseIcon!.addStyle("closeIcon")
+       #closeIconWnd!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!, "onClose")
        
-       if (#ShowCloseIcon!) then
-           closeIconWnd! = #Header!.addChildWindow(#Header!.getAvailableControlID(), 0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-           closeIconWnd!.addStyle("closeIconWnd")
-           closeIcon! = #setIcon(closeIconWnd!, "x")
-           closeIcon!.addStyle("closeIcon")
-           closeIconWnd!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!, "onClose")
-       fi
-       
-       topDivider! = new Divider(modalWnd!)
+       topDivider! = new Divider(#dialogWnd!)
        topDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
         
     methodend
 
-    method public void renderFooter(BBjChildWindow modalWnd!)
-        bottomDivider! = new Divider(modalWnd!)
+    method public void renderFooter()
+        bottomDivider! = new Divider(#dialogWnd!)
         bottomDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
 
-        #Footer! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        #Footer!.addStyle("footerWnd")
+        #footer! = #dialogWnd!.addChildWindow(#dialogWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #footer!.addStyle("footerWnd")
 
-        CancelBtn! = #Footer!.addButton(2,0,0,0,0, #CancelBtnText$)
-        CancelBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!, "onCancel")
-        CancelBtn!.addStyle(#CancelBtnCustomCssClass$)
-        CancelBtn!.setAttribute("theme", #CancelBtnTheme$)
+        #cancelBtn! = #footer!.addButton(2,0,0,0,0, #cancelBtnText$)
+        #cancelBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!, "onCancel")
+        #cancelBtn!.addStyle(#cancelBtnCustomCssClass$)
+        #cancelBtn!.setAttribute("theme", #cancelBtnTheme$)
 
-        createBtn! = #Footer!.addButton(1,0,0,0,0,#SubmitBtnText$)
-        createBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!, "onSubmit")
-        createBtn!.addStyle(#SubmitBtnCustomCssClass$)
-        createBtn!.setAttribute("theme", #SubmitBtnTheme$)
+        #submitBtn! = #footer!.addButton(1,0,0,0,0,#submitBtnText$)
+        #submitBtn!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!, "onSubmit")
+        #submitBtn!.addStyle(#submitBtnCustomCssClass$)
+        #submitBtn!.setAttribute("theme", #submitBtnTheme$)
     methodend
 
     method public void onSubmit(BBjButtonPushEvent ev!)
@@ -119,9 +122,9 @@ class public DialogPanel extends BBjWidget implements Icon
         #doCancel()
     methodend
 
-    method public void initializeBody(BBjChildWindow modalWnd!)
-       #Body! = modalWnd!.addChildWindow(modalWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-       #Body!.addPanelStyle("bodyPanel")
+    method public void initializeBody()
+       #body! = #dialogWnd!.addChildWindow(#dialogWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+       #body!.addPanelStyle("bodyPanel")
     methodend
     
     method public void doCancel()
@@ -131,16 +134,59 @@ class public DialogPanel extends BBjWidget implements Icon
     methodend
 
     method public void onOutsideClick(BBjEvent ev!)
-        if #CloseByOutsideClick! then
+        if #closeByOutsideClick! then
             #doCancel()
         fi
     methodend
 
     method public void createParts()
         #dialogWnd!.addPanelStyle("dialogPanel")
-        #renderTopBar(#dialogWnd!)
-        #initializeBody(#dialogWnd!)
-        #renderFooter(#dialogWnd!)
+        #renderTopBar()
+        #initializeBody()
+        #renderFooter()
+    methodend
+    
+    method public void setShowCloseIcon(Boolean f_show!)
+        #fShowCloseIcon!=f_show!
+        #closeIconWnd!.setVisible(f_show!)
+    methodend
+
+    method public void setSubmitBtnText(BBjString text!)
+        #submitBtnText$ = text!
+        #submitBtn!.setText(text!)
+    methodend
+    
+    method public void setSubmitBtnTheme(BBjString text!)
+        #submitBtnTheme$ = text!
+        #submitBtn!.setAttribute("theme",text!)
+    methodend
+    
+    method public void setSubmitBtnCustomCssClass(BBjString text!)
+        #submitBtnCustomCssClass$ = text!
+        #submitBtn!.addStyle(text!)
+    methodend
+    
+    method public void setCancelBtnText(BBjString text!)
+        #cancelBtnText$ = text!
+        #cancelBtn!.setText(text!)
+    methodend
+    
+    method public void setCancelBtnTheme(BBjString text!)
+        #cancelBtnText$ = text!
+        #cancelBtn!.setAttribute("theme",text!)
+    methodend
+    
+    method public void setCancelBtnCustomCssClass(BBjString text!)
+        #cancelBtnText$ = text!
+        #cancelBtn!.addStyle(text!)
+    methodend
+    
+    method public void setCloseByOutsideClick(Boolean f_outsideclick!)
+        #closeByOutsideClick! = f_outsideclick!
+    methodend    
+
+    method public BBjChildWindow getBody()
+        methodret #body!
     methodend
     
     method public void show()
@@ -152,8 +198,8 @@ class public DialogPanel extends BBjWidget implements Icon
     rem @Override
     method public void setText(String text!)
         #super!.setText(text!)
-        if #LblTitle! <> null() then
-            #LblTitle!.setText(text!)
+        if #lblTitle! <> null() then
+            #lblTitle!.setText(text!)
         fi
     methodend
     

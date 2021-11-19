@@ -45,6 +45,14 @@ class public PortalFrame
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
         #ThisInstance! = #this!
+
+        dark$="0"
+        dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
+        if dark$>"0" then
+            ClientUtil.setDarkMode(Boolean.TRUE)
+            BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
+        fi        
+        
     methodend
     
     method public static PortalFrame getInstance()
@@ -86,9 +94,13 @@ class public PortalFrame
         wend
 
         REM initialize footerMenu
-        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","moon")
-        footerMenuItem!.setProgram("void")
-        footerMenuItem!.setCallback("onChangeTheme")
+        
+        rem TODO: finish Dark Mode 
+        rem https://github.com/BBj-Plugins/WebKit/issues/90
+REM         footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","moon")
+REM         footerMenuItem!.setProgram("void")
+REM         footerMenuItem!.setCallback("onChangeTheme")
+
         footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","log-out")
         footerMenuItem!.setProgram("void")
         footerMenuItem!.setCallback("onLogout")
@@ -180,7 +192,7 @@ class public PortalFrame
             fi
 
                     
-            process_events
+            process_events,err=*same
             
             logout:
                 ClientUtil.setUrlAnchor("", "")
@@ -294,12 +306,7 @@ class public PortalFrame
         #AccountMenu!.show(#Avatar!,5,50)
     methodend
     
-    method public void onAccountLogout (BBjEvent ev!)
-        a=msgbox("logout")
-        LoginDialog.clearRememberToken()
-        BBjAPI().postCustomEvent("logout","")
-    methodend
-                
+  
     method public void onEmbedPanelClose(BBjCustomEvent ev!)
         item! = ev!.getObject()
         nodeId = item!.getNodeId()
@@ -338,8 +345,22 @@ class public PortalFrame
         BBjAPI().postCustomEvent("logout", "")
         methodret
     methodend
-return
-
+    
+   
+    method public void onChangeTheme()
+        dark$="0"
+        dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
+        if dark$>"0" then
+            dark$="0"
+            ClientUtil.setDarkMode(Boolean.FALSE)
+        else
+            dark$="1"
+            ClientUtil.setDarkMode(Boolean.TRUE)
+        fi
+        BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
+    methodend
+                  
+    
 classend
 
 

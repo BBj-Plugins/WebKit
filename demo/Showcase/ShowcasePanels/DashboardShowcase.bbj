@@ -1,0 +1,41 @@
+REM /**
+REM  * DashboardHeaderShowcase.bbj
+REM  * @author TimonGeisbauer
+REM  *
+REM  */
+
+use ::WebKit/demo/ShowCase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
+use ::WebKit/widgets/DashboardHeader/DashboardHeader.bbj::DashboardHeader
+use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry
+
+class public DashboardShowcase extends ShowcaseWidget
+
+    field private BBjChildWindow window!
+
+    method public DashboardShowcase(BBjWindow wnd!)
+        #super!(wnd!)
+    methodend
+    
+    method public DashboardShowcase(BBjWindow wnd!, BBjInt id!)
+        #super!(wnd!,id!)
+    methodend
+    
+    method public void init(Boolean init!)
+        declare DashboardHeader header!
+        declare BBjVector data!
+        
+        if init! then 
+            #window! =  #super!.create("DashboardHeader Demo","This is a short introduction of this Widget")
+            #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"This is in the content part")
+            header! = new DashboardHeader(#window!)
+            header!.setTextValues("Jonathan","Here’s what’ happening","Welcome back,")
+            
+            data! = new BBjVector()
+            data!.add(new DashboardHeaderEntry(0,2,"Deals Scored"))
+            data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
+            data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
+            
+            header!.setEntrys(data!)
+        endif
+    methodend
+classend
