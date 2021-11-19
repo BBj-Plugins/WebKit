@@ -53,10 +53,8 @@ class public ClientUtil
       style! = style!.replaceAll("\r","")
       style! = style!.replaceAll("\n","")
       
-      script$ = "var styl  = $doc.createElement('style');"
-      script$ = script$ + "styl.textContent = """+style!+""";"
-      script$ = script$ + "$doc.body.appendChild(styl);"
-      ret! = #InjHtml!.executeScript(script$)
+      #getWnd().setAttribute("@app-style-bottom",style!)
+
     methodend
     
     
@@ -75,31 +73,7 @@ class public ClientUtil
     methodend
     
     method public static void loadThemeFile(BBjString cssfile$)
-      if pos(cssfile$+$0a$=#alreadyLoaded$)>0 then 
-      methodret
-      fi
-      #alreadyLoaded$=#alreadyLoaded$+cssfile$+$0a$
-
-      if #getInjHtml() = null() then
-      ClientUtil.init()
-      fi
-
-      ch=unt
-      open (ch)cssfile$
-      size = dec(fin(ch)(1,4)) 
-      if size>1 then
-        read record (ch,siz=size)style$
-      fi
-      close (ch)
-
-      style! = style$
-      style! = style!.replaceAll("\r","")
-      style! = style!.replaceAll("\n","")
-
-      script$ = "var styl  = $doc.createElement('style');"
-      script$ = script$ + "styl.textContent = """+style!+""";"
-      script$ = script$ + "$doc.body.appendChild(styl);"
-      ret! = #InjHtml!.executeScript(script$)
+        #addLocalCSS(cssfile$)
     methodend
 
     method public static void addLocalJavascript(BBjString jsfile$)
