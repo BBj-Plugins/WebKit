@@ -105,7 +105,7 @@ class public SearchOverlayEntry extends BBjWidget
     methodend
     
     method public void setImagePath(BBjString imagePath!)
-        #imageWrapper!.setPanelStyle("background-image","url("+ imagePath! +")")
+        #imageWrapper!.setPanelStyle("background-image","url('"+ imagePath! +"')")
         #imageWrapper!.setPanelStyle("background-repeat","no-repeat")
         #hasImage! = 1
         if #initials! <> null() then 

@@ -22,8 +22,9 @@ class public CircularAvatar extends BBjWidget
     
     method public void redraw(Boolean init!)
         if init! then 
-            #window!.setPanelStyle("background-image","url("+ #imagePath! + ")")
+            #window!.setPanelStyle("background-image","url('"+ #imagePath! + "')")
             #window!.setPanelStyle("background-repeat","no-repeat")
+            #window!.setPanelStyle("background-size","contain")
         endif
     methodend
 

@@ -87,10 +87,11 @@
 .drawerFooterSubtitleStyling {
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 14px;
     color: #A1A5A7;
     align-self: end;
+    width: 400px
 }
 
 .drawerFooterPopUpTextStyle {
