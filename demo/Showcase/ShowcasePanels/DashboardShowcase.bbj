@@ -31,7 +31,7 @@ class public DashboardShowcase extends ShowcaseWidget
             header!.setTextValues("Jonathan","Here’s what’ happening","Welcome back,")
             
             data! = new BBjVector()
-            data!.add(new DashboardHeaderEntry(0,2,"Deals Scroed"))
+            data!.add(new DashboardHeaderEntry(0,2,"Deals Scored"))
             data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
             data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
             
