@@ -23,10 +23,24 @@ iconPool$ = STBL("icon-pool", "feather")
 wnd! = BBjAPI().openSysGui("X0").addWindow(10,10,200,200,"Flexbox",$00000010$)
 wnd!.setCallback(BBjAPI.ON_CLOSE,"onClose")
 
+
 login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
 login!.setLogo("WebKit/demo/assets/chile-3.jpeg")
-
 login!.setAllowRemember(Boolean.TRUE)
+
+
+use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
+use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
+
+rem IDs from the SSO providers
+rem these ones are working only with localhost, curtesy of BASIS' test setup: 
+GoogleLoginWidget.setCLIENTID("862999103108-q9vsolubod0smuupqfhphm3be7jed86p.apps.googleusercontent.com")
+MicrosoftLoginWidget.setCLIENTID("ffa8d048-b947-4e4c-a04f-99e058285a44")
+MicrosoftLoginWidget.setAUTHORITY("https://login.microsoftonline.com/common")
+MicrosoftLoginWidget.setREDIRECTURI("http://localhost:8888/files")
+
+login!.setLoginWithMicrosoft(Boolean.TRUE)
+login!.setLoginWithGoogle(Boolean.TRUE)
 
 if !login!.doModal() then
     a=msgbox("ERROR",0,"Error while logging in")
@@ -57,6 +71,7 @@ headerMenuItem! = headerMenu!.addMenuItem(headerMenu!.getRoot(),500,"My Dashboar
 headerMenuItem!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyMyDashboard.bbj::ChileCompanyMyDashboard")
 
 portal! = new PortalFrame()
+portal!.setProfile(login!.getProfile())
 portal!.setUsername(login!.getUser())
 portal!.setMenu(m!)
 portal!.setHeaderMenu(headerMenu!)

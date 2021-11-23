@@ -1,6 +1,5 @@
 .loginWidgetPanelStyle {
     width: 460px;
-    height: 531px;
     background-color: white;
 
     margin: auto !important;
@@ -121,6 +120,15 @@
 	font-size: 1rem;
 }
 
+.ssozone{
+	display: flex;
+	justify-content:space-between;
+    padding-top:20px;
+}
+.ssobutton{
+	width:140px;
+	height:28px;
+}
 
 @media screen and (max-width: 425px) {
     .loginWidgetPanelStyle{

@@ -73,8 +73,15 @@ class public PortalFrame
         drawerDataModel!.setTilesTextHeader("Browse")
         drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
         drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
-
+        
         drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
+        
+        if #Profile! <> null() then
+            drawerDataModel!.setAvatarUrl(#Profile!.getPictureUrl())
+            drawerDataModel!.setFooterTitle(#Profile!.getFullName())
+            drawerDataModel!.setFooterSubTitle(#Profile!.getEMail())
+        fi
+        
         menuTiles! = new BBjVector()
         footerMenuTiles! = new BBjVector()
         headerMenuTiles! = new BBjVector()
@@ -164,25 +171,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             #Main!.addStyle("shrinked")
              
             #initializeDrawer(#Menu!, #FooterMenu!, #HeaderMenu!)
-            REM #AccountDisplay! = CAST(BBjChildWindow,cw_top!.addChildWindow(cw_top!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext()))
-            REM #AccountDisplay!.setCallback(BBjAPI.ON_POPUP_REQUEST,#this!,"onAvatarAreaClick")
-            REM 
-            REM account_name! = #AccountDisplay!.addStaticText(1221,0,0,200,80,#Username!)
-            REM account_name!.addStyle("account")
-            REM 
-            REM #Avatar! = #AccountDisplay!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
-            REM #Avatar!.addStyle("avatar")
-            REM 
-            REM #AccountMenu! = BBjAPI().getSysGui().addPopupMenu()
-            REM menu_logout!=#AccountMenu!.addMenuItem(-32027,"Logout")
-            REM menu_logout!.setCallback(BBjAPI.ON_POPUP_ITEM_SELECT,"onAccountLogout")
-            REM 
-            REM #AccountDisplay!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onAvatarAreaClick")
-            REM 
-            REM if #Profile! <> null() then
-            REM     #Avatar!.setDockStyle("background-image","url("+#Profile!.getPictureUrl()+")")
-            REM fi
-            REM 
+           
             BBjAPI().setCustomEventCallback("logout","logout")
             
             

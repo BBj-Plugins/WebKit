@@ -13,6 +13,9 @@ use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::PasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::NewPasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::RepeatPasswordValidator
 
+use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
+use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
+
 class public LoginDialogBuilder extends BBjWidget
     method public static void addMemory(LoginDialogWindow dialog!, BBjString memory$)
         dialog!.setMemory(memory$)
@@ -110,6 +113,26 @@ class public LoginDialogBuilder extends BBjWidget
         dialog!.getSubmitButton().addStyle("loginWidgetBtnLabel")
         dialog!.getSubmitButton().addStyle("loginWidgetBtnControl")  
     methodend
+    
+    method public static void addSSOZone(LoginDialogWindow dialog!)
+        sso_buttons! = dialog!.getContent().addChildWindow(65100,0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        sso_buttons!.addStyle("ssozone")
+    methodend
+
+    method public static void addLoginWithGoogle(LoginDialogWindow dialog!)
+        sso_buttons! = dialog!.getContent().getChildWindow(65100)
+        GoogleLoginWidget! = new GoogleLoginWidget(sso_buttons!,sso_buttons!.getAvailableControlID())
+        GoogleLoginWidget!.setCallback(GoogleLoginWidget.ON_LOGIN,"onGoogleLogin")
+        GoogleLoginWidget!.addStyle("ssobutton")
+    methodend
+
+    method public static void addLoginWithMicrosoft(LoginDialogWindow dialog!)
+        sso_buttons! = dialog!.getContent().getChildWindow(65100)
+        MicrosoftLoginWidget! = new MicrosoftLoginWidget(sso_buttons!,sso_buttons!.getAvailableControlID())
+        MicrosoftLoginWidget!.setCallback(MicrosoftLoginWidget.ON_LOGIN,"onMicrosoftLogin")
+        MicrosoftLoginWidget!.addStyle("ssobutton")
+    methodend
+
 
     method public static void addRedirect(LoginDialogWindow dialog!, BBjString redirectText$, BBjString methodName$)
         declare BBjStaticText redirectText!
