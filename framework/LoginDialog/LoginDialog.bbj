@@ -150,7 +150,6 @@ class public LoginDialog
                 userProfile! = ev!.getObject()
                 if #authProvider!.checkLoginWithAccountProfile(userProfile!) then
                     #User$ = str(userProfile!.getFullName())
-rem                     #profile! = CAST(AccountProfile,userProfile!)
                     #profile! = #authProvider!.getProfile()
                     #window!.destroy()
                     methodret Boolean.TRUE

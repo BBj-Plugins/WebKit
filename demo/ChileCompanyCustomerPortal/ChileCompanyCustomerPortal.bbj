@@ -32,6 +32,8 @@ login!.setAllowRemember(Boolean.TRUE)
 use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 
+rem IDs from the SSO providers
+rem these ones are working only with localhost, curtesy of BASIS' test setup: 
 GoogleLoginWidget.setCLIENTID("862999103108-q9vsolubod0smuupqfhphm3be7jed86p.apps.googleusercontent.com")
 MicrosoftLoginWidget.setCLIENTID("ffa8d048-b947-4e4c-a04f-99e058285a44")
 MicrosoftLoginWidget.setAUTHORITY("https://login.microsoftonline.com/common")
