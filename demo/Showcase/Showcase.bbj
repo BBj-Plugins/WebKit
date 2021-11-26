@@ -1,8 +1,3 @@
-REM /**
-REM  * Showcase.bbj
-REM  * @author TimonGeisbauer
-REM  *
-REM  */
 
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
@@ -15,6 +10,9 @@ if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+bbjutils! = new ::BBUtils.bbj::BBUtils()
+bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/ArrowDown.png","files/")
+bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/ArrowRight.png","files/")
 
 iconPool$ = STBL("icon-pool", "fa")
 REM iconPool$ = STBL("icon-pool", "feather")
@@ -32,6 +30,19 @@ REM menuItem!.setStartType(0)
 menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","far-window-restore")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DialogShowcase.bbj::DialogShowcase")
 menuItem!.setStartType(0)
+
+treeMenuShowCase! = menu!.addMenuItem(menu!.getRoot(),101,"Tree Menu","Tree Menu Showcase","far-window-restore")
+treeMenuShowCase!.setStartType(2)
+
+for i = 0 to 6
+    
+    treeMenuShowCaseItem! = menu!.addMenuItem(treeMenuShowCase!,200+i,"Item" + str(i),"Item" + str(i),"Item" + str(i))
+    treeMenuShowCaseItem!.setStartType(2)
+    for x = 0 to i
+        treeMenuShowCaseSubItem! = menu!.addMenuItem(treeMenuShowCaseItem!,(150*i)+x + 300,"Subitem" + str(x),"Subitem" + str(x),"Subitem" + str(x))
+        treeMenuShowCaseSubItem!.setStartType(2)
+    next x
+next i 
 
 declare PortalFrame portal!
 
