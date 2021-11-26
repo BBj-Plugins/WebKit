@@ -1,0 +1,36 @@
+.menutile {
+    width: 580px;
+    height: 50px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px #E5E5E5 solid;
+    padding-left: 5px;
+}
+
+.menutile .material-icons {
+    padding-top: 25px;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.menutile .letterField {
+    font-size: 19px;
+    width: 30px;
+    height: 30px;
+}
+
+.menutile .tilelabel {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    margin-left: 10px;
+}
+
+.menutile:hover {
+    background-color: var(--bbj-color-primary-50);
+}

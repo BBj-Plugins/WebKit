@@ -1,0 +1,140 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
+
+use ::ListTile.bbj::ListTile
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+use java.util.HashMap
+
+
+class public MenuPanel extends BBjWidget
+
+    field public  Menu Menu!
+    field private BBjNumber parentNodeID
+    field private HashMap MenuItemTiles! = new HashMap()
+
+    field private BBjStaticText Headline!
+    field private BBjChildWindow MenuTilesBox!
+    field private BBjVector colors!
+    
+
+    method public MenuPanel(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/framework/MenuPanel/MenuPanel.css")
+        #generateColors()
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+        #setVisible(0)
+        wnd! = #getCanvas()
+        wnd!.addPanelStyle("menupanel")
+        #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
+        #Headline!.addStyle("tilesheadline")
+        #MenuTilesBox! = #getCanvas().addChildWindow(wnd!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #MenuTilesBox!.setPanelStyle("display","flex")
+        #MenuTilesBox!.setPanelStyle("flex-direction","column")
+        
+    methodend
+    
+    method public void generateColors()
+        
+        #colors! = new BBjVector()
+        #colors!.add("#408458")
+        #colors!.add("#9B0058")
+        #colors!.add("#6883BA")
+        #colors!.add("#408458")
+        #colors!.add("#9B0058")
+        #colors!.add("#6883BA")
+        #colors!.add("#408458")
+        #colors!.add("#9B0058")
+        #colors!.add("#6883BA")
+        #colors!.add("#408458")
+    methodend
+
+    method private void cleanup()
+        if #MenuItemTiles!.size()>0 then
+            it! = #MenuItemTiles!.keySet().iterator()
+            while it!.hasNext()
+                t! = #MenuItemTiles!.get(it!.next())
+                t!.destroy()
+            wend
+            #MenuItemTiles!.clear()
+        fi
+    methodend
+
+    method public void setParentNode(BBjNumber nodeId)
+        #cleanup()
+        #parentNodeID = nodeId
+        declare MenuItem node!
+        node! = #Menu!.getItem(nodeId)
+        #Headline!.setText(node!.getCaption())
+        #buildChildren(nodeId,0)
+        
+    methodend
+    
+    
+    method public void buildChildren(BBjNumber nodeId,BBjNumber i)
+        declare MenuItem node!
+        declare MenuItem item!
+        node! = #Menu!.getItem(nodeId)
+        v! = node!.getChildren()
+        it! = v!.iterator()
+        while it!.hasNext()
+            item! = cast(MenuItem,it!.next())
+             id%  = item!.getNodeId()
+            declare ListTile tile!
+            tile! = new ListTile(#MenuTilesBox!, id%)
+            tile!.setText(item!.getCaption())
+            tile!.addPanelStyle("submenu")
+            tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),10))))
+            if i = 0 then
+                tile!.setHeader()
+            endif
+            tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
+            tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+            #MenuItemTiles!.put(item!.getNodeId(),tile!)
+            #buildChildren(id%,i+1)
+            if i > 0 then
+                tile!.setVisible(0)
+            endif
+            if item!.hasChildren() then
+               tile!.setTrailingIcon("folder")
+            endif
+            
+        wend
+        
+            
+    methodend
+
+REM     method public void onMenuItemClick(BBjCustomEvent ev!)
+REM         
+REM         nodeId=num(str(ev!.getObject()))
+REM         item!=#Menu!.getItem(nodeId)
+REM         if item!.hasChildren() then
+REM             #setParentNode(nodeId)
+REM         else
+REM             #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getObject())
+REM         fi
+REM     methodend 
+    method public void onMenuItemClick(BBjCustomEvent ev!)
+        declare auto MenuItem node!
+        declare auto MenuItem item!
+        declare auto ListTile tile!
+        nodeId=num(str(ev!.getObject()))
+        node!=#Menu!.getItem(nodeId)
+        if node!.hasChildren() then
+            v! = node!.getChildren()
+            it! = v!.iterator()
+            while it!.hasNext()
+            
+                item! = it!.next()
+                id%  = item!.getNodeId()
+            
+                tile! = #MenuItemTiles!.get(id%)
+            
+                tile!.setVisible(!tile!.isVisible())
+            
+        wend
+        else
+            #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getObject())
+        fi
+    methodend   
+classend

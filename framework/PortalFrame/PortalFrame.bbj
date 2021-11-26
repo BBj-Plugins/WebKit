@@ -2,7 +2,7 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
-use ::WebKit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::MenuPanel
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
