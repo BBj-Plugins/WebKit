@@ -1,0 +1,74 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+use ::WebKit/model/Icon.bbj::Icon
+
+class public ListTile extends BBjWidget implements Icon
+
+    field private BBjStaticText textField!
+    field private BBjStaticText letterField!
+    field private BBjString text!
+    field private BBjString letter!
+    field private BBjVector colors!
+    field private BBjChildWindow btn!
+    field private BBjStaticText trailingIcon!
+
+    method public ListTile(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("css/ListTile.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())  
+    methodend
+
+    method public ListTile(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("css/ListTile.css") 
+        #super!.create(wnd!,id!)       
+    methodend
+    
+    
+
+    method public void redraw(Boolean f_init!)
+        
+        
+        #btn! = #getCanvas()
+        
+        if f_init!>0 then
+            #btn!.addPanelStyle("menutile")
+            #btn!.setStyle("height","-moz-fit-content")
+            #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")    
+            
+            #letterField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
+            #letterField!.addStyle("letterField")
+            #letterField!.setStyle("text-align","center")
+            #textField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
+            #textField!.addStyle("tilelabel")
+        FI
+        
+    methodend
+    
+    method public void setHeader()
+        #textField!.setStyle("font-weight","bold")
+    methodend
+    
+    method public void setLetterColor(String color!)
+        #letterField!.setStyle("background",color!)
+    methodend
+    
+    method public void setTrailingIcon(String icon!)
+        #trailingIcon! = #setIcon(#btn!,icon!)
+        #trailingIcon!.setStyle("margin-left","auto")
+    methodend
+    
+    
+    method public void setText(BBjString text!)
+        #text!= text!
+        #textField!.setText(#text!)
+        #letter!=text!.substring(0,1)
+        #letterField!.setText(#letter!)
+    methodend
+    
+    
+   
+    method public void onClick(BBjMouseDownEvent ev!)   
+        #super!.fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getID())
+    methodend
+    
+classend
