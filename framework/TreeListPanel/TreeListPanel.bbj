@@ -1,14 +1,14 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 
-use ::ListTile.bbj::ListTile
+use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use java.util.HashMap
 
 
-class public MenuPanel extends BBjWidget
+class public TreeListPanel extends BBjWidget
 
     field public  Menu Menu!
     field private BBjNumber parentNodeID
@@ -19,8 +19,8 @@ class public MenuPanel extends BBjWidget
     field private BBjVector colors!
     
 
-    method public MenuPanel(BBjWindow wnd!)
-        DynamicLoader.addLocalCSS("WebKit/framework/MenuPanel/MenuPanel.css")
+    method public TreeListPanel(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/framework/TreeListPanel/TreeListPanel.css")
         #generateColors()
         #super!.create(wnd!,wnd!.getAvailableControlID())
         #setVisible(0)
@@ -85,9 +85,6 @@ class public MenuPanel extends BBjWidget
             tile!.setText(item!.getCaption())
             tile!.addPanelStyle("submenu")
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),10))))
-            if i = 0 then
-                tile!.setHeader()
-            endif
             tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
             tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             #MenuItemTiles!.put(item!.getNodeId(),tile!)
@@ -96,7 +93,7 @@ class public MenuPanel extends BBjWidget
                 tile!.setVisible(0)
             endif
             if item!.hasChildren() then
-               tile!.setTrailingIcon("folder")
+               tile!.setHeader()
             endif
             
         wend

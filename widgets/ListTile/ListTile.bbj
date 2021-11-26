@@ -12,14 +12,18 @@ class public ListTile extends BBjWidget implements Icon
     field private BBjVector colors!
     field private BBjChildWindow btn!
     field private BBjStaticText trailingIcon!
+    field private BBjString arrowDown! = "http://localhost:8888/files/WebKit/res/ArrowDown.png"
+    field private BBjString arrowRight! = "http://localhost:8888/files/WebKit/res/ArrowRight.png"
+    field private BBjChildWindow arrowIcon! 
+    field private Boolean expanded! = Boolean.FALSE
 
     method public ListTile(BBjWindow wnd!)
-        DynamicLoader.addLocalCSS("css/ListTile.css")
+        DynamicLoader.addLocalCSS("WebKit/widgets/ListTile/ListTile.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())  
     methodend
 
     method public ListTile(BBjWindow wnd!, BBjInt id!)
-        DynamicLoader.addLocalCSS("css/ListTile.css") 
+        DynamicLoader.addLocalCSS("WebKit/widgets/ListTile/ListTile.css") 
         #super!.create(wnd!,id!)       
     methodend
     
@@ -33,8 +37,14 @@ class public ListTile extends BBjWidget implements Icon
         if f_init!>0 then
             #btn!.addPanelStyle("menutile")
             #btn!.setStyle("height","-moz-fit-content")
-            #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")    
+            #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick") 
             
+            #arrowIcon! = #btn!.addChildWindow(#btn!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #arrowIcon!.setDockStyle("width","12px")
+            #arrowIcon!.setDockStyle("height","12px")
+            #arrowIcon!.setDockStyle("align-self","center")           
+            #arrowIcon!.setVisible(0)
+            #arrowIcon!.setPanelStyle("background-image","url(" + #arrowRight!+ ")")
             #letterField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
             #letterField!.addStyle("letterField")
             #letterField!.setStyle("text-align","center")
@@ -46,6 +56,8 @@ class public ListTile extends BBjWidget implements Icon
     
     method public void setHeader()
         #textField!.setStyle("font-weight","bold")
+        #arrowIcon!.setVisible(1)
+        #letterField!.setVisible(0)
     methodend
     
     method public void setLetterColor(String color!)
@@ -68,6 +80,12 @@ class public ListTile extends BBjWidget implements Icon
     
    
     method public void onClick(BBjMouseDownEvent ev!)   
+    #expanded! = !#expanded!
+        if #expanded! then 
+            #arrowIcon!.setPanelStyle("background-image","url(" + #arrowDown!+ ")")
+        else 
+            #arrowIcon!.setPanelStyle("background-image","url(" +#arrowRight!+ ")")
+        endif
         #super!.fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getID())
     methodend
     
