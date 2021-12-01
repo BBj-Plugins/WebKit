@@ -11,10 +11,11 @@ if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 bbjutils! = new ::BBUtils.bbj::BBUtils()
-bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/ArrowDown.png","files/")
-bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/ArrowRight.png","files/")
 
-iconPool$ = STBL("icon-pool", "fa")
+ClientUtil.consoleLog(bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/ArrowDown.png","WebKit"))
+ClientUtil.consoleLog(bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/ArrowRight.png","WebKit"))
+
+REM iconPool$ = STBL("icon-pool", "fa")
 REM iconPool$ = STBL("icon-pool", "feather")
 
 declare Menu menu!

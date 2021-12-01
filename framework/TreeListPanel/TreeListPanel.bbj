@@ -29,8 +29,7 @@ class public TreeListPanel extends BBjWidget
         #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
         #Headline!.addStyle("tilesheadline")
         #MenuTilesBox! = #getCanvas().addChildWindow(wnd!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        #MenuTilesBox!.setPanelStyle("display","flex")
-        #MenuTilesBox!.setPanelStyle("flex-direction","column")
+        #MenuTilesBox!.addStyle("menuTilesBox")
         
     methodend
     
@@ -67,7 +66,6 @@ class public TreeListPanel extends BBjWidget
         node! = #Menu!.getItem(nodeId)
         #Headline!.setText(node!.getCaption())
         #buildChildren(nodeId,0)
-        
     methodend
     
     
@@ -83,7 +81,6 @@ class public TreeListPanel extends BBjWidget
             declare ListTile tile!
             tile! = new ListTile(#MenuTilesBox!, id%)
             tile!.setText(item!.getCaption())
-            tile!.addPanelStyle("submenu")
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),10))))
             tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
             tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
@@ -121,12 +118,9 @@ REM     methodend
             v! = node!.getChildren()
             it! = v!.iterator()
             while it!.hasNext()
-            
                 item! = it!.next()
-                id%  = item!.getNodeId()
-            
+                id%  = item!.getNodeId()            
                 tile! = #MenuItemTiles!.get(id%)
-            
                 tile!.setVisible(!tile!.isVisible())
             
         wend
