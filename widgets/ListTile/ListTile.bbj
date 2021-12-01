@@ -11,11 +11,17 @@ class public ListTile extends BBjWidget implements Icon
     field private BBjString letter!
     field private BBjVector colors!
     field private BBjChildWindow btn!
+    field private BBjChildWindow tile!
+    field private BBjChildWindow iconWrapper!
     field private BBjStaticText trailingIcon!
-    field private BBjString arrowDown! = "http://localhost:8888/files/WebKit/res/ArrowDown.png"
-    field private BBjString arrowRight! = "http://localhost:8888/files/WebKit/res/ArrowRight.png"
-    field private BBjChildWindow arrowIcon! 
+    field private BBjString arrowDown! = "http://localhost:8888/files/WebKit/ArrowDown.png"
+    field private BBjString arrowRight! = "http://localhost:8888/files/WebKit/ArrowRight.png"
+    field private BBjStaticText arrowIcon!
+    field private BBjStaticText starIcon!  
+    field private BBjStaticText dotIcon!
     field private Boolean expanded! = Boolean.FALSE
+    field private Boolean favorite! = Boolean.FALSE
+    field private Boolean header! = Boolean.FALSE
 
     method public ListTile(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/ListTile/ListTile.css")
@@ -29,47 +35,63 @@ class public ListTile extends BBjWidget implements Icon
     
     
 
-    method public void redraw(Boolean f_init!)
-        
-        
-        #btn! = #getCanvas()
+    method public void redraw(Boolean f_init!)       
+        #tile! = #getCanvas()
         
         if f_init!>0 then
-            #btn!.addPanelStyle("menutile")
-            #btn!.setStyle("height","-moz-fit-content")
-            #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick") 
+            declare BBjChildWindow starWrapper!
+            declare BBjChildWindow dotWrapper!
             
-            #arrowIcon! = #btn!.addChildWindow(#btn!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-            #arrowIcon!.setDockStyle("width","12px")
-            #arrowIcon!.setDockStyle("height","12px")
-            #arrowIcon!.setDockStyle("align-self","center")           
+            #tile!.addPanelStyle("menutile")
+            #tile!.setStyle("height","-moz-fit-content")
+            #tile!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"mouseEnter")
+            #tile!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"mouseExit")
+            
+            #btn! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")
+            #btn!.addPanelStyle("btnPart")
+            
+            #arrowIcon! = #setIcon(#btn!,"play")
+            #arrowIcon!.setStyle("align-self","center") 
+            #arrowIcon!.addStyle("arrowIcon")   
             #arrowIcon!.setVisible(0)
-            #arrowIcon!.setPanelStyle("background-image","url(" + #arrowRight!+ ")")
+            
             #letterField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
             #letterField!.addStyle("letterField")
             #letterField!.setStyle("text-align","center")
+            
             #textField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
             #textField!.addStyle("tilelabel")
+            
+            #iconWrapper! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #iconWrapper!.setStyle("margin-left","auto")
+            #iconWrapper!.setStyle("display","flex")
+            #iconWrapper!.setStyle("flex-direction", "row")
+            #iconWrapper!.setVisible(0)
+            
+            starWrapper! = #iconWrapper!.addChildWindow(#iconWrapper!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #starIcon! = #setIcon(starWrapper!,"star")
+            starWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onStarClick")
+            starWrapper!.addStyle("trailingIcon")
+            
+            dotWrapper! = #iconWrapper!.addChildWindow(#iconWrapper!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #dotIcon! = #setIcon(dotWrapper!,"more-vertical")
+            dotWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDotsClick")
+            dotWrapper!.addStyle("trailingIcon")
         FI
-        
     methodend
     
     method public void setHeader()
+        #header! = Boolean.TRUE
         #textField!.setStyle("font-weight","bold")
         #arrowIcon!.setVisible(1)
-        #letterField!.setVisible(0)
+        #letterField!.setVisible(0)       
     methodend
     
     method public void setLetterColor(String color!)
         #letterField!.setStyle("background",color!)
     methodend
-    
-    method public void setTrailingIcon(String icon!)
-        #trailingIcon! = #setIcon(#btn!,icon!)
-        #trailingIcon!.setStyle("margin-left","auto")
-    methodend
-    
-    
+     
     method public void setText(BBjString text!)
         #text!= text!
         #textField!.setText(#text!)
@@ -77,16 +99,42 @@ class public ListTile extends BBjWidget implements Icon
         #letterField!.setText(#letter!)
     methodend
     
+    method public void mouseEnter(BBjMouseEnterEvent ev!)
+        if !#header! then
+            #iconWrapper!.setVisible(1)
+            #iconWrapper!.setStyle("display","flex")
+        endif
+        #tile!.addStyle("hovered")
+    methodend
     
+    method public void mouseExit(BBjMouseExitEvent ev!)
+        if !#header! then
+            #iconWrapper!.setVisible(0)
+        endif
+        #tile!.removeStyle("hovered")
+    methodend
    
     method public void onClick(BBjMouseDownEvent ev!)   
-    #expanded! = !#expanded!
+        
         if #expanded! then 
-            #arrowIcon!.setPanelStyle("background-image","url(" + #arrowDown!+ ")")
+            #arrowIcon!.removeStyle("rotate")  
         else 
-            #arrowIcon!.setPanelStyle("background-image","url(" +#arrowRight!+ ")")
+            #arrowIcon!.addStyle("rotate")   
         endif
-        #super!.fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getID())
+        #expanded! = !#expanded!
+        #super!.fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getParentWindow().getID())
+    methodend
+    
+    method public void onStarClick(BBjMouseDownEvent ev!)   
+        if #favorite! then 
+            #starIcon!.removeStyle("favoriteActive")
+        else 
+            #starIcon!.addStyle("favoriteActive")
+        endif
+        #favorite! = !#favorite!
+    methodend
+    
+    method public void onDotsClick(BBjMouseDownEvent ev!)   
     methodend
     
 classend
