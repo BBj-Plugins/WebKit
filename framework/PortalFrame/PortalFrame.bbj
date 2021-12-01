@@ -28,6 +28,7 @@ class public PortalFrame
     field public Menu Menu! = new Menu()
     field public Menu FooterMenu! = new Menu()
     field public Menu HeaderMenu! = new Menu()
+    field public Menu HiddenMenu! = new Menu()
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
@@ -205,10 +206,46 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         if item! <> null() then
             methodret #navigateTo(item!)
         fi
+
+        item! = #HiddenMenu!.getItem(anchor$)
+        if item! <> null() then
+            methodret #navigateTo(item!)
+        fi
        
         methodret item!
         
    methodend
+   
+    rem /**
+    rem  * this method navigates to the menu item with the given ID
+    rem  * it assumes that the IDs are unique across the four menu structures
+    rem  * It's left to the developer to ensure this uniqueness
+    rem  */
+    method public BBjWidget navigateTo(BBjNumber id)
+    
+        item! = #HeaderMenu!.getItem(id)
+        if item! <> null() then
+            methodret #navigateTo(item!)
+        fi
+        
+        item! = #Menu!.getItem(id)
+        if item! <> null() then
+            methodret #navigateTo(item!)
+        fi
+        
+        item! = #FooterMenu!.getItem(id)
+        if item! <> null() then
+            methodret #navigateTo(item!)
+        fi
+
+        item! = #HiddenMenu!.getItem(id)
+        if item! <> null() then
+            methodret #navigateTo(item!)
+        fi
+       
+        methodret item!
+        
+   methodend   
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
         nodeId=num(str(ev!.getObject()))
