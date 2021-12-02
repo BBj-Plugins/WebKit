@@ -1,0 +1,3 @@
+[submodule "web-components"]
+	path = web-components
+	url = https://github.com/BasisHub/web-components
