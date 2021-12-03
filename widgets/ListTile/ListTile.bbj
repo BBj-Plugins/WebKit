@@ -53,21 +53,17 @@ class public ListTile extends BBjWidget implements Icon
             
             
             #tile!.addPanelStyle("menutile")
+            #tile!.addPanelStyle("child")
             #tile!.setStyle("height","-moz-fit-content")
-            #tile!.setCallback(BBjAPI.ON_MOUSE_ENTER,#this!,"mouseEnter")
-            #tile!.setCallback(BBjAPI.ON_MOUSE_EXIT,#this!,"mouseExit")
-            
+                       
             #btn! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")
             #btn!.addPanelStyle("btnPart")
             
-            #createTrailing()
+            #createLabel()
             
             #iconWrapper! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-            #iconWrapper!.setStyle("margin-left","auto")
-            #iconWrapper!.setStyle("display","flex")
-            #iconWrapper!.setStyle("flex-direction", "row")
-            #iconWrapper!.setVisible(0)
+            #iconWrapper!.addStyle("iconWrapper")
             
             #createFavoritesIcon()
             
@@ -78,7 +74,7 @@ class public ListTile extends BBjWidget implements Icon
     method public void fillPopUp(BBjVector items!)
     methodend
     
-    method public void createTrailing()
+    method public void createLabel()
         #arrowIcon! = #setIcon(#btn!,"play")
         #arrowIcon!.setStyle("align-self","center") 
         #arrowIcon!.addStyle("arrowIcon")   
@@ -104,12 +100,14 @@ class public ListTile extends BBjWidget implements Icon
         #dotIcon! = #setIcon(#dotWrapper!,"more-vertical")
         #dotWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDotsClick")
         #dotWrapper!.addStyle("trailingIcon")
+        #dotWrapper!.addPopupMenu()
         #dotWrapper!.setVisible(0)
     methodend
     
     method public void setHeader()
         #header! = Boolean.TRUE
         #textField!.setStyle("font-weight","700")
+        #tile!.removePanelStyle("child")
         #arrowIcon!.setVisible(1)
         #letterField!.setVisible(0)       
     methodend
@@ -138,18 +136,18 @@ class public ListTile extends BBjWidget implements Icon
         #letterField!.setText(#letter!)
     methodend
     
-    method public void mouseEnter(BBjMouseEnterEvent ev!)
-        if !#header! then
-            #iconWrapper!.setVisible(1)
-            #iconWrapper!.setStyle("display","flex")
-        endif
-    methodend
-    
-    method public void mouseExit(BBjMouseExitEvent ev!)
-        if !#header! then
-            #iconWrapper!.setVisible(0)
-        endif  
-    methodend
+REM     method public void mouseEnter(BBjMouseEnterEvent ev!)
+REM         if !#header! then
+REM             #iconWrapper!.setVisible(1)
+REM             #iconWrapper!.setStyle("display","flex")
+REM         endif
+REM     methodend
+REM     
+REM     method public void mouseExit(BBjMouseExitEvent ev!)
+REM         if !#header! then
+REM             #iconWrapper!.setVisible(0)
+REM         endif  
+REM     methodend
    
     method public void onClick(BBjMouseDownEvent ev!)   
         
