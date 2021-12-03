@@ -1,6 +1,7 @@
 .menupanel {
     display: grid;
-    margin: 20px;
+    margin-left: 60px;
+    margin-top: 40px;
 }
 
 .menuclient {
@@ -15,6 +16,8 @@
     background: #FFFFFF;
     border-radius: 8px;
     width: 580px;
+    padding: 20px;
+    margin-top: 35px;
 }
 
 @media screen and (max-width: 600px) {

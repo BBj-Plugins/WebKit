@@ -4,6 +4,7 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
+use ::Webkit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
@@ -33,12 +34,14 @@ class public PortalFrame
     field private Boolean drawerOpen! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
     field private BBjWidget curr_win! 
-    field private TreeListPanel menuPanel!
+   
 
     field private BBjPopupMenu AccountMenu!
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+    
+    field private Boolean showsTreePanel! = Boolean.TRUE
     
     field private static PortalFrame ThisInstance!
 
@@ -235,14 +238,26 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
                 
         if item!.hasChildren() then
-            if (#menuPanel! = null()) then
-                #menuPanel! = new TreeListPanel(#Main!)
-                #menuPanel!.setMenu(#Menu!)
-                #menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
-            fi
-            #menuPanel!.setParentNode(item!.getNodeId())
-            #menuPanel!.setVisible(1)
-            #curr_win! = #menuPanel! 
+            if #showsTreePanel! then
+                declare TreeListPanel menuPanel!
+                if (menuPanel! = null()) then
+                    menuPanel! = new TreeListPanel(#Main!)
+                fi
+            else
+                declare MenuPanel menuPanel!
+                if (menuPanel! = null()) then
+                    menuPanel! = new MenuPanel(#Main!)
+                fi
+            endif
+            menuPanel!.setMenu(#Menu!)
+            menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+            menuPanel!.setParentNode(item!.getNodeId())
+            menuPanel!.setVisible(1)
+            if #showsTreePanel! then
+                #curr_win! = cast(TreeListPanel, menuPanel!)
+            else 
+                #curr_win! = cast(MenuPanel, menuPanel!)
+            endif
         else
         
             if #win_list!.containsKey(item!.getNodeId()) then
@@ -303,6 +318,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             #win_list!.remove(nodeId)
         fi
          
+    methodend
+    
+    method public void showTreePanel(Boolean show!)
+        #showsTreePanel! = show!
     methodend
 
     method public void onDrawerToggle(BBjCustomEvent ev!)

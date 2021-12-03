@@ -9,6 +9,11 @@
 
 }
 
+.menutile:hover {
+    background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
+    background-color: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
+}
+
 .menutile .material-icons {
     padding-top: 25px;
     font-size: 36px;
@@ -20,6 +25,7 @@
     font-size: 19px;
     width: 30px;
     height: 30px;
+    color: white;
 }
 
 .menutile .tilelabel {
@@ -66,6 +72,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 400;
 }
 
 .trailingIcon {
@@ -78,9 +87,5 @@
 
     background: rgba(49, 59, 84, 0.08);
     border-radius: 8px;
-    padding-right: 5px;
-}
-
-.hovered{
-    background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF;
+    margin-right: 5px;
 }

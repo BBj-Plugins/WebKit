@@ -84,6 +84,15 @@ class public TreeListPanel extends BBjWidget
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),10))))
             tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
             tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+            tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
+            
+            rem Mock menu to show on tile
+REM             declare BBjPopupMenu popup!
+REM             popup! = BBjAPI().getSysGui().createPopupMenu(1, 11)
+REM             myItem1! = popup!.addMenuItem(-201,"Item 1")
+REM             myItem2! = popup!.addMenuItem(-202,"Item 2")
+REM             tile!.setPopupMenu(popup!)
+            
             #MenuItemTiles!.put(item!.getNodeId(),tile!)
             #buildChildren(id%,i+1)
             if i > 0 then
@@ -96,6 +105,15 @@ class public TreeListPanel extends BBjWidget
         wend
         
             
+    methodend
+    
+    rem todo Add function to save favorites
+    method public void setFavorite(BBjCustomEvent event!)
+        
+    methodend
+    
+    method public void setColors(BBjVector colors!)
+        #colors! = colors!
     methodend
 
 REM     method public void onMenuItemClick(BBjCustomEvent ev!)
