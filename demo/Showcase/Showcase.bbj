@@ -44,6 +44,12 @@ for i = 0 to 6
         treeMenuShowCaseSubItem!.setStartType(2)
     next x
 next i 
+menuItem2! = menu!.addMenuItem(treeMenuShowCase!,700,"Item" + str(i),"Item" + str(i),"Item" + str(i))
+menuItem2!.setStartType(0)
+menuItem3! = menu!.addMenuItem(treeMenuShowCase!,800,"Item" + str(i),"Item" + str(i),"Item" + str(i))
+menuItem3!.setStartType(0)
+menuItem4! = menu!.addMenuItem(treeMenuShowCase!,911,"Item" + str(i),"Item" + str(i),"Item" + str(i))
+menuItem4!.setStartType(0)
 
 declare PortalFrame portal!
 
@@ -51,6 +57,7 @@ portal! = new PortalFrame()
 portal!.setMenu(menu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo.png")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_sm.png")
+rem portal!.showTreePanel(0)
 
 portal!.doModal()
 

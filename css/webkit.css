@@ -8,18 +8,14 @@ body
 }
 
 .tilesheadline {
-	font-size: xx-large;
-	color: #1a1a1a;
+	font-family: Lato;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 32px;
+	line-height: 38px;
+	color: #333E40
 }
 
-.tilesheadline:after {
-  content: '';
-  display: block;
-  width: calc( 100% - 40px );
-  height: 2px;
-  background: #000;
-  right: 0;
-}
  div .logo{
 	margin-top:2px;
 	margin-left:15px;
