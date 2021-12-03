@@ -6,7 +6,7 @@
     align-items: center;
     border-bottom: 1px #E5E5E5 solid;
     padding-left: 5px;
-
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .menutile:hover {
@@ -88,4 +88,19 @@
     background: rgba(49, 59, 84, 0.08);
     border-radius: 8px;
     margin-right: 5px;
+}
+
+.iconWrapper {
+    margin-left: auto;
+    display: none;
+    flex-direction: row;
+
+}
+
+.child {
+    background: #FFFFFF;
+}
+
+.child:hover .iconWrapper {
+    display: flex;
 }

@@ -242,6 +242,12 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                 declare TreeListPanel menuPanel!
                 if (menuPanel! = null()) then
                     menuPanel! = new TreeListPanel(#Main!)
+                    rem Test Colors
+                    colors! = new BBjVector()
+                    colors!.add("#408458")
+                    colors!.add("#9B0058")
+                    colors!.add("#6883BA")
+                    menuPanel!.setColors(colors!)
                 fi
             else
                 declare MenuPanel menuPanel!

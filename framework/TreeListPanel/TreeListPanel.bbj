@@ -16,12 +16,12 @@ class public TreeListPanel extends BBjWidget
 
     field private BBjStaticText Headline!
     field private BBjChildWindow MenuTilesBox!
-    field private BBjVector colors!
+    field private BBjVector colors! = new BBjVector()
     
 
     method public TreeListPanel(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/framework/TreeListPanel/TreeListPanel.css")
-        #generateColors()
+      
         #super!.create(wnd!,wnd!.getAvailableControlID())
         #setVisible(0)
         wnd! = #getCanvas()
@@ -30,24 +30,9 @@ class public TreeListPanel extends BBjWidget
         #Headline!.addStyle("tilesheadline")
         #MenuTilesBox! = #getCanvas().addChildWindow(wnd!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #MenuTilesBox!.addStyle("menuTilesBox")
-        
+        #colors!.add("#FFFFFF")
     methodend
     
-    method public void generateColors()
-        
-        #colors! = new BBjVector()
-        #colors!.add("#408458")
-        #colors!.add("#9B0058")
-        #colors!.add("#6883BA")
-        #colors!.add("#408458")
-        #colors!.add("#9B0058")
-        #colors!.add("#6883BA")
-        #colors!.add("#408458")
-        #colors!.add("#9B0058")
-        #colors!.add("#6883BA")
-        #colors!.add("#408458")
-    methodend
-
     method private void cleanup()
         if #MenuItemTiles!.size()>0 then
             it! = #MenuItemTiles!.keySet().iterator()
@@ -81,7 +66,7 @@ class public TreeListPanel extends BBjWidget
             declare ListTile tile!
             tile! = new ListTile(#MenuTilesBox!, id%)
             tile!.setText(item!.getCaption())
-            tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),10))))
+            tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
             tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
             tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
