@@ -26,6 +26,18 @@ class public LoginDialogWindow extends BBjWidget
         #loginDialog! = loginDialog!
         #content! = wrapper!.addChildWindow(wrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #content!.setDockStyle("padding","56px 44px")
+        HtmlView! = #content!.addHtmlView(101,0,0,300,300,"<avatar-initial height=""300"" width=""300"" name=""saadnoor salehin""></avatar-initial>")
+        rem HtmlView! = #content!.addHtmlView(101,0,0,300,300,"<h1>Salehin</h1>")
+        ch=unt
+        rem open (ch)"WebKit/framework/LoginDialog/test.js"
+        open (ch)"WebKit/web-components/mybuild/hudai.js"
+        read record (ch,siz=5512000)content$
+        close (ch)
+
+
+        script$ = script$ + content$
+        HtmlView!.executeScript(script$)
+        rem ClientUtil.consoleLog(content$)
     methodend 
 
     
