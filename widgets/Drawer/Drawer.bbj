@@ -96,16 +96,16 @@ class public Drawer extends BBjWidget
             drawerOpenIcon! = new DrawerOpenIcon(#window!, #drawerDataModel!.getDrawerOpenIcon())
             drawerOpenIcon!.setCallback(DrawerOpenIcon.ON_DRAWER_OPEN_ICON_PUSH,#this!,"openDrawer")
             #drawerOpenIcon! = drawerOpenIcon!
-            
-            #searchOverlay! = new DrawerSearchOverlay(#window!)
-            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
-            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_ENTRY_SELECTED,#this!,"onDrawerSearchEntrySelected")
-            #searchOverlay!.setTitleFieldname("TITLE")
-            #searchOverlay!.setSubtitleFieldname("SUBTITLE")
-            #searchOverlay!.setImagePathFieldname("IMAGE")
+REM TODO do something else then commenting it out
+REM             #searchOverlay! = new DrawerSearchOverlay(#window!)
+REM             #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
+REM             #searchOverlay!.setCallback(DrawerSearchOverlay.ON_ENTRY_SELECTED,#this!,"onDrawerSearchEntrySelected")
+REM             #searchOverlay!.setTitleFieldname("TITLE")
+REM             #searchOverlay!.setSubtitleFieldname("SUBTITLE")
+REM             #searchOverlay!.setImagePathFieldname("IMAGE")
 
-            #searchOverlay!.setInitialSuggestion(#demoData!)
-            searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
+REM             #searchOverlay!.setInitialSuggestion(#demoData!)
+REM             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
             
             topDivider! = new Divider(#window!)
             topDivider!.setColor("#DDE0E1")
