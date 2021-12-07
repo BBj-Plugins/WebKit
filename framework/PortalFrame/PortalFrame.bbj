@@ -284,6 +284,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         
             if #win_list!.containsKey(item!.getNodeId()) then
                 #curr_win!= CAST(BBjWidget,#win_list!.get(item!.getNodeId()))
+                #curr_win!.redraw(0)
                 #curr_win!.setVisible(1)
             else
                 pgm$ = item!.getProgram()
