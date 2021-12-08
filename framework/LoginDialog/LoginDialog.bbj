@@ -107,6 +107,7 @@ class public LoginDialog
                 token$ = #authProvider!.getToken()
                 BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
                 #User$ = #authProvider!.getUser()
+                #profile! = #authProvider!.getProfile()
                 methodret Boolean.TRUE
             fi
         fi  
