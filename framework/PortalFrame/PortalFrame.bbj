@@ -13,6 +13,8 @@ use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
+
+use ::WebKit/i8n/I18n.bbj::I18n
 use java.util.HashMap
 
 class public PortalFrame

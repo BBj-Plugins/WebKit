@@ -1,0 +1,17 @@
+use ::translations/bbtranslator.bbj::BBTranslator
+
+class public I18n
+
+    field public static BBTranslator Translator! = BBTranslator.getInstance("webkit",stbl("!LOCALE"),null(),"WebKit/i18n/")
+    field public static Boolean SelfLearningTranslations! = Boolean.FALSE
+
+    method public static BBjString getTranslation(BBjString key$)
+        if #SelfLearningTranslations! then
+            rem make the retrieval self-learning
+            methodret #Translator!.getTranslation(key$,key$,1)
+        else
+            methodret #Translator!.getTranslation(key$)
+        fi
+    methodend
+
+classend
