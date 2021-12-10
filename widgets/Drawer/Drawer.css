@@ -1,25 +1,31 @@
 
+:root {
+    --drawer-width: 300px;
+    --drwaer-mini-width: 104px;
+    --drawerFooter-height: 120px;
+}
+
 @keyframes drawerAnimationClose{
     from {
-        width: 300px;
+        width: var(--drawer-width);
     }
     to {
-        width: 104px;
+        width: var(--drwaer-mini-width);
     }
 }
 
 @keyframes drawerAnimationOpen{
     from {
-        width: 104px;
+        width: var(--drwaer-mini-width);
     }
     to {
-        width: 300px;
+        width: var(--drawer-width);
     }
 }
 
 @keyframes drawerMobileAnimationClose {
     from {
-        width: 300px;
+        width: var(--drawer-width);
     }
     to {
         width: 0px;
@@ -31,7 +37,7 @@
         width: 0px;
     }
     to {
-        width: 300px;
+        width: var(--drawer-width);
     }
 }
 
@@ -44,15 +50,15 @@
     height: 100vh;
     background-color: white;
     z-index: 99;
-    width: 300px;
+    width: var(--drawer-width);
 }
 
 .drawerOpen.drawerStyle{
-    width: 300px;
+    width: var(--drawer-width);
 }
 
 .drawerClosed.drawerStyle{
-    width: 104px;
+    width: var(--drwaer-mini-width);
 }
 
 
@@ -109,28 +115,31 @@
 .drawerTilesWrapper{
     display: grid;
     overflow: auto !important;
-    max-height: calc(100vh - 445px);
+    max-height: calc(100vh - var(--drawerFooter-height));
 }
 
 .drawerFooterWrapper {
     position: fixed !important;
-    top: calc(100vh - 117px) !important;
-    width: 300px;
+    /* top: calc(100vh - 117px) !important; */
+    background: white;
+    bottom: 0;
+    width: var(--drawer-width);
     display: grid;
-    height: 117px;
+    display: grid;
+    /* align-items: center; */
+    align-content: center;
+    z-index: 20;
 }
 
 .bottomDivider {
-    position: fixed !important;
-    top: calc(100vh - 116px) !important;
-    width: 300px;
+    width: 100%;
 }
 
 .drawerClosed .drawerFooterWrapper{
     top: calc(100vh - 90px) !important;
-    height: 90px;
+    /* height: 90px; */
 }
 
 .drawerClosed .bottomDivider {
-    width: 104px;
+    width: var(--drwaer-mini-width);
 }

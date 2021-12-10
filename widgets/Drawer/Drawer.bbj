@@ -113,13 +113,14 @@ REM             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
             #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #tilesWrapper!.addPanelStyle("drawerTilesWrapper")
             
-            bottomDivider! = new Divider(#window!)
-            bottomDivider!.setColor("#DDE0E1")
-            bottomDivider!.addPanelStyle("bottomDivider")
             
             footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             footerWrapper!.addPanelStyle("drawerFooterWrapper")
             
+            bottomDivider! = new Divider(footerWrapper!)
+            bottomDivider!.setColor("#DDE0E1")
+            bottomDivider!.addPanelStyle("bottomDivider")
+
             footer! = new DrawerFooter(footerWrapper!,#window!,#drawerDataModel!)
             footer!.setDockStyle("align-self","center")
             footer!.setCallback(DrawerFooter.getON_LOGOUT(), #this!, "onLogout")

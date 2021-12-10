@@ -3,7 +3,6 @@
 
     from {
         grid-template-columns: 32px auto 24px;
-        width: 170px;
         margin-left: 40px;
     }
     to {
@@ -22,7 +21,6 @@
 
     to {
         grid-template-columns: 32px auto 24px;
-        width: 170px;
         margin-left: 40px;
     }
 }
@@ -67,12 +65,13 @@
 }
 
 .drawerFooterPanelStyle {
-    height: 37px;
-    width: 170px;
     display: grid;
-    margin-left: 40px;
+    padding: 2rem 1.25rem 2rem 1.25rem;
+    gap: 1rem;
+    align-items: center;
+    align-content: baseline;
     grid-template-rows: auto;
-    grid-template-columns: 32px auto 24px;
+    grid-template-columns: max-content minmax(12rem, 20rem) max-content !important;
 }
 
 .drawerFooterTitleStyling {
@@ -82,6 +81,9 @@
     line-height: 17px;
     color: var(--bbj-color-black);
     align-self: center;
+}
+.drawerFooterTitleStyling .BBjStaticText:empty {
+    display: none !important;
 }
 
 .drawerFooterSubtitleStyling {
@@ -123,7 +125,7 @@
 
 .footerIcon{
     justify-self: end;
-    align-self: start;
+    align-self: center;
 }
 
 .drawerFooterOverlayContentWrapper{
