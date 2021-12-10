@@ -54,9 +54,9 @@ class public DrawerFooter extends BBjWidget implements Icon
         declare CircularAvatar avatar!
         declare BBjChildWindow wrapper!
         declare BBjStaticText icon!
-        
         if init! then 
-            avatar! = new CircularAvatar(#window!, #drawerDataModel!.getAvatarSize(),#drawerDataModel!.getAvatarUrl())
+            avatar! = new CircularAvatar(#window!, #drawerDataModel!.getAvatarSize(),#drawerDataModel!.getAvatarUrl(), #title!)
+
             wrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             wrapper!.addPanelStyle("drawerFooterWrapperWindowClosed")
             wrapper!.addPanelStyle("drawerFooterWrapperWindowSmall")
