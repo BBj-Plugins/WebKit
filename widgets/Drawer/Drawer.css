@@ -115,6 +115,7 @@
 .drawerTilesWrapper{
     display: grid;
     overflow: auto !important;
+    height: 100%;
     max-height: calc(100vh - var(--drawerFooter-height));
 }
 
