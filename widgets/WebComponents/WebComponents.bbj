@@ -6,7 +6,7 @@ class public WebComponents
 
         webComponentLibaryURL$ = STBL("web-component-library-url", err=*next)
         if webComponentLibaryURL$ = "" THEN
-            webComponentLibaryURL$ = "https://cdn.jsdelivr.net/npm/webkit-web-components@0.0.3/dist/web-component/web-component.esm.js"
+            webComponentLibaryURL$ = "https://cdn.jsdelivr.net/npm/webkit-web-components@latest/dist/web-component/web-component.esm.js"
         endif
         
         #script$ = "var script = document.createElement(""script"");"
