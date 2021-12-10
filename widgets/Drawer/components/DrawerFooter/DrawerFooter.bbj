@@ -123,7 +123,6 @@ class public DrawerFooter extends BBjWidget implements Icon
     methodend
     
     method public void onLogout(BBjMouseDownEvent event!)
-        rem #overlayWidget!.onOverlayDissmiss(null())
         login! = new LoginDialog()
         login!.clearRememberToken()
         #fireEvent(#ON_LOGOUT, "")
