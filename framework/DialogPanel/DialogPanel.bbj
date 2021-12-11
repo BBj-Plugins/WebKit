@@ -193,7 +193,16 @@ class public DialogPanel extends BBjWidget implements Icon
         #parent!.setVisible(Boolean.TRUE)
         #dialogWnd!.setVisible(Boolean.TRUE)
     methodend
+    
+    method public void setSubmitText(BBjString text!)
+        #submitBtnText$ = text!
+        #submitBtn!.setText(#submitBtnText$)
+    methodend
 
+    method public void setCancelText(BBjString text!)
+        #cancelBtnText$ = text!
+        #cancelBtn!.setText(#cancelBtnText$)
+    methodend
     
     rem @Override
     method public void setText(String text!)

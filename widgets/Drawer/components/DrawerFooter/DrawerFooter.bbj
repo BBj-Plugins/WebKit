@@ -125,10 +125,6 @@ class public DrawerFooter extends BBjWidget implements Icon
         #fireEvent(#ON_FOOTER_TILE_PRESSED, id%)
     methodend
 
-    method public void onSettings(BBjMouseDownEvent event!)
-        #overlayWidget!.onOverlayDissmiss(null())
-        a = msgbox("settings!!")
-    methodend
     
     method public void onLogout(BBjMouseDownEvent event!)
         #overlayWidget!.onOverlayDissmiss(null())
@@ -138,6 +134,9 @@ class public DrawerFooter extends BBjWidget implements Icon
     methodend
     
     method public void onOverlayDissmiss(BBjCustomEvent event!)
-        #overlay!.destroy()
+        if #overlay! <> null() AND ! #overlay!.isDestroyed() then
+            #overlay!.destroy()
+        fi
+        #overlay! = null()
     methodend
 classend
