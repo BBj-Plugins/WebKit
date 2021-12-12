@@ -13,6 +13,7 @@ use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/model/StateManager.bbj::StateManager
 use java.util.HashMap
 
 class public PortalFrame
@@ -40,6 +41,8 @@ class public PortalFrame
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+
+    field private StateManager stateManager!
     
     field private static PortalFrame ThisInstance!
 
@@ -54,6 +57,7 @@ class public PortalFrame
             BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
         fi        
         
+        #stateManager! = new StateManager()
     methodend
     
     method public static PortalFrame getInstance()
@@ -61,6 +65,10 @@ class public PortalFrame
             #ThisInstance! = new PortalFrame()
         fi
         methodret #ThisInstance!
+    methodend
+
+    method public StateManager getStateManager()
+        methodret #stateManager!
     methodend
 
     method private void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)

@@ -1,0 +1,27 @@
+
+class public StateManager
+    field public BBjString state$
+
+    field private static StateManager thisInstance!
+
+    method public StateManager()
+        #state$ = ""
+        #thisInstance! = #this!
+    methodend
+
+    method public static StateManager getInstance()
+        if #thisInstance! = null() then
+            #thisInstance! = new StateManager()
+        fi
+        methodret #thisInstance!
+    methodend
+
+    method public void setState(BBjString val$)
+        #state$ = val$
+        BBjAPI().postCustomEvent("ON_FILTER_STATE_CHANGED", val$)
+    methodend
+
+    method public BBjString getState()
+        methodret #state$
+    methodend
+classend

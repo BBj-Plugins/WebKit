@@ -10,6 +10,7 @@ use ::WebKit/model/ListView/Field.bbj::Field
 use ::WebKit/model/ListView/Cell.bbj::Cell
 use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
 use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/widgets/ListView/ListView.bbj::ListView
 
 use java.util.HashMap
@@ -21,6 +22,8 @@ class public ChileCompanyDashboardPanel extends BBjWidget
     field private DbUtil dbUtil!
 
     field private ResultSet RS!
+
+    field private BBjString localState$
 
     method public ChileCompanyDashboardPanel(BBjWindow wnd!)
         #super!.create(wnd!,wnd!.getAvailableControlID())
@@ -109,12 +112,16 @@ class public ChileCompanyDashboardPanel extends BBjWidget
     rem  * @param Boolean f_init!: if TRUE the control is rendered for the first time so this method has to perform initial rendering
     rem  */
     method public void redraw(Boolean f_init!)
-        
+        ClientUtil.consoleLog("global state: " + PortalFrame.getInstance().getStateManager().getState())
+        ClientUtil.consoleLog("local state: " + #localState$)
         declare BBjChildWindow canvas!
         if f_init!>0 then
             canvas! = #getCanvas() 
             canvas!.addStyle("listWindow")
             listDataModel! = #initalizeListDataModel()
+            globalState$ = PortalFrame.getInstance().getStateManager().getState()
+            #localState$ = globalState$
+            ClientUtil.consoleLog("rendering with init=1 and filter: "+ #localState$)
             #RS! = #loadData(listDataModel!)
             listOverviewPanel! = new ListOverviewPanel(canvas!)
             listOverviewPanel!.setListDataModel(listDataModel!)
@@ -123,6 +130,17 @@ class public ChileCompanyDashboardPanel extends BBjWidget
             BBjAPI().setCustomEventCallback("ON_HEADER_ITEM_PRESSED", #this!, "onHeaderMenuItemClick")
             BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_EDIT_PRESSED", #this!, "onEditPressed")
             BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_DELETE_PRESSED", #this!, "onDeletePressed")
+            BBjAPI().setCustomEventCallback("ON_FILTER_STATE_CHANGED", #this!, "onFilterChanged")
+        else
+            globalState$ = PortalFrame.getInstance().getStateManager().getState()
+            if #localState$ <> globalState$ THEN
+                ClientUtil.consoleLog("global state changed, re-rendering")
+                REM a = msgbox("global state changed, re-rendering")
+                REM re-load data and pass it to ListOverviewPanel instance
+                #localState$ = globalState$
+            else
+                ClientUtil.consoleLog("local and global state is same")
+            FI
         FI
         
     methodend    
@@ -133,6 +151,16 @@ class public ChileCompanyDashboardPanel extends BBjWidget
             case 1
                 #showCreateForm()
         swend
+    methodend
+
+    method public void onFilterChanged(BBjCustomEvent ev!)
+        ClientUtil.consoleLog(PortalFrame.getInstance().getStateManager().getState())
+        globalState$ = PortalFrame.getInstance().getStateManager().getState()
+        if #localState$ <> globalState$ THEN
+            ClientUtil.consoleLog("global state changed, re-rendering")
+            REM a = msgbox("global state changed, re-rendering")
+            REM re-load data and pass it to ListOverviewPanel instance
+        fi
     methodend
 
     method public void onEditPressed(BBjCustomEvent ev!)

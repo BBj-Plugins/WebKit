@@ -13,6 +13,9 @@ use ::WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.b
 
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/widgets/FilterWidget/FilterWidget.bbj::FilterWidget
+use ::WebKit/widgets/FilterWidget/FilterOverlay.bbj::FilterOverlay
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
@@ -35,6 +38,8 @@ class public Drawer extends BBjWidget
     field private BBjChildWindow optionalControl!
     
     field private DrawerSearchOverlay searchOverlay!
+
+    field private FilterOverlay filterOverlay!
     
     field private ResultSet demoData!
 
@@ -106,6 +111,16 @@ REM             #searchOverlay!.setImagePathFieldname("IMAGE")
 
 REM             #searchOverlay!.setInitialSuggestion(#demoData!)
 REM             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
+
+             #filterOverlay! = new FilterOverlay(#window!)
+             #filterOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
+             #filterOverlay!.setCallback(DrawerSearchOverlay.ON_ENTRY_SELECTED,#this!,"onFilterEntrySelected")
+             #filterOverlay!.setTitleFieldname("TITLE")
+             #filterOverlay!.setSubtitleFieldname("SUBTITLE")
+             #filterOverlay!.setImagePathFieldname("IMAGE")
+
+             #filterOverlay!.setInitialSuggestion(#demoData!)
+             filterWidget! = new FilterWidget(#window!,#filterOverlay!)
             
             topDivider! = new Divider(#window!)
             topDivider!.setColor("#DDE0E1")
@@ -231,6 +246,16 @@ REM             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
         dr! = event!.getObject()
         
         a = msgbox(str(dr!.getDataField("TITLE")) + " " + str(dr!.getDataField("SUBTITLE")))
+    methodend
+
+    method public void onFilterEntrySelected(BBjCustomEvent event!)
+        declare auto DataRow dr!
+        
+        dr! = event!.getObject()
+
+        title! = str(dr!.getDataField("TITLE"))
+
+        PortalFrame.getInstance().getStateManager().setState(title!)
     methodend
     
     method public void onShadowTapped(BBjMouseDownEvent event!)
