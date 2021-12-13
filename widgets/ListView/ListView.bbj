@@ -192,8 +192,8 @@ class public ListView extends BBjWidget implements Icon
     methodend
 
     method public void onActionItemPressed(BBjMouseDownEvent ev!)
-        if #overlayWidget! <> null() THEN 
-            #overlayWidget!.onOverlayDissmiss(null())
+        if #overlayWidget! <> null() then
+            #overlayWidget!.closeOverlay()
         fi
         itemId$ = ev!.getControl().getText()
         menuId = ev!.getControl().getID()
