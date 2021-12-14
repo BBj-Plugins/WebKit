@@ -204,7 +204,20 @@ class public ClientUtil
         methodret
         nosg:
         BBjAPI().openSysGui("X0").executeScript("console.log('"+output!+"')")
-    methodend    
+    methodend
+
+    method public static String getIcon(String iconName!)
+      methodret String.format("<html><bbj-icon name='%s'></bbj-icon></html>", iconName!)
+    methodend
+    
+    method public static String getIcon(String poolName!, String iconName!)
+      methodret String.format("<html><bbj-icon pool='%s' name='%s'></bbj-icon></html>", poolName!, iconName!)
+    methodend
+    
+    method public static String getIconWithLabel(String poolName!, String iconName!, String label!)
+      css! = "display:flex;align-items: center;gap: 1rem;"
+      methodret String.format("<html><div style='%s'><bbj-icon pool='%s' name='%s'></bbj-icon>%s</div></html>", css!, poolName!, iconName!, label!)
+    methodend
 
 classend
 
