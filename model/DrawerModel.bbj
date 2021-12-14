@@ -10,8 +10,8 @@ class public DrawerModel
     field public BBjVector FooterMenuTiles!
     field public BBjVector HeaderMenuTiles!
 
-    field public BBjString DrawerOpenIcon!
-    field public BBjString DrawerCloseIcon!
+    field public BBjString OpenIcon!
+    field public BBjString CloseIcon!
 
     field public BBjString FooterTitle!
     field public BBjString FooterSubTitle!
@@ -24,8 +24,8 @@ class public DrawerModel
         #LogoSmallUrl! = "WebKit/demo/assets/chile-small.jpg"
         #TilesTextHeader! = "Browse"
 
-        #DrawerCloseIcon! = ""
-        #DrawerCloseIcon! = ""
+        #CloseIcon! = ""
+        #OpenIcon! = ""
 
         #FooterTitle! = "David Williams"
         #FooterSubTitle! = "Art Director"
