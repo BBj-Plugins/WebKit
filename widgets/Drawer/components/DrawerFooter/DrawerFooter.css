@@ -121,6 +121,7 @@
 }
 
 .drawerClosed .drawerFooterOverlayClosedPanelStyle {
+    padding: 1rem 0;
     bottom: 24px !important;
     left: 90px !important;
 }
