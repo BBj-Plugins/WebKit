@@ -1,10 +1,12 @@
 rem use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
 use ::WebKit/widgets/InputField/extensions/TextField.bbj::TextField
-use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
@@ -12,6 +14,8 @@ use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::UsernameValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::PasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::NewPasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::RepeatPasswordValidator
+
+use ::WebKit/i18n/I18n.bbj::I18n
 
 use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
@@ -49,9 +53,9 @@ class public LoginDialogBuilder extends BBjWidget
             dialog!.getUsername().setInput(user$)
         endif
         
-        dialog!.getUsername().setLabel("Username")
-        dialog!.getUsername().setPlaceHolder("name@company.com")
-        dialog!.getUsername().setSuffix("user")
+        dialog!.getUsername().setLabel(I18n.getTranslation("Username"))
+        dialog!.getUsername().setPlaceHolder(I18n.getTranslation("name-company-com"))
+        dialog!.getUsername().setSuffix(I18n.getTranslation("user"))
 
         rem dialog!.getUsername().getInputField().setCallback(BBjAPI.ON_EDIT_MODIFY, dialog!, "validateUsername")
     methodend
