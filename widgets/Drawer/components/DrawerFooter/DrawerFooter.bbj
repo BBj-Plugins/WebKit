@@ -68,6 +68,7 @@ class public DrawerFooter extends BBjWidget implements Icon
             
             icon! = #setIcon(#window!, "chevron-down")
             icon!.addStyle("footerIcon")
+            icon!.addStyle("drawerFooterWrapperWindowClosed")
         endif
     methodend
     

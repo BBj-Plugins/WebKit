@@ -65,6 +65,7 @@
 }
 
 .drawerFooterPanelStyle {
+    cursor: pointer;
     display: grid;
     padding: 2rem 1.25rem 2rem 1.25rem;
     gap: 1rem;
@@ -82,6 +83,7 @@
     color: var(--bbj-color-black);
     align-self: center;
 }
+
 .drawerFooterTitleStyling .BBjStaticText:empty {
     display: none !important;
 }
@@ -129,26 +131,10 @@
 }
 
 .drawerFooterOverlayContentWrapper{
+    cursor: pointer;
     margin: 10px;
     display: grid;
     grid-template-rows: 50% 50%;
-}
-
-.drawerFooterOverlaySettingsPanel{
-    grid-template-columns: 24px auto;
-    display: grid;
-}
-
-.drawerFooterOverlaySettings{
-    grid-row-start: 1;
-    align-self: start;
-    cursor: pointer;
-}
-
-.drawerFooterOverlaySettingsIcon{
-    grid-column-start: 1;
-    align-self: center;
-    height: 24px;
 }
 
 .drawerFooterOverlayLogoutPanel{
