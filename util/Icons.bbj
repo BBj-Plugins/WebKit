@@ -18,7 +18,7 @@ class public Icons
         methodret String.format("<html>%s</html>", #build(poolName!, iconName!))
     methodend
 
-    method public static Formatter build(String poolName!, String iconName!)
+    method private static Formatter build(String poolName!, String iconName!)
         if poolName! = null() then
             methodret #Fmt!.format("<bbj-icon name='%s'></bbj-icon>", iconName!)
         fi
