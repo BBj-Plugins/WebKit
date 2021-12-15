@@ -87,7 +87,7 @@ class public LoginDialogBuilder extends BBjWidget
     methodend
 
     method public static void addRememberMeBox(LoginDialogWindow dialog!)
-        dialog!.setRememberMe(dialog!.getContent().addCheckBox(dialog!.getContent().getAvailableControlID(),0,0,0,0,"Keep me signed in"))
+        dialog!.setRememberMe(dialog!.getContent().addCheckBox(dialog!.getContent().getAvailableControlID(),0,0,0,0,I18n.getTranslation("keep-mesigned-in"))
         dialog!.getRememberMe().setStyle("margin-top","20px")
         dialog!.getRememberMe().setStyle("margin-bottom","20px")
 

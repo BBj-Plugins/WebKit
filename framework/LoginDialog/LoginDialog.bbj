@@ -169,7 +169,7 @@ class public LoginDialog
         LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), user$)
         LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), I18n.getTranslation("password"), I18n.getTranslation("your-password"))
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
-        LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("Login"), I18n.getTranslation("login"))
+        LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("login-upper"), I18n.getTranslation("login"))
         
         if #getLoginWithGoogle() OR #getLoginWithMicrosoft() then
             LoginDialogBuilder.addSSOZone(wnd!)
