@@ -72,8 +72,8 @@ class public PortalFrame
         drawerDataModel!.setLogoUrl(#LogoUrl!)
         drawerDataModel!.setLogoSmallUrl(#LogoSmallUrl!)
         drawerDataModel!.setTilesTextHeader("Browse")
-        drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
-        drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
+        drawerDataModel!.setOpenIcon(ClientUtil.getIcon("feather", "chevron-right"))
+        drawerDataModel!.setCloseIcon(ClientUtil.getIcon("feather", "chevron-left"))
         
         drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         
@@ -386,7 +386,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
         BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
     methodend
-                  
     
 classend
 

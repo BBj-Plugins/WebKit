@@ -10,33 +10,25 @@
 .drawerClosed .drawerHeaderLogoSmallClosed {
     display: block !important;
     justify-self: center;
-    grid-column-start: 1;
-    grid-column-end: 3;
 }
 
-
-.drawerClosed .drawerHeaderPanelStyleClosed {
-    padding-top: 37px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-bottom: 51px;
-}
-
-.drawerOpen .drawerHeaderPanelStyleClosed {
-    padding-top: 37px;
-    padding-left: 40px;
-    padding-right: 36px;
-    padding-bottom: 25px;
+.drawerClosed .drawerHeaderPanelStyle {
+    gap: 0;
 }
 
 .drawerHeaderPanelStyle {
     display: grid;
-    padding-top: 37px;
-    padding-left: 40px;
-    padding-right: 36px;
-    padding-bottom: 25px;
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem 1rem;
+    gap: 2rem;
     overflow: visible;
+    align-items: center;
 }
+
+/* .drawerHeaderPanelStyle.drawerHeaderPanelStyleClosed {
+    display: flex;
+    justify-items: center;
+} */
 
 .headerMenuContentWrapper{
     overflow: auto !important;
@@ -49,4 +41,41 @@
     width:  fit-content;
     grid-row-start: 1;
     grid-column-start: 1;
+}
+
+.drawerClosed .drawerCloseIcon {
+    display: none;
+}
+
+.drawerOpen .drawerOpenIcon {
+    display: none;
+}
+
+.drawerCloseIcon {
+    align-self: center;
+    justify-self: right;
+}
+
+.drawerOpenIcon {
+   position: relative;
+   left: 2.8em;
+}
+
+.drawerOpenIcon::part(control){
+    background: white;
+}
+
+.drawerRoundButton {
+    height: max-content;
+}
+
+.drawerRoundButton::part(control){
+    padding: 0.3em;
+    border: none;
+    border-radius: 50%;
+}
+
+
+.drawerRoundButton::part(label){
+    padding: 0;
 }

@@ -1,7 +1,7 @@
 
 :root {
     --drawer-width: 300px;
-    --drwaer-mini-width: 104px;
+    --drawer-closed-width: 104px;
     --drawerFooter-height: 120px;
 }
 
@@ -10,13 +10,13 @@
         width: var(--drawer-width);
     }
     to {
-        width: var(--drwaer-mini-width);
+        width: var(--drawer-closed-width);
     }
 }
 
 @keyframes drawerAnimationOpen{
     from {
-        width: var(--drwaer-mini-width);
+        width: var(--drawer-closed-width);
     }
     to {
         width: var(--drawer-width);
@@ -50,6 +50,7 @@
     height: 100vh;
     background-color: white;
     z-index: 99;
+    overflow: visible;
     width: var(--drawer-width);
 }
 
@@ -58,9 +59,15 @@
 }
 
 .drawerClosed.drawerStyle{
-    width: var(--drwaer-mini-width);
+    width: var(--drawer-closed-width) !important;
 }
 
+.drawerClosed div.drawerFooterPanelStyle {
+    grid-template-columns: 1fr !important;
+    justify-content: center;
+    width: 100%;
+    justify-items: center;
+}
 
 .drawerOpen .drawerAnimationOpen {
     animation-name: drawerAnimationOpen;
@@ -120,11 +127,11 @@
 }
 
 .drawerFooterWrapper {
-    position: fixed !important;
-    /* top: calc(100vh - 117px) !important; */
+    position: fixed;
     background: white;
     bottom: 0;
-    width: var(--drawer-width);
+    left: 0;
+    width: inherit;
     display: grid;
     display: grid;
     /* align-items: center; */
@@ -136,11 +143,7 @@
     width: 100%;
 }
 
-.drawerClosed .drawerFooterWrapper{
-    top: calc(100vh - 90px) !important;
-    /* height: 90px; */
-}
 
 .drawerClosed .bottomDivider {
-    width: var(--drwaer-mini-width);
+    width: inherit
 }
