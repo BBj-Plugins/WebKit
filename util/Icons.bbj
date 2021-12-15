@@ -7,7 +7,6 @@ use java.util.Formatter
 
 class public Icons
     
-    field public static Formatter Fmt! = new Formatter()
     field private static String LabelStyle! = "display:flex;align-items: center;gap: 1rem;"
 
     method public static String get(String iconName!)
@@ -19,10 +18,11 @@ class public Icons
     methodend
 
     method private static Formatter build(String poolName!, String iconName!)
+        fmt! = new Formatter()
         if poolName! = null() then
-            methodret #Fmt!.format("<bbj-icon name='%s'></bbj-icon>", iconName!)
+            methodret fmt!.format("<bbj-icon name='%s'></bbj-icon>", iconName!)
         fi
-        methodret #Fmt!.format("<bbj-icon pool='%s' name='%s'></bbj-icon>", poolName!, iconName!)
+        methodret fmt!.format("<bbj-icon pool='%s' name='%s'></bbj-icon>", poolName!, iconName!)
     methodend
 
     method public static String getWithLabel(String poolName!, String iconName!, String label!)
