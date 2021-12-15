@@ -44,11 +44,11 @@
 }
 
 .drawerClosed .drawerCloseIcon {
-    display: none;
+    display: none !important;
 }
 
 .drawerOpen .drawerOpenIcon {
-    display: none;
+    display: none !important;
 }
 
 .drawerCloseIcon {

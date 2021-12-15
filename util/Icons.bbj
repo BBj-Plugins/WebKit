@@ -1,0 +1,41 @@
+rem /**
+rem  * BBj icons helper class
+rem  *
+rem  */
+use java.util.Formatter
+
+
+class public Icons
+
+    field private static String LabelStyle! = "display:flex;align-items: center;gap: 1rem;"
+    
+    method public static String get(String iconName!)
+        methodret #get(null(), iconName!)
+    methodend
+
+    method public static String get(String poolName!, String iconName!)
+        methodret String.format("<html>%s</html>", #build(poolName!, iconName!))
+    methodend
+
+    method private static Formatter build(String poolName!, String iconName!)
+        fmt! = new Formatter()
+        if poolName! = null() then
+            methodret fmt!.format("<bbj-icon name='%s'></bbj-icon>", iconName!)
+        fi
+        methodret fmt!.format("<bbj-icon pool='%s' name='%s'></bbj-icon>", poolName!, iconName!)
+    methodend
+
+    method public static String getWithLabel(String poolName!, String iconName!, String label!)
+        methodret #buildWithLabel(poolName!, iconName!, label!)
+    methodend
+
+    method public static String getWithLabel(String iconName!, String label!)
+        methodret #buildWithLabel(null(), iconName!, label!)
+    methodend
+
+    method private static String buildWithLabel(String poolName!, String iconName!, String label!)
+        icon! = #build(poolName!, iconName!)
+        methodret String.format("<html><div class='BBjIconLabel' style='%s'>%s%s</div></html>", #LabelStyle!, icon!, label!)
+    methodend
+
+classend
