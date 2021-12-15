@@ -53,7 +53,7 @@ class public LoginDialogBuilder extends BBjWidget
             dialog!.getUsername().setInput(user$)
         endif
         
-        dialog!.getUsername().setLabel(I18n.getTranslation("Username"))
+        dialog!.getUsername().setLabel(I18n.getTranslation("username-upper"))
         dialog!.getUsername().setPlaceHolder(I18n.getTranslation("name-company-com"))
         dialog!.getUsername().setSuffix(I18n.getTranslation("user"))
 
