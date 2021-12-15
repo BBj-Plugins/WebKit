@@ -6,12 +6,12 @@ use java.util.Formatter
 
 
 class public Icons
-
+    
     field public static Formatter Fmt! = new Formatter()
     field private static String LabelStyle! = "display:flex;align-items: center;gap: 1rem;"
-    
+
     method public static String get(String iconName!)
-        methodret String.format("<html>%s</html>", #build(null(), iconName!))
+        methodret #get(null(), iconName!)
     methodend
 
     method public static String get(String poolName!, String iconName!)
