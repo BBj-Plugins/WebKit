@@ -1,0 +1,68 @@
+class public UIUtil
+
+    field private BBjSysGui SysGui! = BBjAPI().getSysGui()
+    
+    REM /**
+    REM  * BBjStaticText
+    REM  */
+    method public static BBjStaticText addStaticText(BBjWindow parent!, BBjString text!)
+        methodret #addStaticText(parent!, parent!.getAvailableControlID(), text!)
+    methodend
+
+    method public static BBjStaticText addStaticText(BBjWindow parent!, BBjInt id!, BBjString text!)
+        methodret parent!.addStaticText(parent!, id! ,0,0,0,0, text!)
+    methodend
+
+    REM /**
+    REM  * BBjEditBox
+    REM  */
+    method public static BBjEditBox addEditBox(BBjWindow parent!, BBjString text!)
+        methodret #addEditBox(parent!, parent!.getAvailableControlID(), text!)
+    methodend
+
+    method public static BBjEditBox addEditBox(BBjWindow parent!, BBjInt id!, BBjString text!)
+        methodret parent!.addEditBox(parent!, id!, 0,0,0,0, text!)
+    methodend
+
+    REM /**
+    REM  * BBjButton
+    REM  */
+    method public static BBjButton addButton(BBjWindow parent!, BBjString text!)
+        methodret #addButton(parent!.getAvailableControlID(), text!)
+    methodend
+    
+    method public static BBjButton addButton(BBjWindow parent!, BBjInt id!, BBjString text!)
+        methodret parent!.addButton(parent!.getAvailableControlID(), 0,0,0,0, text!)
+    methodend
+    
+    REM /**
+    REM  * BBjListButton
+    REM  */
+    method public static BBjListButton addListButton(BBjWindow parent!, BBjString initialContents!)
+        methodret #addListButton(parent!.getAvailableControlID(), initialContents!)
+    methodend
+    
+    method public static BBjListButton addListButton(BBjWindow parent!, BBjInt id!, BBjString initialContents!)
+        methodret parent!.addListButton(id!,0,0,0,0,initialContents)
+    methodend
+    
+    REM /**
+    REM  * addChildWindow
+    REM  */
+    method public static BBjChildWindow addChildWindow(BBjWindow parent!)
+        methodret #addChildWindow(parent!, parent!.getAvailableControlID())
+    methodend
+    
+    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjInt id!)
+        methodret #addChildWindow(parent!.getAvailableControlID(),"", $00108800$)
+    methodend
+    
+    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjString title!, BBjString flags!)
+        methodret #addChildWindow(parent!, parent!.getAvailableControlID(), title!, flags!)
+    methodend
+    
+    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjInt id!, BBjString title!, BBjString flags!)
+        methodret parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0, title!, flags!, SysGui!.getAvailableContext())
+    methodend
+
+classend
