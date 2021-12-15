@@ -73,7 +73,6 @@ class public DrawerHeader extends BBjWidget
             openIconButton!.setCallback(BBjAPI.ON_BUTTON_PUSH, #this!,"onCloseIconPush")
 
             closeIconButton! = #logoContainer!.addButton(#logoContainer!.getAvailableControlID(), 0,0,0,0, #drawerDataModel!.getCloseIcon())
-            escape
             closeIconButton!.setAttribute("theme", "")
             closeIconButton!.addStyle("drawerRoundButton")
             closeIconButton!.addStyle("drawerCloseIcon")

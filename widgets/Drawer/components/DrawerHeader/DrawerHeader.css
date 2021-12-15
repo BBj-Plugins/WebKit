@@ -44,11 +44,11 @@
 }
 
 .drawerClosed .drawerCloseIcon {
-    display: none !important;
+    display: none;
 }
 
 .drawerOpen .drawerOpenIcon {
-    display: none !important;
+    display: none;
 }
 
 .drawerCloseIcon {
@@ -58,7 +58,7 @@
 
 .drawerOpenIcon {
    position: relative;
-   left: 2.8em;
+   left: 2.5em;
 }
 
 .drawerOpenIcon::part(control){
