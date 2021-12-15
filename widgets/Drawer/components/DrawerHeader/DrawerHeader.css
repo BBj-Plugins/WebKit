@@ -58,7 +58,7 @@
 
 .drawerOpenIcon {
    position: relative;
-   left: 2.8em;
+   left: 2.5em;
 }
 
 .drawerOpenIcon::part(control){
