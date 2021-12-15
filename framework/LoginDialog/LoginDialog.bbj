@@ -191,11 +191,11 @@ class public LoginDialog
             LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), I18n.getTranslation("password"), I18n.getTranslation("your-password"))
         else
             LoginDialogBuilder.addUsernameInput(wnd!, null(), user$)
-            LoginDialogBuilder.addPasswordInput(wnd!, null(), "Password", "Your password")
+            LoginDialogBuilder.addPasswordInput(wnd!, null(), I18n.getTranslation("password"), I18n.getTranslation("your-password"))
         fi
 
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!) then
-            LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("Login"), I18n.getTranslation("login"))
+            LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("login-upper"), I18n.getTranslation("login"))
         fi
 
         if #getLoginWithGoogle() OR #getLoginWithMicrosoft() then
@@ -245,7 +245,8 @@ class public LoginDialog
        if #isValidationEnabled! = Boolean.TRUE then
             if #passwordValidator! = null() then 
                 #passwordValidator! = new NewPasswordValidator()
-                LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, "New Password", "new password", Boolean.TRUE)
+                newPasswordText! = I18n.getTranslation("new-password")
+                LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, newPasswordText!, newPasswordText!, Boolean.TRUE)
             fi
        else
             LoginDialogBuilder.addPasswordInput(wnd!, null(), "New Password", "new password", Boolean.TRUE)
