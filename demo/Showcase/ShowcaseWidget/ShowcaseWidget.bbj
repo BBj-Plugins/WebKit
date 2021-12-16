@@ -52,7 +52,7 @@ class public ShowcaseWidget extends BBjWidget
     
     method public void setTitle(BBjString title!)
         #Title! = title!
-        if #CtrlTitle! <> null() then 
+        if #CtrlTitle! <> null() then  
             #CtrlTitle!.setText(title!)
         endif    
     methodend
