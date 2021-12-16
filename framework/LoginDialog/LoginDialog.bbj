@@ -1,8 +1,4 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-use ::WebKit/util/ClientUtil.bbj::ClientUtil
-use ::WebKit/widgets/InputField/InputField.bbj::InputField
-use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 use ::AuthKit/profile/GoogleAccountProfile.bbj::GoogleAccountProfile
 use ::AuthKit/profile/MicrosoftAccountProfile.bbj::MicrosoftAccountProfile
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
@@ -10,19 +6,25 @@ use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 use ::AuthKit/totp/TOTP.bbj::TOTP
 
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/IFieldReq.bbj::IFieldReq
 use ::WebKit/widgets/InputField/DefaultFieldReq.bbj::DefaultFieldReq
+use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
+
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
 use ::WebKit/framework/LoginDialog/IAuthRenewPwProvider.bbj::IAuthRenewPwProvider
 use ::WebKit/framework/LoginDialog/LoginDialogBuilder.bbj::LoginDialogBuilder
 use ::WebKit/framework/LoginDialog/LoginDialogWindow.bbj::LoginDialogWindow
-
-use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::UsernameValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::PasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::NewPasswordValidator
 use ::WebKit/framework/LoginDialog/LoginInputValidator.bbj::RepeatPasswordValidator
 
+use ::WebKit/i18n/I18n.bbj::I18n
 
 class public LoginDialog
 
@@ -53,8 +55,6 @@ class public LoginDialog
     field public BBjString User$ = ""
 
     field private BBjString logoURL$
-    
-    rem |||||| CONSTRUCTORS ||||||
 
     method public LoginDialog(BBjString title$, IAuthProvider authProvider!)
         bbjutils! = new ::BBUtils.bbj::BBUtils()
@@ -80,8 +80,6 @@ class public LoginDialog
         
     methodend
 
-    
-    rem |||||| GETTER & SETTER ||||||
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
     methodend
@@ -112,7 +110,6 @@ class public LoginDialog
         #passwordValidator = passwordValidator
     methodend
 
-     rem |||||| DO MODAL ||||||
     method public Boolean doModal()
 
         if #AllowRemember! then
@@ -172,7 +169,6 @@ class public LoginDialog
                 return
     methodend
 
-    rem |||||| CONTENT BUILDERS ||||||
     method public void buildLoginContent(LoginDialogWindow wnd!)
         #buildLoginContent(wnd!,"")    
     methodend
@@ -190,16 +186,18 @@ class public LoginDialog
             if #usernameValidator! = null() then #usernameValidator! = new UsernameValidator()
             if #passwordValidator! = null() then #passwordValidator! = new PasswordValidator()
 
-            LoginDialogBuilder.addUsernameInput(wnd!, #usernameValidator! , user$)
-            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, "Password", "Your password")
+            LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), user$)
+            LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), I18n.getTranslation("password-upper"), I18n.getTranslation("your-password"))
         else
             LoginDialogBuilder.addUsernameInput(wnd!, null(), user$)
-            LoginDialogBuilder.addPasswordInput(wnd!, null(), "Password", "Your password")
+            LoginDialogBuilder.addPasswordInput(wnd!, null(), I18n.getTranslation("password"), I18n.getTranslation("your-password"))
         fi
 
-        if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
-        LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login")
-        
+        if #AllowRemember!  then 
+            LoginDialogBuilder.addRememberMeBox(wnd!)
+        fi
+        LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("login-upper"), I18n.getTranslation("login"))
+
         if #getLoginWithGoogle() OR #getLoginWithMicrosoft() then
             LoginDialogBuilder.addSSOZone(wnd!)
             if #getLoginWithGoogle() then
@@ -211,17 +209,19 @@ class public LoginDialog
         fi
         
         
-        if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, "Forgot your Password?", "gotoForgotPassword")  
+        if #AllowForgotPw! = Boolean.TRUE then 
+            LoginDialogBuilder.addRedirect(wnd!, I18n.getTranslation("forgot-your-password"), "gotoForgotPassword")  
+        fi
     methodend
 
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString user$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
-        LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
+        LoginDialogBuilder.addPageTitle(wnd!,I18n.getTranslation("request-a-new-password"))
         if #isValidationEnabled! = Boolean.TRUE then
 
             if #usernameValidator! = null() then #usernameValidator! = new UsernameValidator()
             LoginDialogBuilder.addUsernameInput(wnd!, #usernameValidator! , user$)
-            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, "Password", "Your password")
+            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, I18n.getTranslation("password"), I18n.getTranslation("your-password"))
         else
             LoginDialogBuilder.addUsernameInput(wnd!, null(), user$)
         fi
@@ -235,27 +235,30 @@ class public LoginDialog
         LoginDialogBuilder.addPageTitle(wnd!,title$)
         LoginDialogBuilder.addTextField(wnd!, response$)
         if retry! then
-            LoginDialogBuilder.addSubmitButton(wnd!, "Retry", methodName$)  
+            LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("retry"), methodName$)  
         else 
-            LoginDialogBuilder.addSubmitButton(wnd!, "Return to Login", "gotoLogin")
+            LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("return-to-login"), "gotoLogin")
         endif
     methodend
 
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
-       LoginDialogBuilder.addPageTitle(wnd!, "Choose a new password")
+       LoginDialogBuilder.addPageTitle(wnd!, I18n.getTranslation("choose-a-new-password"))
        if #isValidationEnabled! = Boolean.TRUE then
-            if #passwordValidator! = null() then #passwordValidator! = new NewPasswordValidator()
-            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, "New Password", "new password", Boolean.TRUE)
+            if #passwordValidator! = null() then 
+                #passwordValidator! = new NewPasswordValidator()
+                newPasswordText! = I18n.getTranslation("new-password")
+                LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, newPasswordText!, newPasswordText!, Boolean.TRUE)
+            fi
        else
             LoginDialogBuilder.addPasswordInput(wnd!, null(), "New Password", "new password", Boolean.TRUE)
-        fi
-       LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), "Repeat Password", "repeat password")
-       LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken")
+       fi
+       repeatPasswordText! = I18n.getTranslation("repeat-password")
+       LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), repeatPasswordText!, repeatPasswordText!)
+       LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("set-password"), "setPasswordWithToken")
     methodend
 
     
-
     rem |||||| REDIRECTS ||||||
     method public void gotoForgotPassword()   
         if #authRenewPw! = null() then
@@ -264,7 +267,7 @@ class public LoginDialog
                 #loginWindow! = null()
             endif
             #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildResponseContent(#responseWindow!, "", "Something went wrong" ,"It seems you cannot use this functionality.", Boolean.FALSE, "")  
+            #buildResponseContent(#responseWindow!, "", I18n.getTranslation("something-went-wrong") , I18n.getTranslation("it-seems-you-cannot-use-this-functionality"), Boolean.FALSE, "")  
         else  
             declare BBjString user$
            
@@ -333,7 +336,7 @@ class public LoginDialog
         endif
 
         #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-        #buildResponseContent(#responseWindow!, username$, "Password token sent" ,response$, Boolean.FALSE, "")    
+        #buildResponseContent(#responseWindow!, username$, I18n.getTranslation("password-token-sent") ,response$, Boolean.FALSE, "")    
     methodend	
 
     method public void setPasswordWithToken(BBjString password$)
@@ -347,10 +350,10 @@ class public LoginDialog
 
         if response! then
             #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildResponseContent(#responseWindow!, username$, "Password been changed" , "You may now login with your new user credentials.", Boolean.FALSE, "")    
+            #buildResponseContent(#responseWindow!, username$, I18n.getTranslation("password-been-changed"), I18n.getTranslation("you-may-now-login-with-your-new-user-credentials"), Boolean.FALSE, "")    
         else 
             #responseWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-            #buildResponseContent(#responseWindow!, username$, "Something went wrong" , "Password has not been reset. Please try again", Boolean.TRUE, "gotoNewPassword")  
+            #buildResponseContent(#responseWindow!, username$, I18n.getTranslation("something-went-wrong"), I18n.getTranslation("password-has-not-been-reset-please-try-again") , Boolean.TRUE, "gotoNewPassword")  
         endif
         
     methodend
