@@ -14,6 +14,7 @@
 
 .drawerClosed .drawerHeaderPanelStyle {
     gap: 0;
+    grid-template-columns: 1fr;
 }
 
 .drawerHeaderPanelStyle {
@@ -21,14 +22,8 @@
     grid-template-columns: 1fr 1fr;
     padding: 2rem 1rem;
     gap: 2rem;
-    overflow: visible;
     align-items: center;
 }
-
-/* .drawerHeaderPanelStyle.drawerHeaderPanelStyleClosed {
-    display: flex;
-    justify-items: center;
-} */
 
 .headerMenuContentWrapper{
     overflow: auto !important;
@@ -37,7 +32,7 @@
 }
 
 .drawerHeaderLogo {
-    height: 64px;
+    max-height: 16rem;
     width:  fit-content;
     grid-row-start: 1;
     grid-column-start: 1;
@@ -57,8 +52,9 @@
 }
 
 .drawerOpenIcon {
-   position: relative;
-   left: 2.5em;
+    position: fixed;
+    left: calc(var(--drawer-closed-width) - 12px);
+    top: 2.25rem;
 }
 
 .drawerOpenIcon::part(control){
