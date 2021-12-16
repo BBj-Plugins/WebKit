@@ -7,6 +7,7 @@ use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/util/Icons.bbj::Icons
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
@@ -72,8 +73,8 @@ class public PortalFrame
         drawerDataModel!.setLogoUrl(#LogoUrl!)
         drawerDataModel!.setLogoSmallUrl(#LogoSmallUrl!)
         drawerDataModel!.setTilesTextHeader("Browse")
-        drawerDataModel!.setOpenIcon(ClientUtil.getIcon("feather", "chevron-right"))
-        drawerDataModel!.setCloseIcon(ClientUtil.getIcon("feather", "chevron-left"))
+        drawerDataModel!.setOpenIcon(Icons.get("chevron-right"))
+        drawerDataModel!.setCloseIcon(Icons.get("chevron-left"))
         
         drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         

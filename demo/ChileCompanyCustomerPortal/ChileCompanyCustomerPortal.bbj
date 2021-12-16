@@ -26,9 +26,11 @@ wnd!.setCallback(BBjAPI.ON_CLOSE,"onClose")
 
 login! = new LoginDialog("Chile Company Demo", new SampleAuthProvider())
 login!.setLogo("WebKit/demo/assets/chile-3.jpeg")
+rem if you want to disable validation on login, comment out the line below
+rem login!.disableValidation()
 login!.setAllowRemember(Boolean.TRUE)
 
-
+rem You can also set custom validators, by using `setCustomValidators` method
 use ::AuthKit/widgets/GoogleLoginWidget.bbj::GoogleLoginWidget
 use ::AuthKit/widgets/MicrosoftLoginWidget.bbj::MicrosoftLoginWidget
 

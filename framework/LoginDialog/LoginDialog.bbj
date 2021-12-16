@@ -38,11 +38,16 @@ class public LoginDialog
     field private LoginDialogWindow forgotPwWindow!
     field private LoginDialogWindow responseWindow!
     field private LoginDialogWindow newPwWindow!
+    
 
     field public Boolean AllowRemember! = Boolean.FALSE
     field public Boolean AllowForgotPw! = Boolean.FALSE
     field public Boolean LoginWithMicrosoft! = Boolean.FALSE
     field public Boolean LoginWithGoogle! = Boolean.FALSE
+
+    field public Boolean isValidationEnabled! = Boolean.TRUE
+    field public IValidator usernameValidator!
+    field public IValidator passwordValidator!
 
     field private AccountProfile profile!
     field public BBjString User$ = ""
@@ -81,6 +86,10 @@ class public LoginDialog
         #logoURL$ = logo$
     methodend
 
+    method public void disableValidation()
+        #isValidationEnabled! = Boolean.FALSE
+    methodend
+
     method public void setAuthRenewPwProvider(IAuthRenewPwProvider authProvider!)
         #authRenewPw! = authProvider!
         #AllowForgotPw! = Boolean.TRUE
@@ -96,6 +105,11 @@ class public LoginDialog
 
     method public static void clearRememberToken()
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+    methodend
+
+    method public setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
+        #usernameValidator = usernameValidator
+        #passwordValidator = passwordValidator
     methodend
 
      rem |||||| DO MODAL ||||||
@@ -170,8 +184,19 @@ class public LoginDialog
     method public void buildLoginContent(LoginDialogWindow wnd!, BBjString user$, BBjString loginResponse$)
     
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
-        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), user$)
-        LoginDialogBuilder.addPasswordInput(wnd!, new PasswordValidator(), "Password", "Your password")
+
+        if #isValidationEnabled! = Boolean.TRUE then
+
+            if #usernameValidator! = null() then #usernameValidator! = new UsernameValidator()
+            if #passwordValidator! = null() then #passwordValidator! = new PasswordValidator()
+
+            LoginDialogBuilder.addUsernameInput(wnd!, #usernameValidator! , user$)
+            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, "Password", "Your password")
+        else
+            LoginDialogBuilder.addUsernameInput(wnd!, null(), user$)
+            LoginDialogBuilder.addPasswordInput(wnd!, null(), "Password", "Your password")
+        fi
+
         if #AllowRemember! = Boolean.TRUE then LoginDialogBuilder.addRememberMeBox(wnd!)
         LoginDialogBuilder.addSubmitButton(wnd!, "Login", "login")
         
@@ -192,7 +217,14 @@ class public LoginDialog
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString user$)
         LoginDialogBuilder.addLogo(wnd!,#logoURL$)
         LoginDialogBuilder.addPageTitle(wnd!,"Request a new password")
-        LoginDialogBuilder.addUsernameInput(wnd!, new UsernameValidator(), user$)
+        if #isValidationEnabled! = Boolean.TRUE then
+
+            if #usernameValidator! = null() then #usernameValidator! = new UsernameValidator()
+            LoginDialogBuilder.addUsernameInput(wnd!, #usernameValidator! , user$)
+            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, "Password", "Your password")
+        else
+            LoginDialogBuilder.addUsernameInput(wnd!, null(), user$)
+        fi
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
@@ -212,7 +244,12 @@ class public LoginDialog
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
        LoginDialogBuilder.addPageTitle(wnd!, "Choose a new password")
-       LoginDialogBuilder.addPasswordInput(wnd!, new NewPasswordValidator(), "New Password", "new password", Boolean.TRUE)
+       if #isValidationEnabled! = Boolean.TRUE then
+            if #passwordValidator! = null() then #passwordValidator! = new NewPasswordValidator()
+            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, "New Password", "new password", Boolean.TRUE)
+       else
+            LoginDialogBuilder.addPasswordInput(wnd!, null(), "New Password", "new password", Boolean.TRUE)
+        fi
        LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), "Repeat Password", "repeat password")
        LoginDialogBuilder.addSubmitButton(wnd!, "Set Password", "setPasswordWithToken")
     methodend
