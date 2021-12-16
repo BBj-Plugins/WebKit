@@ -47,4 +47,17 @@ class public Icons
         methodret String.format("<html><div class='BBjIconLabel' style='%s'>%s%s</div></html>", #LabelStyle!, icon!, label!)
     methodend
 
+    method public static BBjStaticText getIconOnWindow(BBjChildWindow childWindow!, String icon!)
+        defaultPool$ = STBL("icon-pool", err=*next)
+        if defaultPool$ = "" THEN
+            defaultPool$ = "feather"
+        endif
+
+        newIcon! = #build(poolName!, defaultPool$)
+        
+        
+        methodret childWindow!.addStaticText(childWindow!.getAvailableControlID(),0,0,0,0, String.format("<html>%s</html>", icon!) ,$0000$)
+        
+    methodend
+
 classend

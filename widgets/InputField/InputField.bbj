@@ -4,8 +4,9 @@ use ::WebKit/model/Icon.bbj::Icon
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/util/Icons.bbj::Icons
 
-class public InputField extends BBjWidget implements Icon
+class public InputField extends BBjWidget
 
     field protected BBjChildWindow window!
     field protected IValidator validator!
@@ -124,7 +125,8 @@ class public InputField extends BBjWidget implements Icon
     rem ||||||||||||||||||||||||||||||||||||||||||||
  
     method private void createIcon()
-        #fieldIcon! =  #setIcon(#window!, #suffixIconPath!)
+        #fieldIcon! = Icons.getIconOnWindow(#window!, #suffixIconPath!)
+
         #fieldIcon!.addStyle("inputFieldIcon")
     methodend
 
