@@ -21,10 +21,6 @@ class public Icons
 
         if poolName! = null() then
             poolName! = STBL("icon-pool", err=*next)
-
-            if poolName! <> null() then
-                poolName! = poolName!
-            fi
         fi
 
         if poolName! = null() then

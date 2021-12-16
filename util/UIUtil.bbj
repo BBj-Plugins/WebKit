@@ -1,68 +1,207 @@
+rem /**
+rem  * UI helper class
+rem  *
+rem  */
 class public UIUtil
 
-    field private BBjSysGui SysGui! = BBjAPI().getSysGui()
-    
+    field private static BBjSysGui sysGui! = BBjAPI().getSysGui()
+
     REM /**
     REM  * BBjStaticText
     REM  */
-    method public static BBjStaticText addStaticText(BBjWindow parent!, BBjString text!)
-        methodret #addStaticText(parent!, parent!.getAvailableControlID(), text!)
+    method public static BBjStaticText addStaticText(BBjWindow parent!, BBjString text$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addStaticText(parent!, parent!.getAvailableControlID(), text$)
     methodend
 
-    method public static BBjStaticText addStaticText(BBjWindow parent!, BBjInt id!, BBjString text!)
-        methodret parent!.addStaticText(parent!, id! ,0,0,0,0, text!)
+    method public static BBjStaticText addStaticText(BBjWindow parent!, BBjInt id%, BBjString text$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addStaticText(id% ,0,0,0,0, text$)
     methodend
 
     REM /**
     REM  * BBjEditBox
     REM  */
-    method public static BBjEditBox addEditBox(BBjWindow parent!, BBjString text!)
-        methodret #addEditBox(parent!, parent!.getAvailableControlID(), text!)
+    method public static BBjEditBox addEditBox(BBjWindow parent!, BBjString text$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addEditBox(parent!, parent!.getAvailableControlID(), text$)
     methodend
 
-    method public static BBjEditBox addEditBox(BBjWindow parent!, BBjInt id!, BBjString text!)
-        methodret parent!.addEditBox(parent!, id!, 0,0,0,0, text!)
+    method public static BBjEditBox addEditBox(BBjWindow parent!, BBjInt id%, BBjString text$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addEditBox(id%, 0,0,0,0, text$)
+    methodend
+    
+    REM /**
+    REM  * BBjHtmlEdit
+    REM  */
+    method public static BBjHtmlEdit addHtmlEdit(BBjWindow parent!, BBjString html$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addHtmlEdit(parent!, parent!.getAvailableControlID(), html$)
+    methodend
+
+    method public static BBjHtmlEdit addHtmlEdit(BBjWindow parent!, BBjInt id%, BBjString html$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addHtmlEdit(id%,0,0,0,0,html$)
+    methodend
+
+    REM /**
+    REM  * BBjCEdit
+    REM  */
+    method public static BBjCEdit addCEdit(BBjWindow parent!, BBjString value$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addCEdit(parent!, parent!.getAvailableControlID(), value$)
+    methodend
+
+    method public static BBjCEdit addCEdit(BBjWindow parent!, BBjInt id%, BBjString value$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addCEdit(id%,0,0,0,0,value$)
+    methodend
+
+    REM /**
+    REM  * InputN
+    REM  */
+    method public static BBjInputN addInputN(BBjWindow parent!)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addInputN(parent!, parent!.getAvailableControlID())
+    methodend
+
+    method public static BBjInputN addInputN(BBjWindow parent!, BBjInt id%)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addInputN(id%,0,0,0,0)
     methodend
 
     REM /**
     REM  * BBjButton
     REM  */
-    method public static BBjButton addButton(BBjWindow parent!, BBjString text!)
-        methodret #addButton(parent!.getAvailableControlID(), text!)
+    method public static BBjButton addButton(BBjWindow parent!, BBjString text$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addButton(parent!, parent!.getAvailableControlID(), text$)
     methodend
-    
-    method public static BBjButton addButton(BBjWindow parent!, BBjInt id!, BBjString text!)
-        methodret parent!.addButton(parent!.getAvailableControlID(), 0,0,0,0, text!)
+
+    method public static BBjButton addButton(BBjWindow parent!, BBjInt id%, BBjString text$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addButton(id%, 0,0,0,0, text$)
     methodend
-    
+
     REM /**
     REM  * BBjListButton
     REM  */
-    method public static BBjListButton addListButton(BBjWindow parent!, BBjString initialContents!)
-        methodret #addListButton(parent!.getAvailableControlID(), initialContents!)
+    method public static BBjListButton addListButton(BBjWindow parent!, BBjString initialContents$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addListButton(parent!, parent!.getAvailableControlID(), initialContents$)
     methodend
-    
-    method public static BBjListButton addListButton(BBjWindow parent!, BBjInt id!, BBjString initialContents!)
-        methodret parent!.addListButton(id!,0,0,0,0,initialContents)
+
+    method public static BBjListButton addListButton(BBjWindow parent!, BBjInt id%, BBjString initialContents$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addListButton(id%,0,0,0,0,initialContents$)
     methodend
-    
+
+    REM /**
+    REM  * BBjTabCtrl
+    REM  */
+    method public static BBjTabCtrl addTabCtrl(BBjWindow parent!)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addTabCtrl(parent!, parent!.getAvailableControlID())
+    methodend
+
+    method public static BBjTabCtrl addTabCtrl(BBjWindow parent!, BBjInt id%)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addTabCtrl(id%,0,0,0,0)
+    methodend
+
+    method public static BBjTabCtrl addTabCtrl(BBjWindow parent!, BBjString flags$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addTabCtrl(parent!, parent!.getAvailableControlID(), flags$)
+    methodend
+
+    method public static BBjTabCtrl addTabCtrl(BBjWindow parent!, BBjInt id%, BBjString flags$)
+        if parent! = null() then
+            methodret null()
+        fi
+        methodret parent!.addTabCtrl(id%,0,0,0,0,flags$)
+    methodend
+
     REM /**
     REM  * addChildWindow
     REM  */
     method public static BBjChildWindow addChildWindow(BBjWindow parent!)
+        if parent! = null() then
+            methodret null()
+        fi
+
         methodret #addChildWindow(parent!, parent!.getAvailableControlID())
     methodend
-    
-    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjInt id!)
-        methodret #addChildWindow(parent!.getAvailableControlID(),"", $00108800$)
+
+    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjInt id%)
+        methodret #addChildWindow(parent!, id%, "", $00108800$)
     methodend
-    
-    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjString title!, BBjString flags!)
-        methodret #addChildWindow(parent!, parent!.getAvailableControlID(), title!, flags!)
+
+    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjString title$, BBjString flags$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret #addChildWindow(parent!, parent!.getAvailableControlID(), title$, flags$)
     methodend
-    
-    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjInt id!, BBjString title!, BBjString flags!)
-        methodret parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0, title!, flags!, SysGui!.getAvailableContext())
+
+    method public static BBjChildWindow addChildWindow(BBjWindow parent!, BBjInt id%, BBjString title$, BBjString flags$)
+        if parent! = null() then
+            methodret null()
+        fi
+
+        methodret parent!.addChildWindow(id%,0,0,0,0, title$, flags$, #sysGui!.getAvailableContext())
     methodend
 
 classend
