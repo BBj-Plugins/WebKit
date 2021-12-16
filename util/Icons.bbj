@@ -4,9 +4,8 @@ rem  *
 rem  */
 use java.util.Formatter
 
-
 class public Icons
-    
+
     field private static String LabelStyle! = "display:flex;align-items: center;gap: 1rem;"
 
     method public static String get(String iconName!)
@@ -19,9 +18,19 @@ class public Icons
 
     method private static Formatter build(String poolName!, String iconName!)
         fmt! = new Formatter()
+
+        if poolName! = null() then
+            poolName! = STBL("icon-pool", err=*next)
+
+            if poolName! <> null() then
+                poolName! = poolName!
+            fi
+        fi
+
         if poolName! = null() then
             methodret fmt!.format("<bbj-icon name='%s'></bbj-icon>", iconName!)
         fi
+
         methodret fmt!.format("<bbj-icon pool='%s' name='%s'></bbj-icon>", poolName!, iconName!)
     methodend
 
