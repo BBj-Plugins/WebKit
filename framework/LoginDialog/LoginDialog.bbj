@@ -110,7 +110,6 @@ class public LoginDialog
         #passwordValidator = passwordValidator
     methodend
 
-     rem |||||| DO MODAL ||||||
     method public Boolean doModal()
 
         if #AllowRemember! then
@@ -209,7 +208,9 @@ class public LoginDialog
         fi
         
         
-        if #AllowForgotPw! = Boolean.TRUE then LoginDialogBuilder.addRedirect(wnd!, I18n.getTranslation("forgot-your-password"), "gotoForgotPassword")  
+        if #AllowForgotPw! = Boolean.TRUE then 
+            LoginDialogBuilder.addRedirect(wnd!, I18n.getTranslation("forgot-your-password"), "gotoForgotPassword")  
+        fi
     methodend
 
     method public void buildForgotPwContent(LoginDialogWindow wnd!, BBjString user$)
