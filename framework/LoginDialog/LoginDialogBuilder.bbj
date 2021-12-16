@@ -87,14 +87,16 @@ class public LoginDialogBuilder extends BBjWidget
     methodend
 
     method public static void addRememberMeBox(LoginDialogWindow dialog!)
-        dialog!.setRememberMe(dialog!.getContent().addCheckBox(dialog!.getContent().getAvailableControlID(),0,0,0,0,I18n.getTranslation("keep-mesigned-in"))
-        dialog!.getRememberMe().setStyle("margin-top","20px")
-        dialog!.getRememberMe().setStyle("margin-bottom","20px")
+    rem content! = 
+    content! = dialog!.getContent()
+    dialog!.setRememberMe(content!.addCheckBox(content!.getAvailableControlID(),0,0,0,0,I18n.getTranslation("keep-mesigned-in")))
+    dialog!.getRememberMe().setStyle("margin-top","20px")
+    dialog!.getRememberMe().setStyle("margin-bottom","20px")
 
-        dialog!.getRememberMe().addStyle("loginWidgetCheckBoxStyle")
-        dialog!.getRememberMe().addStyle("loginWidgetCheckBoxLabel")
-        dialog!.getRememberMe().addStyle("loginWidgetCheckBoxInputWrapper")
-        dialog!.getRememberMe().addStyle("loginWidgetCheckBoxControl")
+    dialog!.getRememberMe().addStyle("loginWidgetCheckBoxStyle")
+    dialog!.getRememberMe().addStyle("loginWidgetCheckBoxLabel")
+    dialog!.getRememberMe().addStyle("loginWidgetCheckBoxInputWrapper")
+    dialog!.getRememberMe().addStyle("loginWidgetCheckBoxControl")
     methodend
 
     method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$)
