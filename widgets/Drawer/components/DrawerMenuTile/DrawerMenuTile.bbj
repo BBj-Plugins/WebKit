@@ -1,8 +1,8 @@
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/util/Icons.bbj::Icons
 
-class public DrawerMenuTile extends BBjWidget implements Icon
+class public DrawerMenuTile extends BBjWidget
 
     field private BBjChildWindow window!
     
@@ -32,7 +32,7 @@ class public DrawerMenuTile extends BBjWidget implements Icon
         declare BBjStaticText title!
          #window!.addPanelStyle("drawerMenuTilePanelStyle")
 
-            icon! = #setIcon(#window!, #iconPath!)
+            icon! = Icons.getIconOnWindow(#window!, #iconPath!)
             icon!.addStyle("drawerMenuTileIconStyle")
             icon!.addStyle("menuIconAnimationOpen")
             icon!.addStyle("menuIconAnimationClose")

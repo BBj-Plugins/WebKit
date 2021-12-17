@@ -1,9 +1,9 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/util/Icons.bbj::Icons
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/common/Divider/Divider.bbj::Divider
 
-class public DialogPanel extends BBjWidget implements Icon
+class public DialogPanel extends BBjWidget
     field private BBjChildWindow dialogWnd!    
     field private BBjWindow parent!    
 
@@ -81,7 +81,7 @@ class public DialogPanel extends BBjWidget implements Icon
        iconpool$=stbl("icon-pool", err=*next)
        ico$="x"
        if iconpool$="fa" then ico$="fas-window-close"
-       CloseIcon! = #setIcon(#closeIconWnd!, ico$)
+       CloseIcon! = Icons.getIconOnWindow(#closeIconWnd!, ico$)
        CloseIcon!.addStyle("closeIcon")
        #closeIconWnd!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!, "onClose")
        

@@ -7,9 +7,9 @@ use ::WebKit/widgets/common/CircularAvatar/CircularAvatar.bbj::CircularAvatar
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.bbj::DrawerMenuTile
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
-use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/util/Icons.bbj::Icons
 
-class public DrawerFooter extends BBjWidget implements Icon
+class public DrawerFooter extends BBjWidget
 
     field private BBjChildWindow window!
     
@@ -66,7 +66,7 @@ class public DrawerFooter extends BBjWidget implements Icon
             subtitle! = wrapper!.addStaticText(wrapper!.getAvailableControlID(),0,0,0,0,#subtitle!)
             subtitle!.addStyle("drawerFooterSubtitleStyling")
             
-            icon! = #setIcon(#window!, "chevron-down")
+            icon! = Icons.getIconOnWindow(#window!, "chevron-down")
             icon!.addStyle("footerIcon")
             icon!.addStyle("drawerFooterWrapperWindowClosed")
         endif
