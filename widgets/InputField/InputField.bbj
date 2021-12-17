@@ -1,6 +1,5 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-use ::WebKit/model/Icon.bbj::Icon
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 use ::WebKit/widgets/InputField/IValidator.bbj::RepeatPasswordValidator
 use ::WebKit/util/ClientUtil.bbj::ClientUtil

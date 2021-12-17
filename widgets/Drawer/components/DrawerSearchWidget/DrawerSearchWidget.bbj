@@ -2,9 +2,9 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.bbj::DrawerSearchOverlay
-use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/util/Icons.bbj::Icons
 
-class public DrawerSearchWidget extends BBjWidget implements Icon
+class public DrawerSearchWidget extends BBjWidget
 
     field private BBjChildWindow window!
    
@@ -35,7 +35,7 @@ class public DrawerSearchWidget extends BBjWidget implements Icon
         declare BBjStaticText hintText!
         
         if init! then 
-            icon! = #setIcon(#window!, "search")
+            icon! = Icons.getIconOnWindow(#window!, "search")
             icon!.addStyle("drawerSearchWidgetIconStyle")
             
             hintText! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"Go to Customer...")
