@@ -47,13 +47,12 @@ class public Icons
         methodret String.format("<html><div class='BBjIconLabel' style='%s'>%s%s</div></html>", #LabelStyle!, icon!, label!)
     methodend
 
-    method public static BBjStaticText getIconOnWindow(BBjChildWindow childWindow!, String icon!)
-        methodret childWindow!.addStaticText(childWindow!.getAvailableControlID(),0,0,0,0, String.format("<html>%s</html>", #build(null(), icon!)) ,$0000$)        
+    method public static BBjStaticText getIconOnWindow(BBjWindow window!, String icon!)
+        methodret #getIconOnWindow(window!, null(), icon!)             
     methodend
 
-
-    method public static BBjStaticText getIconOnWindow(BBjChildWindow childWindow!, String poolName!, String icon!)
-        methodret childWindow!.addStaticText(childWindow!.getAvailableControlID(),0,0,0,0, String.format("<html>%s</html>", #build(poolName!, icon!)) ,$0000$)        
-    methodend
+    method public static BBjStaticText getIconOnWindow(BBjWindow window!, String poolName!, String icon!)
+        methodret window!.addStaticText(window!.getAvailableControlID(),0,0,0,0, #get(poolName!, icon!))        
+     methodend
 
 classend
