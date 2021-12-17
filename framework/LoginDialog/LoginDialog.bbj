@@ -196,7 +196,7 @@ class public LoginDialog
         if #AllowRemember!  then 
             LoginDialogBuilder.addRememberMeBox(wnd!)
         fi
-        LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("login-upper"), I18n.getTranslation("login"))
+        LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("login-upper"), "login")
 
         if #getLoginWithGoogle() OR #getLoginWithMicrosoft() then
             LoginDialogBuilder.addSSOZone(wnd!)
