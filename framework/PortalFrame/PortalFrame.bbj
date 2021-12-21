@@ -116,7 +116,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             logoutIcon$ = "logout"
         fi
         footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out", logoutIcon$)
-
+        footerMenuItem!.setProgram("void")
+        footerMenuItem!.setCallback("onLogout")
         footerMenuItems! = footerMenu!.getChildren(footerMenu!.getRoot())
         it! = footerMenuItems!.iterator()
 
