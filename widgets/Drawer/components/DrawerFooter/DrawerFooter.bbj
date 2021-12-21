@@ -73,8 +73,9 @@ class public DrawerFooter extends BBjWidget
     methodend
     
     method public void onFooterPressed(BBjMouseDownEvent event!)
+        rem escape
         if #overlay! = null() then
-            #overlay!  = #createOverlay()
+            #overlay! = #createOverlay()
             #overlayWidget! = new Overlay(#parent!,#overlay!)
             #overlayWidget!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmiss")
         fi
@@ -100,20 +101,21 @@ class public DrawerFooter extends BBjWidget
 
         declare DrawerMenuTileEntry entry!
         declare BBjChildWindow spacer!
-        templateRows! = ""
+        declare StringBuilder templateRows!
+        templateRows! = new StringBuilder()
         
         for i = 0 to #tiles!.size() -1
             entry! = cast(DrawerMenuTileEntry,#tiles!.get(i))
             tile! = new DrawerMenuTile(contentWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
             tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
-            templateRows! = templateRows! + " 48px" 
+            templateRows!.append(" 48px") 
             if i <> #tiles!.size() -1 then 
-                templateRows! = templateRows! + " 12px"
+                templateRows!.append(" 12px")
                 spacer! = contentWrapper!.addChildWindow(contentWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-                spacer!.setDockStyle("height","12px")
+                spacer!.setStyle("height","12px")
             endif
         next i
-        contentWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+        contentWrapper!.setPanelStyle("grid-template-rows",templateRows!.toString())
         methodret ret!
     methodend
     
