@@ -95,7 +95,7 @@
     line-height: 14px;
     color: #A1A5A7;
     align-self: end;
-    width: 400px
+
 }
 
 .drawerFooterPopUpTextStyle {
@@ -156,4 +156,15 @@
     grid-column-start: 1;
     align-self: center;
     height: 24px;
+}
+
+
+.drawerFooterPanelStyle .drawerFooterWrapperWindowLarge{
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.3em;
+}
+
+.drawerFooterPanelStyle .drawerFooterWrapperWindowLarge .BBjStaticText {
+    width: 100%;
 }

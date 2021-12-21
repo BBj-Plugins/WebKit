@@ -111,10 +111,11 @@ class public PortalFrame
 REM         footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","moon")
 REM         footerMenuItem!.setProgram("void")
 REM         footerMenuItem!.setCallback("onChangeTheme")
-
-        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","log-out")
-        footerMenuItem!.setProgram("void")
-        footerMenuItem!.setCallback("onLogout")
+        logoutIcon$ = "log-out"
+        if STBL("icon-pool") = "tabler" then
+            logoutIcon$ = "logout"
+        fi
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out", logoutIcon$)
 
         footerMenuItems! = footerMenu!.getChildren(footerMenu!.getRoot())
         it! = footerMenuItems!.iterator()
