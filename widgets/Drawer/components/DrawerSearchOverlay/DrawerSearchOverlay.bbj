@@ -234,7 +234,7 @@ class public DrawerSearchOverlay extends BBjWidget
     methodend
     
     method public void onOverlayDissmiss(BBjCustomEvent event!)
-        #searchWnd!.destroy()
+        #searchWnd!.destroy(err=*next)
     methodend   
     
     method public void setTitleFieldname(BBjString field!)

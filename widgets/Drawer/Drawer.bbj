@@ -6,9 +6,7 @@ use ::WebKit/widgets/DashboardContainer/DashboardContainer.bbj::DashboardWidget
 
 use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
 use ::WebKit/widgets/Drawer/components/DrawerFooter/DrawerFooter.bbj::DrawerFooter
-use ::WebKit/widgets/Drawer/components/DrawerSearchWidget/DrawerSearchWidget.bbj::DrawerSearchWidget
 use ::WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.bbj::DrawerMenuTile
-use ::WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.bbj::DrawerSearchOverlay
 
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
@@ -31,10 +29,8 @@ class public Drawer extends BBjWidget
     
     field private BBjChildWindow optionalControl!
     
-    field private DrawerSearchOverlay searchOverlay!
+    field private BBjChildWindow customContainer!
     
-    field private ResultSet demoData!
-
     field private DrawerModel drawerDataModel!
 
     field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
@@ -69,21 +65,19 @@ class public Drawer extends BBjWidget
     method public void redraw(Boolean init!)
         declare DrawerHeader header!
         declare DashboardWidget dashboard!
-        declare DrawerSearchWidget searchWidget!
         declare Divider topDivider!
         declare Divider bottomDivider!
         declare BBjChildWindow tilesWrapper!
         declare DrawerFooter footer!
         declare BBjChildWindow footerWrapper!
         declare BBjString templateRows!
-       rem  "WebKit/demo/assets/prodin_logo.png"
        
        rem 12px drawertile space
        
        templateRows! = "40px"
        
         if init!
-            #createDemoData()
+            
             #open! = 1
             header! = new DrawerHeader(#window!, #drawerDataModel!)
             header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
@@ -91,16 +85,8 @@ class public Drawer extends BBjWidget
 
             header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
             
-REM TODO do something else then commenting it out
-REM             #searchOverlay! = new DrawerSearchOverlay(#window!)
-REM             #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
-REM             #searchOverlay!.setCallback(DrawerSearchOverlay.ON_ENTRY_SELECTED,#this!,"onDrawerSearchEntrySelected")
-REM             #searchOverlay!.setTitleFieldname("TITLE")
-REM             #searchOverlay!.setSubtitleFieldname("SUBTITLE")
-REM             #searchOverlay!.setImagePathFieldname("IMAGE")
-
-REM             #searchOverlay!.setInitialSuggestion(#demoData!)
-REM             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
+            #customContainer! = #window!.addChildWindow(#window!.getAvailableControlID(), 0, 0, 0, 0, "", $00108800$, BBjAPI().getSysGui().getAvailableContext())
+            #renderCustomContainer(#customContainer!)
             
             topDivider! = new Divider(#window!)
             topDivider!.setColor("#DDE0E1")
@@ -147,88 +133,6 @@ REM             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
         methodret #optionalControl!
     methodend
     
-    method private void createDemoData()
-         declare ResultSet rs!
-        declare DataRow dr!
-        
-        rs! = new ResultSet()
-        dr! = new DataRow()
-        
-        dr!.addDataField("TITLE", new DataField("Barone LLC."))
-        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
-        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/baron.png"))
-        
-        rs!.add(dr!)
-     
-        dr! = new DataRow()
-        
-        dr!.addDataField("TITLE", new DataField("Abstergo Ltd."))
-        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
-        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/abstergo.png"))
-         
-        rs!.add(dr!)
-        
-        dr! = new DataRow()
-        
-        dr!.addDataField("TITLE", new DataField("Big Kahuna Burger Ltd."))
-        dr!.addDataField("SUBTITLE", new DataField("Orange"))
-        dr!.addDataField("IMAGE", new DataField(""))
-         
-        rs!.add(dr!)
-        
-        dr! = new DataRow()
-        
-        dr!.addDataField("TITLE", new DataField("Biffco Enterprise Ltd."))
-        dr!.addDataField("SUBTITLE", new DataField("Toledo"))
-        dr!.addDataField("IMAGE", new DataField(""))
-         
-        rs!.add(dr!)
-        
-        dr! = new DataRow()
-        
-        rem TODO test with null()
-        dr!.addDataField("TITLE", new DataField("Binford Ltd."))
-        dr!.addDataField("SUBTITLE", new DataField("Fairfield"))
-        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/binford.png"))
-         
-        rs!.add(dr!)
-        
-        #demoData! = rs!
-    methodend
-    
-    method public void onFetchSearchResults(BBjCustomEvent event!)
-        declare BBjString input!
-        declare ResultSet matchedData!
-        
-        matchedData! = new ResultSet()
-        
-        input! = cast(BBjString,event!.getObject())
-        it! = #demoData!.iterator()
-        
-        while it!.hasNext()
-            
-           declare auto DataRow myDr!
-           declare BBjString field!
-           
-           myDr! = it!.next()
-           field! = str(myDr!.getDataField("TITLE"))
-           
-           if field!.toUpperCase() = input!.toUpperCase() or field!.toUpperCase().contains(input!.toUpperCase()) then 
-                matchedData!.add(myDr!)
-           endif
-        wend 
-        
-        #searchOverlay!.setSuggestions(matchedData!)
-    methodend
-    
-    method public void onDrawerSearchEntrySelected(BBjCustomEvent event!)
-        declare auto DataRow dr!
-        
-        dr! = event!.getObject()
-        
-        a = msgbox(str(dr!.getDataField("TITLE")) + " " + str(dr!.getDataField("SUBTITLE")))
-    methodend
-    
     method public void onShadowTapped(BBjMouseDownEvent event!)
         #shadowWindow!.removeStyle("drawerShadow")
         #closeDrawer(null())
@@ -268,4 +172,15 @@ REM             searchWidget! = new DrawerSearchWidget(#window!,#searchOverlay!)
     method public void onLogout(BBjCustomEvent ev!)
        #fireEvent(#ON_LOGOUT, "") 
     methodend
+    
+    
+    rem /**
+    rem  * renderCustomContainer
+    rem  * override this method if you want to display a custom widget or stuff
+    rem  * over the main menu tiles
+    rem  */
+    method protected void renderCustomContainer( BBjChildWindow customContainer!)
+                
+    methodend
+    
 classend

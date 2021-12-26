@@ -24,9 +24,11 @@
     left: 26px !important;
     top: 300px !important;
     z-index: 99 !important;
+    background-color: white;
+    opacity: 1;
     width: 297px;
     height: 433px;
-    background-color: white;
+    /* background-color: white;*/
     border-radius: 8px;
     box-shadow: var(--bbj-shadow-l);
 }
