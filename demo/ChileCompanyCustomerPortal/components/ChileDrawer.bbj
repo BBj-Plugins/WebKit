@@ -1,0 +1,125 @@
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+
+use ::WebKit/widgets/Drawer/components/DrawerSearchOverlay/DrawerSearchOverlay.bbj::DrawerSearchOverlay
+use ::WebKit/widgets/Drawer/components/DrawerSearchWidget/DrawerSearchWidget.bbj::DrawerSearchWidget
+
+
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
+use com.basiscomponents.db.DataField
+
+
+class public ChileDrawer extends Drawer
+
+    field private DrawerSearchOverlay searchOverlay!
+    
+    field private ResultSet demoData!
+
+    
+    method public ChileDrawer(BBjWindow parent!, DrawerModel dataModel!)
+        #super!(parent!, dataModel!)
+    methodend
+    
+    rem @Override
+    method protected void renderCustomContainer( BBjChildWindow customContainer!)              
+
+            #createDemoData()
+            #searchOverlay! = new DrawerSearchOverlay(customContainer!)
+            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_FETCH_SEARCHRESULTS,#this!,"onFetchSearchResults")
+            #searchOverlay!.setCallback(DrawerSearchOverlay.ON_ENTRY_SELECTED,#this!,"onDrawerSearchEntrySelected")
+            #searchOverlay!.setTitleFieldname("TITLE")
+            #searchOverlay!.setSubtitleFieldname("SUBTITLE")
+            #searchOverlay!.setImagePathFieldname("IMAGE")
+
+            #searchOverlay!.setInitialSuggestion(#demoData!)
+            searchWidget! = new DrawerSearchWidget(customContainer!,#searchOverlay!)
+            
+REM             lb! = customContainer!.addListButton(customContainer!.getAvailableControlID(),1,1,150,250 ,"TEST"+$0a$+"123"+$0a$)
+REM             lb!.setStyle("left","20px")
+
+    methodend
+
+    method private void createDemoData()
+         declare ResultSet rs!
+        declare DataRow dr!
+        
+        rs! = new ResultSet()
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Barone LLC."))
+        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/baron.png"))
+        
+        rs!.add(dr!)
+     
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Abstergo Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Pembroke Pines"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/abstergo.png"))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Big Kahuna Burger Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Orange"))
+        dr!.addDataField("IMAGE", new DataField(""))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        dr!.addDataField("TITLE", new DataField("Biffco Enterprise Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Toledo"))
+        dr!.addDataField("IMAGE", new DataField(""))
+         
+        rs!.add(dr!)
+        
+        dr! = new DataRow()
+        
+        rem TODO test with null()
+        dr!.addDataField("TITLE", new DataField("Binford Ltd."))
+        dr!.addDataField("SUBTITLE", new DataField("Fairfield"))
+        dr!.addDataField("IMAGE", new DataField("/files/prodinRes/binford.png"))
+         
+        rs!.add(dr!)
+        
+        #demoData! = rs!
+    methodend
+    
+    method public void onFetchSearchResults(BBjCustomEvent event!)
+        declare BBjString input!
+        declare ResultSet matchedData!
+        
+        matchedData! = new ResultSet()
+        
+        input! = cast(BBjString,event!.getObject())
+        it! = #demoData!.iterator()
+        
+        while it!.hasNext()
+            
+           declare auto DataRow myDr!
+           declare BBjString field!
+           
+           myDr! = it!.next()
+           field! = str(myDr!.getDataField("TITLE"))
+           
+           if field!.toUpperCase() = input!.toUpperCase() or field!.toUpperCase().contains(input!.toUpperCase()) then 
+                matchedData!.add(myDr!)
+           endif
+        wend 
+        
+        #searchOverlay!.setSuggestions(matchedData!)
+    methodend
+    
+    method public void onDrawerSearchEntrySelected(BBjCustomEvent event!)
+        declare auto DataRow dr!
+        
+        dr! = event!.getObject()
+        
+        a = msgbox(str(dr!.getDataField("TITLE")) + " " + str(dr!.getDataField("SUBTITLE")))
+    methodend
+
+classend

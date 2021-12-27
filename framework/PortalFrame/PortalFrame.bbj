@@ -66,7 +66,7 @@ class public PortalFrame
         methodret #ThisInstance!
     methodend
 
-    method private void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
+    method protected void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
         declare BBjVector menuTiles!
         declare TilesTextHeader header!
 
@@ -143,7 +143,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
-        #Drawer! = new Drawer(#window!, drawerDataModel!)
+        #Drawer! = #createDrawerObject(#window!, drawerDataModel!)
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
@@ -159,6 +159,15 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         header!.setDockStyle("margin-left","40px")
         header!.addTextStyle("drawerTilesTextHeaderStyle")
         header!.setTextStyle("display","block")
+    methodend
+    
+    rem /**
+    rem  * createDrawerObject
+    rem  * override this method if you want to create a custom drawer class 
+    rem  * that extends Drawer 
+    rem  */
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!)
+        methodret new Drawer(window!, drawerDataModel!)
     methodend
     
     method public Boolean doModal()

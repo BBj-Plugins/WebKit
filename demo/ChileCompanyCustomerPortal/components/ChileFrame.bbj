@@ -1,0 +1,16 @@
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/demo/ChileCompanyCustomerPortal/components/ChileDrawer.bbj::ChileDrawer
+
+
+class public ChileFrame extends PortalFrame
+
+
+    rem @Override
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!)
+        cd! = new ChileDrawer(window!, drawerDataModel!)
+        methodret cd! 
+    methodend
+
+classend
