@@ -34,9 +34,7 @@ class public Overlay extends BBjWidget
     methodend
     
     method public void onOverlayDissmiss(BBjMouseDownEvent event!)
-        #overlayWrapper!.destroy()
-        #isOpen! = 0
-        #fireEvent(#ON_OVERLAY_DISSMISSED,"")
+        #closeOverlay()
     methodend
     
     method public Boolean isOpen()
@@ -44,7 +42,11 @@ class public Overlay extends BBjWidget
     methodend
     
     method public void closeOverlay()
-        #overlayWrapper!.destroy()
+        if #isOpen! > 0 then 
+            #isOpen! = 0
+            #fireEvent(#ON_OVERLAY_DISSMISSED,"")
+            #overlayWrapper!.destroy()
+        fi
     methodend
     
     method public void setBackgroundColor(BBjString color!)

@@ -204,7 +204,7 @@ class public ClientUtil
         methodret
         nosg:
         BBjAPI().openSysGui("X0").executeScript("console.log('"+output!+"')")
-    methodend    
+    methodend
 
 classend
 

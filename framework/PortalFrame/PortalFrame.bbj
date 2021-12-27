@@ -7,12 +7,15 @@ use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/util/Icons.bbj::Icons
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
+
+use ::WebKit/i8n/I18n.bbj::I18n
 use java.util.HashMap
 
 class public PortalFrame
@@ -63,7 +66,7 @@ class public PortalFrame
         methodret #ThisInstance!
     methodend
 
-    method private void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
+    method protected void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
         declare BBjVector menuTiles!
         declare TilesTextHeader header!
 
@@ -72,8 +75,8 @@ class public PortalFrame
         drawerDataModel!.setLogoUrl(#LogoUrl!)
         drawerDataModel!.setLogoSmallUrl(#LogoSmallUrl!)
         drawerDataModel!.setTilesTextHeader("Browse")
-        drawerDataModel!.setDrawerOpenIcon("url(/files/prodinRes/drawer_icon_open.png)")
-        drawerDataModel!.setDrawerCloseIcon("url(/files/prodinRes/drawer_icon_close.png)")
+        drawerDataModel!.setOpenIcon(Icons.get("chevron-right"))
+        drawerDataModel!.setCloseIcon(Icons.get("chevron-left"))
         
         drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         
@@ -108,11 +111,13 @@ class public PortalFrame
 REM         footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),498,"Switch Theme","Switch application theme","moon")
 REM         footerMenuItem!.setProgram("void")
 REM         footerMenuItem!.setCallback("onChangeTheme")
-
-        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out","log-out")
+        logoutIcon$ = "log-out"
+        if STBL("icon-pool") = "tabler" then
+            logoutIcon$ = "logout"
+        fi
+        footerMenuItem! = footerMenu!.addMenuItem(footerMenu!.getRoot(),499,"Log Out","Log Out", logoutIcon$)
         footerMenuItem!.setProgram("void")
         footerMenuItem!.setCallback("onLogout")
-
         footerMenuItems! = footerMenu!.getChildren(footerMenu!.getRoot())
         it! = footerMenuItems!.iterator()
 
@@ -138,7 +143,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
-        #Drawer! = new Drawer(#window!, drawerDataModel!)
+        #Drawer! = #createDrawerObject(#window!, drawerDataModel!)
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
@@ -154,6 +159,15 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         header!.setDockStyle("margin-left","40px")
         header!.addTextStyle("drawerTilesTextHeaderStyle")
         header!.setTextStyle("display","block")
+    methodend
+    
+    rem /**
+    rem  * createDrawerObject
+    rem  * override this method if you want to create a custom drawer class 
+    rem  * that extends Drawer 
+    rem  */
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!)
+        methodret new Drawer(window!, drawerDataModel!)
     methodend
     
     method public Boolean doModal()
@@ -284,6 +298,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         
             if #win_list!.containsKey(item!.getNodeId()) then
                 #curr_win!= CAST(BBjWidget,#win_list!.get(item!.getNodeId()))
+                #curr_win!.redraw(0)
                 #curr_win!.setVisible(1)
             else
                 pgm$ = item!.getProgram()
@@ -385,7 +400,28 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
         BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
     methodend
-                  
+    
+    method public void reloadActivePanel()
+        if #curr_win! <> null() then 
+            #curr_win!.redraw(0)
+        endif
+    methodend
+    
+    method public void reloadAllPanels()
+        declare BBjVector keys!
+        
+        if #win_list! = null() then methodret
+        if #win_list!.isEmpty() then methodret
+        
+        keys! = new BBjVector(#win_list!.keySet())
+        
+        for i = 0 to keys!.size() -1 
+            declare auto BBjWidget widget!
+            
+            widget! = #win_list!.get(keys!.get(i))
+            widget!.redraw(0)
+        next i 
+    methodend
     
 classend
 

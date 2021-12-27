@@ -4,11 +4,9 @@ use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.bbj::DrawerMenuTile
 
-use ::WebKit/widgets/Drawer/components/DrawerCloseIcon/DrawerCloseIcon.bbj::DrawerCloseIcon
-
 class public DrawerHeader extends BBjWidget 
     
-    field private BBjChildWindow window!
+    field private BBjWindow window!
 
     field private BBjChildWindow logoContainer!
 
@@ -17,21 +15,21 @@ class public DrawerHeader extends BBjWidget
     field private BBjString logo!
     
     field private BBjString smallLogo!
-
-    field private BBjString closeIcon!
     
     field private DrawerModel drawerDataModel!
     
     field private BBjVector tiles! = new BBjVector()
     
-    field public static BBjNumber ON_DRAWER_CLOSE_ICON_PUSH = DrawerCloseIcon.getON_DRAWER_CLOSE_ICON_PUSH()
+    field public static BBjNumber ON_DRAWER_CLOSE_ICON_PUSH = 144444
+
+    field public static BBjNumber ON_DRAWER_OPEN_ICON_PUSH = 144445
 
     field public static BBjNumber ON_DRAWER_HEADER_TILE_PRESSED = 123456
     
-    method public DrawerHeader(BBjWindow parent!, BBjString logo!, BBjString smallLogo!, BBjString closeIcon!,DrawerModel drawerDataModel!)
+    method public DrawerHeader(BBjWindow parent!, DrawerModel drawerDataModel!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-
+        rem #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #window! = parent!
         #logoContainer! = #window!.addChildWindow(#window!.getAvailableControlID(), 0, 0, 0, 0, "", $00108800$, BBjAPI().getSysGui().getAvailableContext())
         #logoContainer!.addPanelStyle("drawerHeaderPanelStyle")
         #logoContainer!.addPanelStyle("drawerHeaderPanelStyleOpen")
@@ -41,11 +39,10 @@ class public DrawerHeader extends BBjWidget
         #contentWrapper!.addPanelStyle("drawerFooterOverlayContentWrapper")
         #contentWrapper!.addStyle("headerMenuContentWrapper")
 
-        #setCanvas(#window!)
-        #logo!= logo!
-        #smallLogo! = smallLogo!
-        #closeIcon! = closeIcon!
+        rem #setCanvas(#window!)
         #drawerDataModel! = drawerDataModel!
+        #logo!= #drawerDataModel!.getLogoUrl()
+        #smallLogo! = #drawerDataModel!.getLogoSmallUrl()
         #tiles! = #drawerDataModel!.getHeaderMenuTiles()
         #redraw(1)
     methodend
@@ -53,7 +50,8 @@ class public DrawerHeader extends BBjWidget
     method public void redraw(Boolean init!)
         declare BBjImageCtrl logo!
         declare BBjImageCtrl smallLogo!
-        declare DrawerCloseIcon iconBtn!
+        declare BBjButton closeIconButton!
+        declare BBjButton openIconButton!
         if init!
             REM TODO
             logo! = #logoContainer!.addImageCtrl(#logoContainer!.getAvailableControlID(),0,0,0,0,#logo!)
@@ -66,8 +64,19 @@ class public DrawerHeader extends BBjWidget
             smallLogo!.addStyle("drawerHeaderLogoSmallClosed")
             smallLogo!.addStyle("drawerHeaderLogoSmallOpen")
             
-            iconBtn! = new DrawerCloseIcon(#logoContainer!, #closeIcon!)
-            iconBtn!.setCallback(DrawerCloseIcon.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"onDrawerIconPush")
+            rem iconBtn! = new DrawerCloseIcon(#logoContainer!, #closeIcon!)
+
+            openIconButton! = #logoContainer!.addButton(#logoContainer!.getAvailableControlID(), 0,0,0,0, #drawerDataModel!.getOpenIcon())
+            openIconButton!.setAttribute("theme", "")
+            openIconButton!.addStyle("drawerOpenIcon")
+            openIconButton!.addStyle("drawerRoundButton")
+            openIconButton!.setCallback(BBjAPI.ON_BUTTON_PUSH, #this!,"onCloseIconPush")
+
+            closeIconButton! = #logoContainer!.addButton(#logoContainer!.getAvailableControlID(), 0,0,0,0, #drawerDataModel!.getCloseIcon())
+            closeIconButton!.setAttribute("theme", "")
+            closeIconButton!.addStyle("drawerRoundButton")
+            closeIconButton!.addStyle("drawerCloseIcon")
+            closeIconButton!.setCallback(BBjAPI.ON_BUTTON_PUSH, #this!,"onOpenIconPush")
 
             declare DrawerMenuTileEntry entry!
             declare BBjChildWindow spacer!
@@ -90,8 +99,12 @@ class public DrawerHeader extends BBjWidget
         endif    
     methodend
     
-    method public void onDrawerIconPush(BBjCustomEvent event!)
-        #fireEvent(#ON_DRAWER_CLOSE_ICON_PUSH,"")
+    method public void onOpenIconPush(BBjButtonPushEvent event!)
+        #fireEvent(#ON_DRAWER_CLOSE_ICON_PUSH, null())
+    methodend
+
+    method public void onCloseIconPush(BBjButtonPushEvent event!)
+        #fireEvent(#ON_DRAWER_OPEN_ICON_PUSH, null())
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
