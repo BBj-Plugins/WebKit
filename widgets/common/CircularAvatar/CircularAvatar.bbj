@@ -3,11 +3,9 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
 use ::WebKit/widgets/WebComponents/AvatarIcon/AvatarIcon.bbj::AvatarIcon
-use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 class public CircularAvatar extends BBjWidget
 
     field private BBjChildWindow window!
-    field public AccountProfile Profile!
     field private BBjString imagePath!
     
     method public CircularAvatar(BBjWindow parent!, BBjString radius!, BBjString imagePath!)
@@ -27,17 +25,17 @@ class public CircularAvatar extends BBjWidget
 
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
 
-        rem if imagePath! = "" THEN
+        if imagePath! = "" THEN
             webComponents! = new AvatarIcon()
             webComponents!.drawAvatarIcon(#window!, radius!, radius!, title! )
-        rem else
-        rem     #window!.addPanelStyle("circularAvatarPanelStyle")
-        rem     #window!.setPanelStyle("width", radius!)
-        rem     #window!.setPanelStyle("height", radius!)
-        rem     #imagePath! = imagePath!
-        rem     #setCanvas(#window!)
-        rem     #redraw(1)
-        rem fi
+        else
+            #window!.addPanelStyle("circularAvatarPanelStyle")
+            #window!.setPanelStyle("width", radius!)
+            #window!.setPanelStyle("height", radius!)
+            #imagePath! = imagePath!
+            #setCanvas(#window!)
+            #redraw(1)
+        fi
 
     methodend
 
