@@ -17,19 +17,5 @@ class public WebComponents
 
         #script$ = #script$ + "document.head.appendChild(script)"
     methodend
-
-    method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjInt height%, BBjInt width%, BBjString name$)
-        htmlView! = wnd!.addHtmlView(101,0,0,300,300,"<avatar-initial height="""+str(height%)+""" width="""+str(width%)+""" name="""+name$+"""></avatar-initial>")
-        htmlView!.setStyle("border","none")
-        htmlView!.executeScript(#script$)
-        methodret htmlView!
-    methodend 
-
-    method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjString height$, BBjString width$, BBjString name$)
-        htmlView! = wnd!.addHtmlView(101,0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
-        htmlView!.setStyle("border","none")
-        htmlView!.executeScript(#script$)
-        methodret htmlView!
-    methodend 
         
 classend

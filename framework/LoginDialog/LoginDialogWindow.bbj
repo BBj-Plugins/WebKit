@@ -2,7 +2,6 @@ use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/InputField/extensions/PasswordField.bbj::PasswordField
 use ::WebKit/widgets/InputField/extensions/TextField.bbj::TextField
-use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
