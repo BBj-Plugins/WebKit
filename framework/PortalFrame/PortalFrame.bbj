@@ -401,6 +401,28 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
     methodend
     
+    method public void reloadActivePanel()
+        if #curr_win! <> null() then 
+            #curr_win!.redraw(0)
+        endif
+    methodend
+    
+    method public void reloadAllPanels()
+        declare BBjVector keys!
+        
+        if #win_list! = null() then methodret
+        if #win_list!.isEmpty() then methodret
+        
+        keys! = new BBjVector(#win_list!.keySet())
+        
+        for i = 0 to keys!.size() -1 
+            declare auto BBjWidget widget!
+            
+            widget! = #win_list!.get(keys!.get(i))
+            widget!.redraw(0)
+        next i 
+    methodend
+    
 classend
 
 
