@@ -1,0 +1,22 @@
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::Webkit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
+
+class public ShowCaseFrame extends PortalFrame
+
+
+    rem @Override 
+    method protected void renderCustomMenuPanel(BBjChildWindow panelWindow!,MenuItem item!)
+        declare MenuPanel menuPanel!
+        if (menuPanel! = null()) then
+            menuPanel! = new MenuPanel(panelWindow!)
+        fi
+        menuPanel!.setMenu(#Menu!)
+        menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+        menuPanel!.setParentNode(item!.getNodeId())
+        menuPanel!.setVisible(1)
+        #curr_win! = cast(MenuPanel, menuPanel!)
+    methodend
+
+classend

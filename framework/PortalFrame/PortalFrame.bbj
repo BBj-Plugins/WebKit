@@ -37,15 +37,13 @@ class public PortalFrame
     
     field private Boolean drawerOpen! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
-    field private BBjWidget curr_win! 
+    field public BBjWidget curr_win! 
    
 
     field private BBjPopupMenu AccountMenu!
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
-    
-    field private Boolean showsTreePanel! = Boolean.TRUE
     
     field private static PortalFrame ThisInstance!
 
@@ -289,32 +287,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
                 
         if item!.hasChildren() then
-            if #showsTreePanel! then
-                declare TreeListPanel menuPanel!
-                if (menuPanel! = null()) then
-                    menuPanel! = new TreeListPanel(#Main!)
-                    rem Test Colors
-                    colors! = new BBjVector()
-                    colors!.add("#408458")
-                    colors!.add("#9B0058")
-                    colors!.add("#6883BA")
-                    menuPanel!.setColors(colors!)
-                fi
-            else
-                declare MenuPanel menuPanel!
-                if (menuPanel! = null()) then
-                    menuPanel! = new MenuPanel(#Main!)
-                fi
-            endif
-            menuPanel!.setMenu(#Menu!)
-            menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
-            menuPanel!.setParentNode(item!.getNodeId())
-            menuPanel!.setVisible(1)
-            if #showsTreePanel! then
-                #curr_win! = cast(TreeListPanel, menuPanel!)
-            else 
-                #curr_win! = cast(MenuPanel, menuPanel!)
-            endif
+            #renderCustomMenuPanel(#Main!,item!)
         else
         
             if #win_list!.containsKey(item!.getNodeId()) then
@@ -377,10 +350,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
          
     methodend
-    
-    method public void showTreePanel(Boolean show!)
-        #showsTreePanel! = show!
-    methodend
 
     method public void onDrawerToggle(BBjCustomEvent ev!)
        state = num(str(ev!.getObject()))
@@ -411,6 +380,32 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         BBjAPI().postCustomEvent("logout", "")
         methodret
     methodend
+    REM /**
+    REM  * panelWindow! contains the main window of the portalframe.
+    REM  * 
+    REM  * item! contains the currently selected item in form of a MenuItem.
+    REM  * 
+    REM  * If standard portalframe function is wished to be used, onMenuItemClick is the 
+    REM  * callback to used to jump to the clicked item.
+    REM  * 
+    REM  * it is necessary to update #curr_win! with the new window.
+    REM  */
+    method protected void renderCustomMenuPanel(BBjChildWindow panelWindow!,MenuItem item!)
+        if (menuPanel! = null()) then
+            menuPanel! = new TreeListPanel(panelWindow!)
+            rem Test Colors
+            colors! = new BBjVector()
+            colors!.add("#408458")
+            colors!.add("#9B0058")
+            colors!.add("#6883BA")
+            menuPanel!.setColors(colors!)
+        fi
+        menuPanel!.setMenu(#Menu!)
+        menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+        menuPanel!.setParentNode(item!.getNodeId())
+        menuPanel!.setVisible(1)
+        #curr_win! = cast(TreeListPanel, menuPanel!)
+    methodend
     
    
     method public void onChangeTheme()
@@ -425,6 +420,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
         BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
     methodend
+    
+    
     
 classend
 
