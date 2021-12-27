@@ -141,6 +141,8 @@ class public Drawer extends BBjWidget
     
     method public void closeDrawer(BBjCustomEvent event!)
         #window!.addStyle("drawerClosed")
+        rem #window!.addStyle("appBar")
+
         #window!.removeStyle("drawerOpen")
         #shadowWindow!.removeStyle("drawerShadow")
         #open! = !#open!

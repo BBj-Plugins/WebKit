@@ -11,6 +11,8 @@ use ::WebKit/util/Icons.bbj::Icons
 use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
 
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
+
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
@@ -182,8 +184,12 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             main!.addStyle("mainarea")
+            
             #Main! = cast(BBjChildWindow,main!)
             #Main!.addStyle("shrinked")
+
+            appbar! = new Appbar(main!)
+
              
             #initializeDrawer(#Menu!, #FooterMenu!, #HeaderMenu!)
            

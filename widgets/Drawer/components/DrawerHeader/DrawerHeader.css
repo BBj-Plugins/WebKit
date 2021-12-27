@@ -47,6 +47,7 @@
 }
 
 .drawerCloseIcon {
+    background: blue;
     align-self: center;
     justify-self: right;
 }
