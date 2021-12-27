@@ -1,9 +1,9 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
-use ::WebKit/model/Icon.bbj::Icon
+use ::WebKit/util/Icons.bbj::Icons
 
-class public ListTile extends BBjWidget implements Icon
+class public ListTile extends BBjWidget
 
     field private BBjStaticText textField!
     field private BBjStaticText letterField!
@@ -75,7 +75,8 @@ class public ListTile extends BBjWidget implements Icon
     methodend
     
     method public void createLabel()
-        #arrowIcon! = #setIcon(#btn!,"play")
+    
+        #arrowIcon! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,Icons.get("play")) 
         #arrowIcon!.setStyle("align-self","center") 
         #arrowIcon!.addStyle("arrowIcon")   
         #arrowIcon!.setVisible(0)
@@ -90,14 +91,14 @@ class public ListTile extends BBjWidget implements Icon
     
     method public void createFavoritesIcon()
         #starWrapper! = #iconWrapper!.addChildWindow(#iconWrapper!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        #starIcon! = #setIcon(#starWrapper!,"star")
+        #starIcon! = #starWrapper!.addStaticText(#starWrapper!.getAvailableControlID(),0,0,200,22,Icons.get("star"))
         #starWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onFavoriteClick")
         #starWrapper!.addStyle("trailingIcon")
     methodend
     
     method public void createMenuIcon()
         #dotWrapper! = #iconWrapper!.addChildWindow(#iconWrapper!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        #dotIcon! = #setIcon(#dotWrapper!,"more-vertical")
+        #dotIcon! = #dotWrapper!.addStaticText(#dotWrapper!.getAvailableControlID(),0,0,200,22,Icons.get("more-vertical")) 
         #dotWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDotsClick")
         #dotWrapper!.addStyle("trailingIcon")
         #dotWrapper!.addPopupMenu()

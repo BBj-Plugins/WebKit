@@ -16,7 +16,7 @@ ClientUtil.consoleLog(bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/Arr
 ClientUtil.consoleLog(bbjutils!.copyFileToWebServer("WebKit/widgets/ListTile/ArrowRight.png","WebKit"))
 
 REM iconPool$ = STBL("icon-pool", "fa")
-REM iconPool$ = STBL("icon-pool", "feather")
+iconPool$ = STBL("icon-pool", "feather")
 
 declare Menu menu!
 declare MenuItem menuItem!
