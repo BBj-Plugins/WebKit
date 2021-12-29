@@ -7,18 +7,16 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use java.util.HashMap
 
-
 class public TreeListPanel extends BBjWidget
 
     field public  Menu Menu!
-    field private BBjNumber parentNodeID
-    field private HashMap MenuItemTiles! = new HashMap()
+    field public BBjNumber parentNodeID
+    field public HashMap MenuItemTiles! = new HashMap()
 
-    field private BBjStaticText Headline!
-    field private BBjChildWindow MenuTilesBox!
-    field private BBjVector colors! = new BBjVector()
+    field public BBjStaticText Headline!
+    field public BBjChildWindow MenuTilesBox!
+    field public BBjVector colors! = new BBjVector()
     
-
     method public TreeListPanel(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/framework/TreeListPanel/TreeListPanel.css")
       
@@ -28,10 +26,18 @@ class public TreeListPanel extends BBjWidget
         wnd!.addPanelStyle("menupanel")
         #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
         #Headline!.addStyle("tilesheadline")
+        #createAdditionalTopPanel()
         #MenuTilesBox! = #getCanvas().addChildWindow(wnd!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #MenuTilesBox!.addStyle("menuTilesBox")
         #colors!.add("#FFFFFF")
+        
+        
     methodend
+    
+    method public void createAdditionalTopPanel()
+    
+    methodend
+     
     
     method private void cleanup()
         if #MenuItemTiles!.size()>0 then
@@ -53,7 +59,6 @@ class public TreeListPanel extends BBjWidget
         #buildChildren(nodeId,0)
     methodend
     
-    
     method public void buildChildren(BBjNumber nodeId,BBjNumber i)
         declare MenuItem node!
         declare MenuItem item!
@@ -71,12 +76,10 @@ class public TreeListPanel extends BBjWidget
             tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
             
-            rem Mock menu to show on tile
-REM             declare BBjPopupMenu popup!
-REM             popup! = BBjAPI().getSysGui().createPopupMenu(1, 11)
-REM             myItem1! = popup!.addMenuItem(-201,"Item 1")
-REM             myItem2! = popup!.addMenuItem(-202,"Item 2")
-REM             tile!.setPopupMenu(popup!)
+            if item!.getIcon() <> "" AND item!.getIcon() <> null() then
+            
+                tile!.setIcon(item!.getIcon())
+            endif
             
             #MenuItemTiles!.put(item!.getNodeId(),tile!)
             #buildChildren(id%,i+1)
@@ -85,13 +88,9 @@ REM             tile!.setPopupMenu(popup!)
             endif
             if item!.hasChildren() then
                tile!.setHeader()
-            endif
-            
-        wend
-        
-            
-    methodend
-    
+            endif          
+        wend      
+    methodend   
     rem todo Add function to save favorites
     method public void setFavorite(BBjCustomEvent event!)
         
@@ -101,16 +100,6 @@ REM             tile!.setPopupMenu(popup!)
         #colors! = colors!
     methodend
 
-REM     method public void onMenuItemClick(BBjCustomEvent ev!)
-REM         
-REM         nodeId=num(str(ev!.getObject()))
-REM         item!=#Menu!.getItem(nodeId)
-REM         if item!.hasChildren() then
-REM             #setParentNode(nodeId)
-REM         else
-REM             #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getObject())
-REM         fi
-REM     methodend 
     method public void onMenuItemClick(BBjCustomEvent ev!)
         declare auto MenuItem node!
         declare auto MenuItem item!

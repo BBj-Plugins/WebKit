@@ -286,8 +286,17 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             #curr_win!=null()
         fi
                 
-        if item!.hasChildren() then
-            #renderCustomMenuPanel(#Main!,item!)
+        if item!.hasChildren() then 
+            declare TreeListPanel menuPanel!
+            if (menuPanel! = null()) then
+                menuPanel! = #createMenuPanelObject(#Main!)
+            fi
+            menuPanel!.setMenu(#Menu!)
+            menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+            menuPanel!.setParentNode(item!.getNodeId())
+            menuPanel!.setVisible(1)
+            #curr_win! = cast(TreeListPanel, menuPanel!)
+            
         else
         
             if #win_list!.containsKey(item!.getNodeId()) then
@@ -390,22 +399,19 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     REM  * 
     REM  * it is necessary to update #curr_win! with the new window.
     REM  */
-    method protected void renderCustomMenuPanel(BBjChildWindow panelWindow!,MenuItem item!)
-        if (menuPanel! = null()) then
-            menuPanel! = new TreeListPanel(panelWindow!)
-            rem Test Colors
-            colors! = new BBjVector()
-            colors!.add("#408458")
-            colors!.add("#9B0058")
-            colors!.add("#6883BA")
-            menuPanel!.setColors(colors!)
-        fi
-        menuPanel!.setMenu(#Menu!)
-        menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
-        menuPanel!.setParentNode(item!.getNodeId())
-        menuPanel!.setVisible(1)
-        #curr_win! = cast(TreeListPanel, menuPanel!)
+    
+    
+    method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
+        menuPanel! = new TreeListPanel(panelWindow!)
+        rem Test Colors
+        colors! = new BBjVector()
+        colors!.add("#408458")
+        colors!.add("#9B0058")
+        colors!.add("#6883BA")
+        menuPanel!.setColors(colors!)
+        methodret menuPanel!
     methodend
+    
     
    
     method public void onChangeTheme()

@@ -67,6 +67,27 @@ i! = m!.addMenuItem(m!.getRoot(),103,"Salesperson","Salesperson - Dashboard","us
 i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.bbj::ChileCompanySalespersonDashboard")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
 
+treeMenuShowCase! = m!.addMenuItem(m!.getRoot(),104,"Sales - Options","Sales - Options","list")
+treeMenuShowCase!.setStartType(2)
+
+treeMenuShowCaseItem! = m!.addMenuItem(treeMenuShowCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
+treeMenuShowCaseItem!.setStartType(2)
+
+treeMenuShowCaseSubItem! = m!.addMenuItem(treeMenuShowCaseItem!,202,"Personal - Sale","Personal - Sale","table")
+treeMenuShowCaseSubItem!.setStartType(2)
+        
+treeMenuShowCaseSubItem! = m!.addMenuItem(treeMenuShowCaseItem!,203,"Electronic - Sale","Electronic - Sale","table")
+treeMenuShowCaseSubItem!.setStartType(2)
+
+treeMenuShowCaseItem! = m!.addMenuItem(treeMenuShowCase!,204,"Reseller Options","Reseller Options","table")
+treeMenuShowCaseItem!.setStartType(2)
+
+treeMenuShowCaseSubItem! = m!.addMenuItem(treeMenuShowCaseItem!,205,"Fast Reseller","Fast Reseller","")
+treeMenuShowCaseSubItem!.setStartType(2)
+        
+treeMenuShowCaseSubItem! = m!.addMenuItem(treeMenuShowCaseItem!,206,"Reliable Reseller","Reliable Reseller","")
+treeMenuShowCaseSubItem!.setStartType(2)
+
 
 declare Menu headerMenu!
 declare MenuItem headerMenuItem!

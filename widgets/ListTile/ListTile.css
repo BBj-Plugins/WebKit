@@ -28,6 +28,16 @@
     color: white;
 }
 
+.menutile .iconField {
+    width: 30px;
+    height: 30px;
+}
+
+.menutile .letterWrapper {
+    width: 30px;
+    height: 30px;
+}
+
 .menutile .tilelabel {
     font-family: Lato;
     font-style: normal;
@@ -84,7 +94,6 @@
     align-items: center;
     width: 40px;
     height: 30px;
-
     background: rgba(49, 59, 84, 0.08);
     border-radius: 8px;
     margin-right: 5px;
@@ -94,7 +103,6 @@
     margin-left: auto;
     display: none;
     flex-direction: row;
-
 }
 
 .child {

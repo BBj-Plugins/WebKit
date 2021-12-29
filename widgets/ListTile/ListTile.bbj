@@ -11,6 +11,7 @@ class public ListTile extends BBjWidget
     field private BBjStaticText starIcon!  
     field private BBjStaticText dotIcon!
     field private BBjStaticText trailingIcon!
+    field private BBjImageCtrl  iconField!
     
     field private BBjString text!
     field private BBjString letter!
@@ -22,6 +23,7 @@ class public ListTile extends BBjWidget
     field private BBjChildWindow iconWrapper!
     field private BBjChildWindow starWrapper!
     field private BBjChildWindow dotWrapper!
+    field private BBjChildWindow letterWrapper!
     
     field private BBjString arrowDown! = "http://localhost:8888/files/WebKit/ArrowDown.png"
     field private BBjString arrowRight! = "http://localhost:8888/files/WebKit/ArrowRight.png"
@@ -80,11 +82,15 @@ class public ListTile extends BBjWidget
         #arrowIcon!.setStyle("align-self","center") 
         #arrowIcon!.addStyle("arrowIcon")   
         #arrowIcon!.setVisible(0)
-            
+        
+REM         #letterWrapper! = #btn!.addChildWindow(#btn!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+REM         #letterWrapper!.addStyle("letterWrapper")
         #letterField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
         #letterField!.addStyle("letterField")
         #letterField!.setStyle("text-align","center")
-            
+        
+        
+        
         #textField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
         #textField!.addStyle("tilelabel")
     methodend
@@ -135,6 +141,15 @@ class public ListTile extends BBjWidget
         #textField!.setText(#text!)
         #letter!=text!.substring(0,1)
         #letterField!.setText(#letter!)
+        
+    methodend
+    
+    
+    method public void setIcon(String icon!)
+        #letterField!.setText(Icons.get("tabler",icon!))
+        #letterField!.setStyle("color","black")
+        #letterField!.setStyle("background","white")
+        
     methodend
     
 REM     method public void mouseEnter(BBjMouseEnterEvent ev!)
