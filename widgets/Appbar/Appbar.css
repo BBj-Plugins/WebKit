@@ -1,7 +1,21 @@
 
 .appbarStyle {
-    position: fixed;
-    background: green;
-    height: 70px !important;
+    position: relative;
+    left: 0px;
+    z-index: 99999 !important;
+    background-color: white;
+    height: 40px !important;
+    width: 100% !important;
 }
 
+
+.menu {
+    height: 30px;
+    width: 30px;
+    margin-top: 5px;
+    margin-left: 40px;
+}
+
+.hydrated {
+    color: var(--bbj-color-black);
+}

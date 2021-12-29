@@ -157,7 +157,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         header!.setDockStyle("grid-row-start","1")
         header!.setDockStyle("height", "30px")
         header!.setDockStyle("margin-bottom","8px")
-        header!.setDockStyle("margin-top","24px")
+        rem header!.setDockStyle("margin-top","24px")
         header!.setDockStyle("margin-left","40px")
         header!.addTextStyle("drawerTilesTextHeaderStyle")
         header!.setTextStyle("display","block")
@@ -183,12 +183,13 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            appbar! = new Appbar(main!)
+
             main!.addStyle("mainarea")
             
             #Main! = cast(BBjChildWindow,main!)
             #Main!.addStyle("shrinked")
 
-            appbar! = new Appbar(main!)
 
              
             #initializeDrawer(#Menu!, #FooterMenu!, #HeaderMenu!)

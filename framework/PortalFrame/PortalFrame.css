@@ -6,9 +6,8 @@
 }
 
 .mainarea{
-	position:absolute;
-    /* background: #F1F1F1; */
-    background: #c51616;
+	position:fixed;
+    background: #F1F1F1;
     height: 100vh;
 }
 
