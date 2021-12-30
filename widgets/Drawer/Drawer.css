@@ -109,9 +109,19 @@
       display: block !important;
         }
         
-	.drawerClosed.drawerStyle{
+	.drawerOpen.drawerStyle{
 	    width: 0px;
-	}          
+	}   
+    .drawerPanelStyle{
+        /* width: var(--drawer-closed-width) !important; */
+    }
+    /* .drawerOpen div.drawerFooterPanelStyle {
+        grid-template-columns: 1fr !important;
+        justify-content: center;
+        width: 100%;
+        justify-items: center;
+    } */
+
 }
 
 .drawerTilesTextHeaderStyle{
@@ -150,3 +160,7 @@
     width: inherit
 }
 
+
+.drawerHide {
+    display: none;
+}

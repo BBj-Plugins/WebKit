@@ -1,13 +1,7 @@
 
 .appbarStyle {
-    position: relative;
-    left: 0px;
-    z-index: 99999 !important;
-    background-color: white;
-    height: 40px !important;
-    width: 100% !important;
+    display: none;
 }
-
 
 .menu {
     height: 30px;
@@ -16,6 +10,25 @@
     margin-left: 40px;
 }
 
-.hydrated {
-    color: var(--bbj-color-black);
+@media screen and (max-width: 425px) {
+    .appbarStyle {
+        background-color: white;
+        position: relative;
+        left: 0px;
+        z-index: 99999 !important;
+        height: 40px !important;
+        width: 100% !important;
+        display: block;
+    } 
+
+    .menu {
+        height: 30px;
+        width: 30px;
+        margin-top: 5px;
+        margin-left: 40px;
+    }
+    
+    .hydrated {
+        color: var(--bbj-color-black);
+    }
 }

@@ -15,8 +15,12 @@
 .drawerClosed .drawerHeaderPanelStyle {
     gap: 0;
     grid-template-columns: 1fr;
-    display: none;
+}
 
+@media screen and (max-width: 425px) {
+    .drawerClosed .drawerHeaderPanelStyle {
+        display: none; 
+    }       
 }
 
 .drawerHeaderPanelStyle {
