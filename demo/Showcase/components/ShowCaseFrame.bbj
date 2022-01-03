@@ -1,22 +1,26 @@
 use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
-use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
-use ::Webkit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/demo/Showcase/components/ShowCaseMenuPanel.bbj::ShowCaseMenuPanel
+use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry
 
 class public ShowCaseFrame extends PortalFrame
 
-
     rem @Override 
-    method protected void renderCustomMenuPanel(BBjChildWindow panelWindow!,MenuItem item!)
-        declare MenuPanel menuPanel!
-        if (menuPanel! = null()) then
-            menuPanel! = new MenuPanel(panelWindow!)
-        fi
-        menuPanel!.setMenu(#Menu!)
-        menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
-        menuPanel!.setParentNode(item!.getNodeId())
-        menuPanel!.setVisible(1)
-        #curr_win! = cast(MenuPanel, menuPanel!)
+    method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
+    menuPanel! = new ShowCaseMenuPanel(panelWindow!)
+    rem Test Colors
+    colors! = new BBjVector()
+    colors!.add("#408458")
+    colors!.add("#9B0058")
+    colors!.add("#6883BA")
+    menuPanel!.setColors(colors!)
+    data! = new BBjVector()
+    data!.add(new DashboardHeaderEntry(0,2,"Deals Scored"))
+    data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
+    data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
+    menuPanel!.setHeadLineEntrys(data!)
+    methodret menuPanel!
+    
     methodend
 
 classend

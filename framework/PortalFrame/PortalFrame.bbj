@@ -295,6 +295,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             menuPanel!.setParentNode(item!.getNodeId())
             menuPanel!.setVisible(1)
+            
             #curr_win! = cast(TreeListPanel, menuPanel!)
             
         else
@@ -348,8 +349,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     
     method public void onAvatarAreaClick(BBjEvent ev!)
         #AccountMenu!.show(#Avatar!,5,50)
-    methodend
-    
+    methodend   
   
     method public void onEmbedPanelClose(BBjCustomEvent ev!)
         item! = ev!.getObject()
@@ -409,7 +409,14 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         colors!.add("#9B0058")
         colors!.add("#6883BA")
         menuPanel!.setColors(colors!)
+        menuPanel!.setCallBack(TreeListPanel.ON_FAVORITE_SELECTED,#this!,"addFavorite")
         methodret menuPanel!
+    methodend
+    
+    
+    method public void addFavorite(BBjCustomEvent event!)
+        newFavorite! = #Menu!.getItem(event!.getObject())
+        #Menu!.addMenuItem(#Menu!.getItem("Favorites"),newFavorite!.getCaption(),newFavorite!.getTooltip(),newFavorite!.getIcon())
     methodend
     
     

@@ -1,10 +1,9 @@
 .dashboardTasksPanelStyle {
-    height: 100%;
-    width: 100%;
-    min-height: 200px;
-    background-color:var(--bbj-color-white, #FFF);
+    height: fit-content;
+    width: fit-content;
+    background-color: var(--bbj-color-white, #FFF);
     border-radius: 8px;
-} 
+}
 
 .pushDownWidgetContent {
     margin-top: 4rem;
@@ -16,6 +15,7 @@
 
 
 /*  REDIRECT LINK */
+
 .dashboardTasksLink {
     padding: 1.5rem;
     color: var(--bbj-link-color, #6883BA);
@@ -30,6 +30,7 @@
 
 
 /* TASKCARDS */
+
 .dashboardTasksCardPanelStyle {
     display: flex;
     justify-content: space-around;
@@ -50,11 +51,13 @@
     color: var(--bbj-color-primary);
 }
 
+
 /* TASKCARD CHECKBOX */
+
 .dashboardTaskCardCheckBoxInputWrapper::part(input-wrapper) {
     width: 22px;
     height: 22px;
-    border:solid 1px var(--bbj-border-color, #E1EAEA);
+    border: solid 1px var(--bbj-border-color, #E1EAEA);
     border-radius: 4px;
 }
 
@@ -64,9 +67,11 @@
 
 .dashboardTaskCardCheckBoxIcon::part(checked-icon) {
     background-color: var(--bbj-color-info);
-} 
+}
+
 
 /* TASKCARD FONTS */
+
 .dashboardTaskCardTitleFont {
     color: var(--bbj-font-dark, #333E40);
     font-size: var(--bbj-font-size-s);

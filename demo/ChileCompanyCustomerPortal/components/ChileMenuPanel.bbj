@@ -1,5 +1,6 @@
 use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 use ::WebKit/util/Icons.bbj::Icons
+use ::WebKit/widgets/MetricsCard/MetricsCard.bbj::MetricsCard
 
 class public ChileMenuPanel extends TreeListPanel
     
@@ -16,50 +17,24 @@ class public ChileMenuPanel extends TreeListPanel
         chiliPanel!.setStyle("display","flex")
         chiliPanel!.setStyle("align-items","center")
         
-        #addMeticsCard(chiliPanel!,"3","Data Metric A","thumbs-up")
-        #addMeticsCard(chiliPanel!,"44","Data Metric B","alert-triangle")
-        #addMeticsCard(chiliPanel!,"5","Data Metric C","")
-        declare BBjImageCtrl chiliImage!
-        chiliImage! = chiliPanel!.addImageCtrl(chiliPanel!.getAvailableControlID(),0,0,0,0,"WebKit/demo/assets/chile-3.jpeg")
-        chiliImage!.setStyle("margin-top","20px")
+        metricA! = new MetricsCard(chiliPanel!)
+        metricA!.setCount("3")
+        metricA!.setTitle("Data Metric A")
+        metricA!.setIcon("thumbs-up")
+        metricB! = new MetricsCard(chiliPanel!)
+        metricB!.setCount("44")
+        metricB!.setTitle("Data Metric B")
+        metricB!.setIcon("alert-triangle")
+        metricC! = new MetricsCard(chiliPanel!)
+        metricC!.setCount("5")
+        metricC!.setTitle("Data Metric C")
+       
+        
+
     methodend
     
     method public void createAdditionalBotPanel()
     
-    methodend
-    
-    method public BBjChildWindow addMeticsCard(BBjWindow parent!, String value!,String title!,String icon!)
-        declare BBjChildWindow metricsCard!
-        metricsCard! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        metricsCard!.setStyle("background","#FFFFFF")
-        metricsCard!.setStyle("border","1px solid #E1EAEA")
-        metricsCard!.setStyle("box-sizing","border-box")
-        metricsCard!.setStyle("border-radius","8px")
-        metricsCard!.setStyle("height","100px")
-        metricsCard!.setStyle("width","200px")
-        metricsCard!.setStyle("display","flex")
-        metricsCard!.setStyle("justify-content","space-around")
-        metricsCard!.setStyle("align-items","center")
-        metricsCard!.setStyle("margin-right","20px")
-        metricsCard!.setStyle("margin-top","20px")
-        
-        declare BBjStaticText count!
-        declare BBjStaticText title!
-        declare BBjStaticText icon!
-        
-        count! = metricsCard!.addStaticText(metricsCard!.getAvailableControlID(),0,0,60,60,value!.toString())
-        count!.setStyle("font-size","48px")
-        count!.setStyle("line-height","58px")
-        count!.setStyle("grid-column","1")
-        
-        title! = metricsCard!.addStaticText(metricsCard!.getAvailableControlID(),0,0,40,90,title!)
-        title!.setStyle("font-size","16px")
-        title!.setStyle("line-height","19px")
-        title!.setStyle("grid-column","2")
-        
-        icon! = metricsCard!.addStaticText(metricsCard!.getAvailableControlID(),0,0,32,32,Icons.get(icon!))
-        icon!.setStyle("grid-column","3")
-        methodret metricsCard!
     methodend
       
 classend

@@ -9,29 +9,36 @@ use java.util.HashMap
 
 class public TreeListPanel extends BBjWidget
 
-    field public  Menu Menu!
+    field public Menu Menu!
     field public BBjNumber parentNodeID
     field public HashMap MenuItemTiles! = new HashMap()
 
     field public BBjStaticText Headline!
     field public BBjChildWindow MenuTilesBox!
     field public BBjVector colors! = new BBjVector()
+    field public String gridRowCss! = ""
+    
+    field public static BBjNumber ON_FAVORITE_SELECTED = 600
     
     method public TreeListPanel(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/framework/TreeListPanel/TreeListPanel.css")
       
         #super!.create(wnd!,wnd!.getAvailableControlID())
         #setVisible(0)
-        wnd! = #getCanvas()
-        wnd!.addPanelStyle("menupanel")
-        #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
-        #Headline!.addStyle("tilesheadline")
+        window! = #getCanvas()
+        window!.addPanelStyle("menupanel")
+        #createHeadLine(window!)
         #createAdditionalTopPanel()
-        #MenuTilesBox! = #getCanvas().addChildWindow(wnd!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #MenuTilesBox! = #getCanvas().addChildWindow(window!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #MenuTilesBox!.addStyle("menuTilesBox")
         #colors!.add("#FFFFFF")
         
         
+    methodend
+    
+    method public void createHeadLine(BBjWindow wnd!)
+        #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
+        #Headline!.addStyle("tilesheadline")
     methodend
     
     method public void createAdditionalTopPanel()
@@ -49,14 +56,20 @@ class public TreeListPanel extends BBjWidget
             #MenuItemTiles!.clear()
         fi
     methodend
+    
+    
+    method public void setHeadlineText(String text!)
+        #Headline!.setText(text!)
+    methodend
 
     method public void setParentNode(BBjNumber nodeId)
         #cleanup()
         #parentNodeID = nodeId
         declare MenuItem node!
         node! = #Menu!.getItem(nodeId)
-        #Headline!.setText(node!.getCaption())
+        #setHeadlineText(node!.getCaption())
         #buildChildren(nodeId,0)
+        #MenuTilesBox!.setStyle("grid-template-rows",#gridRowCss!)
     methodend
     
     method public void buildChildren(BBjNumber nodeId,BBjNumber i)
@@ -65,6 +78,7 @@ class public TreeListPanel extends BBjWidget
         node! = #Menu!.getItem(nodeId)
         v! = node!.getChildren()
         it! = v!.iterator()
+        css! = ""
         while it!.hasNext()
             item! = cast(MenuItem,it!.next())
              id%  = item!.getNodeId()
@@ -88,12 +102,13 @@ class public TreeListPanel extends BBjWidget
             endif
             if item!.hasChildren() then
                tile!.setHeader()
-            endif          
+            endif 
+            #gridRowCss! = #gridRowCss! + "min-content "
         wend      
     methodend   
     rem todo Add function to save favorites
     method public void setFavorite(BBjCustomEvent event!)
-        
+        rem #fireEvent(#ON_FAVORITE_SELECTED, event!.getObject())
     methodend
     
     method public void setColors(BBjVector colors!)

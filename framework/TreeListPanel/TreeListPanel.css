@@ -1,7 +1,17 @@
 .menupanel {
+    width: 100%;
+    height: 100%;
     display: grid;
-    margin-left: 60px;
-    margin-top: 40px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    align-items: center;
+    justify-content: space-evenly;
+    row-gap: 20px;
+    grid-template-rows: min-content 1fr 1fr;
+    grid-template-columns: min-content 1fr 1fr;
+    column-gap: 20px;
 }
 
 .menuclient {
@@ -11,13 +21,13 @@
 }
 
 .menuTilesBox {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     background: #FFFFFF;
     border-radius: 8px;
     width: 580px;
+    height: 100%;
     padding: 20px;
-    margin-top: 35px;
+    overflow: auto;
 }
 
 @media screen and (max-width: 600px) {
