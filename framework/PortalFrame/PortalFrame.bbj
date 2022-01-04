@@ -409,15 +409,13 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         colors!.add("#9B0058")
         colors!.add("#6883BA")
         menuPanel!.setColors(colors!)
-        menuPanel!.setCallBack(TreeListPanel.ON_FAVORITE_SELECTED,#this!,"addFavorite")
+        
+        
         methodret menuPanel!
     methodend
     
     
-    method public void addFavorite(BBjCustomEvent event!)
-        newFavorite! = #Menu!.getItem(event!.getObject())
-        #Menu!.addMenuItem(#Menu!.getItem("Favorites"),newFavorite!.getCaption(),newFavorite!.getTooltip(),newFavorite!.getIcon())
-    methodend
+   
     
     
    

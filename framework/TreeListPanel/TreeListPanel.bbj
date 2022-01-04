@@ -79,9 +79,11 @@ class public TreeListPanel extends BBjWidget
         v! = node!.getChildren()
         it! = v!.iterator()
         css! = ""
+        
+        favoritesCaptions! = #getFavorites()
         while it!.hasNext()
             item! = cast(MenuItem,it!.next())
-             id%  = item!.getNodeId()
+            id%  = item!.getNodeId()
             declare ListTile tile!
             tile! = new ListTile(#MenuTilesBox!, id%)
             tile!.setText(item!.getCaption())
@@ -89,6 +91,10 @@ class public TreeListPanel extends BBjWidget
             tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
             tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
+            
+            if favoritesCaptions!.contains(item!.getCaption()) then
+                tile!.favoriteToggle()
+            endif
             
             if item!.getIcon() <> "" AND item!.getIcon() <> null() then
             
@@ -106,9 +112,26 @@ class public TreeListPanel extends BBjWidget
             #gridRowCss! = #gridRowCss! + "min-content "
         wend      
     methodend   
+    
+    method public BBjVector getFavorites()
+        declare MenuItem favoritesItem!
+        favoritesItem! = #Menu!.getItem("Favorites")        
+        declare BBjVector favorites!
+        favorites! = favoritesItem!.getChildren()
+        declare BBjVector favoritesCaptions!
+        favoritesCaptions! = new BBjVector()
+        if !favorites!.isEmpty() AND favorites! <> null() then
+            for i = 0 to favorites!.size() - 1
+                favoritesCaptions!.add(cast(MenuItem,favorites!.get(i)).getCaption())
+            next i
+        fi
+        methodret favoritesCaptions!
+    methodend
+    
     rem todo Add function to save favorites
     method public void setFavorite(BBjCustomEvent event!)
-        rem #fireEvent(#ON_FAVORITE_SELECTED, event!.getObject())
+    
+        #fireEvent(#ON_FAVORITE_SELECTED, event!.getObject())
     methodend
     
     method public void setColors(BBjVector colors!)

@@ -152,17 +152,19 @@ class public ListTile extends BBjWidget
     methodend
 
     method public void onFavoriteClick(BBjMouseDownEvent ev!)
+        
+        #favoriteToggle()
+        #fireEvent(#ON_FAVORITES_BUTTON_CLICK, #tile!.getID())
+    methodend
+
+    method public void favoriteToggle()
         if #favorite! then
             #starIcon!.removeStyle("favoriteActive")
         else
             #starIcon!.addStyle("favoriteActive")
         endif
-
+        
         #favorite! = !#favorite!
-        #fireEvent(#ON_FAVORITES_BUTTON_CLICK, #tile!.getID())
-    methodend
-
-    method public void favoriteToggle()
     methodend
 
     method public void onDotsClick(BBjMouseDownEvent ev!)

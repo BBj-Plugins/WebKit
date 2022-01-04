@@ -68,8 +68,8 @@ showCaseSSubItem!.setStartType(2)
 showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,210,"Reseller in South America","Reseller in South America","")
 showCaseSSubItem!.setStartType(2)
 
-REM showCase! = menu!.addMenuItem(menu!.getRoot(),105,"Favorites","Favorites","star")
-REM showCase!.setStartType(2)
+showCase! = menu!.addMenuItem(menu!.getRoot(),105,"Favorites","Favorites","star")
+showCase!.setStartType(2)
 
 declare ShowCaseFrame portal!
 
