@@ -21,36 +21,12 @@ class public ShowCaseFrame extends PortalFrame
     data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
     data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
     menuPanel!.setHeadLineEntrys(data!)
-    menuPanel!.setCallback(TreeListPanel.ON_FAVORITE_SELECTED,#this!,"addFavorite")
+    
+    
     methodret menuPanel!
     
     methodend
     
-    method public void addFavorite(BBjCustomEvent event!)
-      
-        favorite! = #Menu!.getItem(num(event!.getObject()))
-        
-        declare BBjVector favorites!
-        favorites! = #Menu!.getItem("Favorites").getChildren()
-        
-        declare BBjVector favoritesCaptions!
-        favoritesCaptions! = new BBjVector()
-        if !favorites!.isEmpty() AND favorites! <> null() then
-            for i = 0 to favorites!.size() - 1
-                favoritesCaptions!.add(cast(MenuItem,favorites!.get(i)).getCaption())
-            next i
-        fi
-        
-        if favoritesCaptions!.contains(favorite!.getCaption()) then
-            #Menu!.removeItem(#Menu!.getItem("Favorites").getChild(favorite!.getCaption()))
-            if cast(ShowCaseMenuPanel,#curr_win!).parentNodeID = #Menu!.getItem("Favorites").getNodeId() then
-                cast(ShowCaseMenuPanel,#curr_win!).setParentNode(cast(ShowCaseMenuPanel,#curr_win!).parentNodeID)
-            endif
-        else
-            newItem! = #Menu!.addMenuItem(#Menu!.getItem("Favorites"),favorite!.getCaption(),favorite!.getToolTip(),favorite!.getIcon())
-            newItem!.setProgram(favorite!.getProgram())
-            newItem!.setStartType(favorite!.getStartType())
-        fi
-    methodend
+    
 
 classend

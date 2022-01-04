@@ -11,6 +11,9 @@ use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
+REM open(999,mode="O_create, O_trunk")"C:\Users\Admin123\eclipse-workspace\temp\my.trace"
+REM setTrace(999)
+
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 bbjutils! = new ::BBUtils.bbj::BBUtils()
@@ -37,6 +40,12 @@ menu! = new Menu()
 
 showCase! = menu!.addMenuItem(menu!.getRoot(),104,"Sales - Options","Sales - Options","list")
 showCase!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,212,"Sales Statistics","Sales Statistics","table")
+showCaseItem!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,211,"Diagrams","Diagrams","table")
+showCaseItem!.setStartType(2)
 
 showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
 showCaseItem!.setStartType(2)
@@ -68,8 +77,6 @@ showCaseSSubItem!.setStartType(2)
 showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,210,"Reseller in South America","Reseller in South America","")
 showCaseSSubItem!.setStartType(2)
 
-showCase! = menu!.addMenuItem(menu!.getRoot(),105,"Favorites","Favorites","star")
-showCase!.setStartType(2)
 
 declare ShowCaseFrame portal!
 

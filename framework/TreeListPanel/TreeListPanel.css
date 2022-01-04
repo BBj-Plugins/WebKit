@@ -30,6 +30,24 @@
     overflow: auto;
 }
 
+.tilesBoxTitle {
+    font-family: Lato;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 12px;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.tilesBoxHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px #DDE0E1 solid !important;
+    padding-bottom: 5px;
+}
+
 @media screen and (max-width: 600px) {
     .menuclient {
         padding: 4px;

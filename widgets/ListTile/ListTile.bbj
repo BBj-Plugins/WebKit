@@ -95,6 +95,7 @@ class public ListTile extends BBjWidget
         #tile!.removePanelStyle("child")
         #arrowIcon!.setVisible(1)
         #letterField!.setVisible(0)
+        #iconWrapper!.setVisible(0)
     methodend
 
     method public void setPopupMenu(BBjPopupMenu menu!)

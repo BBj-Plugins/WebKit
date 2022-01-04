@@ -9,11 +9,6 @@
     background: rgba(255, 255, 255, 0.6);
 }
 
-.menutile:hover {
-    background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
-    background-color: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
-}
-
 .menutile .material-icons {
     padding-top: 25px;
     font-size: 36px;
@@ -45,10 +40,6 @@
     font-size: 14px;
     line-height: 17px;
     margin-left: 10px;
-}
-
-.menutile:hover {
-    background-color: var(--bbj-color-primary-50);
 }
 
 .rotate {
@@ -101,7 +92,7 @@
 
 .iconWrapper {
     margin-left: auto;
-    display: none;
+    display: flex;
     flex-direction: row;
 }
 
@@ -109,6 +100,13 @@
     background: #FFFFFF;
 }
 
-.child:hover .iconWrapper {
-    display: flex;
-}
+
+/* @media (hover: hover) {
+    .menutile:hover {
+        background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
+        background-color: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
+    }
+    .child:hover .iconWrapper {
+        display: flex;
+    }
+} */
