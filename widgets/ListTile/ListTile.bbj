@@ -25,6 +25,7 @@ class public ListTile extends BBjWidget
     field private Boolean expanded! = Boolean.FALSE
     field private Boolean favorite! = Boolean.FALSE
     field private Boolean header! = Boolean.FALSE
+    field private Boolean isChild! = Boolean.FALSE
     field private BBjPopupMenu options!
     field public static BBjNumber ON_FAVORITES_BUTTON_CLICK = 500
 
@@ -108,7 +109,12 @@ class public ListTile extends BBjWidget
     methodend
 
     method public void toggleFavoritesButton(Boolean state!)
-        #starWrapper!.setVisible(state!)
+        if !state! then
+            #starWrapper!.addStyle("invis")
+        else
+            #starWrapper!.removeStyle("invis")
+        fi
+   
     methodend
 
     method public void toggleMenuButton(Boolean state!)
@@ -142,6 +148,11 @@ class public ListTile extends BBjWidget
     REM         endif
     REM     methodend
     method public void onClick(BBjMouseDownEvent ev!)
+        #toggleExpand()
+        #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getParentWindow().getID())
+    methodend
+    
+    method public void toggleExpand()
         if #expanded! then
             #arrowIcon!.removeStyle("rotate")
         else
@@ -149,7 +160,6 @@ class public ListTile extends BBjWidget
         endif
 
         #expanded! = !#expanded!
-        #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getParentWindow().getID())
     methodend
 
     method public void onFavoriteClick(BBjMouseDownEvent ev!)
@@ -167,7 +177,19 @@ class public ListTile extends BBjWidget
         
         #favorite! = !#favorite!
     methodend
-
+    
+    method public Boolean isChild()
+        methodret #isChild!
+    methodend
+    
+    method public Boolean isExpanded()
+        methodret #expanded!
+    methodend
+    
+    method public void setChild(Boolean value!)
+        #isChild! = value!
+    methodend
+        
     method public void onDotsClick(BBjMouseDownEvent ev!)
         #options!.show(#dotIcon!,0,0)
     methodend

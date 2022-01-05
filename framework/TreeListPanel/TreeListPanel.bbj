@@ -24,8 +24,11 @@ class public TreeListPanel extends BBjWidget
     field public BBjStaticText toggleFavoritesButton!
     
     field public BBjChildWindow Header!
+    field public BBjChildWindow favButtonWrapper!
     
     field public Boolean filterForFavorites! = Boolean.FALSE
+    
+    field public Boolean favoritesActivated! = Boolean.TRUE
  
     field public static BBjNumber ON_FAVORITE_SELECTED = 600
     
@@ -48,10 +51,13 @@ class public TreeListPanel extends BBjWidget
         Title!.addStyle("tilesBoxTitle")
         
         declare BBjChildWindow favButtonWrapper!
-        favButtonWrapper! = #Header!.addChildWindow(#Header!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        #toggleFavoritesButton! = favButtonWrapper!.addStaticText(favButtonWrapper!.getAvailableControlID(), 0,0,0,0, Icons.get("tabler","star"))
+        #favButtonWrapper! = #Header!.addChildWindow(#Header!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        
+        #toggleFavoritesButton! = #favButtonWrapper!.addStaticText(#favButtonWrapper!.getAvailableControlID(), 0,0,0,0, Icons.get("tabler","star"))
         #toggleFavoritesButton!.addStyle("trailingIcon")
-        favButtonWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!,"onToggleFavorites")    
+        #toggleFavoritesButton!.setStyle("background","white")
+        #toggleFavoritesButton!.setStyle("color","darkgray")
+        #favButtonWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!,"onToggleFavorites")    
         #colors!.add("#FFFFFF")
         
         
@@ -107,7 +113,7 @@ class public TreeListPanel extends BBjWidget
             item! = cast(MenuItem,it!.next())
             id%  = item!.getNodeId()
             
-            if !#filterForFavorites! OR #favorites!.contains(id%) then
+            
                 declare ListTile tile!
                 tile! = new ListTile(#MenuTilesBox!, id%)
                 tile!.setText(item!.getCaption())
@@ -120,6 +126,8 @@ class public TreeListPanel extends BBjWidget
                     tile!.favoriteToggle()
                 endif
                 
+                tile!.toggleFavoritesButton(#favoritesActivated!)
+                
                 if item!.getIcon() <> "" AND item!.getIcon() <> null() then
                 
                     tile!.setIcon(item!.getIcon())
@@ -128,13 +136,14 @@ class public TreeListPanel extends BBjWidget
                 #MenuItemTiles!.put(item!.getNodeId(),tile!)
                 #buildChildren(id%,i+1)
                 if i > 0 then
+                    tile!.setChild(1)
                     tile!.setVisible(0)
                 endif
                 if item!.hasChildren() then
                    tile!.setHeader()
                 endif 
                 #gridRowCss! = #gridRowCss! + "min-content "
-                endif
+                
         wend      
     methodend   
     
@@ -155,10 +164,23 @@ class public TreeListPanel extends BBjWidget
        
        while it!.hasNext()
            entry! = it!.next()
-           if !#filterForFavorites! OR #favorites!.contains(entry!.getKey()) then
-               entry!.getValue().setVisible(1)
-           else
-               entry!.getValue().setVisible(0)
+           tile! = entry!.getValue()
+           
+           if #filterForFavorites! then
+               if #favorites!.contains(entry!.getKey())
+                    tile!.setVisible(1)
+               else
+                    tile!.setVisible(0)
+               fi
+           else 
+               if !entry!.getValue().isChild() then
+                    tile!.setVisible(1)
+                    if tile!.isExpanded() then
+                        tile!.toggleExpand()
+                    fi
+               else
+                    tile!.setVisible(0)
+               fi
            fi
        wend
        
@@ -169,7 +191,7 @@ class public TreeListPanel extends BBjWidget
         favorite! = #Menu!.getItem(num(event!.getObject()))
         
         if #favorites!.contains(favorite!.getNodeId()) then
-            #favorites!.remove(favorite!.getNodeId())
+            #favorites!.remove(cast(Object,favorite!.getNodeId()))
         else
             #favorites!.add(favorite!.getNodeId())
         endif
@@ -179,6 +201,12 @@ class public TreeListPanel extends BBjWidget
     
     method public void setColors(BBjVector colors!)
         #colors! = colors!
+    methodend
+    
+    method public void activateFavorites(Boolean value!)
+        #favoritesActivated! = value!
+        #favButtonWrapper!.setVisible(value!)      
+      
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)

@@ -62,8 +62,12 @@
     width: 15px;
 }
 
+.favoriteActive {
+    color: black !important;
+}
+
 .favoriteActive bbj-icon::part(icon) {
-    fill: yellow !important;
+    fill: yellow !important
 }
 
 .btnPart {
@@ -92,7 +96,7 @@
 
 .iconWrapper {
     margin-left: auto;
-    display: flex;
+    display: none;
     flex-direction: row;
 }
 
@@ -100,8 +104,11 @@
     background: #FFFFFF;
 }
 
+.invis {
+    display: none !important;
+}
 
-/* @media (hover: hover) {
+@media (hover: hover) {
     .menutile:hover {
         background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
         background-color: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
@@ -109,4 +116,4 @@
     .child:hover .iconWrapper {
         display: flex;
     }
-} */
+}
