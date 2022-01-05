@@ -9,22 +9,22 @@ class public ShowCaseFrame extends PortalFrame
 
     rem @Override 
     method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
-    menuPanel! = new ShowCaseMenuPanel(panelWindow!)
-    rem Test Colors
-    colors! = new BBjVector()
-    colors!.add("#408458")
-    colors!.add("#9B0058")
-    colors!.add("#6883BA")
-    menuPanel!.setColors(colors!)
-    data! = new BBjVector()
-    data!.add(new DashboardHeaderEntry(0,2,"Deals Scored"))
-    data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
-    data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
-    menuPanel!.setHeadLineEntrys(data!)
-    
-    
-    methodret menuPanel!
-    
+        menuPanel! = new ShowCaseMenuPanel(panelWindow!)
+        rem Test Colors
+        colors! = new BBjVector()
+        colors!.add("#408458")
+        colors!.add("#9B0058")
+        colors!.add("#6883BA")
+        menuPanel!.setColors(colors!)
+        data! = new BBjVector()
+        data!.add(new DashboardHeaderEntry(0,2,"Deals Scored"))
+        data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
+        data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
+        menuPanel!.setHeadLineEntrys(data!)
+        
+        
+        methodret menuPanel!
+        
     methodend
     
     

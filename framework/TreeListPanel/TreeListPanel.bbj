@@ -17,7 +17,8 @@ class public TreeListPanel extends BBjWidget
     field public BBjStaticText Headline!
     field public BBjChildWindow MenuTilesBox!
     field public BBjVector colors! = new BBjVector()
-    field public String gridRowCss! = ""
+    
+    field public StringBuilder gridRowCss! = new StringBuilder()
     
     field public BBjVector favorites! = new BBjVector()
     
@@ -37,31 +38,37 @@ class public TreeListPanel extends BBjWidget
       
         #super!.create(wnd!,wnd!.getAvailableControlID())
         #setVisible(0)
-        window! = #getCanvas()
-        window!.addPanelStyle("menupanel")
-        #createHeadLine(window!)
-        #createAdditionalTopPanel()
-        #MenuTilesBox! = #getCanvas().addChildWindow(window!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        #MenuTilesBox!.addStyle("menuTilesBox")
-        
-        #Header! = #MenuTilesBox!.addChildWindow(#MenuTilesBox!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        #Header!.addStyle("tilesBoxHeader")
-        
-        Title! = #Header!.addStaticText(#Header!.getAvailableControlID(),0,0,0,0,"APPLICATIONS")
-        Title!.addStyle("tilesBoxTitle")
-        
-        declare BBjChildWindow favButtonWrapper!
-        #favButtonWrapper! = #Header!.addChildWindow(#Header!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        
-        #toggleFavoritesButton! = #favButtonWrapper!.addStaticText(#favButtonWrapper!.getAvailableControlID(), 0,0,0,0, Icons.get("tabler","star"))
-        #toggleFavoritesButton!.addStyle("trailingIcon")
-        #toggleFavoritesButton!.setStyle("background","white")
-        #toggleFavoritesButton!.setStyle("color","darkgray")
-        #favButtonWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!,"onToggleFavorites")    
-        #colors!.add("#FFFFFF")
-        
         
     methodend
+    
+    method public void redraw(Boolean e_init!)
+        
+        if e_init! > 0 then
+            window! = #getCanvas()
+            window!.addPanelStyle("menupanel")
+            #createHeadLine(window!)
+            #createAdditionalTopPanel()
+            #MenuTilesBox! = #getCanvas().addChildWindow(window!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #MenuTilesBox!.addStyle("menuTilesBox")
+            
+            #Header! = #MenuTilesBox!.addChildWindow(#MenuTilesBox!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #Header!.addStyle("tilesBoxHeader")
+            
+            Title! = #Header!.addStaticText(#Header!.getAvailableControlID(),0,0,0,0,"APPLICATIONS")
+            Title!.addStyle("tilesBoxTitle")
+            
+            declare BBjChildWindow favButtonWrapper!
+            #favButtonWrapper! = #Header!.addChildWindow(#Header!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            
+            #toggleFavoritesButton! = #favButtonWrapper!.addStaticText(#favButtonWrapper!.getAvailableControlID(), 0,0,0,0, Icons.get("tabler","star"))
+            #toggleFavoritesButton!.addStyle("trailingIcon")
+            #toggleFavoritesButton!.setStyle("background","white")
+            #toggleFavoritesButton!.setStyle("color","darkgray")
+            #favButtonWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!,"onToggleFavorites")    
+            #colors!.add("#FFFFFF")
+        FI
+    methodend
+    
     
     method public void createHeadLine(BBjWindow wnd!)
         #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
@@ -96,7 +103,7 @@ class public TreeListPanel extends BBjWidget
         node! = #Menu!.getItem(nodeId)
         #setHeadlineText(node!.getCaption())
         #buildChildren(nodeId,0)
-        #MenuTilesBox!.setStyle("grid-template-rows",#gridRowCss!)
+        #MenuTilesBox!.setStyle("grid-template-rows",#gridRowCss!.toString())
     methodend
     
     method public void buildChildren(BBjNumber nodeId,BBjNumber i)
@@ -142,7 +149,7 @@ class public TreeListPanel extends BBjWidget
                 if item!.hasChildren() then
                    tile!.setHeader()
                 endif 
-                #gridRowCss! = #gridRowCss! + "min-content "
+                #gridRowCss!.append("min-content ")
                 
         wend      
     methodend   
@@ -172,16 +179,17 @@ class public TreeListPanel extends BBjWidget
                else
                     tile!.setVisible(0)
                fi
-           else 
-               if !entry!.getValue().isChild() then
-                    tile!.setVisible(1)
-                    if tile!.isExpanded() then
-                        tile!.toggleExpand()
-                    fi
-               else
-                    tile!.setVisible(0)
-               fi
+               continue
            fi
+           if !entry!.getValue().isChild() then
+                tile!.setVisible(1)
+                if tile!.isExpanded() then
+                    tile!.toggleExpand()
+                fi
+           else
+                tile!.setVisible(0)
+           fi
+           
        wend
        
     methodend
@@ -213,7 +221,8 @@ class public TreeListPanel extends BBjWidget
         declare auto MenuItem node!
         declare auto MenuItem item!
         declare auto ListTile tile!
-        nodeId=num(str(ev!.getObject()))
+        declare auto BBjNumber nodeId
+        nodeId=ev!.getObject()
         node!=#Menu!.getItem(nodeId)
         if node!.hasChildren() then
             v! = node!.getChildren()

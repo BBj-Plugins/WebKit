@@ -1,5 +1,7 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/Icons.bbj::Icons
+
 
 class public MetricsCard extends BBjWidget
     field public BBjStaticText count!
@@ -16,7 +18,8 @@ class public MetricsCard extends BBjWidget
         #super!.create(wnd!,id!)       
     methodend
     
-    method public void redraw(Boolean f_init!)       
+    method public void redraw(Boolean f_init!)   
+        declare BBjChildWindow metricsCard! 
         metricsCard! = #getCanvas()
         
         if f_init!>0 then

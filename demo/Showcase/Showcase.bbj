@@ -19,7 +19,7 @@ ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
 REM iconPool$ = STBL("icon-pool", "fa")
-iconPool$ = STBL("icon-pool", "feather")
+iconPool$ = STBL("icon-pool", "tabler")
 
 
 login! = new LoginDialog("Showcase", new SampleAuthProvider())

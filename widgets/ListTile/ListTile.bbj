@@ -11,8 +11,6 @@ class public ListTile extends BBjWidget
     field private BBjStaticText dotIcon!
     field private BBjStaticText trailingIcon!
     field private BBjImageCtrl  iconField!
-    field private BBjString text!
-    field private BBjString letter!
     field private BBjVector colors!
     field private BBjChildWindow btn!
     field private BBjChildWindow tile!
@@ -20,13 +18,10 @@ class public ListTile extends BBjWidget
     field private BBjChildWindow starWrapper!
     field private BBjChildWindow dotWrapper!
     field private BBjChildWindow letterWrapper!
-    field private BBjString arrowDown! = "http://localhost:8888/files/WebKit/ArrowDown.png"
-    field private BBjString arrowRight! = "http://localhost:8888/files/WebKit/ArrowRight.png"
     field private Boolean expanded! = Boolean.FALSE
     field private Boolean favorite! = Boolean.FALSE
     field private Boolean header! = Boolean.FALSE
     field private Boolean isChild! = Boolean.FALSE
-    field private BBjPopupMenu options!
     field public static BBjNumber ON_FAVORITES_BUTTON_CLICK = 500
 
     method public ListTile(BBjWindow wnd!)
@@ -45,7 +40,7 @@ class public ListTile extends BBjWidget
         if f_init!>0 then
             #tile!.addPanelStyle("menutile")
             #tile!.addPanelStyle("child")
-            #tile!.setStyle("height","-moz-fit-content")
+            #tile!.setStyle("height","fit-content")
             #btn! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")
             #btn!.addPanelStyle("btnPart")
@@ -61,7 +56,7 @@ class public ListTile extends BBjWidget
     methodend
 
     method public void createLabel()
-        #arrowIcon! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,Icons.get("play"))
+        #arrowIcon! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,Icons.get("feather","play"))
         #arrowIcon!.setStyle("align-self","center")
         #arrowIcon!.addStyle("arrowIcon")
         #arrowIcon!.setVisible(0)
@@ -122,31 +117,18 @@ class public ListTile extends BBjWidget
     methodend
 
     method public void setText(BBjString text!)
-        #text!= text!
-        #textField!.setText(#text!)
-        #letter!=text!.substring(0,1)
-        #letterField!.setText(#letter!)
+        #textField!.setText(text!)
+        letter!=text!.substring(0,1)
+        #letterField!.setText(letter!)
     methodend
 
     method public void setIcon(String icon!)
-        if Icons.get("tabler",icon!) <> null() then
-            #letterField!.setText(Icons.get("tabler",icon!))
+        if Icons.get(icon!) <> null() then
+            #letterField!.setText(Icons.get(icon!))
             #letterField!.setStyle("color","black")
             #letterField!.setStyle("background","white")
         endif
     methodend
-    REM     method public void mouseEnter(BBjMouseEnterEvent ev!)
-    REM         if !#header! then
-    REM             #iconWrapper!.setVisible(1)
-    REM             #iconWrapper!.setStyle("display","flex")
-    REM         endif
-    REM     methodend
-    REM
-    REM     method public void mouseExit(BBjMouseExitEvent ev!)
-    REM         if !#header! then
-    REM             #iconWrapper!.setVisible(0)
-    REM         endif
-    REM     methodend
     method public void onClick(BBjMouseDownEvent ev!)
         #toggleExpand()
         #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getParentWindow().getID())
@@ -158,7 +140,6 @@ class public ListTile extends BBjWidget
         else
             #arrowIcon!.addStyle("rotate")
         endif
-
         #expanded! = !#expanded!
     methodend
 
