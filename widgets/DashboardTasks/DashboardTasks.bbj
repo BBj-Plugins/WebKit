@@ -11,7 +11,7 @@ use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 use ::WebKit/widgets/DashboardTasks/IDashboardTasksData.bbj::ITasksData
-use ::Webkit/widgets/DashboardWidgetHeader/DashboardWidgetHeader.bbj::DashboardWidgetHeader
+use ::WebKit/widgets/DashboardWidgetHeader/DashboardWidgetHeader.bbj::DashboardWidgetHeader
 use ::WebKit/widgets/DashboardTasks/DashboardTasksCard.bbj::DashboardTasksCard
 
 use ::WebKit/widgets/DashboardTasks/SampleTasksData.bbj::SampleTasksData
