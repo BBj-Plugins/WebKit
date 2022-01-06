@@ -125,7 +125,7 @@ class public ChileCompanyDashboardPanel extends BBjWidget
             BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_EDIT_PRESSED", #this!, "onEditPressed")
             BBjAPI().setCustomEventCallback("ON_ACTION_ITEM_DELETE_PRESSED", #this!, "onDeletePressed")
         FI
-        
+        escape
     methodend    
 
     method public void onHeaderMenuItemClick(BBjCustomEvent ev!)
