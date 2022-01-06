@@ -1,0 +1,56 @@
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/util/Icons.bbj::Icons
+use ::WebKit/widgets/MetricsCard/MetricsCard.bbj::MetricsCard
+use ::WebKit/widgets/DashboardHeader/DashboardHeader.bbj::DashboardHeader
+use ::WebKit/widgets/DashboardTasks/DashboardTasks.bbj::DashboardTasks
+use ::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+class public ShowCaseMenuPanel extends TreeListPanel
+    field public DashboardHeader dashHeader!
+    field public DashboardTasks dashTasks!
+    field public ChileCompanyDashboardPanel chileDashBoard!
+    
+    method public ShowCaseMenuPanel(BBjWindow wnd!)
+        
+        #super!(wnd!)
+        ClientUtil.addLocalCSS("WebKit/demo/Showcase/components/ShowCaseMenuPanel.css")
+        window! = #getCanvas()
+        #createSecondWidget(window!)
+        #createThirdWidget(window!)
+    methodend
+    
+    
+    rem @Override   
+    method public void createHeadLine(BBjWindow wnd!)
+        #dashHeader! = new DashboardHeader(wnd!)
+        #dashHeader!.setStyle("grid-row","1")
+        #dashHeader!.setStyle("grid-column-start","1")
+        #dashHeader!.setStyle("grid-column-end","4")
+    methodend
+    
+    rem @Override
+    method public void setHeadlineText(String text!)
+        #dashHeader!.setTitle(text!)
+    methodend
+    
+    method public void setHeadLineEntrys(BBjVector data!)
+        #dashHeader!.setEntrys(data!)
+    methodend
+    
+    method public void createSecondWidget(BBjWindow wnd!)
+        #dashTasks! = new DashboardTasks(wnd!)
+        #dashTasks!.addStyle("dashboardTasks")
+        
+        #dashTasks!.buildContent()
+    methodend
+   
+   method public void createThirdWidget(BBjWindow wnd!)
+        #chileDashBoard! = new ChileCompanyDashboardPanel(wnd!)
+        #chileDashBoard!.addStyle("chileDash")
+        
+   methodend
+   
+   
+      
+classend

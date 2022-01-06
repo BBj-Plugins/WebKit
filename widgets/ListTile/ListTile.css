@@ -1,0 +1,119 @@
+.menutile {
+    height: 50px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px #E5E5E5 solid;
+    padding-left: 5px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.menutile .material-icons {
+    padding-top: 25px;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.menutile .letterField {
+    font-size: 19px;
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+
+.menutile .iconField {
+    width: 30px;
+    height: 30px;
+}
+
+.menutile .letterWrapper {
+    width: 30px;
+    height: 30px;
+}
+
+.menutile .tilelabel {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    margin-left: 10px;
+}
+
+.rotate {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.arrowIcon {
+    height: 20px;
+    width: 15px;
+}
+
+.arrowIcon bbj-icon::part(icon) {
+    color: grey;
+    fill: grey !important;
+    height: 20px;
+    width: 15px;
+}
+
+.favoriteActive {
+    color: black !important;
+}
+
+.favoriteActive bbj-icon::part(icon) {
+    fill: yellow !important
+}
+
+.btnPart {
+    height: 50px;
+    width: 500px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.trailingIcon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 30px;
+    background: rgba(49, 59, 84, 0.08);
+    border-radius: 8px;
+    margin-right: 5px;
+}
+
+.iconWrapper {
+    margin-left: auto;
+    display: none;
+    flex-direction: row;
+}
+
+.child {
+    background: #FFFFFF;
+}
+
+.invis {
+    display: none !important;
+}
+
+@media (hover: hover) {
+    .menutile:hover {
+        background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
+        background-color: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
+    }
+    .child:hover .iconWrapper {
+        display: flex;
+    }
+}
