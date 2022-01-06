@@ -1,75 +1,75 @@
 .calendarStyle {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .calendarPanelStyle {
-	height: calc(100% - 32px);
-	width: calc(100% - 32px);
-	display: grid;
-	grid-template-rows: auto calc(100% - 32px);
-	padding: 16px;
+    display: grid;
+    grid-template-rows: auto calc(100% - 32px);
+    padding: 16px;
+    background-color: var(--bbj-color-white, #FFF);
+    border-radius: 8px;
 }
 
 .headerStyle {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .headerPanelStyle {
-	height: 100%;
-	width: 100%;
-	display: grid;
-	grid-template-columns: 50% 50%;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
 
 .widgetTitleStyle {
-	font-size: 10px;
-	line-height: 12px;
-	color: #a1a5a7;
-	align-self: center;
-	justify-self: start;
+    font-size: 10px;
+    line-height: 12px;
+    color: #a1a5a7;
+    align-self: center;
+    justify-self: start;
 }
 
 .filterStyle {
-	align-self: center;
-	justify-self: end;
-	width: 100%;
-	height: 25px;
-	--bbj-button-color-on-default-text: black;
+    justify-self: end;
+    width: 120px;
+    height: 25px;
+    --bbj-button-color-on-default-text: black;
+    background: white;
 }
 
 .filterStyle::part(control) {
-	--bbj-color-default: #ffff;
+    --bbj-color-default: #ffff;
 }
 
 .filterStyle::part(suffix) {
-	color: black;
+    color: black;
 }
 
 .filterStyle::part(suffix-separator) {
-	background: transparent;
+    background: transparent;
 }
 
 .calendarEntriesStyle {
-	height: 100%;
-	width: 100%;
-	overflow: scroll;
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
 }
 
 .calendarEntriesStyle::-webkit-scrollbar {
-	display: none;
+    display: none;
 }
 
 .calendarEntriesPanelStyle {
-	height: 100%;
-	width: 100%;
-	display: grid;
-	grid-template-rows: auto;
-	row-gap: 10px;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto;
+    row-gap: 10px;
 }
 
 .placeHolderStyle {
-	justify-self: center;
-	align-self: center;
+    justify-self: center;
+    align-self: center;
 }
