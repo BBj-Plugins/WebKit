@@ -37,6 +37,7 @@ class public PortalFrame
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
+    field private Boolean drawerHidden! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
     field private BBjWidget curr_win! 
     field private MenuPanel menuPanel!
@@ -177,12 +178,14 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             sysgui! =BBjAPI().openSysGui("X0")
             
             #window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,#Title!,$01101083$))
+            #window!.setCallback(BBjAPI().ON_RESIZE, #this!, "onResizeScreen")
             
             rem add one invisible button to force the BASIS variables to be loaded for CSS            
             #window!.addButton(1000,0,0,0,0,"TEST",$0010$ )
             
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+
             appbar! = new Appbar(main!)
             appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
 
@@ -210,6 +213,15 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                 ClientUtil.setUrlAnchor("", "")
                 methodret 1
             
+    methodend
+
+    method public void onResizeScreen(BBjResizeEvent ev!)
+        id$ = str(ev!.getWidth())
+        if ev!.getWidth() < 425 then
+           #Drawer!.closeDrawer(null())
+        else 
+            #Drawer!.openDrawer(null())
+        fi
     methodend
     
     method public BBjWidget navigateTo(BBjString anchor$)
@@ -377,20 +389,13 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
     method public void onAppbarMenuClick(BBjCustomEvent ev!)
-        ClientUtil.consoleLog("SHABBASH!")
-    methodend
-
-    method public void onToggleMenu(BBjEvent ev!)
-    rem drawer_status 0=open, 1=closed
-    if #drawerOpen! then
-         #drawerOpen!=Boolean.FALSE
-         #Drawer!.addStyle("drawerclosed")
-         #Drawer!.removeStyle("draweropen")
-    else
-         #drawerOpen!=Boolean.TRUE
-         #Drawer!.addStyle("draweropen")
-         #Drawer!.removeStyle("drawerclosed")
-    fi
+        if #drawerHidden! then
+        #drawerHidden!=Boolean.FALSE
+        #Drawer!.addStyle("drawerShow")
+        else
+            #drawerHidden!=Boolean.TRUE
+            #Drawer!.removeStyle("drawerShow")  
+        fi
     methodend
 
     method public void onLogout()

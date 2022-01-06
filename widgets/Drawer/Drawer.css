@@ -111,16 +111,15 @@
         
 	.drawerOpen.drawerStyle{
 	    width: 0px;
-	}   
-    .drawerPanelStyle{
-        /* width: var(--drawer-closed-width) !important; */
+	}
+    .drawerClosed.drawerStyle{
+	    width: 0px !important;
+	}
+
+    .drawerClosed.drawerShow{
+        width: var(--drawer-closed-width) !important;
     }
-    /* .drawerOpen div.drawerFooterPanelStyle {
-        grid-template-columns: 1fr !important;
-        justify-content: center;
-        width: 100%;
-        justify-items: center;
-    } */
+
 
 }
 
