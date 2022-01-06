@@ -24,7 +24,8 @@ class public Appbar extends BBjWidget
     field private BBjChildWindow customContainer!
     
 
-    
+    field public static BBjNumber ON_APPBAR_TOOGLE = 1996
+
     method public Appbar(BBjWindow parent!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Appbar/Appbar.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
@@ -45,7 +46,7 @@ class public Appbar extends BBjWidget
     methodend
     
     method public void onMenuClick(BBjMouseDownEvent event!)
-        rem #fireEvent(#ON_DRAWER_TILE_PRESSED, 2) 
+        #fireEvent(#ON_APPBAR_TOOGLE, null()) 
         ClientUtil.consoleLog("menu click detected")
     methodend
 classend

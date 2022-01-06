@@ -184,6 +184,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
             appbar! = new Appbar(main!)
+            appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
 
             main!.addStyle("mainarea")
             
@@ -373,6 +374,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
           #Main!.addStyle("expanded")
           #Main!.removeStyle("shrinked")
        fi
+    methodend
+
+    method public void onAppbarMenuClick(BBjCustomEvent ev!)
+        ClientUtil.consoleLog("SHABBASH!")
     methodend
 
     method public void onToggleMenu(BBjEvent ev!)

@@ -80,7 +80,7 @@ class public Drawer extends BBjWidget
             
             #open! = 1
             header! = new DrawerHeader(#window!, #drawerDataModel!)
-            header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH,#this!,"closeDrawer")
+            header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH, #this!,"closeDrawer")
             header!.setCallback(DrawerHeader.ON_DRAWER_OPEN_ICON_PUSH, #this!,"openDrawer")
 
             header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
