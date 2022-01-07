@@ -169,17 +169,10 @@ class public Drawer extends BBjWidget
         #fireEvent(#ON_DRAWER_STATE_CHANGED, 1)
     methodend
 
-    method public void showDrawerOnMobile()
-
-    methodend
-
-    method public void hideDrawerOnMobile()
-
-    methodend
-    
     method public Boolean isOpen()
         methodret #open!
     methodend
+    
     method public void onLogout(BBjCustomEvent ev!)
        #fireEvent(#ON_LOGOUT, "") 
     methodend

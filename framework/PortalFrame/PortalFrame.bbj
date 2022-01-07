@@ -158,7 +158,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         header!.setDockStyle("grid-row-start","1")
         header!.setDockStyle("height", "30px")
         header!.setDockStyle("margin-bottom","8px")
-        rem header!.setDockStyle("margin-top","24px")
         header!.setDockStyle("margin-left","40px")
         header!.addTextStyle("drawerTilesTextHeaderStyle")
         header!.setTextStyle("display","block")
@@ -190,12 +189,9 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
 
             main!.addStyle("mainarea")
-            
             #Main! = cast(BBjChildWindow,main!)
             #Main!.addStyle("shrinked")
 
-
-             
             #initializeDrawer(#Menu!, #FooterMenu!, #HeaderMenu!)
            
             BBjAPI().setCustomEventCallback("logout","logout")
@@ -217,17 +213,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
     method public void onResizeScreen(BBjResizeEvent ev!)
         id$ = str(ev!.getWidth())
-        ClientUtil.consoleLog(id$)
         if ev!.getWidth() < 425 then
            #Drawer!.closeDrawer(null())
-        rem    ClientUtil.consoleLog("EXPANDED")
-        rem    #Main!.addStyle("expanded")
-        rem    #Main!.removeStyle("shrinked")
         else 
-            rem ClientUtil.consoleLog("SHRINKED")
             #Drawer!.openDrawer(null())
-            rem #Main!.addStyle("shrinked")
-            rem #Main!.removeStyle("expanded")
         fi
     methodend
     
@@ -388,13 +377,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
     method public void onDrawerToggle(BBjCustomEvent ev!)
        state = num(str(ev!.getObject()))
-       ClientUtil.consoleLog(str(ev!.getObject()))
        if state = 1
-          ClientUtil.consoleLog("SHRINKING...")
           #Main!.addStyle("shrinked")
           #Main!.removeStyle("expanded")
        else
-        ClientUtil.consoleLog("EXPANDING...")
           #Main!.addStyle("expanded")
           #Main!.removeStyle("shrinked")
        fi
@@ -402,8 +388,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
     method public void onAppbarMenuClick(BBjCustomEvent ev!)
         if #drawerHidden! then
-        #drawerHidden!=Boolean.FALSE
-        #Drawer!.addStyle("drawerShow")
+            #drawerHidden!=Boolean.FALSE
+            #Drawer!.addStyle("drawerShow")
         else
             #drawerHidden!=Boolean.TRUE
             #Drawer!.removeStyle("drawerShow")  
