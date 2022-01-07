@@ -51,6 +51,7 @@
     position: fixed !important;
     height: 100vh;
     background-color: white;
+
     z-index: 1;
     overflow: hidden;
     width: var(--drawer-width);

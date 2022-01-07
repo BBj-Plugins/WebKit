@@ -217,10 +217,17 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
     method public void onResizeScreen(BBjResizeEvent ev!)
         id$ = str(ev!.getWidth())
+        ClientUtil.consoleLog(id$)
         if ev!.getWidth() < 425 then
            #Drawer!.closeDrawer(null())
+        rem    ClientUtil.consoleLog("EXPANDED")
+        rem    #Main!.addStyle("expanded")
+        rem    #Main!.removeStyle("shrinked")
         else 
+            rem ClientUtil.consoleLog("SHRINKED")
             #Drawer!.openDrawer(null())
+            rem #Main!.addStyle("shrinked")
+            rem #Main!.removeStyle("expanded")
         fi
     methodend
     
@@ -379,10 +386,13 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
     method public void onDrawerToggle(BBjCustomEvent ev!)
        state = num(str(ev!.getObject()))
+       ClientUtil.consoleLog(str(ev!.getObject()))
        if state = 1
+          ClientUtil.consoleLog("SHRINKING...")
           #Main!.addStyle("shrinked")
           #Main!.removeStyle("expanded")
        else
+        ClientUtil.consoleLog("EXPANDING...")
           #Main!.addStyle("expanded")
           #Main!.removeStyle("shrinked")
        fi

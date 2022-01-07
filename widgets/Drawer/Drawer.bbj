@@ -143,12 +143,11 @@ class public Drawer extends BBjWidget
     
     method public void closeDrawer(BBjCustomEvent event!)
         #window!.addStyle("drawerClosed")
-        rem #window!.addStyle("appBar")
 
         #window!.removeStyle("drawerOpen")
         #shadowWindow!.removeStyle("drawerShadow")
         #open! = !#open!
-        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, 0)
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent event!)
@@ -167,7 +166,15 @@ class public Drawer extends BBjWidget
         #window!.addStyle("drawerOpen")
         #window!.removeStyle("drawerClosed")
         #open! = !#open!
-        #fireEvent(#ON_DRAWER_STATE_CHANGED, #open!)
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, 1)
+    methodend
+
+    method public void showDrawerOnMobile()
+
+    methodend
+
+    method public void hideDrawerOnMobile()
+
     methodend
     
     method public Boolean isOpen()
