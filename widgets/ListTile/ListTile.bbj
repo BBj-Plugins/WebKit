@@ -1,0 +1,178 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/Icons.bbj::Icons
+
+class public ListTile extends BBjWidget
+
+    field private BBjStaticText textField!
+    field private BBjStaticText letterField!
+    field private BBjStaticText arrowIcon!
+    field private BBjStaticText starIcon!
+    field private BBjStaticText dotIcon!
+    field private BBjStaticText trailingIcon!
+    field private BBjImageCtrl  iconField!
+    field private BBjVector colors!
+    field private BBjChildWindow btn!
+    field private BBjChildWindow tile!
+    field private BBjChildWindow iconWrapper!
+    field private BBjChildWindow starWrapper!
+    field private BBjChildWindow dotWrapper!
+    field private BBjChildWindow letterWrapper!
+    field private Boolean expanded! = Boolean.FALSE
+    field private Boolean favorite! = Boolean.FALSE
+    field private Boolean header! = Boolean.FALSE
+    field private Boolean isChild! = Boolean.FALSE
+    field public static BBjNumber ON_FAVORITES_BUTTON_CLICK = 500
+
+    method public ListTile(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/ListTile/ListTile.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+
+    method public ListTile(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/ListTile/ListTile.css")
+        #super!.create(wnd!,id!)
+    methodend
+
+    method public void redraw(Boolean f_init!)
+        #tile! = #getCanvas()
+
+        if f_init!>0 then
+            #tile!.addPanelStyle("menutile")
+            #tile!.addPanelStyle("child")
+            #tile!.setStyle("height","fit-content")
+            #btn! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")
+            #btn!.addPanelStyle("btnPart")
+            #createLabel()
+            #iconWrapper! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #iconWrapper!.addStyle("iconWrapper")
+            #createFavoritesIcon()
+            #createMenuIcon()
+        FI
+    methodend
+
+    method public void fillPopUp(BBjVector items!)
+    methodend
+
+    method public void createLabel()
+        #arrowIcon! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,Icons.get("feather","play"))
+        #arrowIcon!.setStyle("align-self","center")
+        #arrowIcon!.addStyle("arrowIcon")
+        #arrowIcon!.setVisible(0)
+        REM         #letterWrapper! = #btn!.addChildWindow(#btn!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        REM         #letterWrapper!.addStyle("letterWrapper")
+        #letterField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
+        #letterField!.addStyle("letterField")
+        #letterField!.setStyle("text-align","center")
+        #textField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
+        #textField!.addStyle("tilelabel")
+    methodend
+
+    method public void createFavoritesIcon()
+        #starWrapper! = #iconWrapper!.addChildWindow(#iconWrapper!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #starIcon! = #starWrapper!.addStaticText(#starWrapper!.getAvailableControlID(),0,0,200,22,Icons.get("star"))
+        #starWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onFavoriteClick")
+        #starWrapper!.addStyle("trailingIcon")
+    methodend
+
+    method public void createMenuIcon()
+        #dotWrapper! = #iconWrapper!.addChildWindow(#iconWrapper!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #dotIcon! = #dotWrapper!.addStaticText(#dotWrapper!.getAvailableControlID(),0,0,200,22,Icons.get("more-vertical"))
+        #dotWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onDotsClick")
+        #dotWrapper!.addStyle("trailingIcon")
+        #dotWrapper!.addPopupMenu()
+        #dotWrapper!.setVisible(0)
+    methodend
+
+    method public void setHeader()
+        #header! = Boolean.TRUE
+        #textField!.setStyle("font-weight","700")
+        #tile!.removePanelStyle("child")
+        #arrowIcon!.setVisible(1)
+        #letterField!.setVisible(0)
+        #iconWrapper!.setVisible(0)
+    methodend
+
+    method public void setPopupMenu(BBjPopupMenu menu!)
+        #dotWrapper!.setPopupMenu(menu!)
+        #dotWrapper!.setVisible(1)
+    methodend
+
+    method public void setLetterColor(String color!)
+        #letterField!.setStyle("background",color!)
+    methodend
+
+    method public void toggleFavoritesButton(Boolean state!)
+        if !state! then
+            #starWrapper!.addStyle("invis")
+        else
+            #starWrapper!.removeStyle("invis")
+        fi
+   
+    methodend
+
+    method public void toggleMenuButton(Boolean state!)
+        #dotWrapper!.setVisible(state!)
+    methodend
+
+    method public void setText(BBjString text!)
+        #textField!.setText(text!)
+        letter!=text!.substring(0,1)
+        #letterField!.setText(letter!)
+    methodend
+
+    method public void setIcon(String icon!)
+        if Icons.get(icon!) <> null() then
+            #letterField!.setText(Icons.get(icon!))
+            #letterField!.setStyle("color","black")
+            #letterField!.setStyle("background","white")
+        endif
+    methodend
+    method public void onClick(BBjMouseDownEvent ev!)
+        #toggleExpand()
+        #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getParentWindow().getID())
+    methodend
+    
+    method public void toggleExpand()
+        if #expanded! then
+            #arrowIcon!.removeStyle("rotate")
+        else
+            #arrowIcon!.addStyle("rotate")
+        endif
+        #expanded! = !#expanded!
+    methodend
+
+    method public void onFavoriteClick(BBjMouseDownEvent ev!)
+        
+        #favoriteToggle()
+        #fireEvent(#ON_FAVORITES_BUTTON_CLICK, #tile!.getID())
+    methodend
+
+    method public void favoriteToggle()
+        if #favorite! then
+            #starIcon!.removeStyle("favoriteActive")
+        else
+            #starIcon!.addStyle("favoriteActive")
+        endif
+        
+        #favorite! = !#favorite!
+    methodend
+    
+    method public Boolean isChild()
+        methodret #isChild!
+    methodend
+    
+    method public Boolean isExpanded()
+        methodret #expanded!
+    methodend
+    
+    method public void setChild(Boolean value!)
+        #isChild! = value!
+    methodend
+        
+    method public void onDotsClick(BBjMouseDownEvent ev!)
+        #options!.show(#dotIcon!,0,0)
+    methodend
+
+classend

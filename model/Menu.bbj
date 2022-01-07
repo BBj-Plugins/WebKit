@@ -114,6 +114,19 @@ class public MenuItem
     method public void setCustomEventName(BBjString customEventName$)
         #CustomEventName$ = customEventName$
     methodend
+    
+    method public void removeChild(MenuItem item!)
+        #Children!.remove(item!)
+    methodend
+    
+    method public MenuItem getChild(String caption!)
+        for i = 0 to #Children!.size() - 1
+            if cast (MenuItem,#Children!.get(i)).getCaption() = caption!
+                methodret cast (MenuItem,#Children!.get(i))
+            endif
+        next i
+        methodret null()
+    methodend
 
 classend
 
@@ -169,6 +182,14 @@ class public Menu
             fi
         wend
         methodret null()
+    methodend
+    
+    method public void removeItem(MenuItem item!)
+        declare MenuItem parent!
+        parent! = item!.getParent()
+        parent!.removeChild(item!)
+        #menuMap!.remove(item!)
+        
     methodend
 
 classend

@@ -1,0 +1,57 @@
+.menupanel {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    align-items: center;
+    justify-content: space-evenly;
+    row-gap: 20px;
+    grid-template-rows: min-content 1fr 1fr;
+    grid-template-columns: min-content 1fr 1fr;
+    column-gap: 20px;
+}
+
+.menuclient {
+    padding: 10px;
+    width: calc(100vw - 121px);
+    height: calc(100vh - 64px);
+}
+
+.menuTilesBox {
+    display: grid;
+    background: #FFFFFF;
+    border-radius: 8px;
+    width: 580px;
+    height: 100%;
+    padding: 20px;
+    overflow: auto;
+}
+
+.tilesBoxTitle {
+    font-family: Lato;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 12px;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.tilesBoxHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px #DDE0E1 solid !important;
+    padding-bottom: 5px;
+}
+
+@media screen and (max-width: 600px) {
+    .menuclient {
+        padding: 4px;
+        width: 100vw;
+        height: calc(100vh - 44px);
+    }
+}

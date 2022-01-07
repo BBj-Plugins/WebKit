@@ -21,6 +21,7 @@ class public ListOverviewPanel
         DynamicLoader.addLocalCSS("WebKit/framework/ListOverviewPanel/ListOverviewPanel.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #parent! = parent!
+        #window!.setStyle("height","100%")
     methodend
 
     method public void setListDataModel(ListViewDataModel listDataModel!)
@@ -33,10 +34,10 @@ class public ListOverviewPanel
 
     method public Boolean doModal()
         listPanelTitle$ = #listDataModel!.getListPanelTitle()
-        if listPanelTitle$ <> null() THEN
-            Headline! = #window!.addStaticText(100,0,0,0,0, #listDataModel!.getListPanelTitle())
-            Headline!.addStyle("headline")
-        fi
+        REM if listPanelTitle$ <> null() THEN
+        REM    Headline! = #window!.addStaticText(100,0,0,0,0, #listDataModel!.getListPanelTitle())
+        REM    Headline!.addStyle("headline")
+        REM fi 
 
         if #listDataModel!.getHasListHeader() = 1 THEN
             listHeaderDataModel! = #listDataModel!.getHeaderDataModel()

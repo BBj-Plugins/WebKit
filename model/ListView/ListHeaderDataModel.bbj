@@ -1,9 +1,8 @@
-
 class public ListHeaderMenuItem
+
     field private BBjNumber id
     field private BBjString menuLabel$
     field private BBjString menuCallback$
-
     field private BBjString menuCssClass$
     field private BBjString menuTheme$
 
@@ -53,12 +52,23 @@ class public ListHeaderMenuItem
     method public void setMenuTheme(BBjString menuTheme$)
         #menuTheme$ = menuTheme$
     methodend
+
 classend
 
 class public ListHeaderDataModel
+
     field private BBjVector menuItems! = new BBjVector()
+    field private BBjString title$
 
     method public ListHeaderDataModel()
+    methodend
+
+    method public BBjString getTitle()
+        methodret #title$
+    methodend
+
+    method public void setTitle(BBjString title$)
+        #title$ = title$
     methodend
 
     method public void setMenuItems(BBjVector menuItems!)
