@@ -14,6 +14,12 @@ class public MenuCard extends BBjWidget
     field private BBjStaticText body!
     field private BBjChildWindow footer!
     
+    field public Boolean openExternal! = Boolean.FALSE
+    
+    field public static BBjNumber ON_CARD_CLICK = 600
+    
+    field public static BBjNumber ON_FAVORITES_ADD = 700
+    
     method public MenuCard(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/MenuCard/MenuCard.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
@@ -29,15 +35,20 @@ class public MenuCard extends BBjWidget
 
         if f_init!>0 then
             #card!.addStyle("menuCard")
-            
-            #card!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")   
+                
             #header! = new ListTile(#card!,#card!.getAvailableControlID())
             #header!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
             #header!.disableHover()
             #header!.setStyle("padding-left","25px")
-         
-            #body! = #card!.addStaticText(#card!.getAvailableControlID(),0,0,400,120,"")            
-            #body!.addStyle("body")          
+            #header!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onHeaderClick")
+            
+            declare BBjChildWindow bodyWrapper!
+            bodyWrapper! = #card!.addChildWindow(#card!.getAvailableControlID(),0,0,200,25,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            bodyWrapper!.addStyle("bodyWrapper")
+            
+            #body! = bodyWrapper!.addStaticText(bodyWrapper!.getAvailableControlID(),0,0,400,120,"")            
+            #body!.addStyle("body")
+            bodyWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onBodyClick")          
             #footer! = #card!.addChildWindow(#card!.getAvailableControlID(),0,0,200,25,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #footer!.addStyle("footer")
             #buildFooter()
@@ -49,9 +60,27 @@ class public MenuCard extends BBjWidget
         declare BBjStaticText externalIcon!
      
         checkbox! = #footer!.addCheckBox(#footer!.getAvailableControlID(),0,0,22,22,"Open in new tab")
+        checkbox!.setCallback(checkbox!.ON_CHECK_ON,"setExternal")
+        checkbox!.setCallback(checkbox!.ON_CHECK_OFF,"setNotExternal")
         checkbox!.addStyle("checkbox")
         externalIcon! = #footer!.addStaticText(#footer!.getAvailableControlID(),0,0,20,20,Icons.get("external-link"))
         
+    methodend
+    
+    method public void setExternal(BBjCheckOnEvent event!)
+        #openExternal! = Boolean.TRUE    
+    methodend
+    
+    method public void setNotExternal(BBjCheckOffEvent event!)
+        #openExternal! = Boolean.FALSE 
+    methodend
+    
+    method public void onHeaderClick(BBjCustomEvent ev!)
+        #fireEvent(#ON_CARD_CLICK,#item!.getNodeId())
+    methodend
+    
+    method public void onBodyClick(BBjMouseDownEvent ev!)
+        #fireEvent(#ON_CARD_CLICK,#item!.getNodeId())
     methodend
     
     method public void setMenuItem(MenuItem item!)
@@ -77,14 +106,10 @@ class public MenuCard extends BBjWidget
     
     method public void setLetterColor(String color!)
         #header!.setLetterColor(color!)
-    methodend
-    
-    method public void onClick(BBjMouseDownEvent ev!)   
-        #super!.fireEvent(BBjAPI.ON_MOUSE_DOWN,ev!.getControl().getID())
-    methodend
+    methodend 
     
     method public void setFavorite(BBjCustomEvent event!)
-    
+        #super!.fireEvent(#ON_FAVORITES_ADD,#item!.getNodeId())
     methodend
 
 classend

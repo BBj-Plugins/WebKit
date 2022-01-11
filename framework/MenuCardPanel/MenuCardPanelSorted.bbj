@@ -78,8 +78,12 @@ class public MenuCardPanelSorted extends TreeListPanel
             tile!.setMenuItem(item!)
             tile!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuItemClick")
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
+            tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
+            if item!.getIcon() <> "" AND item!.getIcon() <> null() then              
+                tile!.setIcon(item!.getIcon())
+            endif
             #MenuItemTiles!.put(item!.getNodeId(),tile!)
-                          
+                    
         wend  
         it! = headers!.iterator()
         while it!.hasNext()
@@ -95,13 +99,18 @@ class public MenuCardPanelSorted extends TreeListPanel
                 id%  = item!.getNodeId()
                 tile! = new MenuCard(#MenuTilesBox!, id%)
                 tile!.setMenuItem(item!)
-                tile!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuItemClick")
+                tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
+                tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
                 tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
+                if item!.getIcon() <> "" AND item!.getIcon() <> null() then             
+                    tile!.setIcon(item!.getIcon())
+                endif
                 #MenuItemTiles!.put(item!.getNodeId(),tile!)
             wend
         wend
      
     methodend   
+    
     
     
     rem @override
