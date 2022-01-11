@@ -1,0 +1,73 @@
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/widgets/MenuCard/MenuCard.bbj::MenuCard
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+
+class public MenuCardPanel extends TreeListPanel
+
+    method public MenuCardPanel(BBjWindow wnd!)  
+     
+        
+        DynamicLoader.addLocalCSS("WebKit/framework/MenuCardPanel/MenuCardPanel.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+        #setVisible(0)
+        
+    methodend
+    
+    rem @override
+    method public void redraw(Boolean e_init!)
+        
+        if e_init! > 0 then
+            window! = #getCanvas()
+            window!.addPanelStyle("menupanel")
+            #createHeadLine(window!)
+            #createAdditionalTopPanel()
+            #MenuTilesBox! = #getCanvas().addChildWindow(window!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #MenuTilesBox!.addStyle("menuTilesBox")
+            #MenuTilesBox!.addStyle("menuCardBox")
+            
+            #Headline!.addStyle("headline")
+            
+            #colors!.add("#FFFFFF")
+        FI
+    methodend
+    
+    rem @override
+    method public void setParentNode(BBjNumber nodeId)
+        #cleanup()
+        #parentNodeID = nodeId
+        declare MenuItem node!
+        declare MenuItem item!
+        node! = #Menu!.getItem(nodeId)
+        #Headline!.setText(node!.getCaption())
+        
+        v! = node!.getChildren()
+        it! = v!.iterator()
+        while it!.hasNext()
+            item! = cast(MenuItem,it!.next())
+             id%  = item!.getNodeId()
+            tile! = new MenuCard(#MenuTilesBox!, id%)
+            tile!.setMenuItem(item!)
+            tile!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuItemClick")
+            tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
+            #MenuItemTiles!.put(item!.getNodeId(),tile!)
+        wend
+    methodend
+    
+    
+    rem @override
+    method public void onMenuItemClick(BBjCustomEvent ev!)
+        
+        nodeId=num(str(ev!.getObject()))
+        item!=#Menu!.getItem(nodeId)
+        if item!.hasChildren() then
+            #setParentNode(nodeId)
+        else
+            #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getObject())
+        fi
+    methodend   
+    
+    
+classend

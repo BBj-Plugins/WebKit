@@ -1,0 +1,103 @@
+.menuCard {
+    background: #FFFFFF;
+    border-radius: 8px;
+    display: flex;
+    height: 200px;
+    width: 400px;
+    flex-direction: column;
+}
+
+.body {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 150%;
+    width: 300px;
+    height: 100px;
+    margin: 20px 25px 10px;
+}
+
+.footer {
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    padding-right: 20px;
+}
+
+.checkbox {
+    color: black
+}
+
+.menuCard .menutile {
+    height: 90px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px #E5E5E5 solid !important;
+    padding-left: 5px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.menuCard .btnPart {
+    height: 50px;
+    width: 500px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.menutile .letterField {
+    font-size: 19px;
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+
+.menuCard .menutile .tilelabel {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    margin-left: 10px;
+}
+
+.menuCard .trailingIcon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 30px;
+    background: white;
+    color: #EEEFF1;
+}
+
+.menuCard .iconWrapper {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    background: white;
+}
+
+.checkbox {
+    margin: 5px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+@media (hover: hover) {
+    .menuCard .menutile:hover {
+        background: unset;
+    }
+}

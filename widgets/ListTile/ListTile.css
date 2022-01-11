@@ -110,8 +110,8 @@
 
 @media (hover: hover) {
     .menutile:hover {
-        background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
-        background-color: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF !important;
+        background: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF;
+        background-color: linear-gradient(0deg, rgba(104, 131, 186, 0.1), rgba(104, 131, 186, 0.1)), #FFFFFF;
     }
     .child:hover .iconWrapper {
         display: flex;

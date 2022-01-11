@@ -6,10 +6,12 @@ use ::WebKit/widgets/DashboardTasks/DashboardTasks.bbj::DashboardTasks
 use ::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
+use ::WebKit/widgets/MenuCard/MenuCard.bbj::MenuCard
+use ::WebKit/model/Menu.bbj::MenuItem
 class public ShowCaseMenuPanel extends TreeListPanel
     field public DashboardHeader dashHeader!
     field public DashboardTasks dashTasks!
-    field public ChileCompanyDashboardPanel chileDashBoard!
+    
     
     method public ShowCaseMenuPanel(BBjWindow wnd!)
         
@@ -46,9 +48,11 @@ class public ShowCaseMenuPanel extends TreeListPanel
     methodend
    
    method public void createThirdWidget(BBjWindow wnd!)
-        #chileDashBoard! = new ChileCompanyDashboardPanel(wnd!)
-        #chileDashBoard!.addStyle("chileDash")
+        declare MenuCard card!
+        card! = new MenuCard(wnd!)
+        card!.setMenuItem(new MenuItem(null(),104,"Fast Reseller","Fast Reseller",""))
         
+        card!.setLetterColor("#408458")
    methodend
    
    
