@@ -51,7 +51,7 @@ class public MenuCardPanel extends TreeListPanel
             tile! = new MenuCard(#MenuTilesBox!, id%)
             tile!.setMenuItem(item!)
             tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
-            tile!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuItemClick")
+            tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
             #MenuItemTiles!.put(item!.getNodeId(),tile!)
             if item!.getIcon() <> "" AND item!.getIcon() <> null() then             
