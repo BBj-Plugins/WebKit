@@ -80,7 +80,7 @@ class public TreeListPanel extends BBjWidget
     methodend
      
     
-    method private void cleanup()
+    method public void cleanup()
         if #MenuItemTiles!.size()>0 then
             it! = #MenuItemTiles!.keySet().iterator()
             while it!.hasNext()
