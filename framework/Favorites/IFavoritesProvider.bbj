@@ -1,0 +1,10 @@
+use ::WebKit/model/Menu.bbj::MenuItem
+
+interface public IFavoritesProvider
+
+    method public BBjVector getFavorites()     
+    method public void addFavorite(MenuItem item!)                      
+    method public void removeFavorite(MenuItem item!)                
+    method public Boolean isItemFavorite(MenuItem item!)
+    
+interfaceend

@@ -22,7 +22,7 @@
 
 .menuTilesBox {
     display: grid;
-    background: #FFFFFF;
+    background: var(--bbj-window-background);
     border-radius: 8px;
     width: 580px;
     height: 100%;
@@ -31,10 +31,10 @@
 }
 
 .tilesBoxTitle {
-    font-family: Lato;
+    font-family: var(--bbj-font-family);
     font-size: 10px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: var(--bbj-font-weight-bold);
     line-height: 12px;
     letter-spacing: 0.5px;
     text-align: left;

@@ -1,0 +1,24 @@
+use ::Webkit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
+use ::WebKit/model/Menu.bbj::MenuItem
+
+class public SampleFavoritesProvider implements IFavoritesProvider
+    
+    field private BBjVector favorites! = new BBjVector()
+    
+    method public BBjVector getFavorites()
+        methodret #favorites!
+    methodend
+    
+    method public void addFavorite(MenuItem item!)
+        #favorites!.add(item!)
+    methodend
+    
+    method public void removeFavorite(MenuItem item!)
+        #favorites!.remove(item!)
+    methodend
+    
+    method public Boolean isItemFavorite(MenuItem item!)
+        methodret #favorites!.contains(item!)
+    methodend
+
+classend

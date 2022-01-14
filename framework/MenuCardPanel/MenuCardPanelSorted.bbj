@@ -23,7 +23,7 @@ class public MenuCardPanelSorted extends TreeListPanel
             window! = #getCanvas()
             window!.addPanelStyle("menupanel")
             #createHeadLine(window!)
-            #createAdditionalTopPanel()
+           
             #MenuTilesBox! = #getCanvas().addChildWindow(window!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #MenuTilesBox!.addStyle("menuTilesBox")
             #MenuTilesBox!.addStyle("menuCardBox")
@@ -79,6 +79,11 @@ class public MenuCardPanelSorted extends TreeListPanel
             tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
             tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
+            
+            if #favoritesProvider!.isItemFavorite(item!) then
+                    tile!.toggleFavorite()
+            fi
+            
             if item!.getIcon() <> "" AND item!.getIcon() <> null() then              
                 tile!.setIcon(item!.getIcon())
             endif
@@ -102,6 +107,11 @@ class public MenuCardPanelSorted extends TreeListPanel
                 tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
                 tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
                 tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
+                
+                if #favoritesProvider!.isItemFavorite(item!) then
+                    tile!.toggleFavorite()
+                fi
+                
                 if item!.getIcon() <> "" AND item!.getIcon() <> null() then             
                     tile!.setIcon(item!.getIcon())
                 endif
