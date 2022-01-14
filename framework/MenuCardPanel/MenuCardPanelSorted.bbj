@@ -109,9 +109,7 @@ class public MenuCardPanelSorted extends TreeListPanel
             wend
         wend
      
-    methodend   
-    
-    
+    methodend
     
     rem @override
     method public void onMenuItemClick(BBjCustomEvent ev!)
