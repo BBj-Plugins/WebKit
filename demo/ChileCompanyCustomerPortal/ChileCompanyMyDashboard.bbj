@@ -34,7 +34,5 @@ class public ChileCompanyMyDashboard extends BBjWidget
             
             methodret
         FI
-
-        
     methodend    
 classend
