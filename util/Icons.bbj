@@ -9,6 +9,7 @@ class public Icons
     field private static String LabelStyle! = "display:flex;align-items: center;gap: 1rem;"
 
     method public static String get(String iconName!)
+
         methodret #get (null(),iconName!)
     methodend
     
@@ -17,9 +18,9 @@ class public Icons
     methodend
 
     method public static String getWithStyling(String iconName!, String style!) 
+
     	methodret #get(null(),iconName!,style!)
-    methodend
-    
+    methodend   
     method public static String get(String poolName!, String iconName!, String style!)
         methodret String.format("<html>%s</html>", #build(poolName!, iconName!,style!))
     methodend
