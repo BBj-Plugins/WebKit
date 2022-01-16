@@ -1,4 +1,6 @@
-class public WebComponents
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+class public WebComponents extends BBjWidget
     
     field public BBjString script$
 
