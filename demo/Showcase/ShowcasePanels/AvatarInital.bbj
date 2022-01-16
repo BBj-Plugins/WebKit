@@ -1,0 +1,73 @@
+use ::WebKit/demo/ShowCase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/framework/DialogPanel/DialogPanel.bbj::DialogPanel
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
+use ::WebKit/widgets/WebComponents/AvatarIcon/AvatarIcon.bbj::AvatarIcon
+
+class public AvatarInital extends ShowcaseWidget
+
+    field private BBjChildWindow window!
+    field private BBjHtmlView avatarWnd!
+    field private InputField SubmitButtonTheme!
+    field private InputField SubmitButtonText!
+    field private InputField AvatarName!
+    field private BBjCheckBox CbModal!
+    field private BBjCheckBox CbCloseIcon!
+    field private BBjCheckBox CbCloseOutside!
+    field private BBjChildWindow panel!
+
+    method public AvatarInital(BBjWindow wnd!)
+        #super!(wnd!)
+        
+        #setTitle("Avatar Initail Demo")
+        #setIntro("This demo shows the Avatar initail  stuff")
+    methodend
+    method public void redraw(Boolean init!)
+    #super!.redraw(init!)
+   
+    if init! then
+        
+        #panel! = #getContentWindow()
+        #panel!.setStyle("display","flex")
+        #panel!.setStyle("flex-direction","column")
+        #panel!.setStyle("row-gap","10px")
+        
+        #AvatarName! = new InputField(#panel!)
+        #AvatarName!.setLabel("Avatar Name")
+        #AvatarName!.setInput("Stephan Wald")
+
+        #SubmitButtonText! = new InputField(#panel!)
+        #SubmitButtonText!.setLabel("Height")
+        #SubmitButtonText!.setInput("50")
+
+        #SubmitButtonTheme! = new InputField(#panel!)
+        #SubmitButtonTheme!.setLabel("Width")
+        #SubmitButtonTheme!.setInput("50")
+        
+        BtnShow! = #panel!.addButton(#panel!.getAvailableControlID(),0,0,0,0,"Create Avatar")
+        BtnShow!.setStyle("display","flex")
+        BtnShow!.setStyle("justify-content","flex-end")
+        BtnShow!.setAttribute("theme","primary")
+        BtnShow!.setAttribute("expanse","l")
+        BtnShow!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!,"onShowDialog")    
+
+    endif
+
+
+methodend
+
+method public void onShowDialog(BBjButtonPushEvent ev!)
+
+    if #avatarWnd! <> null() then  
+        #avatarWnd!.destroy()
+    endif
+
+    webComponents! = new AvatarIcon()
+    #avatarWnd! = CAST(BBjHtmlView, webComponents!.drawAvatarIcon(#panel!, #SubmitButtonText!.getInput(), #SubmitButtonTheme!.getInput(), #AvatarName!.getInput() ))
+
+    #avatarWnd!.setStyle("margin","auto")
+    
+methodend
+    
+classend

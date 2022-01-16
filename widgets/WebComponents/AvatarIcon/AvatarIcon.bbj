@@ -10,7 +10,7 @@ class public AvatarIcon extends WebComponents
     methodend
 
     method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjInt height%, BBjInt width%, BBjString name$)
-        htmlView! = wnd!.addHtmlView(101,0,0,300,300,"<avatar-initial height="""+str(height%)+""" width="""+str(width%)+""" name="""+name$+"""></avatar-initial>")
+        htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+str(height%)+""" width="""+str(width%)+""" name="""+name$+"""></avatar-initial>")
         htmlView!.setStyle("border","none")
         htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT,#this!,"onClickAvatarInitial")
         htmlView!.executeScript(#script$)
@@ -18,7 +18,7 @@ class public AvatarIcon extends WebComponents
     methodend 
 
     method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjString height$, BBjString width$, BBjString name$)
-        htmlView! = wnd!.addHtmlView(101,0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
+        htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
         htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT,  #this!, "onClickAvatarInitial")
         htmlView!.setStyle("border","none")
         htmlView!.executeScript(#script$)
@@ -29,7 +29,7 @@ class public AvatarIcon extends WebComponents
         sg! =  BBjAPI().openSysGui("X0")
         #Wnd! =sg!.addWindow(95501,0,0,0,0,"",$01101083$)
         sg!.setContext(sg!.getAvailableContext())
-        htmlView! = #Wnd!.addHtmlView(101,0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
+        htmlView! = #Wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
         htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT, #this!,"onClickAvatarInitial")
         htmlView!.setStyle("border","none")
         htmlView!.executeScript(#script$)
@@ -37,7 +37,7 @@ class public AvatarIcon extends WebComponents
 
     method public void onClickAvatarInitial(BBjNativeJavaScriptEvent ev!)
         ClientUtil.consoleLog("catched the webcomponent event from BBj :)")
-       #fireEvent(#ON_AVATAR_INITIAL_CLICK, ev!)
+        rem #fireEvent(#ON_AVATAR_INITIAL_CLICK, ev!)
     methodend
 
 methodend 
