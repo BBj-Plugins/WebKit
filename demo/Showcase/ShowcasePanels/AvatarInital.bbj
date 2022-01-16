@@ -9,8 +9,8 @@ class public AvatarInital extends ShowcaseWidget
 
     field private BBjChildWindow window!
     field private BBjHtmlView avatarWnd!
-    field private InputField SubmitButtonTheme!
-    field private InputField SubmitButtonText!
+    field private InputField avatarWidth!
+    field private InputField avatarHeight!
     field private InputField AvatarName!
     field private BBjCheckBox CbModal!
     field private BBjCheckBox CbCloseIcon!
@@ -37,13 +37,13 @@ class public AvatarInital extends ShowcaseWidget
         #AvatarName!.setLabel("Avatar Name")
         #AvatarName!.setInput("Stephan Wald")
 
-        #SubmitButtonText! = new InputField(#panel!)
-        #SubmitButtonText!.setLabel("Height")
-        #SubmitButtonText!.setInput("50")
+        #avatarHeight! = new InputField(#panel!)
+        #avatarHeight!.setLabel("Height")
+        #avatarHeight!.setInput("50")
 
-        #SubmitButtonTheme! = new InputField(#panel!)
-        #SubmitButtonTheme!.setLabel("Width")
-        #SubmitButtonTheme!.setInput("50")
+        #avatarWidth! = new InputField(#panel!)
+        #avatarWidth!.setLabel("Width")
+        #avatarWidth!.setInput("50")
         
         BtnShow! = #panel!.addButton(#panel!.getAvailableControlID(),0,0,0,0,"Create Avatar")
         BtnShow!.setStyle("display","flex")
@@ -53,8 +53,6 @@ class public AvatarInital extends ShowcaseWidget
         BtnShow!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!,"onShowDialog")    
 
     endif
-
-
 methodend
 
 method public void onShowDialog(BBjButtonPushEvent ev!)
@@ -64,7 +62,7 @@ method public void onShowDialog(BBjButtonPushEvent ev!)
     endif
 
     webComponents! = new AvatarIcon()
-    #avatarWnd! = CAST(BBjHtmlView, webComponents!.drawAvatarIcon(#panel!, #SubmitButtonText!.getInput(), #SubmitButtonTheme!.getInput(), #AvatarName!.getInput() ))
+    #avatarWnd! = CAST(BBjHtmlView, webComponents!.drawAvatarIcon(#panel!, #avatarHeight!.getInput(), #avatarWidth!.getInput(), #AvatarName!.getInput() ))
 
     #avatarWnd!.setStyle("margin","auto")
     
