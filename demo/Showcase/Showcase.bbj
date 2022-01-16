@@ -31,11 +31,11 @@ REM menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"DashboardHeaderDemo","A d
 REM menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DashboardShowcase.bbj::DashboardShowcase")
 REM menuItem!.setStartType(0)
 
-menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","window-restore")
+menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","message-circle")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DialogShowcase.bbj::DialogShowcase")
 menuItem!.setStartType(0)
 
-menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Avatar Inital","Avatar Inital Demo","logout")
+menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Avatar Inital","Avatar Inital Demo","typography")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/AvatarInital.bbj::AvatarInital")
 menuItem!.setStartType(0)
 
