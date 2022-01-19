@@ -416,10 +416,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     
     
     method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
-        rem menuPanel! = new TreeListPanel(panelWindow!)
+        menuPanel! = new TreeListPanel(panelWindow!)
         rem menuPanel! = new MenuCardPanel(panelWindow!)
         
-        menuPanel! = new MenuCardPanelSorted(panelWindow!)
+        rem menuPanel! = new MenuCardPanelSorted(panelWindow!)
         rem Test Colors
         colors! = new BBjVector()
         colors!.add("#408458")

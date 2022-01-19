@@ -50,7 +50,7 @@ class public TreeListPanel extends BBjWidget
             window! = #getCanvas()
             window!.addPanelStyle("menupanel")
             #createHeadLine(window!)
-            #createAdditionalTopPanel()
+            
             #MenuTilesBox! = #getCanvas().addChildWindow(window!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #MenuTilesBox!.addStyle("menuTilesBox")
             
