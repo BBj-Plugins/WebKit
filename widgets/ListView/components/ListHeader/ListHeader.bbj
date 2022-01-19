@@ -6,16 +6,13 @@ use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
 use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
 use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderMenuItem
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-
 use com.basiscomponents.db.ResultSet
 
 class public ListHeader extends BBjWidget
+
     field private BBjChildWindow window!
-
     field private BBjWindow superParent!
-
     field private ListHeaderDataModel listHeaderDataModel!
-
     field public static BBjNumber ON_HEADER_ITEM_PRESSED = 1234
 
     method public ListHeader(BBjWindow parent!)
@@ -29,7 +26,7 @@ class public ListHeader extends BBjWidget
     methodend
 
     method public ListHeaderDataModel getListHeaderDataModel()
-        methodret #listHeaderDataModel! 
+        methodret #listHeaderDataModel!
     methodend
 
     method public void redraw(Boolean init!)
@@ -39,8 +36,15 @@ class public ListHeader extends BBjWidget
         if #listHeaderDataModel! = null() THEN
             methodret
         fi
-        listMenuItems! = #listHeaderDataModel!.getMenuItems()
 
+        if #listHeaderDataModel!.getTitle() <> null() AND #listHeaderDataModel!.getTitle() <> "" THEN
+            title! = #window!.addStaticText(#window!.getAvailableControlID(), 0, 0, 0, 0, #listHeaderDataModel!.getTitle())
+            title!.addStyle("headline")
+            title!.setStyle("margin-left","28px")
+            title!.setStyle("margin-top","13px")
+        endif
+
+        listMenuItems! = #listHeaderDataModel!.getMenuItems()
         for i = 0 to listMenuItems!.size() - 1
             menu! = listMenuItems!.get(i)
             item! = #window!.addButton(menu!.getID(),0,0,0,0,menu!.getMenuLabel())
@@ -51,8 +55,9 @@ class public ListHeader extends BBjWidget
     methodend
 
     method public void onMenuItemBtnPress(BBjButtonPushEvent ev!)
-       ClientUtil.consoleLog(str(ev!.getControl().getID()))
-       btnId! = ev!.getControl().getID()
-       #fireEvent(#ON_HEADER_ITEM_PRESSED, btnId!)
+        ClientUtil.consoleLog(str(ev!.getControl().getID()))
+        btnId! = ev!.getControl().getID()
+        #fireEvent(#ON_HEADER_ITEM_PRESSED, btnId!)
     methodend
+
 classend

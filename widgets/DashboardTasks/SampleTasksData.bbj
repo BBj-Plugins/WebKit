@@ -1,10 +1,30 @@
 use com.basiscomponents.db.ResultSet
+use com.basiscomponents.db.DataRow
 
 use ::WebKit/widgets/DashboardTasks/IDashboardTasksData.bbj::ITasksData
 
 
 class public SampleTasksData implements ITasksData
     method public ResultSet getData()
-        methodret new ResultSet()
+        resSet! = new ResultSet()
+        row! = new DataRow()
+        row!.setFieldValue("COMPANY","Twitter Inc.")
+        row!.setFieldValue("DESC","Reschedule appointment")
+        row!.setFieldValue("DUE_DT","11/12/2020")
+        row!.setFieldValue("TASKPRIORITYDESC","High")
+        resSet!.add(row!)
+        row! = new DataRow()
+        row!.setFieldValue("COMPANY","Random Studios B.V.")
+        row!.setFieldValue("DESC","Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.")
+        row!.setFieldValue("DUE_DT","11/12/2020")
+        row!.setFieldValue("TASKPRIORITYDESC","High")
+        resSet!.add(row!)
+        row! = new DataRow()
+        row!.setFieldValue("COMPANY","Dropbox company")
+        row!.setFieldValue("DESC","Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.")
+        row!.setFieldValue("DUE_DT","11/12/2020")
+        row!.setFieldValue("TASKPRIORITYDESC","High")
+        resSet!.add(row!)
+        methodret resSet!
     methodend
 classend

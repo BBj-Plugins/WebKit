@@ -2,6 +2,7 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 
 use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/Util/Icons.bbj::Icons
 
 
 class public ChileCompanyMyDashboard extends BBjWidget
@@ -29,12 +30,11 @@ class public ChileCompanyMyDashboard extends BBjWidget
             canvas! = #getCanvas() 
             canvas!.addStyle("dashboardWindow")
             canvas!.addPanelStyle("dashboardWindowPanel")
-            canvas!.addStaticText(100, 0, 0, 0, 0, "To be implemented!!")
+            canvas!.addStaticText(100, 0, 0, 0, 0, Icons.get("check","color:red"))
             PortalFrame.getInstance().reloadAllPanels()
             
             methodret
         FI
-        escape
         
     methodend    
 classend

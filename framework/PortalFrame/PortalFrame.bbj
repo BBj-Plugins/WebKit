@@ -2,7 +2,9 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
-use ::WebKit/framework/MenuPanel/MenuPanel.bbj::MenuPanel
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/framework/MenuCardPanel/MenuCardPanel.bbj::MenuCardPanel
+use ::WebKit/framework/MenuCardPanel/MenuCardPanelSorted.bbj::MenuCardPanelSorted
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
@@ -32,12 +34,13 @@ class public PortalFrame
     field public Menu FooterMenu! = new Menu()
     field public Menu HeaderMenu! = new Menu()
     field public Menu HiddenMenu! = new Menu()
+    field private MenuItem startingPanel!
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
-    field private BBjWidget curr_win! 
-    field private MenuPanel menuPanel!
+    field public BBjWidget curr_win! 
+   
 
     field private BBjPopupMenu AccountMenu!
 
@@ -193,15 +196,18 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             anchor$ = ClientUtil.getUrlAnchor()
             if anchor$>"" then
                 #navigateTo(anchor$)
-            fi
-
-                    
+            else
+                if #startingPanel! <> null() then 
+                    #navigateTo(#startingPanel!)
+                endif
+            endif
+           
             process_events,err=*same
             
             logout:
                 ClientUtil.setUrlAnchor("", "")
                 methodret 1
-            
+       
     methodend
     
     method public BBjWidget navigateTo(BBjString anchor$)
@@ -285,15 +291,18 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             #curr_win!=null()
         fi
                 
-        if item!.hasChildren() then
-            if (#menuPanel! = null()) then
-                #menuPanel! = new MenuPanel(#Main!)
-                #menuPanel!.setMenu(#Menu!)
-                #menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+        if item!.hasChildren() then 
+            declare TreeListPanel menuPanel!
+            if (menuPanel! = null()) then
+                menuPanel! = #createMenuPanelObject(#Main!)
             fi
-            #menuPanel!.setParentNode(item!.getNodeId())
-            #menuPanel!.setVisible(1)
-            #curr_win! = #menuPanel! 
+            menuPanel!.setMenu(#Menu!)
+            menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+            menuPanel!.setParentNode(item!.getNodeId())
+            menuPanel!.setVisible(1)
+            
+            #curr_win! = cast(TreeListPanel, menuPanel!)
+            
         else
         
             if #win_list!.containsKey(item!.getNodeId()) then
@@ -345,8 +354,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     
     method public void onAvatarAreaClick(BBjEvent ev!)
         #AccountMenu!.show(#Avatar!,5,50)
-    methodend
-    
+    methodend   
   
     method public void onEmbedPanelClose(BBjCustomEvent ev!)
         item! = ev!.getObject()
@@ -386,8 +394,33 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         BBjAPI().postCustomEvent("logout", "")
         methodret
     methodend
+    REM /**
+    REM  * panelWindow! contains the main window of the portalframe.
+    REM  * 
+    REM  * item! contains the currently selected item in form of a MenuItem.
+    REM  * 
+    REM  * If standard portalframe function is wished to be used, onMenuItemClick is the 
+    REM  * callback to used to jump to the clicked item.
+    REM  * 
+    REM  * it is necessary to update #curr_win! with the new window.
+    REM  */
     
-   
+    
+    method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
+        rem menuPanel! = new TreeListPanel(panelWindow!)
+        rem menuPanel! = new MenuCardPanel(panelWindow!)
+        menuPanel! = new MenuCardPanelSorted(panelWindow!)
+        rem Test Colors
+        colors! = new BBjVector()
+        colors!.add("#408458")
+        colors!.add("#9B0058")
+        colors!.add("#6883BA")
+        menuPanel!.setColors(colors!)
+        
+        
+        methodret menuPanel!
+    methodend
+    
     method public void onChangeTheme()
         dark$="0"
         dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
@@ -400,7 +433,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
         BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
     methodend
-    
+
     method public void reloadActivePanel()
         if #curr_win! <> null() then 
             #curr_win!.redraw(0)
@@ -423,7 +456,47 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         next i 
     methodend
     
+    
+    REM /**
+    REM  * Searches for the panel in the Header and the normal Menu with the panel id
+    REM  * If reloading with an existing anchor the startingPanel will be ignored
+    REM  * Must be called bevor doModal()
+    REM  */
+    method public void setStartingPanel(BBjNumber id!)
+        declare MenuItem item!
+        
+        item! = #HeaderMenu!.getItem(id!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi
+        
+        item! = #Menu!.getItem(id!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi     
+    methodend
+    
+    REM /**
+    REM  * Searches for the panel in the Header and the normal Menu with the panels anchor
+    REM  * If reloading with an existing anchor the startingPanel will be ignored
+    REM  * Must be called bevor doModal()
+    REM  */
+    method public void setStartingPanel(BBjString anchor!)
+        declare MenuItem item!
+        
+        item! = #HeaderMenu!.getItem(anchor!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi
+        
+        item! = #Menu!.getItem(anchor!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi     
+    methodend
+    
 classend
+
 
 
 

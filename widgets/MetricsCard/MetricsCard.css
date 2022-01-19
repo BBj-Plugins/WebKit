@@ -1,0 +1,13 @@
+.metricsCard {
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(225, 234, 234);
+    box-sizing: border-box;
+    border-radius: 8px;
+    height: 100px;
+    width: 200px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 20px;
+    margin-top: 20px;
+}

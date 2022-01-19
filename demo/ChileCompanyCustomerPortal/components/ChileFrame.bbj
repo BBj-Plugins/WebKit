@@ -2,7 +2,8 @@ use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
 use ::WebKit/demo/ChileCompanyCustomerPortal/components/ChileDrawer.bbj::ChileDrawer
-
+use ::WebKit/demo/ChileCompanyCustomerPortal/components/ChileMenuPanel.bbj::ChileMenuPanel
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 
 class public ChileFrame extends PortalFrame
 
@@ -11,6 +12,19 @@ class public ChileFrame extends PortalFrame
     method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!)
         cd! = new ChileDrawer(window!, drawerDataModel!)
         methodret cd! 
+    methodend
+    
+    rem @Override
+    method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
+    menuPanel! = new ChileMenuPanel(panelWindow!)
+    rem Test Colors
+    colors! = new BBjVector()
+    colors!.add("#408458")
+    colors!.add("#9B0058")
+    colors!.add("#6883BA")
+    menuPanel!.setColors(colors!)
+    methodret menuPanel!
+    
     methodend
 
 classend

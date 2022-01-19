@@ -1,0 +1,47 @@
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/util/Icons.bbj::Icons
+use ::WebKit/widgets/MetricsCard/MetricsCard.bbj::MetricsCard
+
+class public ChileMenuPanel extends TreeListPanel
+    
+    method public ChileMenuPanel(BBjWindow wnd!)
+    
+        #super!(wnd!)
+        #createAdditionalBotPanel()
+    methodend
+   
+    method public void createAdditionalTopPanel()
+        declare BBjChildWindow chiliPanel!
+        chiliPanel! = #getCanvas().addChildWindow(#getCanvas().getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        chiliPanel!.setStyle("margin-bottom","25px")
+        chiliPanel!.setStyle("display","flex")
+        chiliPanel!.setStyle("align-items","center")
+        
+        metricA! = new MetricsCard(chiliPanel!)
+        metricA!.setCount("3")
+        metricA!.setTitle("Data Metric A")
+        metricA!.setIcon("thumbs-up")
+        metricB! = new MetricsCard(chiliPanel!)
+        metricB!.setCount("44")
+        metricB!.setTitle("Data Metric B")
+        metricB!.setIcon("alert-triangle")
+        metricC! = new MetricsCard(chiliPanel!)
+        metricC!.setCount("5")
+        metricC!.setTitle("Data Metric C")
+       
+        
+
+    methodend
+    
+    method public void createAdditionalBotPanel()
+    
+    methodend
+      
+classend
+
+
+
+
+
+
+
