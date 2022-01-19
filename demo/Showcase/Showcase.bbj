@@ -45,6 +45,10 @@ menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Avatar Inital","Avatar Inital
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/AvatarInital.bbj::AvatarInital")
 menuItem!.setStartType(0)
 
+menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","message-circle")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DialogShowcase.bbj::DialogShowcase")
+menuItem!.setStartType(0)
+
 showCaseSubItem! = menu!.addMenuItem(showCaseItem!,202,"Personal - Sale","Personal - Sale","table")
 showCaseSubItem!.setStartType(2)
 
