@@ -43,7 +43,6 @@ class public MenuItem
         methodret #ToolTip!
     methodend
 
-
     method public BBjString getIcon()
         methodret #IconFileName!
     methodend

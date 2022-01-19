@@ -46,7 +46,7 @@ class public PortalFrame
 
     field private BBjPopupMenu AccountMenu!
     
-    field private IFavoritesProvider favoritesProvider! = new SampleFavoritesProvider()
+    field private IFavoritesProvider favoritesProvider! 
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
@@ -75,6 +75,10 @@ class public PortalFrame
             #ThisInstance! = new PortalFrame()
         fi
         methodret #ThisInstance!
+    methodend
+    
+    method public void setFavoritesProvider(IFavoritesProvider provider!)
+        #favoritesProvider! = provider!
     methodend
 
     method protected void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
@@ -416,8 +420,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         rem menuPanel! = new MenuCardPanel(panelWindow!)
         
         menuPanel! = new MenuCardPanelSorted(panelWindow!)
-        
-        menuPanel!.setFavoritesProvider(#favoritesProvider!)
         rem Test Colors
         colors! = new BBjVector()
         colors!.add("#408458")

@@ -69,6 +69,7 @@ class public TreeListPanel extends BBjWidget
             #toggleFavoritesButton!.setStyle("color","darkgray")
             #favButtonWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!,"onToggleFavorites")    
             #colors!.add("#FFFFFF")
+            #favoritesProvider! = SampleFavoritesProvider.getInstance()
         FI
     methodend
     
@@ -77,11 +78,7 @@ class public TreeListPanel extends BBjWidget
         #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
         #Headline!.addStyle("tilesheadline")
     methodend
-    
-    method public void setFavoritesProvider(IFavoritesProvider provider!)
-        #favoritesProvider! = provider!
-    methodend
-    
+
     method public void cleanup()
         if #MenuItemTiles!.size()>0 then
             it! = #MenuItemTiles!.keySet().iterator()
@@ -210,12 +207,6 @@ class public TreeListPanel extends BBjWidget
     
     method public void setColors(BBjVector colors!)
         #colors! = colors!
-    methodend
-    
-    method public void activateFavorites(Boolean value!)
-        #favoritesActivated! = value!
-        #favButtonWrapper!.setVisible(value!)      
-      
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)

@@ -1,7 +1,8 @@
 use ::WebKit/model/Menu.bbj::MenuItem
 
 interface public IFavoritesProvider
-
+    
+    method public static IFavoritesProvider getInstance()
     method public BBjVector getFavorites()     
     method public void addFavorite(MenuItem item!)                      
     method public void removeFavorite(MenuItem item!)                

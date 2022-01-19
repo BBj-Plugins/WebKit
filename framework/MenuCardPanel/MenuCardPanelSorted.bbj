@@ -3,6 +3,7 @@ use ::WebKit/widgets/MenuCard/MenuCard.bbj::MenuCard
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::Webkit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 
 class public MenuCardPanelSorted extends TreeListPanel
@@ -31,6 +32,7 @@ class public MenuCardPanelSorted extends TreeListPanel
             #Headline!.addStyle("headline")
             
             #colors!.add("#FFFFFF")
+            #favoritesProvider! = SampleFavoritesProvider.getInstance()
         FI
     methodend
     
@@ -70,7 +72,7 @@ class public MenuCardPanelSorted extends TreeListPanel
         
         css! = ""
         it! = children!.iterator()
-            
+          
         while it!.hasNext()
             item! = cast(MenuItem,it!.next())
             id%  = item!.getNodeId()
@@ -90,10 +92,12 @@ class public MenuCardPanelSorted extends TreeListPanel
             #MenuItemTiles!.put(item!.getNodeId(),tile!)
                     
         wend  
+        
         it! = headers!.iterator()
         while it!.hasNext()
             item! = cast(MenuItem,it!.next())
             id%  = item!.getNodeId()
+            
             
             header! = #MenuTilesBox!.addStaticText(#MenuTilesBox!.getAvailableControlID(),0,0,0,0,item!.getCaption())
             header!.addStyle("header")
@@ -118,6 +122,7 @@ class public MenuCardPanelSorted extends TreeListPanel
                 #MenuItemTiles!.put(item!.getNodeId(),tile!)
             wend
         wend
+        
      
     methodend
     
