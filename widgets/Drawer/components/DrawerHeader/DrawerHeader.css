@@ -20,7 +20,7 @@
 .drawerHeaderPanelStyle {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 2rem 1rem;
+    padding: 2.7rem 1rem;
     gap: 2rem;
     align-items: center;
 }
