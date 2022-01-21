@@ -70,6 +70,10 @@ class public TreeListPanel extends BBjWidget
             #favButtonWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!,"onToggleFavorites")    
             #colors!.add("#FFFFFF")
             #favoritesProvider! = SampleFavoritesProvider.getInstance()
+            if #favoritesProvider!.getUser() = null()
+                #favoritesActivated! = Boolean.FALSE
+                #favButtonWrapper!.setVisible(0)
+            fi
         FI
     methodend
     
@@ -125,7 +129,7 @@ class public TreeListPanel extends BBjWidget
                 tile!.setText(item!.getCaption())
                 tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
                 tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
-                tile!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
+                tile!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
                 tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
                 
                 if #favoritesProvider!.isItemFavorite(item!) then
@@ -210,6 +214,7 @@ class public TreeListPanel extends BBjWidget
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
+    
         declare auto MenuItem node!
         declare auto MenuItem item!
         declare auto ListTile tile!

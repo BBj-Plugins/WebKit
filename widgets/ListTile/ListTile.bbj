@@ -92,6 +92,7 @@ class public ListTile extends BBjWidget
     method public void setHeader()
         #header! = Boolean.TRUE
         #textField!.setStyle("font-weight","700")
+        #textField!.setStyle("color","#333E40")
         #tile!.removePanelStyle("child")
         #arrowIcon!.setVisible(1)
         #letterField!.setVisible(0)

@@ -1,7 +1,7 @@
 use ::Webkit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/util/writeFavorites.bbj::WriteFavorites
+use ::WebKit/util/WriteFavorites.bbj::WriteFavorites
 use java.util.ArrayList
 
 
@@ -22,19 +22,16 @@ class public SampleFavoritesProvider implements IFavoritesProvider
     method public static IFavoritesProvider getInstance()
         if #sampleProvider! = null()
             #sampleProvider! = new SampleFavoritesProvider()
-            methodret #sampleProvider!
         endif
-        
-        if #currentUser! = null()
-            methodret null()
-        endif
-        
+           
         methodret #sampleProvider!
     methodend
     
     method public void setUser(String newUser!)
         declare ArrayList readList!
         #currentUser! = newUser!
+        #favorites!.clear()
+        
         
         readList! = WriteFavorites.getInstance().readFavorites(newUser!)
         if !readList!.isEmpty()
@@ -45,6 +42,10 @@ class public SampleFavoritesProvider implements IFavoritesProvider
             next i
         fi
        
+    methodend
+    
+    method public String getUser()
+        methodret #currentUser!
     methodend
     
     method public BBjVector getFavorites()
@@ -66,17 +67,19 @@ class public SampleFavoritesProvider implements IFavoritesProvider
     method public BBjVector getFavoriteIds()
         declare BBjVector favoriteIds!
         favoriteIds! = new BBjVector()
-        for i = 0 to #favorites!.size() - 1
-            nodeId! = cast(MenuItem,#favorites!.get(i)).getNodeId()
-            favoriteIds!.add(str(nodeId!))
-        next i
+        if !#favorites!.isEmpty()
+            for i = 0 to #favorites!.size() - 1
+                nodeId! = cast(MenuItem,#favorites!.get(i)).getNodeId()
+                favoriteIds!.add(str(nodeId!))
+            next i
+        fi
         methodret favoriteIds!
     methodend
     
     method public void removeFavorite(MenuItem item!)
         #favorites!.remove(item!)
         #favoritesItem!.removeChild(item!)
-        WriteFavorites.getInstance().writeFavorites(#favorites!,#currentUser!)
+        WriteFavorites.getInstance().writeFavorites(#getFavoriteIds(),#currentUser!)
     methodend
     
     method public Boolean isItemFavorite(MenuItem item!)

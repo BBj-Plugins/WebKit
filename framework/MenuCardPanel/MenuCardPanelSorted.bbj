@@ -33,6 +33,9 @@ class public MenuCardPanelSorted extends TreeListPanel
             
             #colors!.add("#FFFFFF")
             #favoritesProvider! = SampleFavoritesProvider.getInstance()
+            if #favoritesProvider!.getUser() = null()
+                #favoritesActivated! = Boolean.FALSE
+            fi
         FI
     methodend
     
@@ -81,9 +84,12 @@ class public MenuCardPanelSorted extends TreeListPanel
             tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
             tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
-            
-            if #favoritesProvider!.isItemFavorite(item!) then
-                    tile!.toggleFavorite()
+                 
+            tile!.toggleFavoritesButton(#favoritesActivated!)
+            if #favoritesActivated! then
+                if #favoritesProvider!.isItemFavorite(item!) then
+                        tile!.toggleFavorite()
+                fi
             fi
             
             if item!.getIcon() <> "" AND item!.getIcon() <> null() then              
@@ -111,9 +117,11 @@ class public MenuCardPanelSorted extends TreeListPanel
                 tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
                 tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
                 tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
-                
-                if #favoritesProvider!.isItemFavorite(item!) then
-                    tile!.toggleFavorite()
+                tile!.toggleFavoritesButton(#favoritesActivated!)
+                if #favoritesActivated! then
+                    if #favoritesProvider!.isItemFavorite(item!) then
+                            tile!.toggleFavorite()
+                    fi
                 fi
                 
                 if item!.getIcon() <> "" AND item!.getIcon() <> null() then             

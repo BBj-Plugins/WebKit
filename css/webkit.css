@@ -1,3 +1,7 @@
+:root {
+    --bbj-font-family: 'Lato';
+}
+
 body {
     overflow: hidden;
     overscroll-behavior-y: none;

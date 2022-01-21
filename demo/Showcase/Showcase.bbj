@@ -7,6 +7,7 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/demo/Showcase/components/ShowCaseFrame.bbj::ShowCaseFrame
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
+use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
@@ -15,14 +16,19 @@ REM open(999,mode="O_create, O_trunk")"C:\Users\Admin123\eclipse-workspace\temp\
 REM setTrace(999)
 
 ClientUtil.init()
+
+ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
+ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
+
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
 REM iconPool$ = STBL("icon-pool", "fa")
 iconPool$ = STBL("icon-pool", "tabler")
 
-
-login! = new LoginDialog("Showcase", new SampleAuthProvider())
+authProvider! = new SampleAuthProvider()
+login! = new LoginDialog("Showcase", authProvider!)
 login!.setLogo("WebKit/demo/assets/basislogo.png")
 login!.setAllowRemember(Boolean.TRUE)
 
@@ -84,6 +90,11 @@ portal! = new ShowCaseFrame()
 portal!.setMenu(menu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo.png")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_sm.png")
+favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","")
+favoritesProvider! = SampleFavoritesProvider.getInstance()
+favoritesProvider!.setFavoritesItem(favorites!)
+favoritesProvider!.setMenu(menu!)
+favoritesProvider!.setUser(authProvider!.getUser())
 
 portal!.doModal()
 
