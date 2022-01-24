@@ -12,7 +12,7 @@
 
 @media screen and (max-width: 425px) {
     .appbarStyle {
-        background-color: white;
+        background-color: var(--bbj-color-primary);
         position: relative;
         left: 0px;
         z-index: 99999 !important;
@@ -24,11 +24,8 @@
     .menu {
         height: 30px;
         width: 30px;
-        margin-top: 5px;
-        margin-left: 40px;
+        margin-top: 7px;
+        margin-left: 20px;
     }
     
-    .hydrated {
-        color: var(--bbj-color-black);
-    }
 }

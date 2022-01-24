@@ -12,8 +12,8 @@ class public Appbar extends BBjWidget
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addStyle("appbarStyle") 
         childWindow! = #window!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        childWindow!.addStyle("menu")       
-        menuIcon! = Icons.getIconOnWindow(childWindow!, "menu")
+        childWindow!.addStyle("menu")
+        menuIcon! = Icons.getIconOnWindow(childWindow!, null(), "menu", "color: white")
         childWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuClick")
         #setCanvas(#window!)
     methodend
