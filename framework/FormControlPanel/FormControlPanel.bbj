@@ -41,6 +41,7 @@ class public FormControlPanel
 
     method public void setResultSet(ResultSet rs!)
         #RS! = rs!
+        #dataRow! = new DataRow(rs!)
     methodend
 
     method public DataRow getResultSet()
@@ -99,9 +100,12 @@ class public FormControlPanel
 
            columnName! = columnNames!.get(i)
            _fieldLabel! = new InputField(fieldWnd!)
+           _fieldLabel!.setId(columnName!)
+           _inputField! = _fieldLabel!.getInputField()
+           _fieldLabel!.setCallback(InputField.ON_INPUT_CHANGE, #this!, "onInputChange")
 
            if #isEdit! = 1 THEN
-             _fieldLabel!.getInputField().setText(str(#dataRow!.getFieldValue(columnName!)))
+             _inputField!.setText(str(#dataRow!.getFieldValue(columnName!)))
            else
              _fieldLabel!.setPlaceHolder(columnName!)
            fi
@@ -135,6 +139,13 @@ class public FormControlPanel
         
         #overlay! = new Overlay(#window!, #modalWnd!)
         #overlay!.setCallback(Overlay.ON_OVERLAY_DISSMISSED, #this!,"onOverlayDissmiss")
+    methodend
+
+    method public void onInputChange(BBjCustomEvent ev!)
+        obj! = ev!.getObject()
+        fieldId! = obj!.getId()
+        fieldValue! = obj!.getInput()
+        #dataRow!.setFieldValue(fieldId!, fieldValue!)
     methodend
 
     method public void onFormSubmit(BBjButtonPushEvent ev!)

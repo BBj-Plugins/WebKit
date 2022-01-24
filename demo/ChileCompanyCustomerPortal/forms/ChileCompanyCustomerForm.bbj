@@ -54,6 +54,8 @@ class public ChileCompanyCustomerForm extends BBjWidget
     methodend    
 
     method public void onFormSubmit(BBjCustomEvent ev!)
+        REM we will get data row object with submitted form values in ev!.getObject()
+        REM Need to handle db operation here
         ClientUtil.consoleLog(str(ev!.getObject()))
     methodend
 

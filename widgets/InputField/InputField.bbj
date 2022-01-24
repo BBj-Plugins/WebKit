@@ -154,7 +154,7 @@ class public InputField extends BBjWidget
                 endif
             endif
         endif
-        #fireEvent(#ON_INPUT_CHANGE, "")
+        #fireEvent(#ON_INPUT_CHANGE, #this!)
     methodend
     
     method public void focus()
