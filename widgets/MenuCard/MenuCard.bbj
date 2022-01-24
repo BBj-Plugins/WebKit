@@ -1,0 +1,123 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/Icons.bbj::Icons
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
+use ::WebKit/util/Icons.bbj::Icons
+
+
+class public MenuCard extends BBjWidget 
+
+    field private BBjChildWindow card!
+    field private MenuItem item!
+    field private ListTile header!
+    field private BBjStaticText body!
+    field private BBjChildWindow footer!
+    
+    field public Boolean openExternal! = Boolean.FALSE
+    
+    field public static BBjNumber ON_CARD_CLICK = 600
+    
+    field public static BBjNumber ON_FAVORITES_ADD = 700
+    
+    method public MenuCard(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/MenuCard/MenuCard.css")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public MenuCard(BBjWindow wnd!, BBjInt id!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/MenuCard/MenuCard.css")
+        #super!.create(wnd!,id!)
+    methodend
+    
+    method public void redraw(Boolean f_init!)
+        #card! = #getCanvas()
+
+        if f_init!>0 then
+            #card!.addStyle("menuCard")
+            #card!.setCursor(32649)
+            
+            #header! = new ListTile(#card!,#card!.getAvailableControlID())
+            #header!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
+            #header!.disableHover()
+            #header!.setStyle("padding-left","25px")
+            #header!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onHeaderClick")
+            
+            declare BBjChildWindow bodyWrapper!
+            bodyWrapper! = #card!.addChildWindow(#card!.getAvailableControlID(),0,0,200,25,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            bodyWrapper!.addStyle("bodyWrapper")
+            
+            #body! = bodyWrapper!.addStaticText(bodyWrapper!.getAvailableControlID(),0,0,400,120,"")            
+            #body!.addStyle("body")
+            bodyWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onBodyClick")          
+            #footer! = #card!.addChildWindow(#card!.getAvailableControlID(),0,0,200,25,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #footer!.addStyle("footer")
+            #buildFooter()
+            
+            #footer!.setVisible(0)
+        FI
+    methodend
+    
+    method public void buildFooter()
+        declare BBjCheckBox checkbox!
+        declare BBjStaticText externalIcon!
+     
+        checkbox! = #footer!.addCheckBox(#footer!.getAvailableControlID(),0,0,22,22,"Open in new tab")
+        checkbox!.setCallback(checkbox!.ON_CHECK_ON,"setExternal")
+        checkbox!.setCallback(checkbox!.ON_CHECK_OFF,"setNotExternal")
+        checkbox!.addStyle("checkbox")
+        externalIcon! = #footer!.addStaticText(#footer!.getAvailableControlID(),0,0,20,20,Icons.get("external-link"))
+        
+    methodend
+    
+    method public void showFooter(Boolean value!)
+    
+        #footer!.setVisible(value!)
+    methodend
+    
+    method public void setExternal(BBjCheckOnEvent event!)
+        #openExternal! = Boolean.TRUE
+    methodend
+    
+    method public void setNotExternal(BBjCheckOffEvent event!)
+        #openExternal! = Boolean.FALSE 
+    methodend
+    
+    method public void onHeaderClick(BBjCustomEvent ev!)
+        #fireEvent(#ON_CARD_CLICK,#item!.getNodeId())
+    methodend
+    
+    method public void onBodyClick(BBjMouseDownEvent ev!)
+        #fireEvent(#ON_CARD_CLICK,#item!.getNodeId())
+    methodend
+    
+    method public void setMenuItem(MenuItem item!)
+        #item! = item!
+        #header!.setText(item!.getCaption())
+        if item!.getIcon() <> "" AND item!.getIcon() <> null() then
+           #header!.setIcon(item!.getIcon())
+        endif
+        #body!.setText(item!.getToolTip())
+    methodend
+    
+    method public void setHeader(BBjString headerText!)
+        #header!.setText(headerText!)
+    methodend
+    
+    method public void setBody(BBjString bodyText!)
+        #body!.setText(bodyText!)
+    methodend
+    
+    method public void setIcon(BBjString icon!)
+        #header!.setIcon(icon!)
+    methodend
+    
+    method public void setLetterColor(String color!)
+        #header!.setLetterColor(color!)
+    methodend 
+    
+    method public void setFavorite(BBjCustomEvent event!)
+        #super!.fireEvent(#ON_FAVORITES_ADD,#item!.getNodeId())
+    methodend
+
+classend

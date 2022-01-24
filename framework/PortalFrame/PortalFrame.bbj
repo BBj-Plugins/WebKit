@@ -3,6 +3,8 @@ use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/framework/MenuCardPanel/MenuCardPanel.bbj::MenuCardPanel
+use ::WebKit/framework/MenuCardPanel/MenuCardPanelSorted.bbj::MenuCardPanelSorted
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
@@ -34,6 +36,7 @@ class public PortalFrame
     field public Menu FooterMenu! = new Menu()
     field public Menu HeaderMenu! = new Menu()
     field public Menu HiddenMenu! = new Menu()
+    field private MenuItem startingPanel!
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
@@ -200,15 +203,18 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             anchor$ = ClientUtil.getUrlAnchor()
             if anchor$>"" then
                 #navigateTo(anchor$)
-            fi
-
-                    
+            else
+                if #startingPanel! <> null() then 
+                    #navigateTo(#startingPanel!)
+                endif
+            endif
+           
             process_events,err=*same
             
             logout:
                 ClientUtil.setUrlAnchor("", "")
                 methodret 1
-            
+       
     methodend
 
     method public void onResizeScreen(BBjResizeEvent ev!)
@@ -414,7 +420,9 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     
     
     method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
-        menuPanel! = new TreeListPanel(panelWindow!)
+        rem menuPanel! = new TreeListPanel(panelWindow!)
+        rem menuPanel! = new MenuCardPanel(panelWindow!)
+        menuPanel! = new MenuCardPanelSorted(panelWindow!)
         rem Test Colors
         colors! = new BBjVector()
         colors!.add("#408458")
@@ -426,11 +434,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         methodret menuPanel!
     methodend
     
-    
-   
-    
-    
-   
     method public void onChangeTheme()
         dark$="0"
         dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
@@ -443,7 +446,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
         BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
     methodend
-    
 
     method public void reloadActivePanel()
         if #curr_win! <> null() then 
@@ -467,7 +469,47 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         next i 
     methodend
     
+    
+    REM /**
+    REM  * Searches for the panel in the Header and the normal Menu with the panel id
+    REM  * If reloading with an existing anchor the startingPanel will be ignored
+    REM  * Must be called bevor doModal()
+    REM  */
+    method public void setStartingPanel(BBjNumber id!)
+        declare MenuItem item!
+        
+        item! = #HeaderMenu!.getItem(id!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi
+        
+        item! = #Menu!.getItem(id!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi     
+    methodend
+    
+    REM /**
+    REM  * Searches for the panel in the Header and the normal Menu with the panels anchor
+    REM  * If reloading with an existing anchor the startingPanel will be ignored
+    REM  * Must be called bevor doModal()
+    REM  */
+    method public void setStartingPanel(BBjString anchor!)
+        declare MenuItem item!
+        
+        item! = #HeaderMenu!.getItem(anchor!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi
+        
+        item! = #Menu!.getItem(anchor!)
+        if item! <> null() then
+            #startingPanel! = item!
+        fi     
+    methodend
+    
 classend
+
 
 
 

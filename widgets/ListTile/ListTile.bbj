@@ -22,7 +22,11 @@ class public ListTile extends BBjWidget
     field private Boolean favorite! = Boolean.FALSE
     field private Boolean header! = Boolean.FALSE
     field private Boolean isChild! = Boolean.FALSE
+    
     field public static BBjNumber ON_FAVORITES_BUTTON_CLICK = 500
+    field public static BBjNumber ON_TEXTPART_CLICK = 550
+    
+    
 
     method public ListTile(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/ListTile/ListTile.css")
@@ -40,7 +44,7 @@ class public ListTile extends BBjWidget
         if f_init!>0 then
             #tile!.addPanelStyle("menutile")
             #tile!.addPanelStyle("child")
-            #tile!.setStyle("height","fit-content")
+        
             #btn! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")
             #btn!.addPanelStyle("btnPart")
@@ -93,6 +97,10 @@ class public ListTile extends BBjWidget
         #letterField!.setVisible(0)
         #iconWrapper!.setVisible(0)
     methodend
+    
+    method public void disableHover()
+        #tile!.removePanelStyle("child")
+    methodend
 
     method public void setPopupMenu(BBjPopupMenu menu!)
         #dotWrapper!.setPopupMenu(menu!)
@@ -128,10 +136,11 @@ class public ListTile extends BBjWidget
             #letterField!.setStyle("color","black")
             #letterField!.setStyle("background","white")
         endif
+        
     methodend
     method public void onClick(BBjMouseDownEvent ev!)
         #toggleExpand()
-        #fireEvent(BBjAPI.ON_BUTTON_PUSH,ev!.getControl().getParentWindow().getID())
+        #fireEvent(#ON_TEXTPART_CLICK,ev!.getControl().getParentWindow().getID())
     methodend
     
     method public void toggleExpand()
