@@ -5,10 +5,10 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
 use ::WebKit/widgets/WebComponents/AvatarIcon/AvatarIcon.bbj::AvatarIcon
 
-class public AvatarInital extends ShowcaseWidget
+class public AvatarShowcasePanel extends ShowcaseWidget
 
     field private BBjChildWindow window!
-    field private BBjHtmlView avatarWnd!
+    field private AvatarIcon avatarWnd!
     field private InputField avatarWidth!
     field private InputField avatarHeight!
     field private InputField AvatarName!
@@ -17,13 +17,14 @@ class public AvatarInital extends ShowcaseWidget
     field private BBjCheckBox CbCloseOutside!
     field private BBjChildWindow panel!
 
-    method public AvatarInital(BBjWindow wnd!)
+    method public AvatarShowcasePanel(BBjWindow wnd!)
         #super!(wnd!)
         
         #setTitle("Avatar Initail Demo")
         #setIntro("This demo shows the Avatar initail  stuff")
     methodend
     method public void redraw(Boolean init!)
+    
     #super!.redraw(init!)
    
     if init! then
@@ -35,7 +36,7 @@ class public AvatarInital extends ShowcaseWidget
         
         #AvatarName! = new InputField(#panel!)
         #AvatarName!.setLabel("Avatar Name")
-        #AvatarName!.setInput("Stephan Wald")
+        #AvatarName!.setInput("Donald Duck")
 
         #avatarHeight! = new InputField(#panel!)
         #avatarHeight!.setLabel("Height")
@@ -45,26 +46,22 @@ class public AvatarInital extends ShowcaseWidget
         #avatarWidth!.setLabel("Width")
         #avatarWidth!.setInput("50")
         
-        BtnShow! = #panel!.addButton(#panel!.getAvailableControlID(),0,0,0,0,"Create Avatar")
+        BtnShow! = #panel!.addButton(#panel!.getAvailableControlID(),0,0,0,0,"Update Avatar")
         BtnShow!.setStyle("display","flex")
         BtnShow!.setStyle("justify-content","flex-end")
         BtnShow!.setAttribute("theme","primary")
         BtnShow!.setAttribute("expanse","l")
-        BtnShow!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!,"onShowDialog")    
+        BtnShow!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!,"updateAvatar")    
 
+        #avatarWnd!= new  AvatarIcon(#panel!)
+        #updateAvatar(null())
     endif
+    
 methodend
 
-method public void onShowDialog(BBjButtonPushEvent ev!)
+method public void updateAvatar(BBjButtonPushEvent ev!)
 
-    if #avatarWnd! <> null() then  
-        #avatarWnd!.destroy()
-    endif
-
-    webComponents! = new AvatarIcon()
-    #avatarWnd! = CAST(BBjHtmlView, webComponents!.drawAvatarIcon(#panel!, #avatarHeight!.getInput(), #avatarWidth!.getInput(), #AvatarName!.getInput() ))
-
-    #avatarWnd!.setStyle("margin","auto")
+        #avatarWnd!.setText(#AvatarName!.getInput())
     
 methodend
     

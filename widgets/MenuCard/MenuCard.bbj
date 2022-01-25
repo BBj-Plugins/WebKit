@@ -3,7 +3,6 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/util/Icons.bbj::Icons
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
-use ::WebKit/util/Icons.bbj::Icons
 
 
 class public MenuCard extends BBjWidget 

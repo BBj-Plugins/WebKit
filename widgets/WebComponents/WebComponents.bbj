@@ -3,6 +3,7 @@ use ::BBjWidget/BBjWidget.bbj::BBjWidget
 class public WebComponents extends BBjWidget
     
     field public BBjString script$
+    field protected BBjHtmlView htmlView!
 
     method public WebComponents()
 
@@ -18,6 +19,19 @@ class public WebComponents extends BBjWidget
         #script$ = #script$ + "script.setAttribute(""type"",""module"");"
 
         #script$ = #script$ + "document.head.appendChild(script)"
+        
     methodend
+    
+    
+     method public void redraw(Boolean f_init!)
+
+        #super!.redraw(f_init!)
+        
+        if (f_init!) then
+            #htmlView! = #getCanvas().addHtmlView(#getCanvas().getAvailableControlID(),1,1,1,1,"")
+            #htmlView!.executeScript(#script$)
+        fi
+        
+     methodend
         
 classend

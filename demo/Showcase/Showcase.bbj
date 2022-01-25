@@ -42,7 +42,7 @@ showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Dire
 showCaseItem!.setStartType(2)
 
 menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Avatar Inital","Avatar Inital Demo","typography")
-menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/AvatarInital.bbj::AvatarInital")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/AvatarShowcasePanel.bbj::AvatarShowcasePanel")
 menuItem!.setStartType(0)
 
 menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","message-circle")

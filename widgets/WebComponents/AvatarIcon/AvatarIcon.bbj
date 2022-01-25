@@ -2,45 +2,43 @@ use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 class public AvatarIcon extends WebComponents
-    field private static BBjTopLevelWindow Wnd!
+
     field public static BBjNumber ON_AVATAR_INITIAL_CLICK = 1234
-
-    method public AvatarIcon()
-
+    
+    method private AvatarIcon()
     methodend
 
-    method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjInt height%, BBjInt width%, BBjString name$)
-        htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+str(height%)+""" width="""+str(width%)+""" name="""+name$+"""></avatar-initial>")
-        htmlView! = #configureAvatarView(htmlView!)
-        methodret htmlView!
-    methodend 
+    method public AvatarIcon(BBjWindow wnd!)
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public AvatarIcon(BBjWindow wnd!, BBjInt id!)
+        #super!.create(wnd!,id!)
+    methodend
 
-    method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjString height$, BBjString width$, BBjString name$)
-        htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
-        htmlView! = #configureAvatarView(htmlView!)
-        methodret htmlView!
-    methodend 
-
-    method public BBjHtmlView drawAvatarIcon(BBjString height$, BBjString width$, BBjString name$)
-        sg! =  BBjAPI().openSysGui("X0")
-        #Wnd! =sg!.addWindow(95501,0,0,0,0,"",$01101083$)
-        sg!.setContext(sg!.getAvailableContext())
-        htmlView! = #Wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
-        htmlView! = #configureAvatarView(htmlView!)
-    methodret htmlView!
-
-    method private BBjHtmlView configureAvatarView(BBjHtmlView htmlView!)
-        htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT, #this!,"onClickAvatarInitial")
-        htmlView!.setStyle("border","none")
-        htmlView!.executeScript(#script$)
-        methodret htmlView!
-    methodend 
+   method public void redraw(Boolean f_init!)
+        #super!.redraw(f_init!)
+        
+        if f_init!>0 then
+            #htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT, #this!,"onClickAvatarInitial")
+            #htmlView!.setStyle("border","none")
+        fi
+        
+        if #getText() <> null() then
+            rem TODO: the height and the width shall entirely come from CSS
+            txt$ = "<avatar-initial height=""50"" width=""50"" name="""+#getText()+"""></avatar-initial>"
+            #htmlView!.setText(txt$)
+        fi
+    methodend    
 
     method public void onClickAvatarInitial(BBjNativeJavaScriptEvent ev!)
         ClientUtil.consoleLog("catched the webcomponent event from BBj :)")
         #fireEvent(#ON_AVATAR_INITIAL_CLICK, ev!)
     methodend
 
-methodend 
-        
+
+    method public void setText(String txt!)
+        #super!.setText(txt!)
+        #redraw(0)
+    methodend
 classend
