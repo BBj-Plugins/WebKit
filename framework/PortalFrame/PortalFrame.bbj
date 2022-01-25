@@ -41,6 +41,7 @@ class public PortalFrame
     
     field private Boolean drawerOpen! = Boolean.FALSE
     field private Boolean drawerHidden! = Boolean.FALSE
+    field private Boolean isMobile! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
     field public BBjWidget curr_win! 
    
@@ -220,8 +221,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     method public void onResizeScreen(BBjResizeEvent ev!)
         id$ = str(ev!.getWidth())
         if ev!.getWidth() < 425 then
-           #Drawer!.closeDrawer(null())
+            #isMobile! = Boolean.TRUE 
+            #Drawer!.closeDrawer(null())
         else 
+            #isMobile! = Boolean.FALSE 
             #Drawer!.openDrawer(null())
         fi
     methodend
@@ -284,6 +287,11 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
    methodend   
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
+
+        if #isMobile! = Boolean.TRUE then 
+            #onAppbarMenuClick(null())
+        fi
+
         nodeId=num(str(ev!.getObject()))
         item! = #Menu!.getItem(nodeId)
         #navigateTo(item!)
