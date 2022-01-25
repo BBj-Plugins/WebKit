@@ -219,11 +219,15 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
     method public void onResizeScreen(BBjResizeEvent ev!)
+
         id$ = str(ev!.getWidth())
         if ev!.getWidth() < 425 then
             #isMobile! = Boolean.TRUE 
+            #drawerHidden!=Boolean.TRUE
             #Drawer!.closeDrawer(null())
+            #Drawer!.addStyle("drawerHide")  
         else 
+            #Drawer!.removeStyle("drawerHide")
             #isMobile! = Boolean.FALSE 
             #Drawer!.openDrawer(null())
         fi
@@ -401,6 +405,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
     method public void onAppbarMenuClick(BBjCustomEvent ev!)
+        if #isMobile! = Boolean.TRUE then 
+            #Drawer!.removeStyle("drawerHide")  
+        fi
+
         if #drawerHidden! then
             #drawerHidden!=Boolean.FALSE
             #Drawer!.addStyle("drawerShow")

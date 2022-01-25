@@ -120,6 +120,9 @@
     .drawerClosed.drawerShow{
         width: var(--drawer-closed-width) !important;
     }
+    .drawerClosed.drawerHide {
+         width: 0px !important;
+    }
 
 
 }
