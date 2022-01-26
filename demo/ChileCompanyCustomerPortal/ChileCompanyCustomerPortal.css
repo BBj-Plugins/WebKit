@@ -30,10 +30,6 @@
     background-color: var(--bbj-color-white);
 }
 
-.hydrated{
-    color: var(--bbj-color-gray);
-}
-
 @media screen and (max-width: 425px) {
     .listWindow{
         margin: 40px 20px 80px 20px;

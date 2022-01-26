@@ -17,6 +17,12 @@
     grid-template-columns: 1fr;
 }
 
+@media screen and (max-width: 425px) {
+    .drawerClosed .drawerHeaderPanelStyle {
+        display: none; 
+    }       
+}
+
 .drawerHeaderPanelStyle {
     display: grid;
     grid-template-columns: 1fr 1fr;

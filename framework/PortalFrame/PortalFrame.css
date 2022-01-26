@@ -6,7 +6,7 @@
 }
 
 .mainarea {
-    position: absolute;
+    position:fixed;
     background: #F1F1F1;
     height: 100vh;
 }

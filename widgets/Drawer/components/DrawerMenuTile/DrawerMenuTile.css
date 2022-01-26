@@ -75,6 +75,7 @@
 
 /* .drawerOpen  .drawerMenuTilePanelStyle { */
 .drawerMenuTilePanelStyle {
+    margin-top: 7px;
     display: grid;
     grid-template-columns: 64px auto;
     height: 48px;
@@ -87,6 +88,7 @@
     grid-column-start: 1;
     justify-self: end;
     align-self: center;
+
 }
 
 .drawerMenuTileTextStyle {

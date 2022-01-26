@@ -3,6 +3,7 @@ rem  * BBj icons helper class
 rem  *
 rem  */
 use java.util.Formatter
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 class public Icons
 
@@ -65,6 +66,10 @@ class public Icons
 
     method public static BBjStaticText getIconOnWindow(BBjWindow window!, String poolName!, String icon!)
         methodret window!.addStaticText(window!.getAvailableControlID(),0,0,0,0, #get(poolName!, icon!))        
-     methodend
+    methodend
+
+    method public static BBjStaticText getIconOnWindow(BBjWindow window!, String poolName!, String icon!, String style!)
+        methodret window!.addStaticText(window!.getAvailableControlID(),0,0,0,0, #get(poolName!, icon!, style!))        
+    methodend
 
 classend
