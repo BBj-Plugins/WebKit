@@ -1,11 +1,10 @@
-
 :root {
     --drawer-width: 300px;
     --drawer-closed-width: 104px;
     --drawerFooter-height: 120px;
 }
 
-@keyframes drawerAnimationClose{
+@keyframes drawerAnimationClose {
     from {
         width: var(--drawer-width);
     }
@@ -14,7 +13,7 @@
     }
 }
 
-@keyframes drawerAnimationOpen{
+@keyframes drawerAnimationOpen {
     from {
         width: var(--drawer-closed-width);
     }
@@ -46,19 +45,19 @@
     --drawer-search-animation-duration: 0.2s;
 }
 
-.drawerPanelStyle{
+.drawerPanelStyle {
     height: 100vh;
-    background-color: white;
+    background-color: var(--bbj-color-default);
     z-index: 99;
     overflow: visible;
     width: var(--drawer-width);
 }
 
-.drawerOpen.drawerStyle{
+.drawerOpen.drawerStyle {
     width: var(--drawer-width);
 }
 
-.drawerClosed.drawerStyle{
+.drawerClosed.drawerStyle {
     width: var(--drawer-closed-width) !important;
 }
 
@@ -76,7 +75,8 @@
     animation-play-state: running;
     animation-timing-function: ease-in;
 }
-.drawerClosed .drawerAnimationClose{
+
+.drawerClosed .drawerAnimationClose {
     animation-name: drawerAnimationClose;
     animation-duration: var(--drawer-animation-duration);
     animation-fill-mode: forwards;
@@ -96,22 +96,21 @@
 }
 
 @media screen and (max-width: 425px) {
-    .drawerClosed .drawerAnimationClose{
+    .drawerClosed .drawerAnimationClose {
         animation-name: drawerMobileAnimationClose;
-        }
-    .drawerOpen .drawerAnimationOpen{
+    }
+    .drawerOpen .drawerAnimationOpen {
         animation-name: drawerMobileAnimationOpen;
-        }
+    }
     .drawerMobileShadowPanelStyle {
-      display: block !important;
-        }
-        
-	.drawerClosed.drawerStyle{
-	    width: 0px;
-	}          
+        display: block !important;
+    }
+    .drawerClosed.drawerStyle {
+        width: 0px;
+    }
 }
 
-.drawerTilesTextHeaderStyle{
+.drawerTilesTextHeaderStyle {
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -119,7 +118,7 @@
     color: #A1A5A7;
 }
 
-.drawerTilesWrapper{
+.drawerTilesWrapper {
     display: grid;
     overflow: auto !important;
     height: 100%;
@@ -128,7 +127,7 @@
 
 .drawerFooterWrapper {
     position: fixed;
-    background: white;
+    background: var(--bbj-color-default);
     bottom: 0;
     left: 0;
     width: inherit;

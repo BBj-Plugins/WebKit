@@ -65,8 +65,8 @@ class public TreeListPanel extends BBjWidget
             
             #toggleFavoritesButton! = #favButtonWrapper!.addStaticText(#favButtonWrapper!.getAvailableControlID(), 0,0,0,0, Icons.get("tabler","star"))
             #toggleFavoritesButton!.addStyle("trailingIcon")
-            #toggleFavoritesButton!.setStyle("background","white")
-            #toggleFavoritesButton!.setStyle("color","darkgray")
+            #toggleFavoritesButton!.setStyle("background","var(--button-background)")
+            rem #toggleFavoritesButton!.setStyle("color","darkgray")
             #favButtonWrapper!.setCallback(BBjAPI().ON_MOUSE_DOWN,#this!,"onToggleFavorites")    
             #colors!.add("#FFFFFF")
             #favoritesProvider! = SampleFavoritesProvider.getInstance()

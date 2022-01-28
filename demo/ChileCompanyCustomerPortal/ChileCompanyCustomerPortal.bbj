@@ -14,7 +14,7 @@ begin
 
 
 ClientUtil.init()
-ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+ClientUtil.addLocalCSS("WebKit/css/webkit.scss")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 ClientUtil.addLocalCSS("WebKit/demo/assets/demo.css")
