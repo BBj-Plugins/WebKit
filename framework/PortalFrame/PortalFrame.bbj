@@ -53,6 +53,8 @@ class public PortalFrame
     
     field private static PortalFrame ThisInstance!
 
+    field public static BBjString OVERLAY_WND_NAME! = "OVERLAYWINDOW"
+
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
         #ThisInstance! = #this!
