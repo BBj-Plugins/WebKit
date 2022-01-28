@@ -7,6 +7,7 @@ use ::WebKit/widgets/DashboardContainer/DashboardContainer.bbj::DashboardWidget
 use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
 use ::WebKit/widgets/Drawer/components/DrawerFooter/DrawerFooter.bbj::DrawerFooter
 use ::WebKit/widgets/Drawer/components/DrawerMenuTile/DrawerMenuTile.bbj::DrawerMenuTile
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
@@ -53,6 +54,7 @@ class public Drawer extends BBjWidget
         #window!.addPanelStyle("drawerPanelStyle")
         #window!.addPanelStyle("drawerAnimationOpen")
         #window!.addPanelStyle("drawerAnimationClose")
+        #window!.setName(PortalFrame.getOVERLAY_WND_NAME())
         
         #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #shadowWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onShadowTapped")
