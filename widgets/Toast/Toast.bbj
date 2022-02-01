@@ -1,0 +1,52 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+
+class public Toast
+
+    field private static Boolean Loaded! = Boolean.FALSE
+    
+    method public static void loadIonic()
+        if #Loaded! = Boolean.FALSE then
+            #Loaded! = Boolean.TRUE
+
+            url$ = "https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+            ClientUtil.addStyleURL(url$)
+    
+            url$ = "https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
+            ClientUtil.addJavascriptURL(url$,"module")
+    
+            url$ = "https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
+            ClientUtil.addJavascriptURL(url$)
+            
+            rem FIXME this is not optimal, need to preseed
+            wait .2
+        fi
+    methodend
+
+    method public static void show(BBjString msg$)
+        Toast.show(msg$,2000)
+    methodend
+
+    method public static void show(BBjString msg$, BBjNumber timeout)
+    
+        Toast.loadIonic()
+
+        REM FIXME: how to encode a single quote?
+        while pos("'"=msg$)>0
+            msg$=msg$(1,pos("'"=msg$)-1)+"`"+msg$(pos("'"=msg$)+1)
+        wend
+        
+        js$="const toast = document.createElement('ion-toast');"
+        js$=js$+"toast.message = '"+msg$+"';"
+        rem js$=js$+"toast.icon = 'information-circle';"
+        rem js$=js$+"toast.color = 'success';"
+        js$=js$+"toast.duration = "+str(max(1000,int(timeout)))+";"
+        js$=js$+"document.body.appendChild(toast);toast.present();"
+        
+        rem see https://ionicframework.com/docs/api/toast
+        
+        BBjAPI().getSysGui().executeScript(js$)
+    
+    methodend
+
+classend

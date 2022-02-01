@@ -33,6 +33,11 @@ menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DialogShowcase.bbj::DialogShowcase")
 menuItem!.setStartType(0)
 
+menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","fas-bread-slice")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/ToastShowcase.bbj::ToastShowcase")
+menuItem!.setStartType(0)
+
+
 declare PortalFrame portal!
 
 portal! = new PortalFrame()
