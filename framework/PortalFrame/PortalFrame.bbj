@@ -29,6 +29,7 @@ class public PortalFrame
     field private BBjChildWindow Main!
     field private BBjChildWindow AccountDisplay!
     field private BBjChildWindow Avatar!
+    field private BBjChildWindow dialogWindow!
     
     field public BBjString Username!
     field public BBjString Title!
@@ -50,10 +51,9 @@ class public PortalFrame
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+
     
     field private static PortalFrame ThisInstance!
-
-    field public static BBjString OVERLAY_WND_NAME! = "OVERLAYWINDOW"
 
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
@@ -525,7 +525,31 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             #startingPanel! = item!
         fi     
     methodend
-    
+
+    REM /**
+    REM  * Returns a Window which is created on the TopLevelWindow
+    REM  */
+    method public BBjChildWindow getDialogWindow()
+        if #dialogWindow! = null() or #dialogWindow!.isDestroyed() then
+            #dialogWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #dialogWindow!.setStyle("width","100vw")
+            #dialogWindow!.setStyle("height","100vh")
+            #dialogWindow!.setStyle("z-index","101")
+            
+        endif
+        methodret #dialogWindow!
+    methodend
+
+    REM /**
+    REM  * Removes the Window which was created by getDialogWindow
+    rem  * If the Window is already destroyed this will do nothing
+    REM  */
+    method public void destroyDialogWindow()
+        if #dialogWindow! <> null() and !#dialogWindow!.isDestroyed() then
+            #dialogWindow!.destroy()
+        endif
+        #dialogWindow! = null()
+    methodend
 classend
 
 
