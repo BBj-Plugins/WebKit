@@ -5,24 +5,25 @@
     --portal-frame-main-area-width-with-drawer-close: calc(100vw - 104px);
 }
 
-.mainarea{
-	position:absolute;
+.mainarea {
+    position:fixed;
     background: #F1F1F1;
     height: 100vh;
 }
 
 .mainarea>div,
 .mainarea>div>div {
+    overflow: auto;
     width: 100%;
-    height:100%;
+    height: 100%;
 }
 
-.expanded{
+.expanded {
     margin-left: var(--drawer-close-width);
     width: var(--portal-frame-main-area-width-with-drawer-close);
 }
 
-.shrinked{
+.shrinked {
     margin-left: var(--drawer-open-width);
     width: var(--portal-frame-main-area-width-with-drawer-open);
 }
@@ -35,20 +36,20 @@
     .mainarea>div>div {
         margin-left: 0px !important;
         width: 100vw !important;
-        height:100vh;
+        height: 100vh;
     }
 }
 
 .account {
-	height:50px;
-	width:250px;
-	text-align: right !important;
-	position:fixed;
-	top:17px;
-	right:75px;
-	font-family:Nunito, sans-serif;
-	font-size:17px;
-	font-style:normal;
-	font-weight:600;
-	color:#FAFAFA;      
+    height: 50px;
+    width: 250px;
+    text-align: right !important;
+    position: fixed;
+    top: 17px;
+    right: 75px;
+    font-family: Nunito, sans-serif;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    color: #FAFAFA;
 }

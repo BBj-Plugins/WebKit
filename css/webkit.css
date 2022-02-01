@@ -1,44 +1,41 @@
-body
-{
-  	overflow: hidden;  
-  	overscroll-behavior-y: none;
-  	touch-action: none;
-	font-style:normal;
-	font-weight:600;
+body {
+    overflow: hidden;
+    overscroll-behavior-y: none;
+    touch-action: none;
+    font-style: normal;
+    font-weight: 600;
 }
 
 .tilesheadline {
-	font-size: xx-large;
-	color: #1a1a1a;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 38px;
+    color: #333E40;
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 4;
 }
 
-.tilesheadline:after {
-  content: '';
-  display: block;
-  width: calc( 100% - 40px );
-  height: 2px;
-  background: #000;
-  right: 0;
-}
- div .logo{
-	margin-top:2px;
-	margin-left:15px;
+div .logo {
+    margin-top: 2px;
+    margin-left: 15px;
 }
 
 iframe {
-	border-width:0px !important;
+    border-width: 0px !important;
 }
 
 @media screen and (max-width: 600px) {
-	.wallpaper {
-		background-color:white;
-		background-image:unset;
-	}
-
-	.avatar {
-	    height:30px;
-	    width:30px;
-	    position:fixed;
-	    background-size:30px;
-	}	
+    .wallpaper {
+        background-color: white;
+        background-image: unset;
+    }
+    .avatar {
+        height: 30px;
+        width: 30px;
+        position: fixed;
+        background-size: 30px;
+    }
 }

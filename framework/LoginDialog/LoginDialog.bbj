@@ -106,8 +106,8 @@ class public LoginDialog
     methodend
 
     method public setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
-        #usernameValidator = usernameValidator
-        #passwordValidator = passwordValidator
+        #usernameValidator = usernameValidator!
+        #passwordValidator = passwordValidator!
     methodend
 
     method public Boolean doModal()

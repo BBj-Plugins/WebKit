@@ -1,0 +1,31 @@
+
+.appbarStyle {
+    display: none;
+}
+
+.menu {
+    height: 30px;
+    width: 30px;
+    margin-top: 7px;
+    margin-left: 20px;
+}
+
+@media screen and (max-width: 425px) {
+    .appbarStyle {
+        background-color: var(--bbj-color-primary);
+        position: relative;
+        left: 0px;
+        z-index: 99999 !important;
+        height: 40px !important;
+        width: 100% !important;
+        display: block;
+    } 
+
+    .menu {
+        height: 30px;
+        width: 30px;
+        margin-top: 7px;
+        margin-left: 20px;
+    }
+    
+}

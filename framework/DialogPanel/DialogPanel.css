@@ -20,48 +20,39 @@
 
 /* TODO adjust when in mini drawer form */
 .dialogPanel{
-    position: fixed !important;
-    top: 10vh !important;
-    left: 35vw !important;
-    z-index: 1199 !important;
-    width: 750px;
-    height: 700px;
+    position: fixed;
+    height: 80vh;
+    margin: 5% auto;
+    left: 0;
+    right: 0;
+    z-index: 999 !important;
+    display: flex;
+    flex-direction: column;
+    max-width: 56rem;
+    min-width: 16rem;
     background-color: white;
-    border-radius: 8px;
+    border-radius: var(--bbj-border-radius-m);
     box-shadow: var(--bbj-shadow-l);
     backdrop-filter: drop-shadow(2px 4px 6px black);
 }
 
 .bodyPanel{
-    padding: 30px;
-    height: 500px;
+    padding: 1rem;
+    height: 100%;
     overflow-y: auto !important;
 }
 
-
-.headerWnd{
-    height: 60px;
-    padding: 10px;
-}
-
-.headerPanel{
-    display: grid;
-    grid-template-columns: 90% 10%;
-}
-
-.headerTitle{
-    margin-left: 25px;
-    font-size: 25px;
-    grid-column: 1;
-}
+.headerPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.25rem 1rem;
+    font-size: 1.5em;
+ }
 
 .closeIconWnd{
-    grid-column: 2;
-    align-self: center;
-    justify-self: center;
-
+    justify-self: end;
     cursor: pointer;
-
 }
 
 .closeIcon{

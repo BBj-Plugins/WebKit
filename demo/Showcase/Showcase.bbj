@@ -1,8 +1,3 @@
-REM /**
-REM  * Showcase.bbj
-REM  * @author TimonGeisbauer
-REM  *
-REM  */
 
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
@@ -10,29 +5,39 @@ use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/demo/Showcase/components/ShowCaseFrame.bbj::ShowCaseFrame
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
+
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
+REM open(999,mode="O_create, O_trunk")"C:\Users\Admin123\eclipse-workspace\temp\my.trace"
+REM setTrace(999)
+
 ClientUtil.init()
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+bbjutils! = new ::BBUtils.bbj::BBUtils()
 
-iconPool$ = STBL("icon-pool", "fa")
-REM iconPool$ = STBL("icon-pool", "feather")
+REM iconPool$ = STBL("icon-pool", "fa")
+iconPool$ = STBL("icon-pool", "tabler")
+
+
+login! = new LoginDialog("Showcase", new SampleAuthProvider())
+login!.setLogo("WebKit/demo/assets/basislogo.png")
+login!.setAllowRemember(Boolean.TRUE)
+
+if !login!.doModal() then
+    a=msgbox("ERROR",0,"Error while logging in")
+    release
+endif
 
 declare Menu menu!
 declare MenuItem menuItem!
 
 menu! = new Menu()
 
-rem this one is needs a little more attention before it can go public
-REM menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"DashboardHeaderDemo","A demonstration of the DashboardHeader widget","WebKit/demo/assets/home.svg")
-REM menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DashboardShowcase.bbj::DashboardShowcase")
-REM menuItem!.setStartType(0)
 
-menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","far-window-restore")
-menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DialogShowcase.bbj::DialogShowcase")
-menuItem!.setStartType(0)
-
+Toast
 menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","fas-bread-slice")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/ToastShowcase.bbj::ToastShowcase")
 menuItem!.setStartType(0)
@@ -40,7 +45,49 @@ menuItem!.setStartType(0)
 
 declare PortalFrame portal!
 
-portal! = new PortalFrame()
+showCase! = menu!.addMenuItem(menu!.getRoot(),104,"Sales - Options","Sales - Options","list")
+showCase!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,212,"Sales Statistics","Sales Statistics","table")
+showCaseItem!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,211,"Diagrams","Diagrams","table")
+showCaseItem!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
+showCaseItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,202,"Personal - Sale","Personal - Sale","table")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,203,"Electronic - Sale","Electronic - Sale","table")
+showCaseSubItem!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,204,"Reseller Options","Reseller Options","table")
+showCaseItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,205,"Fast Reseller","Fast Reseller","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,206,"Reliable Reseller","Reliable Reseller","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,207,"Reseller in Europe","Reseller in Europe","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,208,"Reseller in America","Reseller in America","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,209,"Reseller in North America","Reseller in North America","")
+showCaseSSubItem!.setStartType(2)
+
+showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,210,"Reseller in South America","Reseller in South America","")
+showCaseSSubItem!.setStartType(2)
+
+
+declare ShowCaseFrame portal!
+
+portal! = new ShowCaseFrame()
 portal!.setMenu(menu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo.png")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_sm.png")
