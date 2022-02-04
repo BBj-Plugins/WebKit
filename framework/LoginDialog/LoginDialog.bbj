@@ -105,7 +105,7 @@ class public LoginDialog
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
     methodend
 
-    method public setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
+    method public void setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
         #usernameValidator = usernameValidator!
         #passwordValidator = passwordValidator!
     methodend

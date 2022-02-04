@@ -47,7 +47,7 @@
 }
 
 .drawerPanelStyle{
-    margin-top: 40px;
+    margin-top: 0px;
     position: fixed !important;
     height: 100vh;
     background-color: white;
@@ -100,6 +100,10 @@
 }
 
 @media screen and (max-width: 425px) {
+    .drawerPanelStyle{
+        margin-top: 40px;
+        padding-top: 15px;
+    }
     .drawerClosed .drawerAnimationClose{
         animation-name: drawerMobileAnimationClose;
         }
