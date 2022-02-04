@@ -13,5 +13,19 @@ class public I18n
             methodret #Translator!.getTranslation(key$)
         fi
     methodend
+    
+    method public static BBTranslator getTranslator(BBjString bundleName!, BBjString bundleDir!)
+        methodret BBTranslator.getInstance(bundleName!, STBL("!LOCALE"), "", bundleDir!)
+    methodend
+    
+    method public static BBjString getTranslation(BBjString key$,BBjString bundleName!, BBjString bundleDir!)
+    translator! = BBTranslator.getInstance(bundleName!, STBL("!LOCALE"), "", bundleDir!)
+    if #SelfLearningTranslations! then
+            translator!.clearCache()
+            methodret translator!.getTranslation(key$,key$,1)
+        else
+            methodret translator!.getTranslation(key$)
+        fi
+    methodend
 
 classend
