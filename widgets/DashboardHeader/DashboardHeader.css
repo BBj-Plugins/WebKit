@@ -12,7 +12,7 @@
     display: flex;
     flex: none;
     flex-direction: column;
-    margin:34px 36px 41px 36px;
+    margin:34px 36px 39px 36px;
 }
 
 .dashboardHeaderEntryWrapperPanelStyle {
@@ -49,5 +49,5 @@
     font-size: 48px;
     line-height: 58px;
     color: #333E40;
-    height: fit-content;
+    height: 60px;
 }
