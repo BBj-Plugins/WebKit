@@ -11,6 +11,7 @@ use ::WebKit/model/ListView/Cell.bbj::Cell
 use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
 use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
 use ::WebKit/widgets/ListView/ListView.bbj::ListView
+use ::WebKit/i18n.bbj::I18n
 
 use java.util.HashMap
 use com.basiscomponents.db.ResultSet
@@ -46,12 +47,12 @@ class public ChileCompanyDashboardPanel extends BBjWidget
         addr_field! = new Field("BILL_ADDR1", "ADDRESS")
         addr_field!.setCustomCssClass("listTitleField")
 
-        
+        translator! = I18n.getTranslator("ChileCompany","WebKit/demo/ChileCompanyCustomerPortal/i18n")
         firstColumnFields! = new BBjVector()
         firstColumnFields!.add(displayName_field!)
         firstColumnFields!.add(city_field!)
         firstColumnCell! = new Cell(firstColumnFields!)
-        firstColumn! = new ListColumnModel("Your Reference", 1)
+        firstColumn! = new ListColumnModel(translator!.getTranslation("your_reference"), 1)
         firstColumn!.setColumnWidth("50%")
         firstColumn!.setCellStructure(firstColumnCell!)
 
