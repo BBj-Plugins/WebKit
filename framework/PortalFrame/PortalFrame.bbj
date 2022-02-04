@@ -354,6 +354,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                             x! = null()
                             x! = eval("new "+pgm$+"(#Main!)",err=*next)
                             if x! = null() then
+                                ClientUtil.consoleLog(str(BBjAPI().getLastBBjException()))
                                 a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
                             else 
                                 #curr_win! = CAST(BBjWidget,x!)

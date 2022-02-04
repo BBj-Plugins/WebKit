@@ -38,6 +38,10 @@
         width: 100vw !important;
         height: 100vh;
     }
+
+    .clientFrame {
+       height: calc( 100vh - 40px );
+    }
 }
 
 .account {
