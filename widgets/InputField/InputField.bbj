@@ -117,7 +117,9 @@ class public InputField extends BBjWidget
         #errorMessage!.setText(errorMessage!)
     methodend
 
-
+    method public Boolean isValid()
+        methodret #valid!
+    methodend
 
     rem ||||||||||||||||||||||||||||||||||||||||||||
     rem |||||||||||||||| CALLBACKS |||||||||||||||||
