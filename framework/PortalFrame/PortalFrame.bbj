@@ -59,7 +59,7 @@ class public PortalFrame
 
         dark$="0"
         dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
-        dark$="1"
+        
         if dark$>"0" then
             ClientUtil.setDarkMode(Boolean.TRUE)
             BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)

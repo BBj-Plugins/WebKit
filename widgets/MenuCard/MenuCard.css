@@ -1,5 +1,5 @@
 .menuCard {
-    background: var(--bbj-color-primary);
+    background: var(--bbj-color-default);
     border-radius: 8px;
     display: flex;
     height: 200px;
@@ -37,7 +37,7 @@
     align-items: center;
     border-bottom: 1px #E5E5E5 solid !important;
     padding-left: 5px;
-    background: var(--bbj-color-primary);
+    background: var(--bbj-color-default);
 }
 
 .menuCard .btnPart {
@@ -55,7 +55,7 @@
     font-size: 19px;
     width: 30px;
     height: 30px;
-    color: var(--bbj-color-primary);
+    color: var(--bbj-color-default);
 }
 
 .menuCard .menutile .tilelabel {
@@ -74,7 +74,7 @@
     align-items: center;
     width: 40px;
     height: 30px;
-    background: var(--bbj-color-primary);
+    background: var(--bbj-color-default);
     color: #EEEFF1;
 }
 
@@ -82,7 +82,7 @@
     margin-left: auto;
     display: flex;
     flex-direction: row;
-    background: var(--bbj-color-primary);
+    background: var(--bbj-color-default);
 }
 
 .checkbox {
