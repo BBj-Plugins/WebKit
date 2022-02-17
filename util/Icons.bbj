@@ -3,20 +3,30 @@ rem  * BBj icons helper class
 rem  *
 rem  */
 use java.util.Formatter
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 class public Icons
 
     field private static String LabelStyle! = "display:flex;align-items: center;gap: 1rem;"
 
     method public static String get(String iconName!)
-        methodret #get(null(), iconName!)
-    methodend
 
+        methodret #get (null(),iconName!)
+    methodend
+    
     method public static String get(String poolName!, String iconName!)
-        methodret String.format("<html>%s</html>", #build(poolName!, iconName!))
+        methodret String.format("<html>%s</html>", #build(poolName!, iconName!,null()))
     methodend
 
-    method private static Formatter build(String poolName!, String iconName!)
+    method public static String getWithStyling(String iconName!, String style!) 
+
+    	methodret #get(null(),iconName!,style!)
+    methodend   
+    method public static String get(String poolName!, String iconName!, String style!)
+        methodret String.format("<html>%s</html>", #build(poolName!, iconName!,style!))
+    methodend
+
+    method private static Formatter build(String poolName!, String iconName!, String style!)
         fmt! = new Formatter()
 
         if poolName! = null() then
@@ -24,9 +34,16 @@ class public Icons
         fi
 
         if poolName! = null() then
+            if style! <> null() then
+                methodret fmt!.format("<bbj-icon name='%s' style='%s'></bbj-icon>", iconName!,style!)
+            endif
             methodret fmt!.format("<bbj-icon name='%s'></bbj-icon>", iconName!)
         fi
 
+        if style! <> null() then 
+            methodret fmt!.format("<bbj-icon pool='%s' name='%s' style='%s'></bbj-icon>", poolName!, iconName!, style!)
+        endif
+        
         methodret fmt!.format("<bbj-icon pool='%s' name='%s'></bbj-icon>", poolName!, iconName!)
     methodend
 
@@ -39,7 +56,7 @@ class public Icons
     methodend
 
     method private static String buildWithLabel(String poolName!, String iconName!, String label!)
-        icon! = #build(poolName!, iconName!)
+        icon! = #build(poolName!, iconName!,null())
         methodret String.format("<html><div class='BBjIconLabel' style='%s'>%s%s</div></html>", #LabelStyle!, icon!, label!)
     methodend
 
@@ -49,6 +66,10 @@ class public Icons
 
     method public static BBjStaticText getIconOnWindow(BBjWindow window!, String poolName!, String icon!)
         methodret window!.addStaticText(window!.getAvailableControlID(),0,0,0,0, #get(poolName!, icon!))        
-     methodend
+    methodend
+
+    method public static BBjStaticText getIconOnWindow(BBjWindow window!, String poolName!, String icon!, String style!)
+        methodret window!.addStaticText(window!.getAvailableControlID(),0,0,0,0, #get(poolName!, icon!, style!))        
+    methodend
 
 classend

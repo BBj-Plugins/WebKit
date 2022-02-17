@@ -28,6 +28,7 @@ class public Overlay extends BBjWidget
             #overlayWrapper!.setDockStyle("width","100vw")
             #overlayWrapper!.setDockStyle("position","absolute")
             #overlayWrapper!.setDockStyle("top","0px")
+            #overlayWrapper!.setPanelStyle("z-index","99")
             #overlayWrapper!.setPanelStyle("height","100vh")
             #overlayWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onOverlayDissmiss")
         endif

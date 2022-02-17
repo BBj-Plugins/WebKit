@@ -203,6 +203,10 @@ class public DialogPanel extends BBjWidget
         #cancelBtnText$ = text!
         #cancelBtn!.setText(#cancelBtnText$)
     methodend
+
+    method public void setFooterVisible(Boolean value!)
+        #footer!.setVisible(value!)
+    methodend
     
     rem @Override
     method public void setText(String text!)

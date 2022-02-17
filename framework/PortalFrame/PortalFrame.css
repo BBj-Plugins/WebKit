@@ -6,7 +6,7 @@
 }
 
 .mainarea {
-    position: absolute;
+    position:fixed;
     background: #F1F1F1;
     height: 100vh;
 }
@@ -37,6 +37,10 @@
         margin-left: 0px !important;
         width: 100vw !important;
         height: 100vh;
+    }
+
+    .clientFrame {
+       height: calc( 100vh - 40px );
     }
 }
 

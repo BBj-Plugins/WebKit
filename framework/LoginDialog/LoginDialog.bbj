@@ -61,7 +61,7 @@ class public LoginDialog
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
 
         #sysGui! = BBjAPI().openSysGui("X0")
-        #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750, title$, $01111083$)
+        #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750, title$, $01111093$)
         #window!.addPanelStyle("loginWrapperPanelStyle") 
         #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00118800$,BBjAPI().getSysGui().getAvailableContext()) 
         #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
@@ -105,7 +105,7 @@ class public LoginDialog
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
     methodend
 
-    method public setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
+    method public void setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
         #usernameValidator = usernameValidator!
         #passwordValidator = passwordValidator!
     methodend
@@ -137,6 +137,7 @@ class public LoginDialog
             endif
         endif
 
+        #window!.setVisible(1)
         process_events
 
         login:
