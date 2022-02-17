@@ -118,10 +118,8 @@ class public MenuCardPanelSorted extends TreeListPanel
                 tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
                 tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
                 tile!.toggleFavoritesButton(#favoritesActivated!)
-                if #favoritesActivated! then
-                    if #favoritesProvider!.isItemFavorite(item!) then
-                            tile!.toggleFavorite()
-                    fi
+                if #favoritesActivated! and #favoritesProvider!.isItemFavorite(item!) then
+                            tile!.toggleFavorite()      
                 fi
                 
                 if item!.getIcon() <> "" AND item!.getIcon() <> null() then             
