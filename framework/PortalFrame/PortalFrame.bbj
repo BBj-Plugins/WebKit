@@ -23,6 +23,7 @@ use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesPro
 use ::WebKit/i8n/I18n.bbj::I18n
 use java.util.HashMap
 
+
 class public PortalFrame
 
     field private BBjTopLevelWindow window!
@@ -52,6 +53,8 @@ class public PortalFrame
     field public BBjString LogoSmallUrl!
     
     field private static PortalFrame ThisInstance!
+    
+   
 
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
@@ -295,6 +298,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
    method public BBjWidget navigateTo(MenuItem item!)
+   translator! = I18n.getTranslator("PortalFrame","WebKit/framework/PortalFrame/i18n")
         if #curr_win! <> null() and !#curr_win!.isDestroyed() then
             #curr_win!.setVisible(0)
             #curr_win!=null()
@@ -333,7 +337,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                             x! = null()
                             x! = eval("new "+pgm$+"(#Main!)",err=*next)
                             if x! = null() then
-                                a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
+                                a = msgbox(str(translator!.getTranslation("error_starting")) + item!.getCaption(),0,"ERROR")
                             else 
                                 #curr_win! = CAST(BBjWidget,x!)
                             fi
