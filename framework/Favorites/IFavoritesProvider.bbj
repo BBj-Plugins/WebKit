@@ -1,0 +1,13 @@
+use ::WebKit/model/Menu.bbj::MenuItem
+
+interface public IFavoritesProvider
+    
+    method public static IFavoritesProvider getInstance()
+    method public BBjVector getFavorites()     
+    method public void addFavorite(MenuItem item!)                      
+    method public void removeFavorite(MenuItem item!)                
+    method public Boolean isItemFavorite(MenuItem item!)
+    method public void setUser(String newUser!)
+    method public String getUser()
+    
+interfaceend

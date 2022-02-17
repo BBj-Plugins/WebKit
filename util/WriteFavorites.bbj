@@ -1,0 +1,64 @@
+use java.lang.System
+
+use java.io.File
+use java.nio.file.Files
+use java.nio.file.StandardOpenOption
+use java.util.ArrayList
+
+use java.util
+
+
+
+class public WriteFavorites
+
+    field private String homeDir!
+    field private File favoritesFolder!
+    field private WriteFavorites writeFavorites!
+    
+    method private WriteFavorites()
+    
+        #homeDir! = System.getProperty("user.home")
+        
+        #favoritesFolder! = new File(#homeDir! + "/bbj-favorites")
+        if !#favoritesFolder!.exists() then
+            #favoritesFolder!.mkdirs()
+        fi
+    methodend
+    
+    method public static WriteFavorites getInstance()
+        if writeFavorites! = null()
+            writeFavorites! = new WriteFavorites()
+        fi
+        methodret writeFavorites!
+    methodend
+    
+    
+    method public void writeFavorites(BBjVector favorites!,String userName!)
+        declare File favoritesFile!
+        favoritesFile! = new File(#favoritesFolder!.getAbsolutePath() + "/" + userName! + ".txt")
+        if favoritesFile!.exists()
+            favoritesFile!.delete()
+        fi
+        
+        favoritesFile!.createNewFile()
+        
+        Files.write(favoritesFile!.toPath(),favorites!,StandardOpenOption.WRITE)
+      
+    methodend
+    
+    method public ArrayList readFavorites(String userName!)
+        declare File favoritesFile!
+        declare BBjVector favorites!
+        
+        declare auto ArrayList readLines!
+        
+        favoritesFile! = new File(#favoritesFolder!.getAbsolutePath() + "/" + userName! + ".txt")
+        if !favoritesFile!.exists()
+            methodret new BBjVector()
+        fi
+        readLines! = Files.readAllLines(favoritesFile!.toPath())
+        methodret readLines!
+        
+    methodend
+
+classend

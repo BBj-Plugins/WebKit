@@ -12,7 +12,8 @@
     display: flex;
     flex: none;
     flex-direction: column;
-    margin:34px 36px 39px 36px;
+    margin: 34px 36px 41px 36px;
+
 }
 
 .dashboardHeaderEntryWrapperPanelStyle {
@@ -21,12 +22,14 @@
     gap: 23px;
 }
 
-.dashboardHeaderEntryWrapperMarginRight{
+.dashboardHeaderEntryWrapperMarginRight {
     margin-right: 40px;
 }
 
+
 /* these are temp bzw these need to use the webkit/bbj vars later on */
-.dashboardHeaderTextStyle{
+
+.dashboardHeaderTextStyle {
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -34,8 +37,9 @@
     color: #333E40;
     height: fit-content;
 }
-.dashboardSubtitleStyle{
-    font-style: normal; 
+
+.dashboardSubtitleStyle {
+    font-style: normal;
     font-weight: normal;
     font-size: 13px;
     line-height: 16px;
@@ -43,10 +47,10 @@
     height: fit-content;
 }
 
-.dashboardTitleStyle{
+.dashboardTitleStyle {
     font-style: normal;
-    font-weight: 800;
-    font-size: 48px;
+    font-weight: 700;
+    font-size: 32px;
     line-height: 58px;
     color: #333E40;
     height: 60px;

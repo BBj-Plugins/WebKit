@@ -1,6 +1,5 @@
 .menutile {
     height: 50px;
-    color: black;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -13,14 +12,14 @@
     padding-top: 25px;
     font-size: 36px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: var(--bbj-font-weight-bold);
 }
 
 .menutile .letterField {
     font-size: 19px;
     width: 30px;
     height: 30px;
-    color: white;
+    color: var(--bbj-window-background);
 }
 
 .menutile .iconField {
@@ -34,12 +33,13 @@
 }
 
 .menutile .tilelabel {
-    font-family: Lato;
+    font-family: var(--bbj-font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--bbj-font-weight-normal);
     font-size: 14px;
     line-height: 17px;
     margin-left: 10px;
+    color: #333E40CC;
 }
 
 .rotate {
@@ -62,10 +62,6 @@
     width: 15px;
 }
 
-.favoriteActive {
-    color: black !important;
-}
-
 .favoriteActive bbj-icon::part(icon) {
     fill: yellow !important
 }
@@ -73,13 +69,12 @@
 .btnPart {
     height: 50px;
     width: 500px;
-    color: black;
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-family: Lato;
+    font-family: var(--bbj-font-family);
     font-style: normal;
-    font-weight: 400;
+    font-weight: var(--bbj-font-weight-normal);
 }
 
 .trailingIcon {
@@ -101,7 +96,7 @@
 }
 
 .child {
-    background: #FFFFFF;
+    background: var(--bbj-window-background);
 }
 
 .invis {

@@ -19,6 +19,9 @@ use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 
+use ::Webkit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
+use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
+
 use ::WebKit/i8n/I18n.bbj::I18n
 use java.util.HashMap
 
@@ -48,6 +51,8 @@ class public PortalFrame
    
 
     field private BBjPopupMenu AccountMenu!
+    
+    field private IFavoritesProvider favoritesProvider! 
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
@@ -61,8 +66,12 @@ class public PortalFrame
 
         dark$="0"
         dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
+        
         if dark$>"0" then
             ClientUtil.setDarkMode(Boolean.TRUE)
+            BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
+        else 
+            ClientUtil.setDarkMode(Boolean.FALSE)
             BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
         fi        
         
@@ -73,6 +82,10 @@ class public PortalFrame
             #ThisInstance! = new PortalFrame()
         fi
         methodret #ThisInstance!
+    methodend
+    
+    method public void setFavoritesProvider(IFavoritesProvider provider!)
+        #favoritesProvider! = provider!
     methodend
 
     method protected void initializeDrawer(Menu menu!, Menu footerMenu!, Menu headerMenu!)
@@ -441,6 +454,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
         rem menuPanel! = new TreeListPanel(panelWindow!)
         rem menuPanel! = new MenuCardPanel(panelWindow!)
+        
         menuPanel! = new MenuCardPanelSorted(panelWindow!)
         rem Test Colors
         colors! = new BBjVector()

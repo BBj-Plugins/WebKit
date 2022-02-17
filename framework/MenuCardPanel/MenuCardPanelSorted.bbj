@@ -3,6 +3,7 @@ use ::WebKit/widgets/MenuCard/MenuCard.bbj::MenuCard
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::Webkit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 
 class public MenuCardPanelSorted extends TreeListPanel
@@ -23,7 +24,7 @@ class public MenuCardPanelSorted extends TreeListPanel
             window! = #getCanvas()
             window!.addPanelStyle("menupanel")
             #createHeadLine(window!)
-            #createAdditionalTopPanel()
+           
             #MenuTilesBox! = #getCanvas().addChildWindow(window!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #MenuTilesBox!.addStyle("menuTilesBox")
             #MenuTilesBox!.addStyle("menuCardBox")
@@ -31,6 +32,10 @@ class public MenuCardPanelSorted extends TreeListPanel
             #Headline!.addStyle("headline")
             
             #colors!.add("#FFFFFF")
+            #favoritesProvider! = SampleFavoritesProvider.getInstance()
+            if #favoritesProvider!.getUser() = null()
+                #favoritesActivated! = Boolean.FALSE
+            fi
         FI
     methodend
     
@@ -70,7 +75,7 @@ class public MenuCardPanelSorted extends TreeListPanel
         
         css! = ""
         it! = children!.iterator()
-            
+          
         while it!.hasNext()
             item! = cast(MenuItem,it!.next())
             id%  = item!.getNodeId()
@@ -79,16 +84,26 @@ class public MenuCardPanelSorted extends TreeListPanel
             tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
             tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
             tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
+                 
+            tile!.toggleFavoritesButton(#favoritesActivated!)
+            if #favoritesActivated! then
+                if #favoritesProvider!.isItemFavorite(item!) then
+                        tile!.toggleFavorite()
+                fi
+            fi
+            
             if item!.getIcon() <> "" AND item!.getIcon() <> null() then              
                 tile!.setIcon(item!.getIcon())
             endif
             #MenuItemTiles!.put(item!.getNodeId(),tile!)
                     
         wend  
+        
         it! = headers!.iterator()
         while it!.hasNext()
             item! = cast(MenuItem,it!.next())
             id%  = item!.getNodeId()
+            
             
             header! = #MenuTilesBox!.addStaticText(#MenuTilesBox!.getAvailableControlID(),0,0,0,0,item!.getCaption())
             header!.addStyle("header")
@@ -102,15 +117,20 @@ class public MenuCardPanelSorted extends TreeListPanel
                 tile!.setCallback(MenuCard.ON_FAVORITES_ADD,#this!,"setFavorite")
                 tile!.setCallback(MenuCard.ON_CARD_CLICK,#this!,"onMenuItemClick")
                 tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
+                tile!.toggleFavoritesButton(#favoritesActivated!)
+                if #favoritesActivated! and #favoritesProvider!.isItemFavorite(item!) then
+                            tile!.toggleFavorite()      
+                fi
+                
                 if item!.getIcon() <> "" AND item!.getIcon() <> null() then             
                     tile!.setIcon(item!.getIcon())
                 endif
                 #MenuItemTiles!.put(item!.getNodeId(),tile!)
             wend
         wend
+        
      
-    methodend   
-    
+    methodend
     
     
     rem @override

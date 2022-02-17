@@ -83,6 +83,14 @@ class public MenuCard extends BBjWidget
         #openExternal! = Boolean.FALSE 
     methodend
     
+    method public void toggleFavorite()      
+        #header!.favoriteToggle()
+    methodend
+    
+    method public void toggleFavoritesButton(Boolean state!)
+        #header!.toggleFavoritesButton(state!)
+    methodend
+    
     method public void onHeaderClick(BBjCustomEvent ev!)
         #fireEvent(#ON_CARD_CLICK,#item!.getNodeId())
     methodend
