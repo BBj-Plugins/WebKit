@@ -12,7 +12,7 @@
 
 .inputFieldStyleInputWrapper::part(input-wrapper) {
     --bbj-focus-ring-default: none;
-    background: white;
+    background: var(--bbj-color-default-light);
     border: none;
     border-bottom: 1px solid #DDE0E1;
     border-radius: 0px;
@@ -20,13 +20,12 @@
     height: 34px;
 }
 
-.inputFieldStyleInputWrapper.focus::part(input-wrapper){
-	border-bottom: 1px solid var(--bbj-color-primary);
+.inputFieldStyleInputWrapper.focus::part(input-wrapper) {
+    border-bottom: 1px solid var(--bbj-color-default);
 }
 
-
 .inputFieldStyleInputWrapper.error::part(input-wrapper) {
-	border-bottom: 1px solid var(--bbj-color-danger);
+    border-bottom: 1px solid var(--bbj-color-danger);
 }
 
 .inputFieldLabelStyle {
@@ -34,7 +33,7 @@
     font-weight: 700;
     font-size: 12px;
     line-height: 14px;
-    color: var(--bbj-color-black);
+    color: var(--bbj-color-default-text-dark);
     grid-row-start: 1;
 }
 
@@ -53,22 +52,20 @@
     line-height: 22px;
 }
 
-/* need smaller font for this */
-.inputFieldSubTextStyle {
-    color:var(--bbj-color-danger);
-    font-weight:var(--bbj-font-weight-lighter);
-    font-size:var(--bbj-font-size-xxs);
-}
 
-.inputFieldStyleInput::part(input){
-    color: var(--bbj-color-black);
+/* need smaller font for this */
+
+.inputFieldSubTextStyle {
+    color: var(--bbj-color-danger);
+    font-weight: var(--bbj-font-weight-lighter);
+    font-size: var(--bbj-font-size-xxs);
 }
 
 .inputFieldIcon {
-    grid-row-start:2;
-    grid-column-start:2;
-    height:fit-content;
-    width:fit-content;
-    align-self:end;
-    justify-self:end;
+    grid-row-start: 2;
+    grid-column-start: 2;
+    height: fit-content;
+    width: fit-content;
+    align-self: end;
+    justify-self: end;
 }

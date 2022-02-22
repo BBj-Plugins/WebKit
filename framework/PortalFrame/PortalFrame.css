@@ -6,8 +6,8 @@
 }
 
 .mainarea {
-    position:fixed;
-    background: #F1F1F1;
+    position: fixed;
+    background: var(--bbj-window-background);
     height: 100vh;
 }
 

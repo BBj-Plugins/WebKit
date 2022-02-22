@@ -71,13 +71,8 @@ class public LoginDialog
         rem checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
         #authProvider! = authProvider!
 
-        dark$="0"
-        dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
-        if dark$>"0" then
-            ClientUtil.setDarkMode(Boolean.TRUE)
-            BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
-        fi           
-        
+            
+       
     methodend
 
     method public void setLogo(BBjString logo$)

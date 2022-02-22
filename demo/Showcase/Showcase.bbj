@@ -19,8 +19,8 @@ ClientUtil.init()
 
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
-
-ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
+ClientUtil.addLocalCSS("WebKit/css/webkit.scss")
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
@@ -95,8 +95,8 @@ declare ShowCaseFrame portal!
 
 portal! = new ShowCaseFrame()
 portal!.setMenu(menu!)
-portal!.setLogoUrl("WebKit/demo/assets/basislogo.png")
-portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_sm.png")
+portal!.setLogoUrl("WebKit/demo/assets/basislogo_svg.svg")
+portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_svg.svg")
 favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","")
 favoritesProvider! = SampleFavoritesProvider.getInstance()
 favoritesProvider!.setFavoritesItem(favorites!)

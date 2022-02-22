@@ -92,7 +92,7 @@ class public ListTile extends BBjWidget
     method public void setHeader()
         #header! = Boolean.TRUE
         #textField!.setStyle("font-weight","700")
-        #textField!.setStyle("color","#333E40")
+        #textField!.setStyle("color","var(--headertiles-font-color)")
         #tile!.removePanelStyle("child")
         #arrowIcon!.setVisible(1)
         #letterField!.setVisible(0)
@@ -135,7 +135,7 @@ class public ListTile extends BBjWidget
         if Icons.get(icon!) <> null() then
             #letterField!.setText(Icons.get(icon!))
             #letterField!.setStyle("color","black")
-            #letterField!.setStyle("background","white")
+            #letterField!.setStyle("background","var(--button-background)")
         endif
         
     methodend

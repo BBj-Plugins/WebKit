@@ -21,14 +21,14 @@ class public InputField extends BBjWidget
 
     field protected Boolean valid! = Boolean.FALSE
 
-    method public InputField(BBjChildWindow wnd!, IValidator validator!)
+    method public InputField(BBjWindow wnd!, IValidator validator!)
          DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
          #validator! = validator!
          #super!.create(wnd!, wnd!.getAvailableControlID())
     methodend
 
-    method public InputField(BBjChildWindow wnd!)
+    method public InputField(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/InputField/InputField.css")
 
         #super!.create(wnd!, wnd!.getAvailableControlID())

@@ -5,7 +5,7 @@ use ::WebKit/widgets/DashboardHeader/DashboardHeader.bbj::DashboardHeader
 use ::WebKit/widgets/DashboardTasks/DashboardTasks.bbj::DashboardTasks
 use ::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
-
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/MenuCard/MenuCard.bbj::MenuCard
 use ::WebKit/model/Menu.bbj::MenuItem
 class public ShowCaseMenuPanel extends TreeListPanel
@@ -49,10 +49,9 @@ class public ShowCaseMenuPanel extends TreeListPanel
    
    method public void createThirdWidget(BBjWindow wnd!)
         declare MenuCard card!
-        card! = new MenuCard(wnd!)
-        card!.setMenuItem(new MenuItem(null(),104,"Fast Reseller","Fast Reseller",""))
-        
-        card!.setLetterColor("#408458")
+        declare InputField testInput!   
+        testInput! = new InputField(wnd!)
+        testInput!.setPlaceHolder("test")
    methodend
    
    
