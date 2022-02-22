@@ -78,7 +78,6 @@
 .drawerMenuTilePanelStyle {
     display: grid;
     grid-template-columns: 64px auto;
-    height: 48px;
 }
 
 .drawerMenuTileIconStyle {
@@ -88,6 +87,7 @@
     grid-column-start: 1;
     justify-self: end;
     align-self: center;
+
 }
 
 .drawerMenuTileTextStyle {

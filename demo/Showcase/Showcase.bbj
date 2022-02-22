@@ -43,6 +43,13 @@ declare MenuItem menuItem!
 menu! = new Menu()
 
 
+rem Toast
+menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","fas-bread-slice")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/ToastShowcase.bbj::ToastShowcase")
+menuItem!.setStartType(0)
+
+
+declare PortalFrame portal!
 
 showCase! = menu!.addMenuItem(menu!.getRoot(),104,"Sales - Options","Sales - Options","list")
 showCase!.setStartType(2)

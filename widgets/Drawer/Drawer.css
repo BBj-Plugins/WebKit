@@ -46,10 +46,13 @@
 }
 
 .drawerPanelStyle {
-    height: 100vh;
     background-color: var(--bbj-color-default);
-    z-index: 99;
-    overflow: visible;
+    margin-top: 0px;
+    position: fixed !important;
+    height: 100vh;
+    z-index: 1;
+    overflow: hidden;
+
     width: var(--drawer-width);
 }
 
@@ -59,6 +62,7 @@
 
 .drawerClosed.drawerStyle {
     width: var(--drawer-closed-width) !important;
+    /* display: none !important; */
 }
 
 .drawerClosed div.drawerFooterPanelStyle {
@@ -96,18 +100,37 @@
 }
 
 @media screen and (max-width: 425px) {
-    .drawerClosed .drawerAnimationClose {
+
+    .drawerPanelStyle{
+        margin-top: 40px;
+        padding-top: 15px;
+    }
+    .drawerClosed .drawerAnimationClose{
+
         animation-name: drawerMobileAnimationClose;
     }
     .drawerOpen .drawerAnimationOpen {
         animation-name: drawerMobileAnimationOpen;
     }
     .drawerMobileShadowPanelStyle {
-        display: block !important;
+
+      display: block !important;
+        }
+        
+	.drawerOpen.drawerStyle{
+	    width: 0px;
+	}
+    .drawerClosed.drawerStyle{
+	    width: 0px !important;
+	}
+
+    .drawerClosed.drawerShow{
+        width: var(--drawer-closed-width) !important;
     }
-    .drawerClosed.drawerStyle {
-        width: 0px;
+    .drawerClosed.drawerHide {
+         width: 0px !important;
     }
+
 }
 
 .drawerTilesTextHeaderStyle {
@@ -144,4 +167,9 @@
 
 .drawerClosed .bottomDivider {
     width: inherit
+}
+
+
+.drawerHide {
+    display: none;
 }

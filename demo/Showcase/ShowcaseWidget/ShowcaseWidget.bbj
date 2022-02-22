@@ -27,6 +27,7 @@ class public ShowcaseWidget extends BBjWidget
 
         if init! then 
             #window! = #getCanvas()
+            #window!.addStyle("clientFrame")
             #window!.addStyle("showcaseWidgetPanelStyle")
             #CtrlTitle! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#getTitle())
             #CtrlTitle!.addStyle("headline")
