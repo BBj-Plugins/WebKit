@@ -52,7 +52,6 @@
     height: 100vh;
     z-index: 1;
     overflow: hidden;
-
     width: var(--drawer-width);
 }
 
@@ -100,37 +99,31 @@
 }
 
 @media screen and (max-width: 425px) {
-
-    .drawerPanelStyle{
+    .drawerPanelStyle {
         margin-top: 40px;
         padding-top: 15px;
     }
-    .drawerClosed .drawerAnimationClose{
-
+    .drawerClosed .drawerAnimationClose {
         animation-name: drawerMobileAnimationClose;
     }
     .drawerOpen .drawerAnimationOpen {
         animation-name: drawerMobileAnimationOpen;
     }
     .drawerMobileShadowPanelStyle {
-
-      display: block !important;
-        }
-        
-	.drawerOpen.drawerStyle{
-	    width: 0px;
-	}
-    .drawerClosed.drawerStyle{
-	    width: 0px !important;
-	}
-
-    .drawerClosed.drawerShow{
+        display: block !important;
+    }
+    .drawerOpen.drawerStyle {
+        width: 0px;
+    }
+    .drawerClosed.drawerStyle {
+        width: 0px !important;
+    }
+    .drawerClosed.drawerShow {
         width: var(--drawer-closed-width) !important;
     }
     .drawerClosed.drawerHide {
-         width: 0px !important;
+        width: 0px !important;
     }
-
 }
 
 .drawerTilesTextHeaderStyle {
@@ -168,7 +161,6 @@
 .drawerClosed .bottomDivider {
     width: inherit
 }
-
 
 .drawerHide {
     display: none;

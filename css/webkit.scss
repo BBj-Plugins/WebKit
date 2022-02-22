@@ -1,200 +1,200 @@
-                    :root {
-                       --bbj-font-family: 'Lato';
-                       --tiles-font-color: #333E40CC;
-                       --menutile-background: rgba(255, 255, 255, 0.6);
-                       --menutile-hover-color: rgba(104, 131, 186, 0.1);
-                       --button-background: #F1F1F1;
-                   }
-                   
-                   body {
-                       overflow: hidden;
-                       overscroll-behavior-y: none;
-                       touch-action: none;
-                       font-style: normal;
-                       font-weight: 600;
-                   }
-                   
-                   .tilesheadline {
-                       font-family: Lato;
-                       font-style: normal;
-                       font-weight: bold;
-                       font-size: 32px;
-                       line-height: 38px;
-                       color: #333E40;
-                       grid-row: 1;
-                       grid-column-start: 1;
-                       grid-column-end: 4;
-                   }
-                   
-                   div .logo {
-                       margin-top: 2px;
-                       margin-left: 15px;
-                   }
-                   
-                   iframe {
-                       border-width: 0px !important;
-                   }
-                   
-                   @media screen and (max-width: 600px) {
-                       .wallpaper {
-                           background-color: white;
-                           background-image: unset;
-                       }
-                       .avatar {
-                           height: 30px;
-                           width: 30px;
-                           position: fixed;
-                           background-size: 30px;
-                       }
-                   }
-                   
-                   html[data-app-theme='dark'] {
-                       color-scheme: dark;
-                       --button-background: rgba(255, 255, 255, 0.1);
-                       --tiles-font-color: #F1F1F1;
-                       --menutile-background: rgba(255, 255, 255, 0.1);
-                       --bbj-color-black: hsl(var(--bbj-color-default-hue), 28%, 7%);
-                       --bbj-color-white: hsl(var(--bbj-color-default-hue), 17%, 82%);
-                       --bbj-focus-ring-lightness: 60%;
-                       --bbj-color-primary-saturation: 75%;
-                       --bbj-color-primary-contrast-threshold: 55;
-                       --bbj-color-success-saturation: 75%;
-                       --bbj-color-success-contrast-threshold: 35;
-                       --bbj-color-info-saturation: 75%;
-                       --bbj-color-info-contrast-threshold: 60;
-                       --bbj-color-warning-saturation: 75%;
-                       --bbj-color-warning-contrast-threshold: 35;
-                       --bbj-color-danger-saturation: 75%;
-                       --bbj-color-danger-contrast-threshold: 55;
-                       // primary theme
-                       --bbj-color-primary-text-dark: var(--bbj-color-primary-65);
-                       --bbj-color-primary-text: var(--bbj-color-primary-70);
-                       --bbj-color-primary-text-light: var(--bbj-color-primary-75);
-                       // success theme
-                       --bbj-color-success-text-dark: var(--bbj-color-success-65);
-                       --bbj-color-success-text: var(--bbj-color-success-70);
-                       --bbj-color-success-text-light: var(--bbj-color-success-75);
-                       // warning theme
-                       --bbj-color-warning-text-dark: var(--bbj-color-warning-65);
-                       --bbj-color-warning-text: var(--bbj-color-warning-70);
-                       --bbj-color-warning-text-light: var(--bbj-color-warning-75);
-                       // danger theme
-                       --bbj-color-danger-text-dark: var(--bbj-color-danger-65);
-                       --bbj-color-danger-text: var(--bbj-color-danger-70);
-                       --bbj-color-danger-text-light: var(--bbj-color-danger-75);
-                       // info theme
-                       --bbj-color-info-text-dark: var(--bbj-color-info-65);
-                       --bbj-color-info-text: var(--bbj-color-info-70);
-                       --bbj-color-info-text-light: var(--bbj-color-info-75);
-                       // gray theme
-                       --bbj-color-gray-text-dark: var(--bbj-color-gray-65);
-                       --bbj-color-gray-text: var(--bbj-color-gray-70);
-                       --bbj-color-gray-text-light: var(--bbj-color-gray-75);
-                       // default theme
-                       --bbj-color-default-dark: var(--bbj-color-default-10);
-                       --bbj-color-on-default-text-dark: var(--bbj-color-default-text-10);
-                       --bbj-color-default-text-dark: var(--bbj-color-default-65);
-                       --bbj-color-default: var(--bbj-color-default-15);
-                       --bbj-color-on-default-text: var(--bbj-color-default-text-15);
-                       --bbj-color-default-text: var(--bbj-color-default-70);
-                       --bbj-color-default-light: var(--bbj-color-default-20);
-                       --bbj-color-on-default-text-light: var(--bbj-color-default-text-20);
-                       --bbj-color-default-text-light: var(--bbj-color-default-75);
-                       // shadow
-                       // ==========
-                       --bbj-shadow-xs: 0 0 1px var(--bbj-color-default-5);
-                       --bbj-shadow-s: 0 1px 2px var(--bbj-color-default-10);
-                       --bbj-shadow-m: 0 2px 4px var(--bbj-color-default-10);
-                       --bbj-shadow-l: 0 2px 8px var(--bbj-color-default-10);
-                       --bbj-shadow-xl: 0 4px 16px var(--bbj-color-default-10);
-                       --bbj-shadow-xxl: 0 8px 32px var(--bbj-color-default-10);
-                       // Disabled
-                       // ===========
-                       --bbj-disabled-opacity: 0.6;
-                       // inputs
-                       // ===========
-                       --bbj-input-label-color: var(--bbj-color-white);
-                       --bbj-input-color: var(--bbj-color-default-80);
-                       --bbj-input-placeholder-color: var(--bbj-color-gray-60);
-                       --bbj-input-valid-color: var(--bbj-color-success-text-25);
-                       --bbj-input-valid-background-color: var(--bbj-color-success-25);
-                       --bbj-input-valid-placeholder-color: var(--bbj-color-gray-95);
-                       --bbj-input-invalid-color: var(--bbj-color-danger-text-25);
-                       --bbj-input-invalid-background-color: var(--bbj-color-danger-25);
-                       --bbj-input-invalid-placeholder-color: var(--bbj-color-gray-70);
-                       --bbj-input-spinner-color: var(--bbj-color-default-90);
-                       // calendar
-                       --bbj-calendar-background: var(--bbj-color-default);
-                       --bbj-calendar-border-color: var(--bbj-color-default-light);
-                       --bbj-calendar-month-foreground: var(--bbj-color-white);
-                       // buttons
-                       // ===========
-                       --bbj-button-color-on-default-text-dark: var(--bbj-color-primary-80);
-                       --bbj-button-color-on-default-text: var(--bbj-color-primary-75);
-                       --bbj-button-color-on-default-text-light: var(--bbj-color-primary-70);
-                       // checkboxes
-                       // ===========
-                       --bbj-checkbox-label-color: var(--bbj-input-label-color);
-                       // radios
-                       // ===========
-                       --bbj-radio-label-color: var(--bbj-input-label-color);
-                       // list
-                       // ===========
-                       --bbj-list-background-color: var(--bbj-color-default);
-                       --bbj-list-item-color: var(--bbj-color-white);
-                       --bbj-list-border-color: var(--bbj-color-default-light);
-                       .dropdown__menu {
-                           &::part(control),
-                           &::part(control):hover,
-                           &::part(control):focus,
-                           &::part(control):focus-within {
-                               border-color: var(--bbj-color-default-light);
-                           }
-                       }
-                       // sliders
-                       // ===========
-                       bbj-slider::part(control) {
-                           border-color: transparent;
-                       }
-                       bbj-slider::part(noUi-tooltip) {
-                           background: var(--bbj-color-default-light);
-                       }
-                       // dialogs
-                       // ===========
-                       --bbj-dialog-background: var(--bbj-color-default-light);
-                       bbj-dialog[theme='default'] header {
-                           background-color: var(--bbj-dialog-background);
-                           color: var(--bbj-color-white);
-                       }
-                       // menubar
-                       // ===========
-                       --bbj-menubar-shadow: 0 2px 2px var(--bbj-color-gray-20);
-                       --bbj-menubar-right-advancer-background: var(--bbj-color-default);
-                       --bbj-menubar-left-advancer-background: var(--bbj-color-default);
-                       bbj-menubar {
-                           background-color: var(--bbj-color-default);
-                       }
-                       // menus
-                       // ===========
-                       --bbj-menu-background-color: var(--bbj-color-default);
-                       --bbj-menu-border-color: var(--bbj-color-default-light);
-                       --bbj-separator-border-color: var(--bbj-color-default-light);
-                       // tabs
-                       // ===========
-                       --bbj-tabs-list-advancer-color: var(--bbj-color-white);
-                       --bbj-tabs-list-right-advancer-background: var(--bbj-color-black);
-                       --bbj-tabs-list-left-advancer-background: var(--bbj-color-black);
-                       --bbj-tabs-list-top-advancer-background: var(--bbj-color-black);
-                       --bbj-tabs-list-bottom-advancer-background: var(--bbj-color-black);
-                       // Tree
-                       // ========
-                       --bbj-tree-icon-background: var(--bbj-color-black);
-                       --bbj-tree-icon-fill: var(--bbj-color-default-70);
-                       // Popover
-                       // ==============
-                       --bbj-popover-background: var(--bbj-color-default-light);
-                       body {
-                           background: var(--bbj-color-black);
-                           color: var(--bbj-color-white);
-                       }
-                   }
+                      :root {
+                         --bbj-font-family: 'Lato';
+                         --tiles-font-color: #333E40CC;
+                         --menutile-background: rgba(255, 255, 255, 0.6);
+                         --menutile-hover-color: rgba(104, 131, 186, 0.1);
+                         --button-background: #F1F1F1;
+                     }
+                     
+                     body {
+                         overflow: hidden;
+                         overscroll-behavior-y: none;
+                         touch-action: none;
+                         font-style: normal;
+                         font-weight: 600;
+                     }
+                     
+                     .tilesheadline {
+                         font-family: Lato;
+                         font-style: normal;
+                         font-weight: bold;
+                         font-size: 32px;
+                         line-height: 38px;
+                         color: #333E40;
+                         grid-row: 1;
+                         grid-column-start: 1;
+                         grid-column-end: 4;
+                     }
+                     
+                     div .logo {
+                         margin-top: 2px;
+                         margin-left: 15px;
+                     }
+                     
+                     iframe {
+                         border-width: 0px !important;
+                     }
+                     
+                     @media screen and (max-width: 600px) {
+                         .wallpaper {
+                             background-color: white;
+                             background-image: unset;
+                         }
+                         .avatar {
+                             height: 30px;
+                             width: 30px;
+                             position: fixed;
+                             background-size: 30px;
+                         }
+                     }
+                     
+                     html[data-app-theme='dark'] {
+                         color-scheme: dark;
+                         --button-background: rgba(255, 255, 255, 0.1);
+                         --tiles-font-color: #F1F1F1;
+                         --menutile-background: rgba(255, 255, 255, 0.1);
+                         --bbj-color-black: hsl(var(--bbj-color-default-hue), 28%, 7%);
+                         --bbj-color-white: hsl(var(--bbj-color-default-hue), 17%, 82%);
+                         --bbj-focus-ring-lightness: 60%;
+                         --bbj-color-primary-saturation: 75%;
+                         --bbj-color-primary-contrast-threshold: 55;
+                         --bbj-color-success-saturation: 75%;
+                         --bbj-color-success-contrast-threshold: 35;
+                         --bbj-color-info-saturation: 75%;
+                         --bbj-color-info-contrast-threshold: 60;
+                         --bbj-color-warning-saturation: 75%;
+                         --bbj-color-warning-contrast-threshold: 35;
+                         --bbj-color-danger-saturation: 75%;
+                         --bbj-color-danger-contrast-threshold: 55;
+                         // primary theme
+                         --bbj-color-primary-text-dark: var(--bbj-color-primary-65);
+                         --bbj-color-primary-text: var(--bbj-color-primary-70);
+                         --bbj-color-primary-text-light: var(--bbj-color-primary-75);
+                         // success theme
+                         --bbj-color-success-text-dark: var(--bbj-color-success-65);
+                         --bbj-color-success-text: var(--bbj-color-success-70);
+                         --bbj-color-success-text-light: var(--bbj-color-success-75);
+                         // warning theme
+                         --bbj-color-warning-text-dark: var(--bbj-color-warning-65);
+                         --bbj-color-warning-text: var(--bbj-color-warning-70);
+                         --bbj-color-warning-text-light: var(--bbj-color-warning-75);
+                         // danger theme
+                         --bbj-color-danger-text-dark: var(--bbj-color-danger-65);
+                         --bbj-color-danger-text: var(--bbj-color-danger-70);
+                         --bbj-color-danger-text-light: var(--bbj-color-danger-75);
+                         // info theme
+                         --bbj-color-info-text-dark: var(--bbj-color-info-65);
+                         --bbj-color-info-text: var(--bbj-color-info-70);
+                         --bbj-color-info-text-light: var(--bbj-color-info-75);
+                         // gray theme
+                         --bbj-color-gray-text-dark: var(--bbj-color-gray-65);
+                         --bbj-color-gray-text: var(--bbj-color-gray-70);
+                         --bbj-color-gray-text-light: var(--bbj-color-gray-75);
+                         // default theme
+                         --bbj-color-default-dark: var(--bbj-color-default-10);
+                         --bbj-color-on-default-text-dark: var(--bbj-color-default-text-10);
+                         --bbj-color-default-text-dark: var(--bbj-color-default-65);
+                         --bbj-color-default: var(--bbj-color-default-15);
+                         --bbj-color-on-default-text: var(--bbj-color-default-text-15);
+                         --bbj-color-default-text: var(--bbj-color-default-70);
+                         --bbj-color-default-light: var(--bbj-color-default-20);
+                         --bbj-color-on-default-text-light: var(--bbj-color-default-text-20);
+                         --bbj-color-default-text-light: var(--bbj-color-default-75);
+                         // shadow
+                         // ==========
+                         --bbj-shadow-xs: 0 0 1px var(--bbj-color-default-5);
+                         --bbj-shadow-s: 0 1px 2px var(--bbj-color-default-10);
+                         --bbj-shadow-m: 0 2px 4px var(--bbj-color-default-10);
+                         --bbj-shadow-l: 0 2px 8px var(--bbj-color-default-10);
+                         --bbj-shadow-xl: 0 4px 16px var(--bbj-color-default-10);
+                         --bbj-shadow-xxl: 0 8px 32px var(--bbj-color-default-10);
+                         // Disabled
+                         // ===========
+                         --bbj-disabled-opacity: 0.6;
+                         // inputs
+                         // ===========
+                         --bbj-input-label-color: var(--bbj-color-white);
+                         --bbj-input-color: var(--bbj-color-default-80);
+                         --bbj-input-placeholder-color: var(--bbj-color-gray-60);
+                         --bbj-input-valid-color: var(--bbj-color-success-text-25);
+                         --bbj-input-valid-background-color: var(--bbj-color-success-25);
+                         --bbj-input-valid-placeholder-color: var(--bbj-color-gray-95);
+                         --bbj-input-invalid-color: var(--bbj-color-danger-text-25);
+                         --bbj-input-invalid-background-color: var(--bbj-color-danger-25);
+                         --bbj-input-invalid-placeholder-color: var(--bbj-color-gray-70);
+                         --bbj-input-spinner-color: var(--bbj-color-default-90);
+                         // calendar
+                         --bbj-calendar-background: var(--bbj-color-default);
+                         --bbj-calendar-border-color: var(--bbj-color-default-light);
+                         --bbj-calendar-month-foreground: var(--bbj-color-white);
+                         // buttons
+                         // ===========
+                         --bbj-button-color-on-default-text-dark: var(--bbj-color-primary-80);
+                         --bbj-button-color-on-default-text: var(--bbj-color-primary-75);
+                         --bbj-button-color-on-default-text-light: var(--bbj-color-primary-70);
+                         // checkboxes
+                         // ===========
+                         --bbj-checkbox-label-color: var(--bbj-input-label-color);
+                         // radios
+                         // ===========
+                         --bbj-radio-label-color: var(--bbj-input-label-color);
+                         // list
+                         // ===========
+                         --bbj-list-background-color: var(--bbj-color-default);
+                         --bbj-list-item-color: var(--bbj-color-white);
+                         --bbj-list-border-color: var(--bbj-color-default-light);
+                         .dropdown__menu {
+                             &::part(control),
+                             &::part(control):hover,
+                             &::part(control):focus,
+                             &::part(control):focus-within {
+                                 border-color: var(--bbj-color-default-light);
+                             }
+                         }
+                         // sliders
+                         // ===========
+                         bbj-slider::part(control) {
+                             border-color: transparent;
+                         }
+                         bbj-slider::part(noUi-tooltip) {
+                             background: var(--bbj-color-default-light);
+                         }
+                         // dialogs
+                         // ===========
+                         --bbj-dialog-background: var(--bbj-color-default-light);
+                         bbj-dialog[theme='default'] header {
+                             background-color: var(--bbj-dialog-background);
+                             color: var(--bbj-color-white);
+                         }
+                         // menubar
+                         // ===========
+                         --bbj-menubar-shadow: 0 2px 2px var(--bbj-color-gray-20);
+                         --bbj-menubar-right-advancer-background: var(--bbj-color-default);
+                         --bbj-menubar-left-advancer-background: var(--bbj-color-default);
+                         bbj-menubar {
+                             background-color: var(--bbj-color-default);
+                         }
+                         // menus
+                         // ===========
+                         --bbj-menu-background-color: var(--bbj-color-default);
+                         --bbj-menu-border-color: var(--bbj-color-default-light);
+                         --bbj-separator-border-color: var(--bbj-color-default-light);
+                         // tabs
+                         // ===========
+                         --bbj-tabs-list-advancer-color: var(--bbj-color-white);
+                         --bbj-tabs-list-right-advancer-background: var(--bbj-color-black);
+                         --bbj-tabs-list-left-advancer-background: var(--bbj-color-black);
+                         --bbj-tabs-list-top-advancer-background: var(--bbj-color-black);
+                         --bbj-tabs-list-bottom-advancer-background: var(--bbj-color-black);
+                         // Tree
+                         // ========
+                         --bbj-tree-icon-background: var(--bbj-color-black);
+                         --bbj-tree-icon-fill: var(--bbj-color-default-70);
+                         // Popover
+                         // ==============
+                         --bbj-popover-background: var(--bbj-color-default-light);
+                         body {
+                             background: var(--bbj-color-black);
+                             color: var(--bbj-color-white);
+                         }
+                     }
