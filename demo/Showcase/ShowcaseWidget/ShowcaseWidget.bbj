@@ -19,7 +19,7 @@ class public ShowcaseWidget extends BBjWidget
     field protected BBjChildWindow ContentWindow!
     
     method public ShowcaseWidget(BBjWindow wnd!)
-        ClientUtil.addLocalCSS("Webkit/demo/ShowCase/ShowcaseWidget/ShowcaseWidget.css")
+        ClientUtil.addLocalCSS("WebKit/demo/Showcase/ShowcaseWidget/ShowcaseWidget.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
     

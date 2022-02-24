@@ -20,7 +20,7 @@ ClientUtil.init()
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
 ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
-ClientUtil.addLocalCSS("WebKit/css/webkit.scss")
+ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
@@ -44,7 +44,7 @@ menu! = new Menu()
 
 
 rem Toast
-menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","fas-bread-slice")
+menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","bulb")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/ToastShowcase.bbj::ToastShowcase")
 menuItem!.setStartType(0)
 
@@ -97,7 +97,7 @@ portal! = new ShowCaseFrame()
 portal!.setMenu(menu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_svg.svg")
-favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","")
+favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","star")
 favoritesProvider! = SampleFavoritesProvider.getInstance()
 favoritesProvider!.setFavoritesItem(favorites!)
 favoritesProvider!.setMenu(menu!)

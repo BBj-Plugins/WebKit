@@ -1,4 +1,4 @@
-use ::WebKit/demo/ShowCase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
+use ::WebKit/demo/Showcase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/Toast/Toast.bbj::Toast
 
