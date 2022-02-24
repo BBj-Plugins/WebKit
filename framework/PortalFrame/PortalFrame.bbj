@@ -19,7 +19,7 @@ use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 
-use ::Webkit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
+use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
 use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 use ::WebKit/i8n/I18n.bbj::I18n

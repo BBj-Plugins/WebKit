@@ -7,8 +7,8 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use java.util.HashMap
 use ::WebKit/util/Icons.bbj::Icons
-use ::Webkit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
-use ::Webkit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
+use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
+use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 
 class public TreeListPanel extends BBjWidget
