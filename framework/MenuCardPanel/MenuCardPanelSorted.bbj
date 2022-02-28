@@ -3,7 +3,7 @@ use ::WebKit/widgets/MenuCard/MenuCard.bbj::MenuCard
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-use ::Webkit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
+use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 
 class public MenuCardPanelSorted extends TreeListPanel
