@@ -1,3 +1,6 @@
+use java.util.HashMap
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
 class public MenuItem
 
     field private BBjNumber NodeId
@@ -6,6 +9,10 @@ class public MenuItem
     field private BBjString ToolTip!
     field private MenuItem  Parent!
     field private BBjVector Children! = new BBjVector()
+    
+    field private BBjString path$
+    field private BBjString basePath$
+    field private BBjString parameter$
 
     field private BBjNumber StartType
     field private BBjString Program$
@@ -15,25 +22,51 @@ class public MenuItem
     method private MenuItem()
     methodend
 
-
-
     method public MenuItem(MenuItem parentItem!, BBjNumber nodeId, BBjString caption!, BBjString toolTip!, BBjString iconFilename!)
 
         #NodeId = nodeId
         #Caption! = caption!
         #ToolTip! = toolTip!
         #IconFileName! = iconFilename!
-
         #Parent! = parentItem!
         if #Parent! <> null() then
             #Parent!.addChild(#this!)
         fi
+        #path$ = #buildPath()
+        #basePath$ = #path$
+        if basPath$ <> "/" then
+REM             Menu.addItemToIndex(#this!)
+        fi
     methodend
+
+    method private String buildPath()
+        declare StringBuilder pathBuilder!
+        declare MenuItem item!
+
+        if #getParent() = null() then
+            methodret "/"
+        fi
+
+        pathBuilder! = new StringBuilder()
+        caption! = #getCaption()
+        pathBuilder!.append(caption!)
+        item! = #getParent()
+        while item! <> null()
+            pathBuilder!.insert(0, "/") 
+            if item!.getParent() <> null() then
+                pathBuilder!.insert(0, item!.getCaption())
+            fi
+            item! = item!.getParent()
+        wend
+        path! = pathBuilder!.toString()
+        encodePath! = ClientUtil.encodeURI(path!)
+        methodret encodePath!
+
+    methodend 
 
     method public BBjNumber getNodeId()
         methodret #NodeId
     methodend
-
 
     method public BBjString getCaption()
         methodret #Caption!
@@ -47,7 +80,6 @@ class public MenuItem
         methodret #IconFileName!
     methodend
 
-
     method public BBjImage getImage()
 
         if #IconFileName! <> null() and #IconFileName! <> "" then
@@ -57,29 +89,20 @@ class public MenuItem
 
     methodend
 
-
     method public MenuItem getParent()
-
         methodret #Parent!
-
     methodend
-
 
     method public Boolean hasChildren()
         methodret #Children!.size()>0
     methodend
 
     method public BBjVector getChildren()
-
         methodret #Children!
-
     methodend
 
-
     method public void addChild(MenuItem item!)
-
         #Children!.addItem(item!)
-
     methodend
     
     method public void setStartType(BBjNumber startType)
@@ -90,12 +113,31 @@ class public MenuItem
         #Program$ = program$
     methodend
     
+    method public Boolean hasProgram()
+        methodret #Program$ <> ""
+    methodend
+    
     method public BBjNumber getStartType()
         methodret #StartType
     methodend
     
     method public BBjString getProgram()
         methodret #Program$
+    methodend
+
+    method public BBjString getPath()
+        methodret #path$
+    methodend 
+
+    method public void setPath(BBjString path$)
+        oldPath$ = str(path$)
+        #path$ = ClientUtil.encodeURI(path$)
+        #basePath$ = ClientUtil.encodeURI(path$)
+        Menu.updateMenuIndex(oldPath$, #this!)
+    methodend
+
+    method public BBjString getBasePath()
+        methodret #basePath$
     methodend
 
     method public void setCallback(BBjString callback$)
@@ -127,6 +169,18 @@ class public MenuItem
         methodret null()
     methodend
 
+    method public void setParameter(BBjString parameter$)
+        oldpath$ = str(#path$)
+        #parameter$ = parameter$
+        #path$ = #path$ + parameter$
+        Menu.updateMenuIndex(oldpath$, #this!)
+    methodend
+
+    method public BBjString getParameter() 
+        methodret #parameter$
+    methodend
+
+
 classend
 
 
@@ -135,8 +189,8 @@ rem class Menu
 rem ##################################################################################################
 
 class public Menu
-
-    field private java.util.HashMap menuMap! = new java.util.HashMap()
+    field private static HashMap menuIndex! = new HashMap()
+    field private HashMap menuMap! = new HashMap()
     field private MenuItem RootItem!
     field private BBjNumber highestNodeId = 99
     field public MenuItem favorites!
@@ -155,6 +209,7 @@ class public Menu
         item! = new MenuItem(parentItem!, nodeId, caption!, toolTip!, iconFilename!)
         #highestNodeId = max(#highestNodeId,nodeId)
         #menuMap!.put(nodeID,item!)
+        #menuIndex!.put(item!.getPath(), item!)
         methodret item!
     methodend
 
@@ -171,15 +226,14 @@ class public Menu
     methodend
     
     method public MenuItem getItem(BBjNumber nodeId)
-        methodret CAST(MenuItem,#menuMap!.get(nodeId))
+        methodret cast(MenuItem,#menuMap!.get(nodeId))
     methodend
     
-    method public MenuItem getItem(BBjString Caption!)
+    method public MenuItem getItem(String path!)
         it! = #menuMap!.keySet().iterator()
         while it!.hasNext()
             item! = #menuMap!.get(it!.next())
-            
-            if item!.getCaption() = Caption! then
+            if item!.getPath().toLowerCase().equals(path!.toLowerCase()) then
                 methodret item!
             fi
         wend
@@ -191,11 +245,30 @@ class public Menu
         parent! = item!.getParent()
         parent!.removeChild(item!)
         #menuMap!.remove(item!)
-        
+        #menuIndex!.remove(item!)
+    methodend
+    
+    method public static HashMap getMenuMap()
+        methodret #menuMap!
+    methodend
+    
+    method public static void addItemToIndex(MenuItem item!)
+        #menuIndex!.put(item!.getPath(), item!)
+    methodend
+    
+    method public static void updateMenuIndex(BBjString oldKey$, MenuItem item!)
+        if #menuIndex!.containsKey(oldkey$) then
+           #menuIndex!.remove(oldKey$)
+        fi
+        #menuIndex!.put(item!.getPath(), item!)
+    methodend
+    
+    method public static HashMap getMenuIndex()
+        methodret #menuIndex!
+    methodend
+    
+    method public MenuItem getItemByPath(String path!)
+       methodret cast(MenuItem, #menuIndex!.get(path!))
     methodend
 
 classend
-
-
-
-

@@ -97,7 +97,7 @@ class public LoginDialog
     methodend
 
     method public static void clearRememberToken()
-        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+        BBjAPI().getThinClient().setUserProperty(1,"Strict","remember",token$)
         BBjAPI().getThinClient().setUserProperty(-1,"Strict","session",token$)
     methodend
 
@@ -109,7 +109,7 @@ class public LoginDialog
     method public Boolean doModal()
 
        
-        token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+        token$ = BBjAPI().getThinClient().getUserProperty(1,"remember",err=*next)
         if token$>"" and #authProvider!.checkToken(token$) then
             token$ = #authProvider!.getToken()
             BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
@@ -142,7 +142,8 @@ class public LoginDialog
 
         #window!.setVisible(1)
         process_events
-
+        
+        login REM TODO use later cookies instead of locale storage as an workaround
         login:
             user$=#loginWindow!.getUsername().getInput()
             pass$=#loginWindow!.getPassword().getInput()
@@ -154,7 +155,7 @@ class public LoginDialog
                     BBjAPI().getThinClient().setUserProperty(-1,"Strict","session",token$)
                     if #loginWindow!.getRememberMe() <> null() AND  #loginWindow!.getRememberMe().isSelected() then
                         token$ = #authProvider!.getToken()
-                        BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                        BBjAPI().getThinClient().setUserProperty(1,"Strict","remember",token$)
                     fi
                     methodret Boolean.TRUE
                 else
@@ -366,7 +367,7 @@ class public LoginDialog
 
 classend
 
-token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+token$ = BBjAPI().getThinClient().getUserProperty(1,"remember",err=*next)
 if token$>"" then 
     if msgbox("Clear Remember Token??",36,"Token") = 6 then
         LoginDialog.clearRememberToken()

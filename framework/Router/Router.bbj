@@ -1,0 +1,79 @@
+use ::BBjRouter/BBjRouter.bbj::BBjRouterMatchedEvent
+use ::BBjRouter/BBjRouter.bbj::BBjRouter
+
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+
+class public Router
+
+    field private Menu menu!
+    field private BBjRouter router!
+    rem this should impl the public void onRouteMatch(BBjCustomEvent ev!) mehtod
+    field private CustomObject listener!
+
+    method public Router(BBjWindow window!, CustomObject listener!)
+        #listener! = listener!
+        #router! = new BBjRouter(window!)
+    methodend
+
+    method public Router(BBjWindow window!, CustomObject listener!, Menu menu!)
+        #menu! = menu!
+        #listener! = listener!
+        #router! = new BBjRouter(window!)
+    methodend
+
+    method public void registerMenuRoute(MenuItem item!)
+        if #listener! = null() then
+            throw "listener is not set", 35
+        fi
+        path! = item!.getPath()
+        rem escape
+        if !path!.equals("/") or !path!.isBlank() then
+            #router!.register(path!, #listener!, "onRouteMatch")  
+        fi
+    methodend
+
+    method public void unRegisterMenuRoute(MenuItem item!)
+        path! = item!.getPath()
+        if !path!.equals("/") or !path!.isBlank() then
+            #router!.unregister(path!) 
+        fi
+    methodend
+
+    method public void registerRoutes()
+
+        if #menu! = null() then
+            throw "menu is not set", 43
+        fi
+
+        #router!.register("/", #listener!, "onRouteMatch")
+        menus! = #menu!.getMenuIndex().entrySet()
+        it! = menus!.iterator()
+        while it!.hasNext()
+            item! = it!.next()
+            #registerMenuRoute(item!.getValue())
+        wend
+
+        #router!.resolve()
+    methodend
+
+    method public void setMenu(Menu menu!)
+        #menu! = menu!
+    methodend
+
+    method public Menu getMenu(Menu menu!)
+        methodret #menu!
+    methodend
+
+    method public void setListener(CustomObject listener!)
+        #listener! = listener!
+    methodend
+
+    method public Object getListener(Menu menu!)
+        methodret #listener!
+    methodend
+
+    method public void navigate(BBjString path$)
+        #router!.navigate(path$)
+    methodend
+classend

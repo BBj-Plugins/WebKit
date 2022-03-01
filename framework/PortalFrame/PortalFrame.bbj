@@ -1,3 +1,5 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
@@ -6,7 +8,6 @@ use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 use ::WebKit/framework/MenuCardPanel/MenuCardPanel.bbj::MenuCardPanel
 use ::WebKit/framework/MenuCardPanel/MenuCardPanelSorted.bbj::MenuCardPanelSorted
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
-use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/util/Icons.bbj::Icons
@@ -24,6 +25,9 @@ use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesPro
 
 use ::WebKit/i8n/I18n.bbj::I18n
 use java.util.HashMap
+
+use ::WebKit/framework/Router/Router.bbj::Router
+use ::BBjRouter/BBjRouter.bbj::BBjRouterMatchedEvent
 
 class public PortalFrame
 
@@ -47,9 +51,8 @@ class public PortalFrame
     field private Boolean drawerHidden! = Boolean.FALSE
     field private Boolean isMobile! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
-    field public BBjWidget curr_win! 
-   
-
+    field public BBjWidget currWindow! 
+    
     field private BBjPopupMenu AccountMenu!
     
     field private IFavoritesProvider favoritesProvider! 
@@ -57,7 +60,11 @@ class public PortalFrame
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
 
-    
+    field public static BBjString ON_NAVIGATION$ = "navigation"
+    field private Router router!
+    field private BBjRouterMatchedEvent routerEvent!
+
+    field private BBjSysGui sysgui!
     field private static PortalFrame ThisInstance!
 
     method public PortalFrame()
@@ -162,6 +169,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             id% = headerMenuItem!.getNodeId()
             headerMenuTiles!.add(new DrawerMenuTileEntry(id%, headerMenuItem!.getCaption(), headerMenuItem!.getIcon()))
         wend
+        #router!.registerRoutes()
         drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
@@ -193,16 +201,17 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     
     method public Boolean doModal()
 
-            sysgui! =BBjAPI().openSysGui("X0")
+            #sysgui! =BBjAPI().openSysGui("X0")
             
-            #window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,#Title!,$01101083$))
+            #window! = CAST(BBjTopLevelWindow, #sysgui!.addWindow(#sysgui!.getAvailableContext(),25,25,1200,750,#Title!,$01101083$))
             #window!.setCallback(BBjAPI().ON_RESIZE, #this!, "onResizeScreen")
-            
+            rem escape
+            #router! = new Router(#window!, #getThisInstance(), #Menu!)
             rem add one invisible button to force the BASIS variables to be loaded for CSS            
             #window!.addButton(1000,0,0,0,0,"TEST",$0010$ )
             
             
-            main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+            main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,#sysgui!.getAvailableContext())
 
             appbar! = new Appbar(main!)
             appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
@@ -216,19 +225,23 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             BBjAPI().setCustomEventCallback("logout","logout")
             
             
-            anchor$ = ClientUtil.getUrlAnchor()
-            if anchor$>"" then
-                #navigateTo(anchor$)
-            else
-                if #startingPanel! <> null() then 
+            path! = ClientUtil.getUrlAnchor()
+
+            if path!.isEmpty() or path!.equals("/") then
+                if #startingPanel! <> null() then
                     #navigateTo(#startingPanel!)
-                endif
+                else
+                    #navigateTo("/")
+                fi
+            else
+                #navigateTo(path!)
             endif
            
             process_events,err=*same
             
             logout:
-                ClientUtil.setUrlAnchor("", "")
+                #router!.navigate("/")
+                #sysgui!.executeScript("window.location.reload()")
                 methodret 1
        
     methodend
@@ -248,62 +261,68 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
     methodend
     
-    method public BBjWidget navigateTo(BBjString anchor$)
-    
-        item! = #HeaderMenu!.getItem(anchor$)
-        if item! <> null() then
-            methodret #navigateTo(item!)
-        fi
-        
-        item! = #Menu!.getItem(anchor$)
-        if item! <> null() then
-            methodret #navigateTo(item!)
-        fi
-        
-        item! = #FooterMenu!.getItem(anchor$)
-        if item! <> null() then
-            methodret #navigateTo(item!)
-        fi
+    method public void navigateTo(String path!)
+        #router!.navigate(path!.toLowerCase())
+    methodend
 
-        item! = #HiddenMenu!.getItem(anchor$)
-        if item! <> null() then
-            methodret #navigateTo(item!)
+    method public void navigateTo(String path!, BBjString param$)
+        #router!.navigate(path!.toLowerCase() + "/" + param$)
+    methodend
+
+    method public void navigateTo(MenuItem menu!, String param!)
+        if param! = null() then
+            #navigateTo(menu!)
+        else
+            #navigateTo(menu!.getBasePath(), str(param!))
         fi
-       
-        methodret item!
-        
-   methodend
-   
+    methodend
+
     rem /**
     rem  * this method navigates to the menu item with the given ID
     rem  * it assumes that the IDs are unique across the four menu structures
     rem  * It's left to the developer to ensure this uniqueness
     rem  */
-    method public BBjWidget navigateTo(BBjNumber id)
-    
-        item! = #HeaderMenu!.getItem(id)
+    method public void navigateTo(BBjInt nodeId%)
+        #navigateTo(nodeId%, null())
+    methodend
+
+    method public void navigateTo(BBjInt nodeId%, String param!)
+        item! = #HeaderMenu!.getItem(nodeId%)
+
         if item! <> null() then
-            methodret #navigateTo(item!)
-        fi
-        
-        item! = #Menu!.getItem(id)
-        if item! <> null() then
-            methodret #navigateTo(item!)
-        fi
-        
-        item! = #FooterMenu!.getItem(id)
-        if item! <> null() then
-            methodret #navigateTo(item!)
+            #navigateTo(item!, param!)
+            methodret
         fi
 
-        item! = #HiddenMenu!.getItem(id)
+        item! = #Menu!.getItem(nodeId%)
+
         if item! <> null() then
-            methodret #navigateTo(item!)
+            #navigateTo(item!, param!)
+            methodret
         fi
-       
-        methodret item!
-        
-   methodend   
+
+        item! = #FooterMenu!.getItem(nodeId%)
+
+        if item! <> null() then
+            #navigateTo(item!, param!)
+            methodret
+        fi
+
+        item! = #HiddenMenu!.getItem(nodeId%)
+
+        if item! <> null() then
+            #navigateTo(item!, param!)
+            methodret
+        fi
+    methodend
+
+    method public void navigateTo(MenuItem menu!)
+        #navigateTo(menu!.getBasePath())
+    methodend
+
+    method public MenuItem getMenuItem(BBjString path$)
+    methodret #Menu!.getItemByPath(path$)
+    methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
 
@@ -314,8 +333,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         nodeId=num(str(ev!.getObject()))
         item! = #Menu!.getItem(nodeId)
         #navigateTo(item!)
-   methodend
-    
+    methodend
+
     method public void onFooterMenuItemClick(BBjCustomEvent ev!)
         nodeId = num(str(ev!.getObject()))
         item! = #FooterMenu!.getItem(nodeId)
@@ -328,74 +347,76 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         #navigateTo(item!)
     methodend
 
-   method public BBjWidget navigateTo(MenuItem item!)
-        if #curr_win! <> null() and !#curr_win!.isDestroyed() then
-            #curr_win!.setVisible(0)
-            #curr_win!=null()
+    method private BBjWidget openPanel(MenuItem item!)
+        
+        if #currWindow! <> null() and !#currWindow!.isDestroyed() then
+            #currWindow!.setVisible(0)
+            #currWindow!=null()
         fi
-                
-        if item!.hasChildren() then 
+        if item!.hasChildren() and !item!.hasProgram() then
             declare TreeListPanel menuPanel!
+
             if (menuPanel! = null()) then
                 menuPanel! = #createMenuPanelObject(#Main!)
             fi
+
             menuPanel!.setMenu(#Menu!)
             menuPanel!.setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onMenuItemClick")
             menuPanel!.setParentNode(item!.getNodeId())
             menuPanel!.setVisible(1)
-            
-            #curr_win! = cast(TreeListPanel, menuPanel!)
-            
+            #currWindow! = cast(TreeListPanel, menuPanel!)
+            methodret #currWindow!
+        fi
+
+        if #win_list!.containsKey(item!.getNodeId()) then
+            #currWindow!= CAST(BBjWidget,#win_list!.get(item!.getNodeId()))
+            #currWindow!.redraw(0)
+            #currWindow!.setVisible(1)
         else
-        
-            if #win_list!.containsKey(item!.getNodeId()) then
-                #curr_win!= CAST(BBjWidget,#win_list!.get(item!.getNodeId()))
-                #curr_win!.redraw(0)
-                #curr_win!.setVisible(1)
-            else
-                pgm$ = item!.getProgram()
-                if pgm$ = "void" then
-                    callback$ = item!.getCallback()
-                    x! = eval("#" + callback$ + "()", err=*next)
-                    methodret x!
-                fi
-                if pgm$>"" then
-                    starttype = item!.getStartType()
-                    
-                    switch starttype
-                        case 0
-                            x! = null()
-                            x! = eval("new "+pgm$+"(#Main!)",err=*next)
-                            if x! = null() then
-                                ClientUtil.consoleLog(str(BBjAPI().getLastBBjException()))
-                                a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
-                            else 
-                                #curr_win! = CAST(BBjWidget,x!)
-                            fi
-                            break
-                            
-                        case 1
-                        case 2
-                            x! = new EmbedPanel(#Main!)
-                            x!.start(item!)
-                            #curr_win! = CAST(BBjWidget,x!)
-                            x!.setCallback(BBjAPI().ON_CLOSE,#this!,"onEmbedPanelClose")
-                            break
-                        case default
-                            rem ignore
-                            break
-                    swend
-                    if #curr_win! <> null() then
-                        #win_list!.put(item!.getNodeId(),#curr_win!)
-                    fi
-                    
+            pgm$ = item!.getProgram()
+
+            if pgm$ = "void" then
+                callback$ = item!.getCallback()
+                x! = eval("#" + callback$ + "()", err=*next)
+                methodret x!
+            fi
+
+            if pgm$>"" then
+                starttype = item!.getStartType()
+                switch starttype
+                    case 0
+                        x! = null()
+                        x! = eval("new "+pgm$+"(#Main!)",err=*next)
+
+                        if x! = null() then
+                            ClientUtil.consoleLog(str(BBjAPI().getLastBBjException()))
+                            a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
+                        else
+                            #currWindow! = CAST(BBjWidget,x!)
+                        fi
+
+                        break
+                    case 1
+                    case 2
+                        x! = new EmbedPanel(#Main!)
+                        x!.start(item!)
+                        #currWindow! = CAST(BBjWidget,x!)
+                        x!.setCallback(BBjAPI().ON_CLOSE,#this!,"onEmbedPanelClose")
+                        break
+                    case default
+                        rem ignore
+                        break
+                swend
+
+                if #currWindow! <> null() then
+                    #win_list!.put(item!.getNodeId(),#currWindow!)
                 fi
             fi
         fi
-        ClientUtil.setUrlAnchor(item!.getCaption(),item!.getCaption())
-        methodret #curr_win!
+
+        methodret #currWindow!
     methodend
-    
+
     method public void onAvatarAreaClick(BBjEvent ev!)
         #AccountMenu!.show(#Avatar!,5,50)
     methodend   
@@ -447,7 +468,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     REM  * If standard portalframe function is wished to be used, onMenuItemClick is the 
     REM  * callback to used to jump to the clicked item.
     REM  * 
-    REM  * it is necessary to update #curr_win! with the new window.
+    REM  * it is necessary to update #currWindow! with the new window.
     REM  */
     
     
@@ -481,8 +502,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
     method public void reloadActivePanel()
-        if #curr_win! <> null() then 
-            #curr_win!.redraw(0)
+        if #currWindow! <> null() then 
+            #currWindow!.redraw(0)
         endif
     methodend
     
@@ -565,6 +586,24 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         endif
         #dialogWindow! = null()
     methodend
+
+
+    method public void onRouteMatch(BBjCustomEvent ev!)
+        declare auto BBjRouterMatchedEvent event!
+
+        event! = ev!.getObject()
+        #routerEvent! = event!
+        currMenuItem! = #getMenuItem(#routerEvent!.getPath())
+        if currMenuItem! <> null() then
+            #openPanel(currMenuItem!)
+            BBjAPI().postPriorityCustomEvent(#ON_NAVIGATION$, #currWindow!)
+        fi
+    methodend
+
+    method public BBjRouterMatchedEvent getLastRouterEvent()
+        methodret #routerEvent!
+    methodend
+
 classend
 
 
