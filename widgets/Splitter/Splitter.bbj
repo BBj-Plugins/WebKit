@@ -95,7 +95,7 @@ classend
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 ClientUtil.init()
-ClientUtil.addLocalCSS("WebKit/css/webkit.scss")
+ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 
 sysgui! = BBjAPI().openSysGui("X0")
 
