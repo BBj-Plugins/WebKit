@@ -1,6 +1,7 @@
 use ::BBjRouter/BBjRouter.bbj::BBjRouterMatchedEvent
 use ::BBjRouter/BBjRouter.bbj::BBjRouter
 
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 

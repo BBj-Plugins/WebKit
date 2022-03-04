@@ -34,9 +34,6 @@ class public MenuItem
         fi
         #path$ = #buildPath()
         #basePath$ = #path$
-        if basPath$ <> "/" then
-REM             Menu.addItemToIndex(#this!)
-        fi
     methodend
 
     method private String buildPath()
@@ -253,14 +250,14 @@ class public Menu
     methodend
     
     method public static void addItemToIndex(MenuItem item!)
-        #menuIndex!.put(item!.getPath(), item!)
+        #menuIndex!.put(item!.getPath().toLowerCase(), item!)
     methodend
     
     method public static void updateMenuIndex(BBjString oldKey$, MenuItem item!)
         if #menuIndex!.containsKey(oldkey$) then
            #menuIndex!.remove(oldKey$)
         fi
-        #menuIndex!.put(item!.getPath(), item!)
+        #menuIndex!.put(item!.getPath().toLowerCase(), item!)
     methodend
     
     method public static HashMap getMenuIndex()

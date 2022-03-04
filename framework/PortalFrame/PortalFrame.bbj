@@ -262,11 +262,11 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
     
     method public void navigateTo(String path!)
-        #router!.navigate(path!.toLowerCase())
+        #router!.navigate(path!)
     methodend
 
     method public void navigateTo(String path!, BBjString param$)
-        #router!.navigate(path!.toLowerCase() + "/" + param$)
+        #router!.navigate(path! + "/" + param$)
     methodend
 
     method public void navigateTo(MenuItem menu!, String param!)
