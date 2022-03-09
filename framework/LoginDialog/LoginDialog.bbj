@@ -78,6 +78,12 @@ class public LoginDialog
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
     methodend
+    
+    method public void setWrapperBackgroundImage(BBjString imagePath!)
+        #window!.setStyle("background-image","url(" + imagePath! + ")")
+        #window!.setStyle("background-repeat","no-repeat")
+        #window!.setStyle("background-size","100vw 100vh")
+    methodend
 
     method public void disableValidation()
         #isValidationEnabled! = Boolean.FALSE

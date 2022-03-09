@@ -22,6 +22,7 @@ class public ListTile extends BBjWidget
     field private Boolean favorite! = Boolean.FALSE
     field private Boolean header! = Boolean.FALSE
     field private Boolean isChild! = Boolean.FALSE
+    field private BBjNumber itemId!
     
     field public static BBjNumber ON_FAVORITES_BUTTON_CLICK = 500
     field public static BBjNumber ON_TEXTPART_CLICK = 550
@@ -111,6 +112,10 @@ class public ListTile extends BBjWidget
     method public void setLetterColor(String color!)
         #letterField!.setStyle("background",color!)
     methodend
+    
+    method public void setItemId(BBjNumber id!)
+        #itemId! = id!
+    methodend
 
     method public void toggleFavoritesButton(Boolean state!)
         if !state! then
@@ -141,7 +146,8 @@ class public ListTile extends BBjWidget
     methodend
     method public void onClick(BBjMouseDownEvent ev!)
         #toggleExpand()
-        #fireEvent(#ON_TEXTPART_CLICK,ev!.getControl().getParentWindow().getID())
+        #fireEvent(#ON_TEXTPART_CLICK,#itemId!)
+        
     methodend
     
     method public void toggleExpand()

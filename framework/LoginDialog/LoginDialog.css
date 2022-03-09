@@ -26,7 +26,6 @@
 }
 
 .loginWrapperPanelStyle {
-    background-image: url('/files/prodinRes/prodin_login_background_desktop.png');
     background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
@@ -148,14 +147,5 @@
         background-repeat: no-repeat;
         background-position-x: center;
         background-position-y: center;
-    }
-    .loginWrapperPanelStyle {
-        background-image: url('/files/prodinRes/prodin_login_background_phone.png');
-    }
-}
-
-@media screen and(max-width:800px) {
-    .loginWrapperPanelStyle {
-        background-image: url('/files/prodinRes/prodin_login_background_tablet.png');
     }
 }
