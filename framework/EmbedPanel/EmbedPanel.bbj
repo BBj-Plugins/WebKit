@@ -29,7 +29,7 @@ class public EmbedPanel extends BBjWidget
         
         if f_init!>0 then
             canvas! = #getCanvas()    
-            #Headline! = canvas!.addStaticText(100,0,0,0,0,"")
+            #Headline! = canvas!.addStaticText(canvas!.getAvailableControlID(),0,0,0,0,"")
             #Headline!.addStyle("tilesheadline")
             #HtmlView! = canvas!.addHtmlView(101,0,0,300,300,"TEST")
             #HtmlView!.setStyle("border-style","none !important")

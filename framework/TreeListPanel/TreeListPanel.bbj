@@ -79,7 +79,7 @@ class public TreeListPanel extends BBjWidget
     
     
     method public void createHeadLine(BBjWindow wnd!)
-        #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
+        #Headline! = wnd!.addStaticText(wnd!.getAvailableControlID(),0,0,0,0,"")
         #Headline!.addStyle("tilesheadline")
     methodend
 
@@ -125,7 +125,7 @@ class public TreeListPanel extends BBjWidget
             
             
                 declare ListTile tile!
-                tile! = new ListTile(#MenuTilesBox!, id%)
+                tile! = new ListTile(#MenuTilesBox!)
                 tile!.setText(item!.getCaption())
                 tile!.setLetterColor(str(#colors!.get(MOD(tile!.getID(),#colors!.size()))))
                 tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
@@ -142,7 +142,8 @@ class public TreeListPanel extends BBjWidget
                 
                     tile!.setIcon(item!.getIcon())
                 endif
-                
+                tile!.setItemId(item!.getNodeId())
+                           
                 #MenuItemTiles!.put(item!.getNodeId(),tile!)
                 #buildChildren(id%,i+1)
                 if i > 0 then
@@ -214,12 +215,13 @@ class public TreeListPanel extends BBjWidget
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
-    
+        
         declare auto MenuItem node!
         declare auto MenuItem item!
         declare auto ListTile tile!
         declare auto BBjNumber nodeId
         nodeId=ev!.getObject()
+        
         node!=#Menu!.getItem(nodeId)
         if node!.hasChildren() then
             v! = node!.getChildren()

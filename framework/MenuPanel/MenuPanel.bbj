@@ -22,7 +22,7 @@ class public MenuPanel extends BBjWidget
         #setVisible(0)
         wnd! = #getCanvas()
         wnd!.addPanelStyle("menupanel")
-        #Headline! = wnd!.addStaticText(100,0,0,0,0,"")
+        #Headline! = wnd!.addStaticText(wnd!.getAvailableControlID(),0,0,0,0,"")
         #Headline!.addStyle("tilesheadline")
         #MenuTilesBox! = #getCanvas().addChildWindow(wnd!.getAvailableControlID(),0,0,100,80,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #MenuTilesBox!.setPanelStyle("display","flex")

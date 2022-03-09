@@ -80,7 +80,9 @@ class public LoginDialog
     methodend
     
     method public void setWrapperBackgroundImage(BBjString imagePath!)
-        #loginWrapper!.setStyle("background-image",imagePath!)
+        #window!.setStyle("background-image","url(" + imagePath! + ")")
+        #window!.setStyle("background-repeat","no-repeat")
+        #window!.setStyle("background-size","100vw 100vh")
     methodend
 
     method public void disableValidation()
