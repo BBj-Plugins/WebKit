@@ -35,9 +35,9 @@ class public IconTile extends BBjWidget
             btn!.setStyle("width","-moz-fit-content")
             btn!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onClick")    
             
-            #IconCtrl! = btn!.addStaticText(100,0,0,200,22,#Icon$)
+            #IconCtrl! = btn!.addStaticText(btn!.getAvailableControlID(),0,0,200,22,#Icon$)
             #IconCtrl!.addStyle("material-icons")
-            #TextCtrl! = btn!.addStaticText(101,0,0,200,22,#Text$)
+            #TextCtrl! = btn!.addStaticText(btn!.getAvailableControlID(),0,0,200,22,#Text$)
             #TextCtrl!.addStyle("tilelabel")
         FI
         

@@ -35,6 +35,8 @@ class public EmbedPanel extends BBjWidget
             #baseUri!=tmp$(1,pos("/"=tmp$,1,3))
         
             canvas! = #getCanvas()    
+            #Headline! = canvas!.addStaticText(canvas!.getAvailableControlID(),0,0,0,0,"")
+            #Headline!.addStyle("tilesheadline")
             #HtmlView! = canvas!.addHtmlView(101,0,0,300,300,"TEST")
             #HtmlView!.setStyle("border-style","none !important")
             #HtmlView!.addStyle("embedframe")    

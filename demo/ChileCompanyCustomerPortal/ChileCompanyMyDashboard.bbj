@@ -34,7 +34,7 @@ class public ChileCompanyMyDashboard extends BBjWidget
             canvas! = #getCanvas() 
             canvas!.addStyle("dashboardWindow")
             canvas!.addPanelStyle("dashboardWindowPanel")
-            canvas!.addStaticText(100, 0, 0, 0, 0, Icons.get("check","color:red"))
+            canvas!.addStaticText(canvas!.getAvailableControlID(), 0, 0, 0, 0, Icons.get("check","color:red"))
             rem PortalFrame.getInstance().reloadAllPanels()
             canvas!.addButton(canvas!.getAvailableControlID(),0,0,0,0,"Overlay").setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onBtnPush")
             methodret
