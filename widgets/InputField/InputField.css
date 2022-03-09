@@ -12,7 +12,7 @@
 
 .inputFieldStyleInputWrapper::part(input-wrapper) {
     --bbj-focus-ring-default: none;
-    background: var(--bbj-color-default-light);
+    background: var(--inputFieldStyleInputWrapper-background);
     border: none;
     border-bottom: 1px solid #DDE0E1;
     border-radius: 0px;
