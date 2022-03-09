@@ -1,6 +1,6 @@
 .loginWidgetPanelStyle {
     width: 460px;
-    background-color: var(--bbj-color-default);
+    background-color: var(--loginWidgetPanelStyle-background);
     margin: auto !important;
     border-radius: 16px;
     margin: 30px;

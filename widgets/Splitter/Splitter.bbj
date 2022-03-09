@@ -87,6 +87,10 @@ class public Splitter extends BBjWidget
     method public BBjChildWindow getGutter()
         methodret #gutter!
     methodend
+    
+    method public void setStyle(String style!, String value!)
+        #getCanvas().setStyle(style!,value!)
+    methodend
 classend
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)

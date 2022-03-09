@@ -96,7 +96,7 @@
 }
 
 .child {
-    background: var(--bbj-color-default);
+    background: var(--bbj-window-background);
 }
 
 .invis {

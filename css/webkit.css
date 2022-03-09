@@ -3,8 +3,16 @@
     --tiles-font-color: #333e40 CC;
     --menutile-background: rgba(255, 255, 255, 0.6);
     --menutile-hover-color: rgba(104, 131, 186, 0.1);
-    --button-background: #f1f1f1;
+    --button-background: white;
+    --loginWidgetPanelStyle-background: white;
+    --portalFrame-background: #F1F1F1;
+    --dashboardHeader-background: white;
+    --menuTilesBox-background: white;
+    --drawer-color: white;
+    --inputFieldStyleInputWrapper-background: white;
+    --headertiles-font-color: #333E40;
 }
+
 body {
     overflow: hidden;
     overscroll-behavior-y: none;
@@ -12,6 +20,7 @@ body {
     font-style: normal;
     font-weight: 600;
 }
+
 .tilesheadline {
     font-family: Lato;
     font-style: normal;
@@ -23,30 +32,39 @@ body {
     grid-column-start: 1;
     grid-column-end: 4;
 }
+
 div .logo {
     margin-top: 2px;
     margin-left: 15px;
 }
+
 iframe {
     border-width: 0px !important;
 }
+
 @media screen and (max-width: 600px) {
     .wallpaper {
         background-color: white;
         background-image: unset;
-   }
+    }
     .avatar {
         height: 30px;
         width: 30px;
         position: fixed;
         background-size: 30px;
-   }
+    }
 }
+
 html[data-app-theme='dark'] {
     color-scheme: dark;
-    --button-background: rgba(255, 255, 255, 0.1);
+    --dashboardHeader-background: var(--bbj-color-default);
+    --loginWidgetPanelStyle-background: var(--bbj-color-default);
+    --menuTilesBox-background: var(--bbj-color-default);
+    --portalFrame-background: var(--bbj-window-background);
+    --inputFieldStyleInputWrapper-background: var(--bbj-color-default-light) --button-background: rgba(255, 255, 255, 0.1);
     --tiles-font-color: #f1f1f1;
     --menutile-background: rgba(255, 255, 255, 0.1);
+    --drawer-color: var(--bbj-color-default);
     --bbj-color-black: #170d0d;
     --bbj-color-white: #d9c9c9;
     --bbj-focus-ring-lightness: 60%;
@@ -131,22 +149,31 @@ html[data-app-theme='dark'] {
     --bbj-tree-icon-fill: var(--bbj-color-default-70);
     --bbj-popover-background: var(--bbj-color-default-light);
 }
-html[data-app-theme='dark'] .dropdown__menu::part(control), html[data-app-theme='dark'] .dropdown__menu::part(control):hover, html[data-app-theme='dark'] .dropdown__menu::part(control):focus, html[data-app-theme='dark'] .dropdown__menu::part(control):focus-within {
+
+html[data-app-theme='dark'] .dropdown__menu::part(control),
+html[data-app-theme='dark'] .dropdown__menu::part(control):hover,
+html[data-app-theme='dark'] .dropdown__menu::part(control):focus,
+html[data-app-theme='dark'] .dropdown__menu::part(control):focus-within {
     border-color: var(--bbj-color-default-light);
 }
+
 html[data-app-theme='dark'] bbj-slider::part(control) {
     border-color: transparent;
 }
+
 html[data-app-theme='dark'] bbj-slider::part(noUi-tooltip) {
     background: var(--bbj-color-default-light);
 }
+
 html[data-app-theme='dark'] bbj-dialog[theme='default'] header {
     background-color: var(--bbj-dialog-background);
     color: var(--bbj-color-white);
 }
+
 html[data-app-theme='dark'] bbj-menubar {
     background-color: var(--bbj-color-default);
 }
+
 html[data-app-theme='dark'] body {
     background: var(--bbj-color-black);
     color: var(--bbj-color-white);
