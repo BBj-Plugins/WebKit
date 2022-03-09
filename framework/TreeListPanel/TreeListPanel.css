@@ -22,7 +22,7 @@
 
 .menuTilesBox {
     display: grid;
-    background: var(--bbj-color-default);
+    background: var(--menuTilesBox-background);
     border-radius: 8px;
     width: 580px;
     height: 100%;

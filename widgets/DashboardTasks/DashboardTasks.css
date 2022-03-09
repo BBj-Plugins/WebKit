@@ -1,7 +1,7 @@
 .dashboardTasksPanelStyle {
     height: fit-content;
     width: fit-content;
-    background-color: var(--bbj-color-default);
+    background-color: var(--menutile-background);
     border-radius: 8px;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .dashboardTask:hover .dashboardTaskCardTitleFont {
-    color: var(--bbj-color-default);
+    color: var(--menutile-background);
 }
 
 
