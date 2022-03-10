@@ -6,6 +6,8 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 
+use ::WebKit/i18n/I18n.bbj::I18n
+
 class public LoginDialogWindow extends BBjWidget
 
     field private LoginDialog loginDialog!
@@ -134,7 +136,7 @@ class public LoginDialogWindow extends BBjWidget
         newPassword! = #password!.getInput()
         repeatPassword! = #repeatPassword!.getInput()
         if newPassword! <> repeatPassword! then 
-            #repeatPassword!.setErrorMessage("Passwords don't match")
+            #repeatPassword!.setErrorMessage(I18n.getTranslation("passwords_dont_match"))
         else
             #repeatPassword!.setErrorMessage("")
         endif
@@ -144,30 +146,13 @@ class public LoginDialogWindow extends BBjWidget
         endif
     methodend
 
-    method public void validateRepeatPassword(BBjEditModifyEvent event!)
-    if #repeatPassword! = null() then 
-        a = msgbox("Error that should not occur. -LoginDialogWindow-verifyRepeatPassword()")
-        rem GOTO LOGIN - break out method
-    endif
-
-    newPassword! = #password!.getInput()
-    repeatPassword! = #repeatPassword!.getInput()
-    if newPassword! <> repeatPassword! then 
-        #repeatPassword!.setErrorMessage("Passwords don't match")
-    else
-        #repeatPassword!.setErrorMessage("")
-    endif
-
-    if repeatPassword! = "" then 
-        #repeatPassword!.setErrorMessage("")
-    endif
-methodend
+    
 
     method public void onBadLogin() 
         #username!.getInputField().addStyle("error")   
         #password!.getInputField().addStyle("error")
         #password!.setInput("")
-        #password!.setErrorMessage("Invalid username and password combination")
+        #password!.setErrorMessage(I18n.getTranslation("invalid_username"))
         #password!.setText("")
         
         if len(#username!.getInputField().getText())=0 then

@@ -1,6 +1,8 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
+use ::WebKit/i18n/I18n.bbj::I18n
+
 class public DashboardWidget extends BBjWidget
     
     field private BBjChildWindow window!
@@ -28,7 +30,7 @@ class public DashboardWidget extends BBjWidget
             icon!.addStyle("dashboardIconAnimationOpen")
             icon!.addStyle("dashboardIconAnimationClose")
             
-            text! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,"My Dashboard")
+            text! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,I18n.getTranslation("my_dashboard"))
             text!.addStyle("dashboardTextStyle")
             text!.addStyle("dashboardTextAnimationOpen")
             text!.addStyle("dashboardTextAnimationClose")

@@ -3,6 +3,8 @@ use ::WebKit/util/Icons.bbj::Icons
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/common/Divider/Divider.bbj::Divider
 
+use ::WebKit/i18n/I18n.bbj::I18n
+
 class public DialogPanel extends BBjWidget
     field private BBjChildWindow dialogWnd!    
     field private BBjWindow parent!    
@@ -21,7 +23,7 @@ class public DialogPanel extends BBjWidget
     field private BBjButton submitBtn!
     field private BBjButton cancelBtn!
 
-    field private BBjString submitBtnText$ = "Submit"
+    field private BBjString submitBtnText$ = I18n.getTranslation("submit")
     field private BBjString submitBtnTheme$ = "primary"
     field private BBjString submitBtnCustomCssClass$ = "footerBtn"
     field public static BBjNumber ON_SUBMIT = 1234
