@@ -1,6 +1,5 @@
-.listSubtitleField{
+.listSubtitleField {
     height: 17px;
-
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
@@ -8,9 +7,8 @@
     line-height: 17px;
 }
 
-.listTitleField{
+.listTitleField {
     height: 17px;
-
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
@@ -20,26 +18,22 @@
     text-overflow: ellipsis;
 }
 
-.listWindow{
+.listWindow {
     margin: 40px 38px 80px 52px;
 }
 
-.listPanel{
+.listPanel {
     height: calc(100vh - 268px);
     overflow-y: scroll !important;
     background-color: var(--bbj-color-white);
 }
 
-.hydrated{
-    color: var(--bbj-color-gray);
-}
-
 @media screen and (max-width: 425px) {
-    .listWindow{
+    .listWindow {
         margin: 40px 20px 80px 20px;
     }
 }
 
-:root{
+:root {
     --bbj-divider-color: #DDE0E1;
 }

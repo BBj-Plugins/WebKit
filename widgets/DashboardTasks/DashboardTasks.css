@@ -1,7 +1,7 @@
 .dashboardTasksPanelStyle {
     height: fit-content;
     width: fit-content;
-    background-color: var(--bbj-color-white, #FFF);
+    background-color: var(--menutile-background);
     border-radius: 8px;
 }
 
@@ -43,12 +43,12 @@
 }
 
 .dashboardTask:hover {
-    background-color: var(--bbj-tile-background-hover, #e7e7e7);
+    background-color: var(--menutile-hover-color, #e7e7e7);
     cursor: pointer;
 }
 
 .dashboardTask:hover .dashboardTaskCardTitleFont {
-    color: var(--bbj-color-primary);
+    color: var(--menutile-background);
 }
 
 
@@ -62,7 +62,7 @@
 }
 
 .dashboardTaskCardCheckBoxControl::part(control) {
-    --bbj-color-default: var(--bbj-color-white, #fff);
+    --bbj-color-default: var(--menutile-background);
 }
 
 .dashboardTaskCardCheckBoxIcon::part(checked-icon) {
@@ -73,7 +73,7 @@
 /* TASKCARD FONTS */
 
 .dashboardTaskCardTitleFont {
-    color: var(--bbj-font-dark, #333E40);
+    color: var(--bbj-color-default-text-dark);
     font-size: var(--bbj-font-size-s);
 }
 

@@ -1,6 +1,4 @@
-
 @keyframes drawerFooterPanelSmall {
-
     from {
         grid-template-columns: 32px auto 24px;
         margin-left: 40px;
@@ -18,7 +16,6 @@
         width: 32px;
         margin-left: 34px;
     }
-
     to {
         grid-template-columns: 32px auto 24px;
         margin-left: 40px;
@@ -29,7 +26,6 @@
     from {
         opacity: 1;
     }
-
     to {
         opacity: 0;
     }
@@ -39,15 +35,13 @@
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
 }
 
 .drawerClosed .drawerFooterWrapperWindowClosed {
-    display:  none !important;
-
+    display: none !important;
 }
 
 .drawerOpen .drawerFooterPanelAnimationOpen {
@@ -80,7 +74,6 @@
     font-style: normal;
     font-size: 14px;
     line-height: 17px;
-    color: var(--bbj-color-black);
     align-self: center;
 }
 
@@ -95,7 +88,6 @@
     line-height: 14px;
     color: #A1A5A7;
     align-self: end;
-
 }
 
 .drawerFooterPopUpTextStyle {
@@ -113,7 +105,7 @@
     bottom: 99px !important;
     left: 34px !important;
     top: auto !important;
-    z-index: 99 !important;
+    z-index: 100;
     border-radius: 8px;
     width: 220px;
     background-color: white;
@@ -126,40 +118,39 @@
     left: 90px !important;
 }
 
-.footerIcon{
+.footerIcon {
     justify-self: end;
     align-self: center;
 }
 
-.drawerFooterOverlayContentWrapper{
+.drawerFooterOverlayContentWrapper {
     cursor: pointer;
     display: grid;
     grid-template-rows: 50% 50%;
 }
 
-.drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child{
+.drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child {
     margin-bottom: 1em;
 }
 
-.drawerFooterOverlayLogoutPanel{
+.drawerFooterOverlayLogoutPanel {
     grid-template-columns: 24px auto;
     display: grid;
 }
 
-.drawerFooterOverlayLogout{
+.drawerFooterOverlayLogout {
     grid-row-start: 2;
     align-self: end;
     cursor: pointer;
 }
 
-.drawerFooterOverlayLogoutIcon{
+.drawerFooterOverlayLogoutIcon {
     grid-column-start: 1;
     align-self: center;
     height: 24px;
 }
 
-
-.drawerFooterPanelStyle .drawerFooterWrapperWindowLarge{
+.drawerFooterPanelStyle .drawerFooterWrapperWindowLarge {
     display: flex;
     flex-direction: column;
     row-gap: 0.3em;

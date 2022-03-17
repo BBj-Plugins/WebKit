@@ -19,7 +19,7 @@ class public ShowcaseWidget extends BBjWidget
     field protected BBjChildWindow ContentWindow!
     
     method public ShowcaseWidget(BBjWindow wnd!)
-        ClientUtil.addLocalCSS("Webkit/demo/ShowCase/ShowcaseWidget/ShowcaseWidget.css")
+        ClientUtil.addLocalCSS("WebKit/demo/Showcase/ShowcaseWidget/ShowcaseWidget.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
     methodend
     
@@ -27,6 +27,7 @@ class public ShowcaseWidget extends BBjWidget
 
         if init! then 
             #window! = #getCanvas()
+            #window!.addStyle("clientFrame")
             #window!.addStyle("showcaseWidgetPanelStyle")
             #CtrlTitle! = #window!.addStaticText(#window!.getAvailableControlID(),0,0,0,0,#getTitle())
             #CtrlTitle!.addStyle("headline")

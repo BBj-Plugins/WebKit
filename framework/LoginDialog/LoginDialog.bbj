@@ -61,7 +61,7 @@ class public LoginDialog
         DynamicLoader.addLocalCSS("WebKit/framework/LoginDialog/LoginDialog.css")
 
         #sysGui! = BBjAPI().openSysGui("X0")
-        #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750, title$, $01111083$)
+        #window! = #sysGui!.addWindow(#sysGui!.getAvailableContext(),25,25,1200,750, title$, $01111093$)
         #window!.addPanelStyle("loginWrapperPanelStyle") 
         #loginWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00118800$,BBjAPI().getSysGui().getAvailableContext()) 
         #loginWrapper!.addPanelStyle("loginWidgetPanelStyle")
@@ -71,17 +71,18 @@ class public LoginDialog
         rem checkAuthRenewPwProvider! = cast(IAuthRenewPwProvider,authProvider!,err=*next)
         #authProvider! = authProvider!
 
-        dark$="0"
-        dark$=BBjAPI().getThinClient().getUserProperty(USER_PROPERTIES_COOKIES,"DarkMode",err=*next)
-        if dark$>"0" then
-            ClientUtil.setDarkMode(Boolean.TRUE)
-            BBjAPI().getThinClient().setUserProperty(USER_PROPERTIES_COOKIES ,"DarkMode",dark$)
-        fi           
-        
+            
+       
     methodend
 
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
+    methodend
+    
+    method public void setWrapperBackgroundImage(BBjString imagePath!)
+        #window!.setStyle("background-image","url(" + imagePath! + ")")
+        #window!.setStyle("background-repeat","no-repeat")
+        #window!.setStyle("background-size","100vw 100vh")
     methodend
 
     method public void disableValidation()
@@ -103,26 +104,34 @@ class public LoginDialog
 
     method public static void clearRememberToken()
         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+        BBjAPI().getThinClient().setUserProperty(-1,"Strict","session",token$)
     methodend
 
-    method public setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
+    method public void setCustomValidators(IValidator usernameValidator!, IValidator passwordValidator!)
         #usernameValidator = usernameValidator!
         #passwordValidator = passwordValidator!
     methodend
 
     method public Boolean doModal()
 
-        if #AllowRemember! then
-            token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+       
+        token$ = BBjAPI().getThinClient().getUserProperty(0,"remember",err=*next)
+        if token$>"" and #authProvider!.checkToken(token$) then
+            token$ = #authProvider!.getToken()
+            BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+            #User$ = #authProvider!.getUser()
+            #profile! = #authProvider!.getProfile()
+            methodret Boolean.TRUE
+        else             
+            token$ = BBjAPI().getThinClient().getUserProperty(-1,"session",err=*next)
             if token$>"" and #authProvider!.checkToken(token$) then
-                token$ = #authProvider!.getToken()
-                BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)
+                BBjAPI().getThinClient().setUserProperty(-1,"Strict","session",token$)
                 #User$ = #authProvider!.getUser()
                 #profile! = #authProvider!.getProfile()
                 methodret Boolean.TRUE
-            fi
-        fi  
-   
+            endif    
+        endif
+
         tempPw$ = ClientUtil.getUrlAnchor()
         rem a valid token for password reset needs to start with "token"
         rem todo externalize the pattern matching for the token into AuthProvider
@@ -137,6 +146,7 @@ class public LoginDialog
             endif
         endif
 
+        #window!.setVisible(1)
         process_events
 
         login:
@@ -146,6 +156,8 @@ class public LoginDialog
                 if #authProvider!.checkLogin(user$,pass$) then
                     #User$ = user$
                     #profile! = #authProvider!.getProfile()
+                    token$ = #authProvider!.getToken()
+                    BBjAPI().getThinClient().setUserProperty(-1,"Strict","session",token$)
                     if #loginWindow!.getRememberMe() <> null() AND  #loginWindow!.getRememberMe().isSelected() then
                         token$ = #authProvider!.getToken()
                         BBjAPI().getThinClient().setUserProperty(0,"Strict","remember",token$)

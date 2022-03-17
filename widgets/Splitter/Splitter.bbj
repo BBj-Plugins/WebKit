@@ -87,6 +87,10 @@ class public Splitter extends BBjWidget
     method public BBjChildWindow getGutter()
         methodret #gutter!
     methodend
+    
+    method public void setStyle(String style!, String value!)
+        #getCanvas().setStyle(style!,value!)
+    methodend
 classend
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
@@ -99,13 +103,13 @@ sysgui! = BBjAPI().openSysGui("X0")
 window! = sysgui!.addWindow(sysgui!.getAvailableContext(),25,25,1200,750,"Login",$01101083$)
 split! = new Splitter(window!)
 split!.setPanelStyle("height","200px")
-split!.getTop().addStaticText(100,0,0,0,0,"Top")
-split!.getBottom().addStaticText(100,0,0,0,0,"Bottom")
+split!.getTop().addStaticText(split!.getTop().getAvailableControlID(),0,0,0,0,"Top")
+split!.getBottom().addStaticText(split!.getBottom().getAvailableControlID(),0,0,0,0,"Bottom")
 
 split! = new Splitter(window!,Boolean.TRUE)
 split!.setPanelStyle("height","200px")
-split!.getLeft().addStaticText(100,0,0,0,0,"Left")
-split!.getRight().addStaticText(100,0,0,0,0,"Right")
+split!.getLeft().addStaticText(split!.getLeft().getAvailableControlID(),0,0,0,0,"Left")
+split!.getRight().addStaticText(split!.getRight().getAvailableControlID(),0,0,0,0,"Right")
 
 process_events
 

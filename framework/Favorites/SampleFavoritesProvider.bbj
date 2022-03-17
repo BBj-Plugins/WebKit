@@ -1,0 +1,93 @@
+use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/util/WriteFavorites.bbj::WriteFavorites
+use java.util.ArrayList
+
+
+class public SampleFavoritesProvider implements IFavoritesProvider
+    
+    field private BBjVector favorites! = new BBjVector()
+    field private MenuItem favoritesItem!
+    field private static SampleFavoritesProvider sampleProvider!
+    field private static String currentUser!
+    
+    field private static Menu menu!
+   
+    
+    
+    method private SampleFavoritesProvider()
+    methodend
+    
+    method public static IFavoritesProvider getInstance()
+        if #sampleProvider! = null()
+            #sampleProvider! = new SampleFavoritesProvider()
+        endif
+           
+        methodret #sampleProvider!
+    methodend
+    
+    method public void setUser(String newUser!)
+        declare ArrayList readList!
+        #currentUser! = newUser!
+        #favorites!.clear()
+        
+        
+        readList! = WriteFavorites.getInstance().readFavorites(newUser!)
+        if !readList!.isEmpty()
+            for i = 0 to readList!.size() -1
+                menuItem! = #menu!.getItem(num(readList!.get(i)))
+                #favorites!.add(menuItem!)
+                #favoritesItem!.addChild(menuItem!)
+            next i
+        fi
+       
+    methodend
+    
+    method public String getUser()
+        methodret #currentUser!
+    methodend
+    
+    method public BBjVector getFavorites()
+        methodret #favorites!
+    methodend
+    
+    
+    method public void setMenu(Menu menu!)
+        #menu! = menu!
+    methodend
+    
+    method public void addFavorite(MenuItem item!)
+        #favorites!.add(item!)
+        #favoritesItem!.addChild(item!)
+  
+        WriteFavorites.getInstance().writeFavorites(#getFavoriteIds(),#currentUser!)
+    methodend
+    
+    method public BBjVector getFavoriteIds()
+        declare BBjVector favoriteIds!
+        favoriteIds! = new BBjVector()
+        if !#favorites!.isEmpty()
+            for i = 0 to #favorites!.size() - 1
+                nodeId! = cast(MenuItem,#favorites!.get(i)).getNodeId()
+                favoriteIds!.add(str(nodeId!))
+            next i
+        fi
+        methodret favoriteIds!
+    methodend
+    
+    method public void removeFavorite(MenuItem item!)
+        #favorites!.remove(item!)
+        #favoritesItem!.removeChild(item!)
+        WriteFavorites.getInstance().writeFavorites(#getFavoriteIds(),#currentUser!)
+    methodend
+    
+    method public Boolean isItemFavorite(MenuItem item!)
+        methodret #favorites!.contains(item!)
+    methodend
+    
+    method public void setFavoritesItem(MenuItem item!)
+        #favoritesItem! = item!
+    methodend
+
+classend

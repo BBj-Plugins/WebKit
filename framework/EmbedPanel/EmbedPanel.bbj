@@ -4,9 +4,11 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 class public EmbedPanel extends BBjWidget
 
-    field private BBjStaticText Headline!
     field private BBjHtmlView HtmlView!
     field private MenuItem MenuItem!
+    field private String baseUri!
+    
+    
     method public EmbedPanel(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/framework/EmbedPanel/EmbedPanel.css")
         #super!.create(wnd!,wnd!.getAvailableControlID())
@@ -28,9 +30,15 @@ class public EmbedPanel extends BBjWidget
         
         
         if f_init!>0 then
+        
+            tmp$ = BBjAPI().getSysGui().executeScript("window.location.href")
+            #baseUri!=tmp$(1,pos("/"=tmp$,1,3))
+        
             canvas! = #getCanvas()    
-            #Headline! = canvas!.addStaticText(100,0,0,0,0,"")
+
+            #Headline! = canvas!.addStaticText(canvas!.getAvailableControlID(),0,0,0,0,"")
             #Headline!.addStyle("tilesheadline")
+
             #HtmlView! = canvas!.addHtmlView(101,0,0,300,300,"TEST")
             #HtmlView!.setStyle("border-style","none !important")
             #HtmlView!.addStyle("embedframe")    
@@ -44,7 +52,6 @@ class public EmbedPanel extends BBjWidget
         #MenuItem! = MenuItem!
         pgm$ = MenuItem!.getProgram()
         title$= MenuItem!.getCaption()
-        #Headline!.setText(title$)
         starttype = MenuItem!.getStartType()
         if pgm$>"" then
             if starttype=1 then 
@@ -58,7 +65,7 @@ class public EmbedPanel extends BBjWidget
     method public void loadBUI(BBjString title$,BBjString pgm$)
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()
-        url$="http://localhost:8888/apps/"+appname$+"?launch="+uid$
+        url$=#baseUri!+"apps/"+appname$+"?launch="+uid$
         BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
         BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
@@ -67,7 +74,7 @@ class public EmbedPanel extends BBjWidget
     method public void loadDWC(BBjString title$,BBjString pgm$)
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()
-        url$="http://localhost:8888/webapp/"+appname$+"?launch="+uid$
+        url$=#baseUri!+"webapp/"+appname$+"?launch="+uid$
         BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
         BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
@@ -136,7 +143,9 @@ bui! = BBjAPI().getBuiManager()
 appname$=bui!.getApplicationName()
 
 REM action! = bui!.appAction(appname$)
-action! = bui!.urlAction("http://localhost:8888/apps/"+appname$+"?close=1&launch="+uid$)
+tmp$ = BBjAPI().openSysGui("X0").executeScript("window.location.href")
+tmp$=tmp$(1,pos("/"=tmp$,1,3))
+action! = bui!.urlAction(tmp$+"apps/"+appname$+"?close=1&launch="+uid$)
 bui!.setEndAction(action!)
 
 

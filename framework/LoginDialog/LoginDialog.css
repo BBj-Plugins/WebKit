@@ -1,7 +1,6 @@
 .loginWidgetPanelStyle {
     width: 460px;
-    background-color: white;
-
+    background-color: var(--loginWidgetPanelStyle-background);
     margin: auto !important;
     border-radius: 16px;
     margin: 30px;
@@ -9,26 +8,24 @@
 }
 
 .mainWindow {
-    justify-self : center;
-    align-self : center;
+    justify-self: center;
+    align-self: center;
 }
-
 
 .mainWndPanelStyle {
     place-self: center;
 }
 
 .loginlogo {
-    margin-left:10px;
-    background-image:none;
-    background-size:contain;
-    background-repeat:no-repeat;
-    background-position-x:left;
-    background-position-y:top;
+    margin-left: 10px;
+    background-image: none;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: left;
+    background-position-y: top;
 }
 
 .loginWrapperPanelStyle {
-    background-image: url('/files/prodinRes/prodin_login_background_desktop.png');
     background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
@@ -59,8 +56,7 @@
     background-color: var(--bbj-color-primary);
     border-color: var(--bbj-color-primary);
     border-radius: 8px;
-}   
-
+}
 
 .loginWidgetCheckBoxStyle {
     grid-row-start: 4;
@@ -74,27 +70,29 @@
     font-weight: normal;
     font-size: 12px;
     line-height: 14px;
-    color: var(--bbj-color-black);
+    color: var(--bbj-color-default-text-dark);
     margin-left: 12px;
 }
 
 .loginWidgetCheckBoxInputWrapper::part(input-wrapper) {
     width: 22px;
     height: 22px;
-    border:solid;
+    border: solid;
     border-width: 1px;
     border-color: #DDE0E1;
     border-radius: 3px;
 }
+
 .loginWidgetCheckBoxControl::part(control) {
     --bbj-color-default: var(--bbj-color-white);
 }
+
 .loginWidgetCheckBoxIcon::part(checked-icon) {
     background-color: var(--bbj-color-primary);
 }
 
 .infoMessage {
-    color:var(--bbj-color-black);
+    color: var(--bbj-color-black);
     font-size: var(--bbj-font-size-xs);
 }
 
@@ -109,29 +107,30 @@
 }
 
 .forgotPwStlye.hover {
-    color: var(--bbj-color-primary) 
+    color: var(--bbj-color-primary)
 }
 
 .loginPageTitle {
     margin-top: 30px;
-	padding-top: 3rem;
-    height:75px;
-	color:var(var(--bbj-color-black));
-	font-size: 1rem;
+    padding-top: 3rem;
+    height: 75px;
+    color: var(var(--bbj-color-black));
+    font-size: 1rem;
 }
 
-.ssozone{
-	display: flex;
-	justify-content:space-between;
-    padding-top:20px;
+.ssozone {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
 }
-.ssobutton{
-	width:140px;
-	height:28px;
+
+.ssobutton {
+    width: 140px;
+    height: 28px;
 }
 
 @media screen and (max-width: 425px) {
-    .loginWidgetPanelStyle{
+    .loginWidgetPanelStyle {
         width: 100vw;
         margin: 0px;
         border-top-left-radius: 16px;
@@ -143,21 +142,10 @@
         place-self: end center;
     }
     .loginlogo {
-        margin-top:10px;
-        background-size:contain;
-        background-repeat:no-repeat;
-        background-position-x:center;
-        background-position-y:center;
-   }
-
-    .loginWrapperPanelStyle {
-        background-image: url('/files/prodinRes/prodin_login_background_phone.png');
+        margin-top: 10px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        background-position-y: center;
     }
 }
-
-@media screen and(max-width:800px) {
-    .loginWrapperPanelStyle {
-       background-image: url('/files/prodinRes/prodin_login_background_tablet.png');
-    }
-}
-

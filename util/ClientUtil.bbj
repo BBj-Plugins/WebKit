@@ -119,7 +119,11 @@ class public ClientUtil
       #InjHtml!.executeScript(script$)
     methodend
     
-    method public static void addJavascriptURL(BBjString url$)
+   method public static void addJavascriptURL(BBjString url$)
+        ClientUtil.addJavascriptURL(url$,"text/javascript") 
+   methodend
+
+    method public static void addJavascriptURL(BBjString url$, BBjString type$)
     
       if pos(url$+$0a$=#alreadyLoaded$)>0 then 
             methodret
@@ -130,7 +134,7 @@ class public ClientUtil
         ClientUtil.init()
       fi
       script$ = "var link =  $doc.createElement('script');"
-      script$ = script$ + "link.setAttribute('type','text/javascript');"
+      script$ = script$ + "link.setAttribute('type','"+type$+"');"
       script$ = script$ + "link.setAttribute('src','"+url$+"');"
       script$ = script$ + "$doc.head.appendChild(link);"
       #InjHtml!.executeScript(script$)

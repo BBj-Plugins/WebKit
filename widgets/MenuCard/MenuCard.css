@@ -1,5 +1,5 @@
 .menuCard {
-    background: #FFFFFF;
+    background: var(--bbj-color-default);
     border-radius: 8px;
     display: flex;
     height: 200px;
@@ -8,9 +8,9 @@
 }
 
 .body {
-    font-family: Lato;
+    font-family: var(--bbj-font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--bbj-font-weight-normal);
     font-size: 14px;
     line-height: 150%;
     width: 300px;
@@ -27,43 +27,41 @@
 }
 
 .checkbox {
-    color: black
+    color: var(--bbj-color-black)
 }
 
 .menuCard .menutile {
     height: 90px;
-    color: black;
     display: flex;
     flex-direction: row;
     align-items: center;
     border-bottom: 1px #E5E5E5 solid !important;
     padding-left: 5px;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--bbj-color-default);
 }
 
 .menuCard .btnPart {
     height: 50px;
     width: 500px;
-    color: black;
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-family: Lato;
+    font-family: var(--bbj-font-family);
     font-style: normal;
-    font-weight: 400;
+    font-weight: var(--bbj-font-weight-normal);
 }
 
 .menutile .letterField {
     font-size: 19px;
     width: 30px;
     height: 30px;
-    color: white;
+    color: var(--bbj-color-default);
 }
 
 .menuCard .menutile .tilelabel {
-    font-family: Lato;
+    font-family: var(--bbj-font-family);
     font-style: normal;
-    font-weight: bold;
+    font-weight: var(--bbj-font-weight-bold);
     font-size: 20px;
     line-height: 24px;
     margin-left: 10px;
@@ -76,7 +74,7 @@
     align-items: center;
     width: 40px;
     height: 30px;
-    background: white;
+    background: var(--bbj-color-default);
     color: #EEEFF1;
 }
 
@@ -84,14 +82,14 @@
     margin-left: auto;
     display: flex;
     flex-direction: row;
-    background: white;
+    background: var(--bbj-color-default);
 }
 
 .checkbox {
     margin: 5px;
-    font-family: Lato;
+    font-family: var(--bbj-font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--bbj-font-weight-normal);
     font-size: 12px;
     line-height: 14px;
 }
