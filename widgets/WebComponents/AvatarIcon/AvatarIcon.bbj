@@ -8,13 +8,7 @@ class public AvatarIcon extends WebComponents
     method public AvatarIcon()
 
     methodend
-
-    method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjInt height%, BBjInt width%, BBjString name$)
-        htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+str(height%)+""" width="""+str(width%)+""" name="""+name$+"""></avatar-initial>")
-        htmlView! = #configureAvatarView(htmlView!)
-        methodret htmlView!
-    methodend 
-
+    
     method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjString height$, BBjString width$, BBjString name$)
         htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
         htmlView! = #configureAvatarView(htmlView!)
@@ -27,7 +21,8 @@ class public AvatarIcon extends WebComponents
         sg!.setContext(sg!.getAvailableContext())
         htmlView! = #Wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
         htmlView! = #configureAvatarView(htmlView!)
-    methodret htmlView!
+        methodret htmlView!
+    methodend
 
     method private BBjHtmlView configureAvatarView(BBjHtmlView htmlView!)
         htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT, #this!,"onClickAvatarInitial")
@@ -39,8 +34,6 @@ class public AvatarIcon extends WebComponents
     method public void onClickAvatarInitial(BBjNativeJavaScriptEvent ev!)
         ClientUtil.consoleLog("catched the webcomponent event from BBj :)")
         #fireEvent(#ON_AVATAR_INITIAL_CLICK, ev!)
-    methodend
-
-methodend 
+    methodend 
         
 classend
