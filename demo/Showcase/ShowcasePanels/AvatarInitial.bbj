@@ -5,7 +5,7 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
 use ::WebKit/widgets/WebComponents/AvatarIcon/AvatarIcon.bbj::AvatarIcon
 
-class public AvatarInital extends ShowcaseWidget
+class public AvatarInitial extends ShowcaseWidget
 
     field private BBjChildWindow window!
     field private BBjHtmlView avatarWnd!
@@ -16,11 +16,11 @@ class public AvatarInital extends ShowcaseWidget
     field private BBjCheckBox CbCloseOutside!
     field private BBjChildWindow panel!
 
-    method public AvatarInital(BBjWindow wnd!)
+    method public AvatarInitial(BBjWindow wnd!)
         #super!(wnd!)
         
-        #setTitle("Avatar Initail Demo")
-        #setIntro("This demo shows the Avatar initail  stuff")
+        #setTitle("Avatar Initial Demo")
+        #setIntro("This demo shows the Avatar initial")
     methodend
     method public void redraw(Boolean init!)
     #super!.redraw(init!)

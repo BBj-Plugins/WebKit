@@ -64,8 +64,8 @@ showCaseItem!.setStartType(2)
 showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
 showCaseItem!.setStartType(2)
 
-menuItem! = menu!.addMenuItem(menu!.getRoot(),108,"Avatar Inital","Avatar Inital Demo","typography")
-menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/AvatarInital.bbj::AvatarInital")
+menuItem! = menu!.addMenuItem(menu!.getRoot(),108,"Avatar Initial","Avatar Initial Demo","typography")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/AvatarInitial.bbj::AvatarInitial")
 menuItem!.setStartType(0)
 
 menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","message-circle")
