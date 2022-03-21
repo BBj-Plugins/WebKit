@@ -63,6 +63,7 @@ method public void onShowDialog(BBjButtonPushEvent ev!)
 
     webComponents! = new AvatarIcon()
     #avatarWnd! = CAST(BBjHtmlView, webComponents!.drawAvatarIcon(#panel!, #avatarHeight!.getInput(), #avatarWidth!.getInput(), #AvatarName!.getInput() ))
+    webComponents!.setName("saadnoor")
 
     #avatarWnd!.setStyle("margin","auto")
     
