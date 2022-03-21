@@ -3,28 +3,20 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
 class public AvatarIcon extends WebComponents
     field private static BBjTopLevelWindow Wnd!
-    field private static BBjChildWindow canvas!
+    field private static BBjWindow wnd!
     field public static BBjNumber ON_AVATAR_INITIAL_CLICK = 1234
     field public static BBjHtmlView htmlView!
-    field public static BBjString size$ = "50"
-    field public static BBjString name$ = "A"
+    field public static BBjString size$
+    field public static BBjString name$
 
     method public AvatarIcon()
 
     methodend
 
     method public AvatarIcon(BBjWindow canvas!)
-        #canvas = canvas!
-        htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial></avatar-initial>")
-        htmlView! = #configureAvatarView(htmlView!)
+        #wnd! = canvas!
+        #redraw(1)
     methodend
-
-    method public BBjHtmlView drawAvatarIcon(BBjWindow wnd!,BBjString height$, BBjString width$, BBjString name$)
-        #htmlView! = wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"")
-        #htmlView!.setText("<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
-        #htmlView! = #configureAvatarView(#htmlView!)
-        methodret #htmlView!
-    methodend 
 
     method public BBjHtmlView drawAvatarIcon(BBjString height$, BBjString width$, BBjString name$)
         sg! =  BBjAPI().openSysGui("X0")
@@ -43,30 +35,31 @@ class public AvatarIcon extends WebComponents
     methodend 
 
     method public void onClickAvatarInitial(BBjNativeJavaScriptEvent ev!)
-        ClientUtil.consoleLog("catched the webcomponent event from BBj :)")
         #fireEvent(#ON_AVATAR_INITIAL_CLICK, ev!)
     methodend 
 
     method public void redraw(Boolean init!) 
-        sg! =  BBjAPI().openSysGui("X0")
-        #Wnd! =sg!.addWindow(95501,0,0,0,0,"",$01101083$)
-        sg!.setContext(sg!.getAvailableContext())
-        htmlView! = #Wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
-        htmlView! = #configureAvatarView(htmlView!)
+        if init! > 0 then
+        #htmlView! = #wnd!.addHtmlView(#wnd!.getAvailableControlID(),0,0,300,300,"")
+        #htmlView!.setText("<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
+        #htmlView! = #configureAvatarView(#htmlView!)
+        else 
+        #htmlView!.setText("<avatar-initial height="""+#size$+""" width="""+#size$+""" name="""+#name$+"""></avatar-initial>")
+        fi
     methodend
-
 
     method public void setSize(BBjString size$)
         #size$ = size$
-        ClientUtil.consoleLog(size$)
-        #htmlView!.setText("<avatar-initial height="""+#size$+""" width="""+#size$+""" name="""+#name$+"""></avatar-initial>")
+        #redraw(0)
     methodend
 
     method public void setName(BBjString name$)
-        ClientUtil.consoleLog(name$)
         #name$ = name$
-        #htmlView!.setText("<avatar-initial height="""+#size$+""" width="""+#size$+""" name="""+#name$+"""></avatar-initial>")
+        #redraw(0)
     methodend
 
+    method public BBjHtmlView getView()
+        methodret #htmlView!
+    methodend
         
 classend

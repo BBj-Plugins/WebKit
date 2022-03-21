@@ -9,8 +9,7 @@ class public AvatarInital extends ShowcaseWidget
 
     field private BBjChildWindow window!
     field private BBjHtmlView avatarWnd!
-    field private InputField avatarWidth!
-    field private InputField avatarHeight!
+    field private InputField avatarSize!
     field private InputField AvatarName!
     field private BBjCheckBox CbModal!
     field private BBjCheckBox CbCloseIcon!
@@ -37,13 +36,9 @@ class public AvatarInital extends ShowcaseWidget
         #AvatarName!.setLabel("Avatar Name")
         #AvatarName!.setInput("Stephan Wald")
 
-        #avatarHeight! = new InputField(#panel!)
-        #avatarHeight!.setLabel("Height")
-        #avatarHeight!.setInput("50")
-
-        #avatarWidth! = new InputField(#panel!)
-        #avatarWidth!.setLabel("Width")
-        #avatarWidth!.setInput("50")
+        #avatarSize! = new InputField(#panel!)
+        #avatarSize!.setLabel("Size")
+        #avatarSize!.setInput("50")
         
         BtnShow! = #panel!.addButton(#panel!.getAvailableControlID(),0,0,0,0,"Create Avatar")
         BtnShow!.setStyle("display","flex")
@@ -61,9 +56,10 @@ method public void onShowDialog(BBjButtonPushEvent ev!)
         #avatarWnd!.destroy()
     endif
 
-    webComponents! = new AvatarIcon()
-    #avatarWnd! = CAST(BBjHtmlView, webComponents!.drawAvatarIcon(#panel!, #avatarHeight!.getInput(), #avatarWidth!.getInput(), #AvatarName!.getInput() ))
-    webComponents!.setName("saadnoor")
+    webComponents! = new AvatarIcon(#panel!)
+    #avatarWnd! = CAST(BBjHtmlView, webComponents!.getView())
+    webComponents!.setName(#AvatarName!.getInput())
+    webComponents!.setSize(#avatarSize!.getInput())
 
     #avatarWnd!.setStyle("margin","auto")
     
