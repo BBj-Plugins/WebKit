@@ -18,15 +18,6 @@ class public AvatarIcon extends WebComponents
         #redraw(1)
     methodend
 
-    method public BBjHtmlView drawAvatarIcon(BBjString height$, BBjString width$, BBjString name$)
-        sg! =  BBjAPI().openSysGui("X0")
-        #Wnd! =sg!.addWindow(95501,0,0,0,0,"",$01101083$)
-        sg!.setContext(sg!.getAvailableContext())
-        htmlView! = #Wnd!.addHtmlView(wnd!.getAvailableControlID(),0,0,300,300,"<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
-        htmlView! = #configureAvatarView(htmlView!)
-        methodret htmlView!
-    methodend
-
     method private BBjHtmlView configureAvatarView(BBjHtmlView htmlView!)
         htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT, #this!,"onClickAvatarInitial")
         htmlView!.setStyle("border","none")
