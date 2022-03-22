@@ -1,5 +1,4 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
-use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
 use ::WebKit/widgets/WebComponents/AvatarIcon/AvatarIcon.bbj::AvatarIcon
@@ -9,7 +8,7 @@ class public CircularAvatar extends BBjWidget
     field private BBjString imagePath!
     
     method public CircularAvatar(BBjWindow parent!, BBjString radius!, BBjString imagePath!)
-        DynamicLoader.addLocalCSS("WebKit/widgets/common/CircularAvatar/CircularAvatar.css")
+        ClientUtil.addLocalCSS("WebKit/widgets/common/CircularAvatar/CircularAvatar.css")
 
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #window!.addPanelStyle("circularAvatarPanelStyle")
@@ -21,13 +20,14 @@ class public CircularAvatar extends BBjWidget
     methodend
 
     method public CircularAvatar(BBjWindow parent!, BBjString radius!, BBjString imagePath!, BBjString title!)
-        DynamicLoader.addLocalCSS("WebKit/widgets/common/CircularAvatar/CircularAvatar.css")
+        ClientUtil.addLocalCSS("WebKit/widgets/common/CircularAvatar/CircularAvatar.css")
 
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-
+        
         if imagePath! = "" THEN
-            webComponents! = new AvatarIcon()
-            webComponents!.drawAvatarIcon(#window!, radius!, radius!, title! )
+            webComponents! = new AvatarIcon(#window!)
+            webComponents!.setName(title!)
+            webComponents!.setSize(radius!)
         else
             #window!.addPanelStyle("circularAvatarPanelStyle")
             #window!.setPanelStyle("width", radius!)
