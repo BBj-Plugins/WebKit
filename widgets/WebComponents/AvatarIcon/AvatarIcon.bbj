@@ -32,10 +32,10 @@ class public AvatarIcon extends WebComponents
     method public void redraw(Boolean init!) 
         if init! > 0 then
         #htmlView! = #wnd!.addHtmlView(#wnd!.getAvailableControlID(),0,0,300,300,"")
-        #htmlView!.setText("<avatar-initial height="""+height$+""" width="""+width$+""" name="""+name$+"""></avatar-initial>")
+        #htmlView!.setText("<avatar-initial size="""+#size$+""" name="""+name$+"""></avatar-initial>")
         #htmlView! = #configureAvatarView(#htmlView!)
         else 
-        #htmlView!.setText("<avatar-initial height="""+#size$+""" width="""+#size$+""" name="""+#name$+"""></avatar-initial>")
+        #htmlView!.setText("<avatar-initial size="""+#size$+""" name="""+#name$+"""></avatar-initial>")
         fi
     methodend
 
