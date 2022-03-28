@@ -18,7 +18,7 @@ class public PageNotFound extends BBjWidget
 
     method public void redraw(Boolean init!)
         declare BBjChildWindow canvas!
-        if init! > 0 then
+        if init! then
             canvas! = #super!.getCanvas()
             canvas!.addStyle("pageNotFound")
             ClientUtil.addLocalCSS("WebKit/framework/PageNotFound/PageNotFound.css")
@@ -29,7 +29,7 @@ class public PageNotFound extends BBjWidget
         fi
     methodend
     
-    method public void setMesage(BBjString msg$)
+    method public void setMessage(BBjString msg$)
         #message!.setText(msg$)
     methodend
 

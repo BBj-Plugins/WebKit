@@ -210,7 +210,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     
     method public Boolean doModal()
 
-            #sysgui! =BBjAPI().openSysGui("X0")
+            #sysgui! = BBjAPI().openSysGui("X0")
             
             #window! = CAST(BBjTopLevelWindow, #sysgui!.addWindow(#sysgui!.getAvailableContext(),25,25,1200,750,#Title!,$01101083$))
             #window!.setCallback(BBjAPI().ON_RESIZE, #this!, "onResizeScreen")
