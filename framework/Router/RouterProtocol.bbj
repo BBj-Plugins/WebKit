@@ -1,0 +1,14 @@
+rem /**
+rem  * RouterProtocol
+rem  * 
+rem  * @author ""
+rem  */
+interface public RouterProtocol
+    method public void onRouteMatch(BBjCustomEvent event!)
+    
+    rem /**
+    rem  * This is optional
+    rem  */
+    method public void onNotFound(BBjCustomEvent event!)
+    methodend
+interfaceend

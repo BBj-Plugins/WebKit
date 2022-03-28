@@ -1,7 +1,9 @@
-use ::BBjRouter/BBjRouter.bbj::BBjRouterMatchedEvent
 use ::BBjRouter/BBjRouter.bbj::BBjRouter
 
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+use ::WebKit/framework/Router/RouterProtocol.bbj::RouterProtocol
+
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 
@@ -10,17 +12,16 @@ class public Router
     field private Menu menu!
     field private BBjRouter router!
     rem this should impl the public void onRouteMatch(BBjCustomEvent ev!) mehtod
-    field private CustomObject listener!
+    field private RouterProtocol listener!
 
-    method public Router(BBjWindow window!, CustomObject listener!)
-        #listener! = listener!
-        #router! = new BBjRouter(window!)
+    method public Router(BBjWindow window!, RouterProtocol listener!)
+        #this!(window!, listener!, null())
     methodend
 
-    method public Router(BBjWindow window!, CustomObject listener!, Menu menu!)
+    method public Router(BBjWindow window!, RouterProtocol listener!, Menu menu!)
         #menu! = menu!
-        #listener! = listener!
         #router! = new BBjRouter(window!)
+        #this!.setListener(listener!)
     methodend
 
     method public void registerMenuRoute(MenuItem item!)
@@ -66,8 +67,9 @@ class public Router
         methodret #menu!
     methodend
 
-    method public void setListener(CustomObject listener!)
+    method public void setListener(RouterProtocol listener!)
         #listener! = listener!
+        #router!.setCallback(BBjRouter.ON_NOT_FOUND, #listener!, "onNotFound")
     methodend
 
     method public Object getListener(Menu menu!)

@@ -149,7 +149,7 @@ class public LoginDialog
         #window!.setVisible(1)
         process_events
         
-        login REM TODO use later cookies instead of locale storage as an workaround
+        rem REM TODO use later cookies instead of locale storage as an workaround
         login:
             user$=#loginWindow!.getUsername().getInput()
             pass$=#loginWindow!.getPassword().getInput()

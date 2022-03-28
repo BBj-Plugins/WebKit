@@ -26,10 +26,13 @@ use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesPro
 use ::WebKit/i8n/I18n.bbj::I18n
 use java.util.HashMap
 
-use ::WebKit/framework/Router/Router.bbj::Router
-use ::BBjRouter/BBjRouter.bbj::BBjRouterMatchedEvent
+use ::BBjRouter/BBjRouter.bbj::BBjRouterEvent
+use ::WebKit/framework/Router/RouterProtocol.bbj::RouterProtocol
 
-class public PortalFrame
+use ::WebKit/framework/Router/Router.bbj::Router
+
+
+class public PortalFrame implements RouterProtocol
 
     field private BBjTopLevelWindow window!
     field private Drawer Drawer!
@@ -44,7 +47,9 @@ class public PortalFrame
     field public Menu FooterMenu! = new Menu()
     field public Menu HeaderMenu! = new Menu()
     field public Menu HiddenMenu! = new Menu()
+
     field private MenuItem startingPanel!
+    field private MenuItem pageNotFoundPanel!
     field public AccountProfile Profile!
     
     field private Boolean drawerOpen! = Boolean.FALSE
@@ -62,11 +67,11 @@ class public PortalFrame
 
     field public static BBjString ON_NAVIGATION$ = "navigation"
     field private Router router!
-    field private BBjRouterMatchedEvent routerEvent!
+    field private BBjRouterEvent routerEvent!
 
     field private BBjSysGui sysgui!
     field private static PortalFrame ThisInstance!
-
+    
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
         #ThisInstance! = #this!
@@ -169,7 +174,11 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             id% = headerMenuItem!.getNodeId()
             headerMenuTiles!.add(new DrawerMenuTileEntry(id%, headerMenuItem!.getCaption(), headerMenuItem!.getIcon()))
         wend
+        
+        #registerPageNotFound()
+        
         #router!.registerRoutes()
+        
         drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
@@ -205,7 +214,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             
             #window! = CAST(BBjTopLevelWindow, #sysgui!.addWindow(#sysgui!.getAvailableContext(),25,25,1200,750,#Title!,$01101083$))
             #window!.setCallback(BBjAPI().ON_RESIZE, #this!, "onResizeScreen")
-            rem escape
             #router! = new Router(#window!, #getThisInstance(), #Menu!)
             rem add one invisible button to force the BASIS variables to be loaded for CSS            
             #window!.addButton(1000,0,0,0,0,"TEST",$0010$ )
@@ -223,7 +231,6 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             #initializeDrawer(#Menu!, #FooterMenu!, #HeaderMenu!)
            
             BBjAPI().setCustomEventCallback("logout","logout")
-            
             
             path! = ClientUtil.getUrlAnchor()
 
@@ -321,7 +328,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
     method public MenuItem getMenuItem(BBjString path$)
-    methodret #Menu!.getItemByPath(path$)
+        methodret #Menu!.getItemByPath(path$)
     methodend
 
     method public void onMenuItemClick(BBjCustomEvent ev!)
@@ -588,11 +595,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
 
-    method public void onRouteMatch(BBjCustomEvent ev!)
-        declare auto BBjRouterMatchedEvent event!
-
-        event! = ev!.getObject()
-        #routerEvent! = event!
+    method public void onRouteMatch(BBjCustomEvent event!)
+        #routerEvent! = cast(BBjRouterEvent, event!.getObject())
         currMenuItem! = #getMenuItem(#routerEvent!.getPath())
         if currMenuItem! <> null() then
             #openPanel(currMenuItem!)
@@ -600,10 +604,31 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         fi
     methodend
 
-    method public BBjRouterMatchedEvent getLastRouterEvent()
-        methodret #routerEvent!
+
+    method public void onNotFound(BBjCustomEvent ev!)
+        if #pageNotFoundPanel! <> null() then
+            #navigateTo(#pageNotFoundPanel!)
+        else
+            if #startingPanel! <> null() then
+                #navigateTo(#startingPanel!)
+            fi
+        fi
     methodend
 
+    method public BBjRouterEvent getLastRouterEvent()
+        methodret #routerEvent!
+    methodend
+    
+    method private void registerPageNotFound()
+        if #pageNotFoundPanel! = null() then
+            #pageNotFoundPanel! = #Menu!.addMenuItem(#Menu!.getRoot(),"404","","")
+            #pageNotFoundPanel!.setProgram("::WebKit/framework/PageNotFound/PageNotFound.bbj::PageNotFound")
+        fi
+    methodend
+    
+    method public void setPageNotFound(MenuItem item!)
+        #pageNotFoundPanel! = item!
+    methodend
 classend
 
 

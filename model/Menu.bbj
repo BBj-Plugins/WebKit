@@ -127,9 +127,9 @@ class public MenuItem
     methodend 
 
     method public void setPath(BBjString path$)
-        oldPath$ = str(path$)
+        oldPath$ = #path$
         #path$ = ClientUtil.encodeURI(path$)
-        #basePath$ = ClientUtil.encodeURI(path$)
+        #basePath$ = #path$
         Menu.updateMenuIndex(oldPath$, #this!)
     methodend
 
@@ -257,7 +257,7 @@ class public Menu
         if #menuIndex!.containsKey(oldkey$) then
            #menuIndex!.remove(oldKey$)
         fi
-        #menuIndex!.put(item!.getPath().toLowerCase(), item!)
+        #menuIndex!.put(item!.getPath(), item!)
     methodend
     
     method public static HashMap getMenuIndex()
