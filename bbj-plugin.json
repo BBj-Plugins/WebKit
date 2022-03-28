@@ -11,6 +11,11 @@
       "plugin_name": "BBjWidget",
       "plugin_version": "1.0",
       "project_url": "https://github.com/BBj-Plugins/BBjWidget"
+    },
+    {
+      "plugin_name": "BBjrouter",
+      "plugin_version": "0.0.1",
+      "project_url": "https://github.com/BBj-Plugins/BBjRouter"
     }
   ]
 }

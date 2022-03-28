@@ -1,0 +1,36 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/util/UIUtil.bbj::UIUtil
+use ::WebKit/i18n/I18n.bbj::I18n
+
+class public PageNotFound extends BBjWidget
+    field private BBjWindow window!
+    field private BBjStaticText message!
+
+    method public PageNotFound(BBjWindow window!)
+        #this!(window!, window!.getAvailableControlID())
+    methodend
+    
+    method public PageNotFound(BBjWindow wnd!, BBjInt id!)
+         #super!.create(wnd!, id!)
+    methodend
+
+    method public void redraw(Boolean init!)
+        declare BBjChildWindow canvas!
+        if init! then
+            canvas! = #super!.getCanvas()
+            canvas!.addStyle("pageNotFound")
+            ClientUtil.addLocalCSS("WebKit/framework/PageNotFound/PageNotFound.css")
+            statusCode! = UIUtil.addStaticText(canvas!, I18n.getTranslation("404"))
+            statusCode!.addStyle("pageNotFoundStatusCode")
+            #message! =  UIUtil.addStaticText(canvas!, I18n.getTranslation("page-not-found-message"))
+            #message!.addStyle("pageNotFoundMessage")
+        fi
+    methodend
+    
+    method public void setMessage(BBjString msg$)
+        #message!.setText(msg$)
+    methodend
+
+classend
