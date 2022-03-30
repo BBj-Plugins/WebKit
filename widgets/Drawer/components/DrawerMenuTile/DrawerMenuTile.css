@@ -92,7 +92,6 @@
 
 .drawerMenuTilePanelStyle:hover{
    background-color: var(--menutile-hover-color);
-   
 }
 
 div.drawerMenuTilePanelStyle:hover{
@@ -107,6 +106,7 @@ div.drawerMenuTilePanelStyle:hover{
     padding-left: 17px;
     align-self: center;
     font-style: normal;
+    color: var(--tiles-font-color);
     font-weight: normal;
     font-size: 14px;
     padding-bottom: .2em;
