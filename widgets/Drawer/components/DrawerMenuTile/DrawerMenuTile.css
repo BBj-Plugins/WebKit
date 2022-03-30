@@ -90,14 +90,27 @@
 
 }
 
+.drawerMenuTilePanelStyle:hover{
+   background-color: var(--menutile-hover-color);
+}
+
+div.drawerMenuTilePanelStyle:hover{
+    border-right: medium solid var(--menutile-hover-border-color);
+}
+
+.drawerMenuTilePanelStyle{
+    cursor: pointer;
+}
+
 .drawerMenuTileTextStyle {
     padding-left: 17px;
     align-self: center;
     font-style: normal;
+    color: var(--tiles-font-color);
     font-weight: normal;
     font-size: 14px;
+    padding-bottom: .2em;
     line-height: 17px;
-    cursor: pointer;
 }
 
 .drawerOpen .menuWndAnimationOpen {
