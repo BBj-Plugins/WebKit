@@ -2,7 +2,8 @@
     --bbj-font-family: 'Lato';
     --tiles-font-color: #333e40 CC;
     --menutile-background: rgba(255, 255, 255, 0.6);
-    --menutile-hover-color: rgba(104, 131, 186, 0.1);
+    --menutile-hover-color: rgba(227, 230, 232, 0.664);
+    --menutile-hover-border-color: #5d696bd5;
     --button-background: white;
     --loginWidgetPanelStyle-background: white;
     --portalFrame-background: #F1F1F1;
