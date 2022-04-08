@@ -1,4 +1,5 @@
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/i18n.bbj::I18n
 
 class public DrawerModel
 
@@ -22,7 +23,8 @@ class public DrawerModel
     method public DrawerModel()
         #LogoUrl! = "WebKit/demo/assets/chile.jpg"
         #LogoSmallUrl! = "WebKit/demo/assets/chile-small.jpg"
-        #TilesTextHeader! = "Browse"
+        translator! = I18n.getTranslator("webkit","WebKit/i18n")
+        #TilesTextHeader! = translator!.getTranslation("browse")
 
         #CloseIcon! = ""
         #OpenIcon! = ""

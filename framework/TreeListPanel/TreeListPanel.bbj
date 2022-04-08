@@ -10,6 +10,8 @@ use ::WebKit/util/Icons.bbj::Icons
 use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
 use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
+use ::WebKit/i18n.bbj::I18n
+
 
 class public TreeListPanel extends BBjWidget
 
@@ -45,6 +47,7 @@ class public TreeListPanel extends BBjWidget
     methodend
     
     method public void redraw(Boolean e_init!)
+    translator! = I18n.getTranslator("TreeListPanel","WebKit/framework/TreeListPanel/i18n")
         
         if e_init! > 0 then
             window! = #getCanvas()
@@ -57,7 +60,7 @@ class public TreeListPanel extends BBjWidget
             #Header! = #MenuTilesBox!.addChildWindow(#MenuTilesBox!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #Header!.addStyle("tilesBoxHeader")
             
-            Title! = #Header!.addStaticText(#Header!.getAvailableControlID(),0,0,0,0,"APPLICATIONS")
+            Title! = #Header!.addStaticText(#Header!.getAvailableControlID(),0,0,0,0,translator!.getTranslation("applications"))
             Title!.addStyle("tilesBoxTitle")
             
             declare BBjChildWindow favButtonWrapper!
