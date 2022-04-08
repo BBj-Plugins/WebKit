@@ -52,14 +52,14 @@ class public DashboardTasks extends BBjWidget
         #content! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #content!.addStyle("pushDownWidgetContent")
         
-        contentMessage! = #content!.addStaticText(#content!.getAvailableControlID(),0,0,0,0,"Loading Tasks...")
+        contentMessage! = #content!.addStaticText(#content!.getAvailableControlID(),0,0,0,0,translator!.getTranslation("loading_tasks"))
         contentMessage!.addStyle("contentInfoMessage")
     methodend
 
     method public void buildContent()
         #content!.destroy() 
         #content! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-    
+        translator! = I18n.getTranslator("DashboardTasks","WebKit/widgets/DashboardTasks/i18n")
         resultSet! = #tasksData!.getData()
 
         if  resultSet! <> null() AND  resultSet!.size() > 0
@@ -72,13 +72,13 @@ class public DashboardTasks extends BBjWidget
             linkWrapper! = #content!.addChildWindow(#content!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             linkWrapper!.setDockStyle("padding", "1rem")
             
-            link! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,"To Tasks panel >")
+            link! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,translator!.getTranslation("to_tasks>"))
             link!.addStyle("dashboardTasksLink")
 
             linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onLinkClick")
         else  
             #content!.addStyle("pushDownWidgetContent") 
-            contentMessage! = #content!.addStaticText(#content!.getAvailableControlID(),0,0,0,0,"No tasks to be shown")
+            contentMessage! = #content!.addStaticText(#content!.getAvailableControlID(),0,0,0,0,translator!.getTranslation("no_tasks"))
             contentMessage!.addStyle("contentInfoMessage") 
         endif
     methodend

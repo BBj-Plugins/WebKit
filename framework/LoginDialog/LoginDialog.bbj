@@ -238,8 +238,8 @@ class public LoginDialog
         else
             LoginDialogBuilder.addUsernameInput(wnd!, null(), user$)
         fi
-        LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken")
-        LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
+        LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("send-email"), "requestForgotPasswordToken")
+        LoginDialogBuilder.addRedirect(wnd!, I18n.getTranslation("return-to-login"), "gotoLogin")  
     methodend
  
     method public void buildResponseContent(LoginDialogWindow wnd!, BBjString memory$,  BBjString title$, BBjString response$, Boolean retry!, BBjString methodName$ )
@@ -257,14 +257,14 @@ class public LoginDialog
     method public void buildNewPwContent(LoginDialogWindow wnd!, BBjString token!)
        LoginDialogBuilder.addLogo(wnd!, #logoURL$)
        LoginDialogBuilder.addPageTitle(wnd!, I18n.getTranslation("choose-a-new-password"))
+       newPasswordText! = I18n.getTranslation("new-password")
        if #isValidationEnabled! = Boolean.TRUE then
             if #passwordValidator! = null() then 
                 #passwordValidator! = new NewPasswordValidator()
-                newPasswordText! = I18n.getTranslation("new-password")
                 LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, newPasswordText!, newPasswordText!, Boolean.TRUE)
             fi
        else
-            LoginDialogBuilder.addPasswordInput(wnd!, null(), "New Password", "new password", Boolean.TRUE)
+            LoginDialogBuilder.addPasswordInput(wnd!, null(), newPasswordText!, newPasswordText!, Boolean.TRUE)
        fi
        repeatPasswordText! = I18n.getTranslation("repeat-password")
        LoginDialogBuilder.addRepeatPasswordInput(wnd!, new RepeatPasswordValidator(), repeatPasswordText!, repeatPasswordText!)
