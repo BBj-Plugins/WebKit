@@ -12,6 +12,8 @@ use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesPro
 
 use ::WebKit/i18n.bbj::I18n
 
+use ::WebKit/i18n.bbj::I18n
+
 
 class public TreeListPanel extends BBjWidget
 
