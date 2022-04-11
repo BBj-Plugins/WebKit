@@ -15,7 +15,7 @@ use ::WebKit/widgets/DashboardWidgetHeader/DashboardWidgetHeader.bbj::DashboardW
 use ::WebKit/widgets/DashboardTasks/DashboardTasksCard.bbj::DashboardTasksCard
 
 use ::WebKit/widgets/DashboardTasks/SampleTasksData.bbj::SampleTasksData
-use ::WebKit/i18n.bbj::I18n
+use ::WebKit/i18n/I18n.bbj::I18n
 
 class public DashboardTasks extends BBjWidget
     field private BBjChildWindow window!

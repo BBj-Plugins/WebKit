@@ -11,7 +11,7 @@ use ::WebKit/model/ListView/Cell.bbj::Cell
 use ::WebKit/framework/ListOverviewPanel/ListOverviewPanel.bbj::ListOverviewPanel
 use ::WebKit/framework/FormControlPanel/FormControlPanel.bbj::FormControlPanel
 use ::WebKit/widgets/ListView/ListView.bbj::ListView
-use ::WebKit/i18n.bbj::I18n
+use ::WebKit/i18n/i18n.bbj::I18n
 
 use java.util.HashMap
 use com.basiscomponents.db.ResultSet
