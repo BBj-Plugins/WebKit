@@ -91,10 +91,22 @@ showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,210,"Reseller in South Am
 showCaseSSubItem!.setStartType(2)
 
 
+hiddenmenu! = new Menu()
+menuItem! = hiddenmenu!.addMenuItem(hiddenmenu!.getRoot(),65001,"preview","preview","printer")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DocViewerPanel.bbj::DocViewerPanel")
+menuItem!.setParameter("/:file")
+menuItem!.setStartType(0)
+ 
+menuItem! = menu!.addMenuItem(menu!.getRoot(),98,"Printing","Printing","printer")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/PrintShowcase.bbj::PrintShowcase")
+menuItem!.setStartType(0)
+
+
 declare ShowCaseFrame portal!
 
 portal! = new ShowCaseFrame()
 portal!.setMenu(menu!)
+portal!.setHiddenMenu(hiddenmenu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_svg.svg")
 favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","star")

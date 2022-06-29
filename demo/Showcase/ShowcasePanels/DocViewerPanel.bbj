@@ -1,0 +1,43 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::BBjDocViewer/BBjDocViewer.bbj::BBjDocViewer
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+
+class public DocViewerPanel extends BBjWidget
+
+        field private BBjDocViewer Viewer!
+
+       method public DocViewerPanel(BBjWindow wnd!)
+            #super!.create(wnd!,wnd!.getAvailableControlID()) 
+       methodend
+    
+    method public void redraw(Boolean init!)
+        
+        if init! then
+            panel! = #getCanvas()
+            panel!.setStyle("height","100%")
+            panel!.setStyle("width","100%")
+            #Viewer! = new BBjDocViewer(panel!)
+        endif
+        
+        portal! = PortalFrame.getInstance()
+        event! = portal!.getLastRouterEvent()
+        if event! = null() then
+            methodret
+        fi
+    
+        data! = event!.getData()
+        k$ = data!.get("file")
+
+        ns! = BBjAPI().getGlobalNamespace()
+        
+        f$=ns!.getValue(k$,err=*next)
+        ns!.removeValue(k$,err=*next)
+                
+        #Viewer!.open(BBjAPI().getFileSystem().resolvePath(f$,err=*next))
+        
+        
+        
+ 
+    methodend
+    
+classend

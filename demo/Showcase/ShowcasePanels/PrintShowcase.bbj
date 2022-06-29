@@ -1,0 +1,74 @@
+use ::WebKit/demo/Showcase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::util/Util.bbj::Util
+
+class public PrintShowcase extends ShowcaseWidget
+
+    field private BBjChildWindow window!
+    field private InputField DurationField!
+    field private InputField TitleField!
+
+
+    method public PrintShowcase(BBjWindow wnd!)
+        #super!(wnd!)
+        
+        #setTitle("Printing")
+        #setIntro("This demo produces a PDF and then launches the print preview which is registered as a hidden menu item.")
+    methodend
+    
+    method public void redraw(Boolean init!)
+        #super!.redraw(init!)
+        
+        if init! then
+            declare auto BBjChildWindow panel!
+            panel! = #getContentWindow()
+            panel!.setStyle("display","flex")
+            panel!.setStyle("flex-direction","column")
+            panel!.setStyle("row-gap","10px")
+            
+            #TitleField! = new InputField(panel!)
+            #TitleField!.setLabel("Message")
+            #TitleField!.setInput("Hello World")
+            
+            
+            BtnShow! = panel!.addButton(panel!.getAvailableControlID(),0,0,0,0,"Print")
+            BtnShow!.setAttribute("theme","primary")
+            BtnShow!.setAttribute("expanse","xl")
+            BtnShow!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!,"onPrint")    
+            
+        endif
+
+
+    methodend
+    
+    method public void onPrint(BBjButtonPushEvent ev!)
+
+        message$=#TitleField!.getInput()
+
+        
+
+        myAPI!=BBjAPI()
+        f$ = java.io.File.createTempFile("tmp_", ".pdf").getCanonicalPath()
+        erase f$
+        pdf!=myAPI!.getBBjPDFForm(f$)
+        page! = pdf!.createPage() 
+        para!=page!.newParagraph()
+        para!.setText(message$)
+        page!.add(para!)
+        pdf!.print()
+
+        
+        ns! = BBjAPI().getGlobalNamespace()
+        k$ = str(java.util.UUID.randomUUID())
+        ns!.setValue(k$,f$)
+
+        declare PortalFrame portalFrame!
+        portalFrame! = PortalFrame.getInstance()
+        portalFrame!.navigateTo("/preview", k$)
+        
+    methodend
+    
+    
+classend
