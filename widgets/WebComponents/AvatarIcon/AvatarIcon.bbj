@@ -1,0 +1,56 @@
+use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+class public AvatarIcon extends WebComponents
+    field private static BBjTopLevelWindow Wnd!
+    field private static BBjWindow wnd!
+    field public static BBjNumber ON_AVATAR_INITIAL_CLICK = 1234
+    field public static BBjHtmlView htmlView!
+    field public static BBjString size$
+    field public static BBjString name$
+
+    method public AvatarIcon()
+
+    methodend
+
+    method public AvatarIcon(BBjWindow canvas!)
+        #wnd! = canvas!
+        #redraw(1)
+    methodend
+
+    method private BBjHtmlView configureAvatarView(BBjHtmlView htmlView!)
+        htmlView!.setCallback(BBjAPI.ON_NATIVE_JAVASCRIPT, #this!,"onClickAvatarInitial")
+        htmlView!.setStyle("border","none")
+        htmlView!.executeScript(#script$)
+        methodret htmlView!
+    methodend 
+
+    method public void onClickAvatarInitial(BBjNativeJavaScriptEvent ev!)
+        #fireEvent(#ON_AVATAR_INITIAL_CLICK, ev!)
+    methodend 
+
+    method public void redraw(Boolean init!) 
+        if init! > 0 then
+        #htmlView! = #wnd!.addHtmlView(#wnd!.getAvailableControlID(),0,0,300,300,"")
+        #htmlView!.setText("<avatar-initial size="""+#size$+""" name="""+name$+"""></avatar-initial>")
+        #htmlView! = #configureAvatarView(#htmlView!)
+        else 
+        #htmlView!.setText("<avatar-initial size="""+#size$+""" name="""+#name$+"""></avatar-initial>")
+        fi
+    methodend
+
+    method public void setSize(BBjString size$)
+        #size$ = size$
+        #redraw(0)
+    methodend
+
+    method public void setName(BBjString name$)
+        #name$ = name$
+        #redraw(0)
+    methodend
+
+    method public BBjHtmlView getView()
+        methodret #htmlView!
+    methodend
+        
+classend

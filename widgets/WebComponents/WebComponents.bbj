@@ -1,0 +1,23 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+
+class public WebComponents extends BBjWidget
+    
+    field public BBjString script$
+
+    method public WebComponents()
+
+        webComponentLibaryURL$ = STBL("web-component-library-url", err=*next)
+        if webComponentLibaryURL$ = "" THEN
+            webComponentLibaryURL$ = "https://cdn.jsdelivr.net/npm/webkit-web-components@latest/dist/web-component/web-component.esm.js"
+        endif
+        
+        #script$ = "var script = document.createElement(""script"");"
+       
+        #script$ = #script$ + "script.setAttribute(""src"",""" + webComponentLibaryURL$ + """);"
+
+        #script$ = #script$ + "script.setAttribute(""type"",""module"");"
+
+        #script$ = #script$ + "document.head.appendChild(script)"
+    methodend
+        
+classend
