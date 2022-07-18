@@ -1,9 +1,11 @@
 use ::WebKit/widgets/InputField/IValidator.bbj::IValidator
 
+use ::WebKit/i18n/I18n.bbj::I18n
+
 class public UsernameValidator implements IValidator
     method public BBjString validate(BBjString field!)
         if field!.length() > 0 and field!.length() < 3 then 
-            methodret "username too short"
+            methodret I18n.getTranslation("username_short")
         endif
         methodret ""
     methodend
@@ -12,7 +14,7 @@ classend
 class public PasswordValidator implements IValidator
     method public BBjString validate(BBjString field!)
         if field!.length() > 0 and field!.length() < 6 then 
-            methodret "Password too short"
+            methodret I18n.getTranslation("password_short")
         endif
         methodret ""
     methodend
@@ -21,7 +23,7 @@ classend
 class public NewPasswordValidator implements IValidator
     method public BBjString validate(BBjString field!)
         if field!.length() > 0 and field!.length() < 6 then 
-            methodret "Password too short"
+            methodret I18n.getTranslation("password_short")
         endif
         methodret ""
     methodend

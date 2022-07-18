@@ -26,6 +26,8 @@ use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesPro
 use ::WebKit/i8n/I18n.bbj::I18n
 use java.util.HashMap
 
+
+
 use ::BBjRouter/BBjRouter.bbj::BBjRouterEvent
 use ::WebKit/framework/Router/RouterProtocol.bbj::RouterProtocol
 
@@ -33,6 +35,8 @@ use ::WebKit/framework/Router/Router.bbj::Router
 
 
 class public PortalFrame implements RouterProtocol
+
+
 
     field private BBjTopLevelWindow window!
     field private Drawer Drawer!
@@ -64,6 +68,8 @@ class public PortalFrame implements RouterProtocol
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+
+
 
     field public static BBjString ON_NAVIGATION$ = "navigation"
     field private Router router!
@@ -354,11 +360,14 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         #navigateTo(item!)
     methodend
 
+
     method private BBjWidget openPanel(MenuItem item!)
         
         if #currWindow! <> null() and !#currWindow!.isDestroyed() then
             #currWindow!.setVisible(0)
             #currWindow!=null()
+
+
         fi
         if item!.hasChildren() and !item!.hasProgram() then
             declare TreeListPanel menuPanel!
@@ -380,6 +389,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             #currWindow!.redraw(0)
             #currWindow!.setVisible(1)
         else
+
+
             pgm$ = item!.getProgram()
 
             if pgm$ = "void" then
@@ -417,6 +428,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
                 if #currWindow! <> null() then
                     #win_list!.put(item!.getNodeId(),#currWindow!)
+
                 fi
             fi
         fi
