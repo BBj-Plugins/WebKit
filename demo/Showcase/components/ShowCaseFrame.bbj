@@ -3,29 +3,29 @@ use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 use ::WebKit/demo/Showcase/components/ShowCaseMenuPanel.bbj::ShowCaseMenuPanel
 use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 
 class public ShowCaseFrame extends PortalFrame
 
     rem @Override 
-    method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
-        menuPanel! = new ShowCaseMenuPanel(panelWindow!)
-        rem Test Colors
-        colors! = new BBjVector()
-        colors!.add("#408458")
-        colors!.add("#9B0058")
-        colors!.add("#6883BA")
-        menuPanel!.setColors(colors!)
-        data! = new BBjVector()
-        data!.add(new DashboardHeaderEntry(0,2,"Deals Scored"))
-        data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
-        data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
-        menuPanel!.setHeadLineEntrys(data!)
+    rem method protected TreeListPanel createMenuPanelObject(BBjChildWindow panelWindow!)
+    rem     menuPanel! = new ShowCaseMenuPanel(panelWindow!)
+    rem     rem Test Colors
+    rem     colors! = new BBjVector()
+    rem     colors!.add("#408458")
+    rem     colors!.add("#9B0058")
+    rem     colors!.add("#6883BA")
+    rem     menuPanel!.setColors(colors!)
+    rem     data! = new BBjVector()
+    rem     data!.add(new DashboardHeaderEntry(0,2,"Deals Scored"))
+    rem     data!.add(new DashboardHeaderEntry(1,3,"Upcoming Tasks"))
+    rem     data!.add(new DashboardHeaderEntry(2,45,"Planned Meetings"))
+    rem     menuPanel!.setHeadLineEntrys(data!)
         
         
-        methodret menuPanel!
+    rem     methodret menuPanel!
         
-    methodend
+    rem methodend
     
     
 

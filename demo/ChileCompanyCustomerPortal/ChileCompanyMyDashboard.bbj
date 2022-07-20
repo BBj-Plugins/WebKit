@@ -37,6 +37,8 @@ class public ChileCompanyMyDashboard extends BBjWidget
             canvas!.addStaticText(canvas!.getAvailableControlID(), 0, 0, 0, 0, Icons.get("check","color:red"))
             rem PortalFrame.getInstance().reloadAllPanels()
             canvas!.addButton(canvas!.getAvailableControlID(),0,0,0,0,"Overlay").setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onBtnPush")
+            canvas!.addButton(canvas!.getAvailableControlID(),0,0,0,0,"Go to SubRoute of Customer").setCallback(BBjAPI.ON_BUTTON_PUSH,#this!,"onNavBtnPush")
+            
             methodret
         FI
     methodend    
@@ -52,6 +54,10 @@ class public ChileCompanyMyDashboard extends BBjWidget
         #overlay! = new Overlay(wnd!, dialog!)
         #overlay!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmissed")
         #overlay!.setBackgroundColor("rgba(0,0,0,0.35)")
+    methodend
+
+    method public void onNavBtnPush(BBjButtonPushEvent event!)
+        PortalFrame.getInstance().navigateTo("customers/details")
     methodend
 
     method public void onOverlayDissmissed(BBjCustomEvent event!)

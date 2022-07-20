@@ -7,7 +7,7 @@ use ::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/MenuCard/MenuCard.bbj::MenuCard
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 class public ShowCaseMenuPanel extends TreeListPanel
     field public DashboardHeader dashHeader!
     field public DashboardTasks dashTasks!

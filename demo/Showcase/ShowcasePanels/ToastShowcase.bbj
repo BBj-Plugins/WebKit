@@ -2,6 +2,7 @@ use ::WebKit/demo/Showcase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
 use ::WebKit/widgets/InputField/InputField.bbj::InputField
 use ::WebKit/widgets/Toast/Toast.bbj::Toast
 
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 
 class public ToastShowcase extends ShowcaseWidget
 
@@ -48,10 +49,10 @@ class public ToastShowcase extends ShowcaseWidget
     methodend
     
     method public void onShowToast(BBjButtonPushEvent ev!)
-
-        message$=#TitleField!.getInput()
-        duration=max(1000,num(#DurationField!.getInput(),err=*next))
-        Toast.show(message$,duration)
+        PortalFrame.getInstance().navigateTo("/salesoptions/directsales/personal")
+        rem message$=#TitleField!.getInput()
+        rem duration=max(1000,num(#DurationField!.getInput(),err=*next))
+        rem Toast.show(message$,duration)
         
         
     methodend

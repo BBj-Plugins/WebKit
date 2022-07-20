@@ -5,7 +5,7 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/framework/Router/RouterProtocol.bbj::RouterProtocol
 
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 
 class public Router
 
