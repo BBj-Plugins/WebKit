@@ -1,7 +1,7 @@
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 
 use ::WebKit/demo/ChileCompanyCustomerPortal/components/ChileFrame.bbj::ChileFrame
@@ -57,7 +57,14 @@ m! = new Menu()
 
 i! = m!.addMenuItem(m!.getRoot(),101,"Customers","List of Customers","users")
 i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
-i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
+i!.setStartType(0)
+
+test! = new MenuItem(i!, 1000, "Details", "Customer Details", "details")
+test!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyCustomerDashboardPanel.bbj::ChileCompanyDashboardPanel")
+test!.setStartType(0)
+m!.addItemToIndex(test!)
+
+rem test! = m!.addMenuItem(i!, 1000, "Details", "Customer Details", "details")
 
 i! = m!.addMenuItem(m!.getRoot(),102,"Products","Products - Dashboard","shopping-cart")
 i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanyItemDashboard.bbj::ChileCompanyItemDashboard")
@@ -66,6 +73,7 @@ i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructo
 i! = m!.addMenuItem(m!.getRoot(),103,"Salesperson","Salesperson - Dashboard","user")
 i!.setProgram("::WebKit/demo/ChileCompanyCustomerPortal/ChileCompanySalespersonDashboard.bbj::ChileCompanySalespersonDashboard")
 i!.setStartType(0); rem 0 = class that implements WebWidget and has a constructor that takes the parent window
+
 
 treeMenuShowCase! = m!.addMenuItem(m!.getRoot(),104,"Sales - Options","Sales - Options","list")
 treeMenuShowCase!.setStartType(2)

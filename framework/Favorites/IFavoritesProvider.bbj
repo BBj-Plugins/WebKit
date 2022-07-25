@@ -1,4 +1,4 @@
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 
 interface public IFavoritesProvider
     

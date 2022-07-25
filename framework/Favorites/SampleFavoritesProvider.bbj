@@ -1,5 +1,5 @@
 use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/util/WriteFavorites.bbj::WriteFavorites
 use java.util.ArrayList

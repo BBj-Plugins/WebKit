@@ -4,7 +4,7 @@ use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 use java.util.HashMap
 use ::WebKit/util/Icons.bbj::Icons
 use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider

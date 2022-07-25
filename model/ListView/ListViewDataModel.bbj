@@ -1,7 +1,7 @@
 
 use ::WebKit/model/ListView/ListHeaderDataModel.bbj::ListHeaderDataModel
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 use java.util.HashSet
 
 class public ListViewDataModel
@@ -25,9 +25,9 @@ class public ListViewDataModel
         #actionMenus! = new Menu()
 
         i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 1, "Edit", "Edit", "edit-2")
-        i!.setCustomEventName("ON_ACTION_ITEM_EDIT_PRESSED")
+        rem i!.setCustomEventName("ON_ACTION_ITEM_EDIT_PRESSED")
         i! = #actionMenus!.addMenuItem(#actionMenus!.getRoot(), 2, "Delete", "Delete", "trash-2")
-        i!.setCustomEventName("ON_ACTION_ITEM_DELETE_PRESSED")
+        rem i!.setCustomEventName("ON_ACTION_ITEM_DELETE_PRESSED")
     methodend
 
     method public ListViewDataModel(BBjString listPanelTitle$)
