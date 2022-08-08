@@ -33,6 +33,22 @@ class public InputField extends BBjWidget
 
         #super!.create(wnd!, wnd!.getAvailableControlID())
     methodend
+
+    method public void setRequired()
+        #inputField!.setAttribute("required", "true")
+    methodend
+
+    method public void setType(BBjString type!)
+        #inputField!.setAttribute("type", type!)
+    methodend
+
+    method public void setAutoValidateOnLoad()
+        #inputField!.setAttribute("auto-validate-on-load", "true")
+    methodend
+
+    method public void setAutoValidate()
+        #inputField!.setAttribute("auto-validate", "true")
+    methodend
     
     method public void redraw(Boolean init!)
         if init! then

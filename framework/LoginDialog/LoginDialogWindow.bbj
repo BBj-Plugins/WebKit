@@ -17,6 +17,7 @@ class public LoginDialogWindow extends BBjWidget
     field private BBjCheckBox rememberMe!
     field private BBjButton submitButton!
     field private BBjStaticText redirect!
+    field private BBjStaticText account!
 
     field private BBjString memory$
 
@@ -88,6 +89,14 @@ class public LoginDialogWindow extends BBjWidget
     method public void setRedirect(BBjStaticText redirect!)
         #redirect!  = redirect! 
     methodend
+
+    method public BBjStaticText getAccountText()
+        methodret #account! 
+    methodend
+
+    method public void setAccountText(BBjStaticText account!)
+        #account!  = account! 
+    methodend
     
     method public BBjString getMemory()
         methodret #memory!
@@ -107,6 +116,14 @@ class public LoginDialogWindow extends BBjWidget
 
     method public void onForgotPwHoverExit(BBjMouseExitEvent event!)
         #redirect!.removeStyle("hover")
+    methodend
+
+    method public void onAccountCreateHover(BBjMouseEnterEvent event!)
+        #account!.addStyle("hover")
+    methodend
+
+    method public void onAccountCreateHoverExit(BBjMouseExitEvent event!)
+        #account!.removeStyle("hover")
     methodend
 
     method public void onButtonHover(BBjMouseEnterEvent event!)
@@ -194,6 +211,10 @@ methodend
     method public void gotoForgotPassword(BBjMouseDownEvent event!) 
         #loginDialog!.gotoForgotPassword()
     methodend  
+
+    method public void gotoRegisterLink(BBjMouseDownEvent event!)
+        #loginDialog!.gotoRegisterLink()
+    methodend
 
     method public void gotoLogin(BBjButtonPushEvent event!)
         #loginDialog!.gotoLogin()
