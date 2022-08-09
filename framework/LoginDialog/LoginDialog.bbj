@@ -44,8 +44,10 @@ class public LoginDialog
 
     field public Boolean AllowRemember! = Boolean.FALSE
     field public Boolean AllowForgotPw! = Boolean.FALSE
+    field public Boolean AllowAccountCreation! = Boolean.FALSE
     field public Boolean LoginWithMicrosoft! = Boolean.FALSE
     field public Boolean LoginWithGoogle! = Boolean.FALSE
+    field public BBjString AccountCreationLink! = ""
 
     field public Boolean isValidationEnabled! = Boolean.TRUE
     field public IValidator usernameValidator!
@@ -77,6 +79,10 @@ class public LoginDialog
 
     method public void setLogo(BBjString logo$)
         #logoURL$ = logo$
+    methodend
+
+    method public void setAcountCreationLink(BBjString link!)
+        #AccountCreationLink! = link!
     methodend
     
     method public void setWrapperBackgroundImage(BBjString imagePath!)
@@ -132,17 +138,18 @@ class public LoginDialog
             endif    
         endif
 
-        tempPw$ = ClientUtil.getUrlAnchor()
+        tempPw! = ClientUtil.getUrlAnchor()
+        
         rem a valid token for password reset needs to start with "token"
         rem todo externalize the pattern matching for the token into AuthProvider
-        if len(tempPw$)<5 or tempPw$(1,5)<>"token" then 
+        if len(tempPw!)<5 or tempPw!.substring(1,6)<>"token" then 
             #loginWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
             #buildLoginContent(#loginWindow!, "")
             #loginWindow!.getUsername().focus()
         else 
             if Boolean.TRUE then    rem check if Token is valid
                 #newPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
-                #buildNewPwContent(#newPwWindow!,tempPw$)
+                #buildNewPwContent(#newPwWindow!,tempPw!)
             endif
         endif
 
@@ -209,6 +216,13 @@ class public LoginDialog
         if #AllowRemember!  then 
             LoginDialogBuilder.addRememberMeBox(wnd!)
         fi
+
+        
+        
+        if #AllowForgotPw! = Boolean.TRUE then 
+            LoginDialogBuilder.addRedirect(wnd!, I18n.getTranslation("forgot-your-password"), "gotoForgotPassword")  
+        fi
+        
         LoginDialogBuilder.addSubmitButton(wnd!, I18n.getTranslation("login-upper"), "login")
 
         if #getLoginWithGoogle() OR #getLoginWithMicrosoft() then
@@ -220,10 +234,9 @@ class public LoginDialog
                 LoginDialogBuilder.addLoginWithMicrosoft(wnd!)
             fi            
         fi
-        
-        
-        if #AllowForgotPw! = Boolean.TRUE then 
-            LoginDialogBuilder.addRedirect(wnd!, I18n.getTranslation("forgot-your-password"), "gotoForgotPassword")  
+
+        if #AllowAccountCreation! then 
+            LoginDialogBuilder.addAccountRedirect(wnd!, I18n.getTranslation("account-creation"), "gotoRegisterLink")  
         fi
     methodend
 
@@ -234,13 +247,14 @@ class public LoginDialog
 
             if #usernameValidator! = null() then #usernameValidator! = new UsernameValidator()
             LoginDialogBuilder.addUsernameInput(wnd!, #usernameValidator! , user$)
-            LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, I18n.getTranslation("password"), I18n.getTranslation("your-password"))
+            rem LoginDialogBuilder.addPasswordInput(wnd!, #passwordValidator!, I18n.getTranslation("password"), I18n.getTranslation("your-password"))
         else
             LoginDialogBuilder.addUsernameInput(wnd!, null(), user$)
         fi
         LoginDialogBuilder.addSubmitButton(wnd!, "Send Email", "requestForgotPasswordToken")
         LoginDialogBuilder.addRedirect(wnd!, "Return to Login", "gotoLogin")  
     methodend
+
  
     method public void buildResponseContent(LoginDialogWindow wnd!, BBjString memory$,  BBjString title$, BBjString response$, Boolean retry!, BBjString methodName$ )
         LoginDialogBuilder.addMemory(wnd!, memory$)
@@ -294,6 +308,14 @@ class public LoginDialog
             #forgotPwWindow! = new LoginDialogWindow(#this!, #loginWrapper!)
             #buildForgotPwContent(#forgotPwWindow!, user$)
         endif
+    methodend
+
+    method public void gotoRegisterLink()
+        declare BBjThinClient thinClient!
+        thinClient! = BBjAPI().getThinClient()
+        if #AccountCreationLink! <> "" then
+            thinClient!.browse(#AccountCreationLink!)
+        fi
     methodend
 
     method public void gotoLogin()

@@ -92,10 +92,12 @@ class public LoginDialogBuilder extends BBjWidget
         dialog!.getRememberMe().setStyle("margin-top","20px")
         dialog!.getRememberMe().setStyle("margin-bottom","20px")
 
+        dialog!.getRememberMe().addStyle("bbj-whitespace-wrap")
         dialog!.getRememberMe().addStyle("loginWidgetCheckBoxStyle")
         dialog!.getRememberMe().addStyle("loginWidgetCheckBoxLabel")
         dialog!.getRememberMe().addStyle("loginWidgetCheckBoxInputWrapper")
         dialog!.getRememberMe().addStyle("loginWidgetCheckBoxControl")
+        
     methodend
 
     method public static void addSubmitButton(LoginDialogWindow dialog!, BBjString label$)
@@ -139,23 +141,42 @@ class public LoginDialogBuilder extends BBjWidget
     methodend
 
 
-    method public static void addRedirect(LoginDialogWindow dialog!, BBjString redirectText$, BBjString methodName$)
+    method public static void addRedirect(LoginDialogWindow dialog!, BBjString redirectText!, BBjString methodName!)
         declare BBjStaticText redirectText!
         declare BBjChildWindow linkWrapper!
     
         linkWrapper! = dialog!.getContent().addChildWindow(dialog!.getContent().getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,dialog!,methodName$)
+        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,dialog!,methodName!)
         linkWrapper!.setDockStyle("grid-row-start","6")
         linkWrapper!.setDockStyle("margin-top","16px")
         linkWrapper!.setDockStyle("justify-self","center")
         linkWrapper!.setDockStyle("height","fit-content")
         linkWrapper!.setDockStyle("width","fit-content")
         
-        redirectText! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,redirectText$)
+        redirectText! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,redirectText!)
         dialog!.setRedirect(redirectText!)
         redirectText!.addStyle("forgotPwStlye")
         redirectText!.setCallback(BBjAPI.ON_MOUSE_ENTER,dialog!,"onForgotPwHover")
         redirectText!.setCallback(BBjAPI.ON_MOUSE_EXIT,dialog!,"onForgotPwHoverExit")
+    methodend
+
+    method public static void addAccountRedirect(LoginDialogWindow dialog!, BBjString redirectText!, BBjString methodName!)
+        declare BBjStaticText redirectText!
+        declare BBjChildWindow linkWrapper!
+    
+        linkWrapper! = dialog!.getContent().addChildWindow(dialog!.getContent().getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,dialog!,methodName!)
+        linkWrapper!.setDockStyle("grid-row-start","6")
+        linkWrapper!.setDockStyle("margin-top","16px")
+        linkWrapper!.setDockStyle("justify-self","center")
+        linkWrapper!.setDockStyle("height","fit-content")
+        linkWrapper!.setDockStyle("width","fit-content")
+        
+        redirectText! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,redirectText!)
+        dialog!.setAccountText(redirectText!)
+        redirectText!.addStyle("forgotPwStlye")
+        redirectText!.setCallback(BBjAPI.ON_MOUSE_ENTER,dialog!,"onAccountCreateHover")
+        redirectText!.setCallback(BBjAPI.ON_MOUSE_EXIT,dialog!,"onAccountCreateHoverExit")
     methodend
 
 classend
