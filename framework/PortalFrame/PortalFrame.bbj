@@ -3,7 +3,7 @@ use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/IconTile/IconTile.bbj::IconTile
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 use ::WebKit/framework/MenuCardPanel/MenuCardPanel.bbj::MenuCardPanel
 use ::WebKit/framework/MenuCardPanel/MenuCardPanelSorted.bbj::MenuCardPanelSorted
@@ -280,7 +280,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         if param! = null() then
             #navigateTo(menu!)
         else
-            #navigateTo(menu!.getBasePath(), str(param!))
+            #navigateTo(menu!.getPath(), str(param!))
         fi
     methodend
 
@@ -324,7 +324,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
 
     method public void navigateTo(MenuItem menu!)
-        #navigateTo(menu!.getBasePath())
+        #navigateTo(menu!.getPath())
     methodend
 
     method public MenuItem getMenuItem(BBjString path$)

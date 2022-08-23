@@ -5,7 +5,7 @@ use ::WebKit/model/ListView/ListViewDataModel.bbj::ListViewDataModel
 use ::WebKit/util/Icons.bbj::Icons
 use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use ::WebKit/model/Menu.bbj::Menu
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 
@@ -203,7 +203,7 @@ class public ListView extends BBjWidget
         menuId = ev!.getControl().getID()
         menu! = #listDataModel!.getActionMenus()
         menuItem! = menu!.getItem(menuId)
-        BBjAPI().postCustomEvent(menuItem!.getCustomEventName(), ev!.getControl().getText())
+        rem BBjAPI().postCustomEvent(menuItem!.getCustomEventName(), ev!.getControl().getText())
     methodend
 
     method public void onDotsPressed(BBjMouseDownEvent ev!)

@@ -1,7 +1,7 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/util/Icons.bbj::Icons
-use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/MenuItem.bbj::MenuItem
 use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
 
 
