@@ -43,10 +43,23 @@ declare MenuItem menuItem!
 menu! = new Menu()
 
 
-rem Toast
 menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","bulb")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/ToastShowcase.bbj::ToastShowcase")
 menuItem!.setStartType(0)
+
+menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"BuiDemo","BuiDemo","world")
+menuItem!.setProgram("WebKit/demo/demoprograms/BuiDemo.bbj")
+
+menuItem!.addParameter("database","ChileCompany")
+menuItem!.addParameter("table","CUSTOMER")
+menuItem!.addParameter("title","BUIParameterDemo")
+
+
+rem menuItem!.addParameter("database","CDStore")
+rem menuItem!.addParameter("table","CDINVENTORY")
+
+
+menuItem!.setStartType(1)
 
 
 declare PortalFrame portal!

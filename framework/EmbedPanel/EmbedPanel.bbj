@@ -1,6 +1,7 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use java.util.HashMap
 
 class public EmbedPanel extends BBjWidget
 
@@ -49,10 +50,15 @@ class public EmbedPanel extends BBjWidget
         #MenuItem! = MenuItem!
         pgm$ = MenuItem!.getProgram()
         title$= MenuItem!.getCaption()
+        parameters!= MenuItem!.getParameters()
         starttype = MenuItem!.getStartType()
         if pgm$>"" then
-            if starttype=1 then 
-                #loadBUI(title$,pgm$)
+            if starttype=1 then
+                if MenuItem!.hasParameters() then
+                    #loadBUI(title$,pgm$,parameters!)
+                else
+                    #loadBUI(title$,pgm$)
+                fi
             else
                 #loadDWC(title$,pgm$)
             fi
@@ -60,9 +66,28 @@ class public EmbedPanel extends BBjWidget
     methodend
     
     method public void loadBUI(BBjString title$,BBjString pgm$)
+        
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()
         url$=#baseUri!+"apps/"+appname$+"?launch="+uid$
+        BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
+        BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
+        #HtmlView!.setUrl(url$)
+    methodend
+    
+    method public void loadBUI(BBjString title$,BBjString pgm$, HashMap parameters!)
+        
+        appname$=#publishStub()
+        uid$ = java.util.UUID.randomUUID().toString()
+        parameterString$ = ""
+        it! = parameters!.keySet().iterator()
+     
+        while it!.hasNext()
+            currentKey$ = it!.next()
+            parameterString$ = parameterString$ + currentKey$ + "=" + parameters!.get(currentKey$) +","
+        wend
+            
+        url$=#baseUri!+"apps/"+appname$+"?launch="+uid$+ "&" + parameterString$
         BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
         BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
@@ -71,7 +96,7 @@ class public EmbedPanel extends BBjWidget
     method public void loadDWC(BBjString title$,BBjString pgm$)
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()
-        url$=#baseUri!+"webapp/"+appname$+"?launch="+uid$
+        url$=#baseUri!+"webapp/"+appname$+"?launch="+uid$ 
         BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
         BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)

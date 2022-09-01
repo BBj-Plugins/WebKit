@@ -1,6 +1,7 @@
 use java.util.HashMap
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 
+
 class public MenuItem
 
     field private BBjNumber NodeId
@@ -13,6 +14,7 @@ class public MenuItem
     field private BBjString path$
     field private BBjString basePath$
     field private BBjString parameter$
+    field private HashMap parameters! = new HashMap()
 
     field private BBjNumber StartType
     field private BBjString Program$
@@ -164,6 +166,22 @@ class public MenuItem
             endif
         next i
         methodret null()
+    methodend
+    
+    method public void addParameter(BBjString key$, BBjString value$)
+        #parameters!.put(key$,value$)
+    methodend
+    
+    method public HashMap getParameters()
+        methodret #parameters!
+    methodend
+    
+    method public void removeParameter(BBjString key$)
+        #parameters!.remove(key$)
+    methodend
+    
+    method public boolean hasParameters()
+        methodret #parameters!.size() <> 0
     methodend
 
     method public void setParameter(BBjString parameter$)
