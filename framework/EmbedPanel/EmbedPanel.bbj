@@ -50,19 +50,38 @@ class public EmbedPanel extends BBjWidget
         #MenuItem! = MenuItem!
         pgm$ = MenuItem!.getProgram()
         title$= MenuItem!.getCaption()
-        parameters!= MenuItem!.getParameters()
+        menuParameters!= MenuItem!.getMenuParameters()
+        queryParameters!=#loadQueryParams()
         starttype = MenuItem!.getStartType()
+       
         if pgm$>"" then
-            if starttype=1 then
-                if MenuItem!.hasParameters() then
-                    #loadBUI(title$,pgm$,parameters!)
-                else
-                    #loadBUI(title$,pgm$)
-                fi
+            if starttype=1 then           
+                    #loadBUI(title$,pgm$,menuParameters!,queryParameters!)
             else
                 #loadDWC(title$,pgm$)
             fi
         fi
+    methodend
+    
+    method public HashMap loadQueryParams()
+    declare HashMap params! 
+    params! = new HashMap()
+    i = 0 
+    while 1
+        declare BBjString param! 
+        param! = ""
+        param! = info(7,i,err=*next)
+        if param! <> ""
+            params!.put(param!.substring(0,param!.lastIndexOf("=") ),param!.substring(param!.lastIndexOf("=") + 1))
+            
+        else
+            
+            break
+        fi
+        i = i + 1
+    wend
+    methodret params!
+    
     methodend
     
     method public void loadBUI(BBjString title$,BBjString pgm$)
@@ -75,20 +94,15 @@ class public EmbedPanel extends BBjWidget
         #HtmlView!.setUrl(url$)
     methodend
     
-    method public void loadBUI(BBjString title$,BBjString pgm$, HashMap parameters!)
+    method public void loadBUI(BBjString title$,BBjString pgm$, HashMap menuParameters!, HashMap queryParameters!)
         
         appname$=#publishStub()
-        uid$ = java.util.UUID.randomUUID().toString()
-        parameterString$ = ""
-        it! = parameters!.keySet().iterator()
-     
-        while it!.hasNext()
-            currentKey$ = it!.next()
-            parameterString$ = parameterString$ + currentKey$ + "=" + parameters!.get(currentKey$) +","
-        wend
+        uid$ = java.util.UUID.randomUUID().toString()     
             
-        url$=#baseUri!+"apps/"+appname$+"?launch="+uid$+ "&" + parameterString$
+        url$=#baseUri!+"apps/"+appname$+"?launch="+uid$
         BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
+        BBjAPI().getGlobalNamespace().setValue(uid$ + "_menuParams",menuParameters!)
+        BBjAPI().getGlobalNamespace().setValue(uid$ + "_queryParams" ,queryParameters!)
         BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
     methodend    

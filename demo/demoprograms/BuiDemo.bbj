@@ -8,24 +8,19 @@ sysgui! = BBjAPI().openSysGui("X0")
 bui! = bbjapi().getBuiManager()
 
 declare String url!
-declare String parameterString!
-declare HashMap parameters!
+declare String queryParam!
+declare HashMap menuParameters!
+declare HashMap queryParameters!
 parameters! = new HashMap()
-rem Get the Url used in the Html View to launch the bui program
-url$ = bui!.getUrl(err=*next)
-url! = url$
+rem Get the uid used in the Html View to launch the bui program
+queryParam! = info(7,0)
+uid$ = queryParam!.substring(queryParam!.lastIndexOf("=") + 1)
 
-rem separate the parameters from the rest of the url
-parameterString! = url!.substring(url!.lastIndexOf("&") + 1)
 
-rem split the parameterstring to get the singular pairs and then put those into a hashmap
-parameterList! = parameterString!.split(",")
-for i = 0 to parameterList!.length - 1
-    parameterPair! = parameterList![i].split("=")
-    parameters!.put(parameterPair![0],parameterPair![1])
-next i
 
-window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),0,0,750,750,str(parameters!.get("title"))))
+menuParameters! = cast(HashMap, BBjAPI().getGlobalNamespace().getValue(uid$ + "_menuParams"))
+queryParameters! = cast(HashMap, BBjAPI().getGlobalNamespace().getValue(uid$ + "_queryParams"))
+window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),0,0,750,750,str(queryParameters!.get("title"))))
 window!.setCallback(window!.ON_CLOSE,"byebye")
 
 grid! = new BBjGridExWidget(window!,100,0,0,800,600)
@@ -33,8 +28,8 @@ declare SqlQueryBC sbc!
 declare ResultSet rs!
 
 rem Example of how you could use the parameters from the url in the bui program
-sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(str(parameters!.get("database"))))
-rs! = sbc!.retrieve("SELECT  * FROM " + str(parameters!.get("table")))
+sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(str(queryParameters!.get("database"))))
+rs! = sbc!.retrieve("SELECT  * FROM " + str(queryParameters!.get("table")))
 grid!.setData(rs!)
 
 process_events

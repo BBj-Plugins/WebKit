@@ -50,9 +50,10 @@ menuItem!.setStartType(0)
 menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"BuiDemo","BuiDemo","world")
 menuItem!.setProgram("WebKit/demo/demoprograms/BuiDemo.bbj")
 
-menuItem!.addParameter("database","ChileCompany")
-menuItem!.addParameter("table","CUSTOMER")
-menuItem!.addParameter("title","BUIParameterDemo")
+
+rem menuItem!.addMenuParameter("database","ChileCompany")
+rem menuItem!.addMenuParameter("table","CUSTOMER")
+rem menuItem!.addMenuParameter("title","BUIParameterDemo")
 
 
 rem menuItem!.addParameter("database","CDStore")

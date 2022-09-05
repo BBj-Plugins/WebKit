@@ -14,7 +14,7 @@ class public MenuItem
     field private BBjString path$
     field private BBjString basePath$
     field private BBjString parameter$
-    field private HashMap parameters! = new HashMap()
+    field private HashMap menuParameters! = new HashMap()
 
     field private BBjNumber StartType
     field private BBjString Program$
@@ -168,20 +168,20 @@ class public MenuItem
         methodret null()
     methodend
     
-    method public void addParameter(BBjString key$, BBjString value$)
-        #parameters!.put(key$,value$)
+    method public void addMenuParameter(BBjString key$, BBjString value$)
+        #menuParameters!.put(key$,value$)
     methodend
     
-    method public HashMap getParameters()
-        methodret #parameters!
+    method public HashMap getMenuParameters()
+        methodret #menuParameters!
     methodend
     
     method public void removeParameter(BBjString key$)
-        #parameters!.remove(key$)
+        #menuParameters!.remove(key$)
     methodend
     
-    method public boolean hasParameters()
-        methodret #parameters!.size() <> 0
+    method public boolean hasMenuParameters()
+        methodret #menuParameters!.size() <> 0
     methodend
 
     method public void setParameter(BBjString parameter$)
