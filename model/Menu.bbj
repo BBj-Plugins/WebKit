@@ -199,7 +199,7 @@ class public MenuItem
         #routeParameter$ = #routeParameter$ + "/:" + key$ 
         #paths!.add(#basePath$ + #routeParameter$)
        
-        Menu.updateMenuIndex(#basePath$ + #parameter$, #this!)
+        Menu.updateMenuIndex(#basePath$ + #routeParameter$, #this!)
     methodend
     
     method public BBjVector getPotentialRouteParameters()
