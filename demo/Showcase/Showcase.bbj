@@ -43,58 +43,72 @@ declare MenuItem menuItem!
 menu! = new Menu()
 
 
-rem Toast
 menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","bulb")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/ToastShowcase.bbj::ToastShowcase")
 menuItem!.setStartType(0)
 
+menuItem! = menu!.addMenuItem(menu!.getRoot(),102,"BuiDemo","BuiDemo","world")
+menuItem!.setProgram("WebKit/demo/demoprograms/BuiDemo.bbj")
+
+menuItem!.addRouteParameter("database")
+menuItem!.addRouteParameter("table")
+
+rem menuItem!.addMenuParameter("database","ChileCompany")
+rem menuItem!.addMenuParameter("table","CUSTOMER")
+
+rem menuItem!.addMenuParameter("database","CDStore")
+rem menuItem!.addMenuParameter("table","CDINVENTORY")
+
+
+menuItem!.setStartType(1)
+
 
 declare PortalFrame portal!
 
-showCase! = menu!.addMenuItem(menu!.getRoot(),104,"Sales - Options","Sales - Options","list")
-showCase!.setStartType(2)
-
-showCaseItem! = menu!.addMenuItem(showCase!,212,"Sales Statistics","Sales Statistics","table")
-showCaseItem!.setStartType(2)
-
-showCaseItem! = menu!.addMenuItem(showCase!,211,"Diagrams","Diagrams","table")
-showCaseItem!.setStartType(2)
-
-showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
-showCaseItem!.setStartType(2)
-
-showCaseSubItem! = menu!.addMenuItem(showCaseItem!,202,"Personal - Sale","Personal - Sale","table")
-showCaseSubItem!.setStartType(2)
-
-showCaseSubItem! = menu!.addMenuItem(showCaseItem!,203,"Electronic - Sale","Electronic - Sale","table")
-showCaseSubItem!.setStartType(2)
-
-showCaseItem! = menu!.addMenuItem(showCase!,204,"Reseller Options","Reseller Options","table")
-showCaseItem!.setStartType(2)
-
-showCaseSubItem! = menu!.addMenuItem(showCaseItem!,205,"Fast Reseller","Fast Reseller","")
-showCaseSubItem!.setStartType(2)
-
-showCaseSubItem! = menu!.addMenuItem(showCaseItem!,206,"Reliable Reseller","Reliable Reseller","")
-showCaseSubItem!.setStartType(2)
-
-showCaseSubItem! = menu!.addMenuItem(showCaseItem!,207,"Reseller in Europe","Reseller in Europe","")
-showCaseSubItem!.setStartType(2)
-
-showCaseSubItem! = menu!.addMenuItem(showCaseItem!,208,"Reseller in America","Reseller in America","")
-showCaseSubItem!.setStartType(2)
-
-showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,209,"Reseller in North America","Reseller in North America","")
-showCaseSSubItem!.setStartType(2)
-
-showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,210,"Reseller in South America","Reseller in South America","")
-showCaseSSubItem!.setStartType(2)
+rem showCase! = menu!.addMenuItem(menu!.getRoot(),104,"Sales - Options","Sales - Options","list")
+rem showCase!.setStartType(2)
+rem 
+rem showCaseItem! = menu!.addMenuItem(showCase!,212,"Sales Statistics","Sales Statistics","table")
+rem showCaseItem!.setStartType(2)
+rem 
+rem showCaseItem! = menu!.addMenuItem(showCase!,211,"Diagrams","Diagrams","table")
+rem showCaseItem!.setStartType(2)
+rem 
+rem showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
+rem showCaseItem!.setStartType(2)
+rem 
+rem showCaseSubItem! = menu!.addMenuItem(showCaseItem!,202,"Personal - Sale","Personal - Sale","table")
+rem showCaseSubItem!.setStartType(2)
+rem 
+rem showCaseSubItem! = menu!.addMenuItem(showCaseItem!,203,"Electronic - Sale","Electronic - Sale","table")
+rem showCaseSubItem!.setStartType(2)
+rem 
+rem showCaseItem! = menu!.addMenuItem(showCase!,204,"Reseller Options","Reseller Options","table")
+rem showCaseItem!.setStartType(2)
+rem 
+rem showCaseSubItem! = menu!.addMenuItem(showCaseItem!,205,"Fast Reseller","Fast Reseller","")
+rem showCaseSubItem!.setStartType(2)
+rem 
+rem showCaseSubItem! = menu!.addMenuItem(showCaseItem!,206,"Reliable Reseller","Reliable Reseller","")
+rem showCaseSubItem!.setStartType(2)
+rem 
+rem showCaseSubItem! = menu!.addMenuItem(showCaseItem!,207,"Reseller in Europe","Reseller in Europe","")
+rem showCaseSubItem!.setStartType(2)
+rem 
+rem showCaseSubItem! = menu!.addMenuItem(showCaseItem!,208,"Reseller in America","Reseller in America","")
+rem showCaseSubItem!.setStartType(2)
+rem 
+rem showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,209,"Reseller in North America","Reseller in North America","")
+rem showCaseSSubItem!.setStartType(2)
+rem 
+rem showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,210,"Reseller in South America","Reseller in South America","")
+rem showCaseSSubItem!.setStartType(2)
 
 
 hiddenmenu! = new Menu()
 menuItem! = hiddenmenu!.addMenuItem(hiddenmenu!.getRoot(),65001,"preview","preview","printer")
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DocViewerPanel.bbj::DocViewerPanel")
-menuItem!.setParameter("/:file")
+menuItem!.addRouteParameter("file")
 menuItem!.setStartType(0)
  
 menuItem! = menu!.addMenuItem(menu!.getRoot(),98,"Printing","Printing","printer")

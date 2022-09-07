@@ -1,0 +1,73 @@
+use java.util.HashMap
+use ::BBjGridExWidget/BBjGridExWidget.bbj::BBjGridExWidget
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.bc.SqlQueryBC
+
+sysgui! = BBjAPI().openSysGui("X0")
+
+bui! = bbjapi().getBuiManager()
+
+declare String url!
+declare String queryParam!
+declare HashMap paramMap!
+declare HashMap menuParameters!
+declare HashMap queryParameters!
+declare HashMap routeParameters!
+parameters! = new HashMap()
+rem Get the uid used in the Html View to launch the bui program
+queryParam! = info(7,0)
+uid$ = queryParam!.substring(queryParam!.lastIndexOf("=") + 1)
+
+rem Get the Hashmap from the BBjNamespace in which the parameters for the program are saved
+rem The uid works as a key here 
+paramMap! = cast(HashMap, BBjAPI().getGlobalNamespace().getValue(uid$))
+
+rem Get the corresponding parametermaps out of the HashMap 
+rem The currently available Values are:
+rem "_menuParams" - A HashMap containing the parameters given to the MenuItem
+rem "_queryParams" - A HashMap containing the parameters given in query form in the url
+rem "_routeParams" - A HashMap containing the parameters given in route form in the url
+rem "_program" - A String representing the currently launched program
+rem "_completeUrl" - A String containing the complete URL of the current HtmlView
+menuParameters! = cast(HashMap, paramMap!.get("_menuParams"))
+queryParameters! = cast(HashMap, paramMap!.get("_queryParams"))
+routeParameters! = cast(HashMap, paramMap!.get("_routeParams"))
+
+
+window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),0,0,750,750,"Bui Demo Program"))
+window!.setCallback(window!.ON_CLOSE,"byebye")
+
+
+declare SqlQueryBC sbc!
+declare ResultSet rs!
+
+rem Example of how you could use the parameters from the url in the bui program
+
+if menuParameters!.size() > 1 then
+    grid! = new BBjGridExWidget(window!,100,0,0,800,600)
+    sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(str(menuParameters!.get("database"))))
+    rs! = sbc!.retrieve("SELECT  * FROM " + str(menuParameters!.get("table")))
+    grid!.setData(rs!)
+else
+    if queryParameters!.size() > 1
+        grid! = new BBjGridExWidget(window!,100,0,0,800,600)
+        sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(str(queryParameters!.get("database"))))
+        rs! = sbc!.retrieve("SELECT  * FROM " + str(queryParameters!.get("table")))
+        grid!.setData(rs!)
+    else
+        if routeParameters!.size() > 1
+            grid! = new BBjGridExWidget(window!,100,0,0,800,600)
+            sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection(str(routeParameters!.get("database"))))
+            rs! = sbc!.retrieve("SELECT  * FROM " + str(routeParameters!.get("table")))
+            grid!.setData(rs!)
+        else
+            a = msgbox("Not enough parameters have been provided, please provide either query, route or menuparameters and then reload.")
+        fi
+    fi
+fi
+
+
+process_events
+
+byebye:
+bye
