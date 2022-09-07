@@ -1,0 +1,31 @@
+use java.util.List
+use java.util.Arrays
+
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+
+
+
+class public Util
+
+    method public static String getPathParameter(BBjString key!)
+        portal! = PortalFrame.getInstance()
+        
+        event! = portal!.getLastRouterEvent()
+        if event! = null() then
+            methodret
+        fi
+        seterr Error
+    
+        data! = event!.getData()
+        declare auto String value!
+        value! = data!.get(key!)
+        if value! <> null() then
+            methodret value!
+        fi
+        Error:
+            methodret null()
+
+    methodend
+
+
+classend

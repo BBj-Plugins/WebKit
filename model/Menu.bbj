@@ -11,9 +11,10 @@ class public MenuItem
     field private MenuItem  Parent!
     field private BBjVector Children! = new BBjVector()
     
-    field private BBjString path$
+    field private BBjVector paths! = new BBjVector()
     field private BBjString basePath$
     field private BBjString parameter$
+    field private BBjVector potentialRouteParameters! = new BBjVector()
     field private HashMap menuParameters! = new HashMap()
 
     field private BBjNumber StartType
@@ -34,8 +35,9 @@ class public MenuItem
         if #Parent! <> null() then
             #Parent!.addChild(#this!)
         fi
-        #path$ = #buildPath()
-        #basePath$ = #path$
+        
+        #basePath$ = #buildPath()
+        #paths!.add(#basePath$)
     methodend
 
     method private String buildPath()
@@ -123,16 +125,15 @@ class public MenuItem
     method public BBjString getProgram()
         methodret #Program$
     methodend
+    
+    method public BBjVector getPaths()
+        methodret #paths!
+    methodend
 
-    method public BBjString getPath()
-        methodret #path$
-    methodend 
-
-    method public void setPath(BBjString path$)
-        oldPath$ = #path$
-        #path$ = ClientUtil.encodeURI(path$)
-        #basePath$ = #path$
-        Menu.updateMenuIndex(oldPath$, #this!)
+    method public void addPath(BBjString path$)
+        #paths!.add(ClientUtil.encodeURI(path$))
+       
+        Menu.updateMenuIndex(path$, #this!)
     methodend
 
     method public BBjString getBasePath()
@@ -183,12 +184,17 @@ class public MenuItem
     method public boolean hasMenuParameters()
         methodret #menuParameters!.size() <> 0
     methodend
-
-    method public void setParameter(BBjString parameter$)
-        oldpath$ = str(#path$)
-        #parameter$ = parameter$
-        #path$ = #path$ + parameter$
-        Menu.updateMenuIndex(oldpath$, #this!)
+    
+    method public void addRouteParameter(BBjString key$)
+        #potentialRouteParameters!.add(key$)
+        #parameter$ = #parameter$ + "/:" + key$ 
+        #paths!.add(#basePath$ + #parameter$)
+       
+        Menu.updateMenuIndex(#basePath$ + #parameter$, #this!)
+    methodend
+    
+    method public BBjVector getPotentialRouteParameters()
+        methodret #potentialRouteParameters!
     methodend
 
     method public BBjString getParameter() 
@@ -224,7 +230,7 @@ class public Menu
         item! = new MenuItem(parentItem!, nodeId, caption!, toolTip!, iconFilename!)
         #highestNodeId = max(#highestNodeId,nodeId)
         #menuMap!.put(nodeID,item!)
-        #menuIndex!.put(item!.getPath(), item!)
+        #menuIndex!.put(item!.getBasePath(), item!)
         methodret item!
     methodend
 
@@ -248,7 +254,7 @@ class public Menu
         it! = #menuMap!.keySet().iterator()
         while it!.hasNext()
             item! = #menuMap!.get(it!.next())
-            if item!.getPath().toLowerCase().equals(path!.toLowerCase()) then
+            if item!.getPaths().contains(path!.toLowerCase()) then
                 methodret item!
             fi
         wend
@@ -271,11 +277,8 @@ class public Menu
         #menuIndex!.put(item!.getPath().toLowerCase(), item!)
     methodend
     
-    method public static void updateMenuIndex(BBjString oldKey$, MenuItem item!)
-        if #menuIndex!.containsKey(oldkey$) then
-           #menuIndex!.remove(oldKey$)
-        fi
-        #menuIndex!.put(item!.getPath(), item!)
+    method public static void updateMenuIndex(BBjString newKey$, MenuItem item!)
+        #menuIndex!.put(newKey$, item!)   
     methodend
     
     method public static HashMap getMenuIndex()
@@ -283,6 +286,7 @@ class public Menu
     methodend
     
     method public MenuItem getItemByPath(String path!)
+    
        methodret cast(MenuItem, #menuIndex!.get(path!))
     methodend
 

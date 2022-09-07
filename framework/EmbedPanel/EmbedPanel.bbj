@@ -1,6 +1,8 @@
 use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/Util.bbj::Util
+
 use java.util.HashMap
 
 class public EmbedPanel extends BBjWidget
@@ -47,16 +49,18 @@ class public EmbedPanel extends BBjWidget
     methodend
     
     method public void start(MenuItem MenuItem!)
+        
         #MenuItem! = MenuItem!
         pgm$ = MenuItem!.getProgram()
         title$= MenuItem!.getCaption()
         menuParameters!= MenuItem!.getMenuParameters()
         queryParameters!=#loadQueryParams()
+        routeParameters!=#loadRouteParams(MenuItem!.getPotentialRouteParameters())
         starttype = MenuItem!.getStartType()
        
         if pgm$>"" then
             if starttype=1 then           
-                    #loadBUI(title$,pgm$,menuParameters!,queryParameters!)
+                    #loadBUI(title$,pgm$,menuParameters!,queryParameters!,routeParameters!)
             else
                 #loadDWC(title$,pgm$)
             fi
@@ -84,25 +88,38 @@ class public EmbedPanel extends BBjWidget
     
     methodend
     
-    method public void loadBUI(BBjString title$,BBjString pgm$)
-        
-        appname$=#publishStub()
-        uid$ = java.util.UUID.randomUUID().toString()
-        url$=#baseUri!+"apps/"+appname$+"?launch="+uid$
-        BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
-        BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
-        #HtmlView!.setUrl(url$)
+    method public HashMap loadRouteParams(BBjVector keys!)
+    declare HashMap params! 
+    params! = new HashMap()
+    for i = 0 to keys!.size() - 1
+        declare auto String key!
+        declare auto String value!
+        key! = keys!.get(i)
+        value! = Util.getPathParameter(key!)
+        if value! <> null()
+            params!.put(key!,value!)
+        fi
+    next i 
+    methodret params!
     methodend
     
-    method public void loadBUI(BBjString title$,BBjString pgm$, HashMap menuParameters!, HashMap queryParameters!)
+    method public void loadBUI(BBjString title$,BBjString pgm$, HashMap menuParameters!, HashMap queryParameters!,HashMap routeParameters!)
         
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()     
-            
+        declare HashMap params! 
+        params! = new HashMap()
+        
+        params!.put("_program",pgm$)
+        params!.put("_menuParams",menuParameters!)
+        params!.put("_queryParams",queryParameters!)
+        params!.put("_routeParams",routeParameters!)
+        
         url$=#baseUri!+"apps/"+appname$+"?launch="+uid$
-        BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
-        BBjAPI().getGlobalNamespace().setValue(uid$ + "_menuParams",menuParameters!)
-        BBjAPI().getGlobalNamespace().setValue(uid$ + "_queryParams" ,queryParameters!)
+        params!.put("_completeUrl",url$)
+        
+        BBjAPI().getGlobalNamespace().setValue(uid$,params!)
+        
         BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
     methodend    
@@ -169,7 +186,8 @@ rem seterr launch_err
 uid$ = clientenv("launch")
 close$ = clientenv("close",err=*next)
 if close$>"" then goto close_app
-pgm$ = BBjAPI().getGlobalNamespace().getValue(uid$)
+
+pgm$ = cast(HashMap,BBjAPI().getGlobalNamespace().getValue(uid$)).get("_program")
 
 REM later we need to clean up
 REM BBjAPI().getGlobalNamespace().removeValue(launch_id$)

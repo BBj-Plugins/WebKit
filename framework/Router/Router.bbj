@@ -28,11 +28,17 @@ class public Router
         if #listener! = null() then
             throw "listener is not set", 35
         fi
-        path! = item!.getPath()
-        rem escape
-        if !path!.equals("/") or !path!.isBlank() then
-            #router!.register(path!, #listener!, "onRouteMatch")  
-        fi
+        declare BBjVector paths!
+        paths! = item!.getPaths()
+        
+        
+        for i = paths!.size() - 1 to 0 step -1
+            path! = paths!.get(i)
+            if !path!.equals("/") or !path!.isBlank() then
+                #router!.register(path!, #listener!, "onRouteMatch")  
+             
+            fi
+        next i
     methodend
 
     method public void unRegisterMenuRoute(MenuItem item!)
@@ -77,6 +83,8 @@ class public Router
     methodend
 
     method public void navigate(BBjString path$)
+        
+        
         #router!.navigate(path$)
     methodend
 classend

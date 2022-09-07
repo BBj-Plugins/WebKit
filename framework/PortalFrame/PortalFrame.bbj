@@ -179,6 +179,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         
         #router!.registerRoutes()
         
+        
         drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
@@ -389,6 +390,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             fi
 
             if pgm$>"" then
+                
                 starttype = item!.getStartType()
                 switch starttype
                     case 0
@@ -404,6 +406,12 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
                         break
                     case 1
+                        x! = new EmbedPanel(#Main!)
+                        x!.start(item!)
+                        #currWindow! = CAST(BBjWidget,x!)
+                        x!.setCallback(BBjAPI().ON_CLOSE,#this!,"onEmbedPanelClose")
+                        break
+                    
                     case 2
                         x! = new EmbedPanel(#Main!)
                         x!.start(item!)
@@ -596,8 +604,10 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
 
 
     method public void onRouteMatch(BBjCustomEvent event!)
+        
         #routerEvent! = cast(BBjRouterEvent, event!.getObject())
         currMenuItem! = #getMenuItem(#routerEvent!.getPath())
+       
         if currMenuItem! <> null() then
             #openPanel(currMenuItem!)
             BBjAPI().postPriorityCustomEvent(#ON_NAVIGATION$, #currWindow!)
