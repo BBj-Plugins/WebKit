@@ -13,8 +13,11 @@ class public MenuItem
     
     field private BBjVector paths! = new BBjVector()
     field private BBjString basePath$
-    field private BBjString parameter$
+    
+    field private BBjString routeParameter$
+    
     field private BBjVector potentialRouteParameters! = new BBjVector()
+    
     field private HashMap menuParameters! = new HashMap()
 
     field private BBjNumber StartType
@@ -169,26 +172,32 @@ class public MenuItem
         methodret null()
     methodend
     
+    rem Functions to manage the Menuparameters 
+    rem Menuparameters are given to the menuitems programmatically
+    
     method public void addMenuParameter(BBjString key$, BBjString value$)
         #menuParameters!.put(key$,value$)
+    methodend
+    
+    method public void removeMenuParameter(BBjString key$)
+        #menuParameters!.remove(key$)
     methodend
     
     method public HashMap getMenuParameters()
         methodret #menuParameters!
     methodend
     
-    method public void removeParameter(BBjString key$)
-        #menuParameters!.remove(key$)
-    methodend
-    
     method public boolean hasMenuParameters()
         methodret #menuParameters!.size() <> 0
     methodend
     
+    rem Functions to manage the potential routeparameters
+    rem Routeparameters are given to the program through the called route
+    
     method public void addRouteParameter(BBjString key$)
         #potentialRouteParameters!.add(key$)
-        #parameter$ = #parameter$ + "/:" + key$ 
-        #paths!.add(#basePath$ + #parameter$)
+        #routeParameter$ = #routeParameter$ + "/:" + key$ 
+        #paths!.add(#basePath$ + #routeParameter$)
        
         Menu.updateMenuIndex(#basePath$ + #parameter$, #this!)
     methodend
@@ -197,8 +206,8 @@ class public MenuItem
         methodret #potentialRouteParameters!
     methodend
 
-    method public BBjString getParameter() 
-        methodret #parameter$
+    method public BBjString getRouteParameter() 
+        methodret #routeParameter$
     methodend
 
 
@@ -271,10 +280,6 @@ class public Menu
     
     method public static HashMap getMenuMap()
         methodret #menuMap!
-    methodend
-    
-    method public static void addItemToIndex(MenuItem item!)
-        #menuIndex!.put(item!.getPath().toLowerCase(), item!)
     methodend
     
     method public static void updateMenuIndex(BBjString newKey$, MenuItem item!)
