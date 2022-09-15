@@ -1,0 +1,97 @@
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/Menu.bbj::Menu
+
+
+class public AlternativeDrawer extends Drawer
+    
+    method public AlternativeDrawer(BBjWindow parent!, DrawerModel dataModel!, Menu menu!)
+        
+        #super!(parent!,dataModel!,menu!)
+        
+        
+    methodend
+    rem @Override
+    
+    method public void buildDrawerTiles(BBjVector tiles!, BBjWindow tilesWrapper!)
+            #buildTiles(#menu!.getRoot().getNodeId(),0,tilesWrapper!)
+            
+    methodend
+    
+    method public void buildTiles(BBjNumber nodeId,BBjNumber i,BBjWindow tilesWrapper!)
+        declare MenuItem node!
+        declare MenuItem item!
+        node! = #menu!.getItem(nodeId)
+        v! = node!.getChildren()
+        it! = v!.iterator()
+       
+        templateRows! = "40px"
+        
+        while it!.hasNext()
+            item! = cast(MenuItem,it!.next())
+            id%  = item!.getNodeId()
+            
+            
+                declare ListTile tile!
+                tile! = new ListTile(tilesWrapper!)
+                tile!.setText(item!.getCaption())
+                tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
+                tile!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
+                rem tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
+                
+               
+                
+                tile!.toggleFavoritesButton(0)
+                
+                if item!.getIcon() <> "" AND item!.getIcon() <> null() then
+                
+                    tile!.setIcon(item!.getIcon())
+                endif
+                tile!.setItemId(item!.getNodeId())
+                           
+                #MenuItemTiles!.put(item!.getNodeId(),tile!)
+                #buildTiles(id%,i+1,tilesWrapper!)
+                if i > 0 then
+                    tile!.setChild(1)
+                    tile!.setVisible(0)
+                endif
+                if item!.hasChildren() then
+                   tile!.setHeader()
+                endif 
+                templateRows! = templateRows! + " 48px" 
+                templateRows! = templateRows! + " 12px"
+                spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+                spacer!.setDockStyle("height","12px")
+                
+        wend      
+        tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+    methodend
+    
+    method public void onMenuItemClick(BBjCustomEvent ev!)
+        
+        declare auto MenuItem node!
+        declare auto MenuItem item!
+        declare auto ListTile tile!
+        declare auto BBjNumber nodeId
+        nodeId=ev!.getObject()
+        
+        node!=#menu!.getItem(nodeId)
+        if node!.hasChildren() then
+            v! = node!.getChildren()
+            it! = v!.iterator()
+            while it!.hasNext()
+                item! = it!.next()
+                id%  = item!.getNodeId()            
+                tile! = #MenuItemTiles!.get(id%)
+                tile!.setVisible(!tile!.isVisible())
+            
+        wend
+        else
+            #fireEvent(#ON_DRAWER_TILE_PRESSED, event!.getObject())
+        fi
+    methodend
+classend

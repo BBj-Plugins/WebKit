@@ -5,6 +5,13 @@ use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEn
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 
+use ::Webkit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
+
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+
 class public ShowCaseFrame extends PortalFrame
 
     rem @Override 
@@ -25,6 +32,12 @@ class public ShowCaseFrame extends PortalFrame
         
         methodret menuPanel!
         
+    methodend
+    
+    rem @Override
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!, Menu menu!)
+        
+        methodret new AlternativeDrawer(window!, drawerDataModel!,menu!)
     methodend
     
     

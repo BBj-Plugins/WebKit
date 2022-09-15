@@ -129,8 +129,9 @@ class public PortalFrame implements RouterProtocol
         while it!.hasNext()
             declare auto MenuItem menuitem!
             menuitem! = it!.next()
-            id% = menuitem!.getNodeId()
-            menuTiles!.add(new DrawerMenuTileEntry(id%, menuitem!.getCaption(), menuitem!.getIcon()))
+            menuTiles!.add(menuItem!)
+            
+            
             REM btn! = new IconTile(#Drawer!,id%)
             REM btn!.setText(menuitem!.getCaption())
             REM btn!.setIcon(menuitem!.getIcon())
@@ -183,7 +184,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
-        #Drawer! = #createDrawerObject(#window!, drawerDataModel!)
+        #Drawer! = #createDrawerObject(#window!, drawerDataModel!,menu!)
+        
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
@@ -205,7 +207,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     rem  * override this method if you want to create a custom drawer class 
     rem  * that extends Drawer 
     rem  */
-    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!)
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!,Menu menu!)
         methodret new Drawer(window!, drawerDataModel!)
     methodend
     

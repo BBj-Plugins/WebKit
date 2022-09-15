@@ -12,9 +12,15 @@ use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/Menu.bbj::Menu
+
 use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 use com.basiscomponents.db.DataField
+
+
+use java.util.HashMap
 
 class public Drawer extends BBjWidget 
     
@@ -32,7 +38,12 @@ class public Drawer extends BBjWidget
     
     field private BBjChildWindow customContainer!
     
-    field private DrawerModel drawerDataModel!
+    field private DrawerModel drawerDataModel! 
+    
+    field public HashMap MenuItemTiles! = new HashMap()
+    
+    field public Menu menu!
+    
 
     field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
 
@@ -44,7 +55,7 @@ class public Drawer extends BBjWidget
 
     field public static BBjNumber ON_LOGOUT = 14441
     
-    method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
+    method public Drawer(BBjWindow parent!, DrawerModel dataModel!,Menu menu!)
         rem parent!.setCallback(BBjAPI().ON_RESIZE, #this!, "onResizeScreen")
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
         #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
@@ -55,6 +66,8 @@ class public Drawer extends BBjWidget
         #window!.addPanelStyle("drawerAnimationOpen")
         #window!.addPanelStyle("drawerAnimationClose")
         
+        #menu! = menu!
+        
         #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #shadowWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onShadowTapped")
         #shadowWindow!.addPanelStyle("drawerMobileShadowPanelStyle")
@@ -62,6 +75,7 @@ class public Drawer extends BBjWidget
         #drawerDataModel! = dataModel!
         #tiles! = dataModel!.getMenuTiles()
         #setCanvas(#window!)
+      
         #redraw(1)
     methodend
     
@@ -70,14 +84,14 @@ class public Drawer extends BBjWidget
         declare DashboardWidget dashboard!
         declare Divider topDivider!
         declare Divider bottomDivider!
-        declare BBjChildWindow tilesWrapper!
+        
         declare DrawerFooter footer!
         declare BBjChildWindow footerWrapper!
         declare BBjString templateRows!
        
        rem 12px drawertile space
        
-       templateRows! = "40px"
+       
        
         if init!
             
@@ -96,7 +110,7 @@ class public Drawer extends BBjWidget
             
             #tilesWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #tilesWrapper!.addPanelStyle("drawerTilesWrapper")
-            
+           
             
             footerWrapper! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             footerWrapper!.addPanelStyle("drawerFooterWrapper")
@@ -110,26 +124,31 @@ class public Drawer extends BBjWidget
             footer!.setCallback(DrawerFooter.getON_LOGOUT(), #this!, "onLogout")
             footer!.setCallback(DrawerFooter.ON_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
             
-            declare DrawerMenuTileEntry entry!
-            declare BBjChildWindow spacer!
+            #buildDrawerTiles(#tiles!,#tilesWrapper!)
             
-            it! = #tiles!.iterator()
+        endif
+    methodend
+    method public void buildDrawerTiles(BBjVector tiles!, BBjWindow tilesWrapper!)
+            declare MenuItem entry!
+            declare BBjChildWindow spacer!
+            templateRows! = "40px"
+            it! = tiles!.iterator()
             while it!.hasNext()
-                entry! = cast(DrawerMenuTileEntry,it!.next())
-                tile! = new DrawerMenuTile(#tilesWrapper!,entry!.getID(),entry!.getIconPath(),entry!.getTitle())
+                menuItem! = cast(MenuItem,it!.next())
+                tile! = new DrawerMenuTile(tilesWrapper!,menuItem!.getNodeId(),menuitem!.getIcon(), menuitem!.getCaption())
                 tile!.setCallback(DrawerMenuTile.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
                 templateRows! = templateRows! + " 48px" 
-                if i <> #tiles!.size() -1 then 
+                if i <> tiles!.size() -1 then 
                     templateRows! = templateRows! + " 12px"
-                    spacer! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+                    spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
                     spacer!.setDockStyle("height","12px")
                 endif
             wend
-            #tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
-        endif
+            tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
     methodend
     
     method public BBjChildWindow getOptionalControlAboveTiles()
+        
         if #optionalControl! = null() then
             #optionalControl! = #tilesWrapper!.addChildWindow(#tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         endif
