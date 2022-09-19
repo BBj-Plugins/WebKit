@@ -91,15 +91,17 @@ class public EmbedPanel extends BBjWidget
     method public HashMap loadRouteParams(BBjVector keys!)
     declare HashMap params! 
     params! = new HashMap()
-    for i = 0 to keys!.size() - 1
-        declare auto String key!
-        declare auto String value!
-        key! = keys!.get(i)
-        value! = Util.getPathParameter(key!)
-        if value! <> null()
-            params!.put(key!,value!)
-        fi
-    next i 
+    if !keys!.isEmpty() then
+        for i = 0 to keys!.size() - 1
+            declare auto String key!
+            declare auto String value!
+            key! = keys!.get(i)
+            value! = Util.getPathParameter(key!)
+            if value! <> null()
+                params!.put(key!,value!)
+            fi
+        next i 
+    fi
     methodret params!
     methodend
     

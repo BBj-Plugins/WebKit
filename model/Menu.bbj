@@ -40,6 +40,7 @@ class public MenuItem
         fi
         
         #basePath$ = #buildPath()
+       
         #paths!.add(#basePath$)
     methodend
 
@@ -137,6 +138,12 @@ class public MenuItem
         #paths!.add(ClientUtil.encodeURI(path$))
        
         Menu.updateMenuIndex(path$, #this!)
+    methodend
+    
+    method public void changeBasePath(BBjString path$)
+        #basePath$ = ClientUtil.encodeURI(path$)
+        #paths!.add(#basePath$)
+        Menu.updateMenuIndex(#basePath$, #this!)
     methodend
 
     method public BBjString getBasePath()
