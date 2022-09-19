@@ -46,6 +46,8 @@
 }
 
 .drawerPanelStyle {
+    display: flex;
+    flex-direction: column;
     background-color: var(--drawer-color);
     margin-top: 0px;
     position: fixed !important;
@@ -135,17 +137,14 @@
 }
 
 .drawerTilesWrapper {
-    display: grid;
     overflow: auto !important;
     height: 100%;
     max-height: calc(100vh - var(--drawerFooter-height));
+    flex: 2;
 }
 
 .drawerFooterWrapper {
-    position: fixed;
     background: var(--drawer-color);
-    bottom: 0;
-    left: 0;
     width: inherit;
     display: grid;
     display: grid;

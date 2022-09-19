@@ -192,14 +192,14 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         #Drawer!.setCallback(Drawer.ON_DRAWER_STATE_CHANGED, #this!, "onDrawerToggle")
         #Drawer!.setCallback(Drawer.ON_LOGOUT, "logout")
         
-        header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
-        
-        header!.setDockStyle("grid-row-start","1")
-        header!.setDockStyle("height", "30px")
-        header!.setDockStyle("margin-bottom","8px")
-        header!.setDockStyle("margin-left","40px")
-        header!.addTextStyle("drawerTilesTextHeaderStyle")
-        header!.setTextStyle("display","block")
+        rem header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
+        rem 
+        rem header!.setDockStyle("grid-row-start","1")
+        rem header!.setDockStyle("height", "30px")
+        rem header!.setDockStyle("margin-bottom","8px")
+        rem header!.setDockStyle("margin-left","40px")
+        rem header!.addTextStyle("drawerTilesTextHeaderStyle")
+        rem header!.setTextStyle("display","block")
     methodend
     
     rem /**

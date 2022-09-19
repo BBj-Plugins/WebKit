@@ -30,12 +30,12 @@ class public AlternativeDrawer extends Drawer
         it! = v!.iterator()
        
         templateRows! = "40px"
-        
+        rem escape
         while it!.hasNext()
             item! = cast(MenuItem,it!.next())
             id%  = item!.getNodeId()
             
-            
+            if item!.getCaption() <> "404"
                 declare ListTile tile!
                 tile! = new ListTile(tilesWrapper!)
                 tile!.setText(item!.getCaption())
@@ -43,7 +43,7 @@ class public AlternativeDrawer extends Drawer
                 tile!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
                 rem tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
                 
-               
+                tile!.enableLetterField(0)
                 
                 tile!.toggleFavoritesButton(0)
                 
@@ -63,12 +63,14 @@ class public AlternativeDrawer extends Drawer
                    tile!.setHeader()
                 endif 
                 templateRows! = templateRows! + " 48px" 
-                templateRows! = templateRows! + " 12px"
-                spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-                spacer!.setDockStyle("height","12px")
-                
+                rem templateRows! = templateRows! + " 12px"
+                rem spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+                rem spacer!.setDockStyle("height","12px")
+            fi
         wend      
-        tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+        
+       
+        
     methodend
     
     method public void onMenuItemClick(BBjCustomEvent ev!)

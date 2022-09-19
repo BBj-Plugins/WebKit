@@ -125,6 +125,11 @@ class public ListTile extends BBjWidget
         fi
    
     methodend
+    
+    method public void enableLetterField(Boolean state!)
+        #letterField!.setVisible(state!)
+        #iconWrapper!.setVisible(state!)
+    methodend
 
     method public void toggleMenuButton(Boolean state!)
         #dotWrapper!.setVisible(state!)
