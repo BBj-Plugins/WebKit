@@ -50,6 +50,7 @@ menuItem!.setStartType(0)
 menuItem! = menu!.addMenuItem(menu!.getRoot(),102,"BuiDemo","BuiDemo","world")
 menuItem!.setProgram("WebKit/demo/demoprograms/BuiDemo.bbj")
 menuItem!.changeBasePath("/test")
+test! = STBL("buiDwcCss","WebKit/demo/demoprograms/buiDemo.css")
 
 menuItem!.addRouteParameter("database")
 menuItem!.addRouteParameter("table")

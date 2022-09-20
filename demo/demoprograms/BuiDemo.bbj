@@ -36,6 +36,7 @@ routeParameters! = cast(HashMap, paramMap!.get("_routeParams"))
 
 window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),0,0,750,750,"Bui Demo Program"))
 window!.setCallback(window!.ON_CLOSE,"byebye")
+window!.addStyle("demoPanel")
 
 
 declare SqlQueryBC sbc!
@@ -65,6 +66,7 @@ else
         fi
     fi
 fi
+
 
 
 process_events
