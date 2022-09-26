@@ -35,7 +35,7 @@ use ::WebKit/framework/Router/Router.bbj::Router
 class public PortalFrame implements RouterProtocol
 
     field private BBjTopLevelWindow window!
-    field private Drawer Drawer!
+    field protected Drawer Drawer!
     field private BBjChildWindow Main!
     field private BBjChildWindow AccountDisplay!
     field private BBjChildWindow Avatar!
@@ -52,9 +52,9 @@ class public PortalFrame implements RouterProtocol
     field private MenuItem pageNotFoundPanel!
     field public AccountProfile Profile!
     
-    field private Boolean drawerOpen! = Boolean.FALSE
-    field private Boolean drawerHidden! = Boolean.FALSE
-    field private Boolean isMobile! = Boolean.FALSE
+    field protected Boolean drawerOpen! = Boolean.FALSE
+    field protected Boolean drawerHidden! = Boolean.FALSE
+    field protected Boolean isMobile! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
     field public BBjWidget currWindow! 
     
@@ -64,6 +64,9 @@ class public PortalFrame implements RouterProtocol
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+    
+    field public boolean ShowHeaderIcon! = Boolean.FALSE
+    
 
     field public static BBjString ON_NAVIGATION$ = "navigation"
     field private Router router!
@@ -111,6 +114,7 @@ class public PortalFrame implements RouterProtocol
         drawerDataModel!.setTilesTextHeader("Browse")
         drawerDataModel!.setOpenIcon(Icons.get("chevron-right"))
         drawerDataModel!.setCloseIcon(Icons.get("chevron-left"))
+        drawerDataModel!.setShowHeaderIcon(#ShowHeaderIcon!)
         
         drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
         
@@ -223,9 +227,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,#sysgui!.getAvailableContext())
-
-            appbar! = new Appbar(main!)
-            appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
+            #createAppBarObject(#window!)
+                
 
             main!.addStyle("mainarea")
             #Main! = cast(BBjChildWindow,main!)
@@ -254,6 +257,11 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                 #sysgui!.executeScript("window.location.reload()")
                 methodret 1
        
+    methodend
+    
+    method protected void createAppBarObject(BBjWindow window!)
+        appbar! = new Appbar(window!)
+        appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
     methodend
 
     method public void onResizeScreen(BBjResizeEvent ev!)

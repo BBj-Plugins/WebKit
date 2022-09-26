@@ -5,6 +5,7 @@ use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 
 class public AlternativeDrawer extends Drawer
@@ -12,7 +13,7 @@ class public AlternativeDrawer extends Drawer
     method public AlternativeDrawer(BBjWindow parent!, DrawerModel dataModel!, Menu menu!)
         
         #super!(parent!,dataModel!,menu!)
-        
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/AlternativeDrawer.css")
         
     methodend
     rem @Override
@@ -73,6 +74,26 @@ class public AlternativeDrawer extends Drawer
         
     methodend
     
+    rem @Override
+    method public void closeDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerClosed")
+        #window!.removeStyle("drawerOpen")
+        #window!.setVisible(0)
+        
+        #shadowWindow!.removeStyle("drawerShadow")
+        #open! = !#open!
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, 0)
+    methodend
+    
+    rem @Override
+    method public void openDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerOpen")
+        #window!.removeStyle("drawerClosed")
+        #window!.setVisible(1)
+        #open! = !#open!
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, 1)
+    methodend
+    
     method public void onMenuItemClick(BBjCustomEvent ev!)
         
         declare auto MenuItem node!
@@ -93,7 +114,7 @@ class public AlternativeDrawer extends Drawer
             
         wend
         else
-            #fireEvent(#ON_DRAWER_TILE_PRESSED, event!.getObject())
+            #fireEvent(#ON_DRAWER_TILE_PRESSED, ev!.getObject())
         fi
     methodend
 classend

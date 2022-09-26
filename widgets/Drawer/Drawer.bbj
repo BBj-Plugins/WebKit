@@ -24,11 +24,11 @@ use java.util.HashMap
 
 class public Drawer extends BBjWidget 
     
-    field private BBjChildWindow window!
+    field protected BBjChildWindow window!
     
-    field private BBjChildWindow shadowWindow!
+    field protected BBjChildWindow shadowWindow!
 
-    field private Boolean open! = 0
+    field protected Boolean open! = 0
     
     field private BBjVector tiles! = new BBjVector()
     

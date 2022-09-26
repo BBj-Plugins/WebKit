@@ -1,0 +1,44 @@
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/demo/MarkSystemsDemo/components/MarkSystemsAppbar.bbj::MarkSystemsAppbar
+
+use ::Webkit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
+
+class public MarkSystemsFrame extends PortalFrame
+
+    
+    method protected void createAppBarObject(BBjWindow window!)
+        appbar! = new MarkSystemsAppbar(window!)
+        appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
+        appbar!.setLogo("WebKit/demo/Showcase/MarkSystems.png")
+        
+    methodend
+    
+    rem @Override
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!, Menu menu!)
+        
+        methodret new AlternativeDrawer(window!, drawerDataModel!,menu!)
+    methodend
+    
+    rem @Override
+    method public void onAppbarMenuClick(BBjCustomEvent ev!)
+       
+
+        if #drawerHidden! then
+            #drawerHidden!=Boolean.FALSE
+            #Drawer!.openDrawer(ev!)
+        else
+            #drawerHidden!=Boolean.TRUE
+            #Drawer!.closeDrawer(ev!)
+        fi
+    methodend
+    
+    
+
+classend

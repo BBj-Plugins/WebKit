@@ -1,0 +1,134 @@
+use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/demo/MarkSystemsDemo/components/MarkSystemsFrame.bbj::MarkSystemsFrame
+use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
+use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
+
+
+if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
+
+REM open(999,mode="O_create, O_trunk")"C:\Users\Admin123\eclipse-workspace\temp\my.trace"
+REM setTrace(999)
+
+ClientUtil.init()
+
+ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
+ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
+ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
+ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+
+bbjutils! = new ::BBUtils.bbj::BBUtils()
+
+REM iconPool$ = STBL("icon-pool", "fa")
+iconPool$ = STBL("icon-pool", "tabler")
+
+authProvider! = new SampleAuthProvider()
+login! = new LoginDialog("Showcase", authProvider!)
+login!.setLogo("WebKit/demo/assets/basislogo.png")
+login!.setAllowRemember(Boolean.TRUE)
+
+if !login!.doModal() then
+    a=msgbox("ERROR",0,"Error while logging in")
+    release
+endif
+
+declare Menu menu!
+declare MenuItem menuItem!
+
+menu! = new Menu()
+
+declare PortalFrame portal!
+
+menuHeaderOne! = menu!.addMenuItem(menu!.getRoot(),104,"Purchase/Work Orders","Purchase/Work Orders","")
+menuHeaderOne!.setStartType(2)
+
+menuSub1! = menu!.addMenuItem(menuHeaderOne!,212,"House Material List Maintenance","House Material List Maintenance","")
+menuSub1!.setProgram("WebKit/demo/demoprograms/BuiDemo.bbj")
+menuSub1!.setStartType(1)
+menuSub1!.addRouteParameter("database")
+menuSub1!.addRouteParameter("table")
+menuSub1!.addMenuParameter("database","CDStore")
+menuSub1!.addMenuParameter("table","CDINVENTORY")
+
+menuSub2! = menu!.addMenuItem(menuHeaderOne!,213,"Auto Create PO'S","Auto Create PO'S","")
+menuSub2!.setStartType(2)
+
+menuSub3! = menu!.addMenuItem(menuHeaderOne!,214,"Purchase Oder Data Entry","Purchase Oder Data Entry","")
+menuSub3!.setStartType(2)
+
+menuSub4! = menu!.addMenuItem(menuHeaderOne!,215,"Update Purchase Order Pricing","Update Purchase Order Pricing","")
+menuSub4!.setStartType(2)
+
+menuSub5! = menu!.addMenuItem(menuHeaderOne!,216,"Purchase Order Printing","Purchase Order Printing","")
+menuSub5!.setStartType(2)
+
+menuSub6! = menu!.addMenuItem(menuHeaderOne!,217,"Purchase Order History Inquiry","Purchase Order History Inquiry","")
+menuSub6!.setStartType(2)
+
+menuSub7! = menu!.addMenuItem(menuHeaderOne!,218,"Detail PO History Report","Detail PO History Report","")
+menuSub7!.setStartType(2)
+
+menuSub8! = menu!.addMenuItem(menuHeaderOne!,219,"PO History by Vendor","PO History by Vendor","")
+menuSub8!.setStartType(2)
+
+menuSub9! = menu!.addMenuItem(menuHeaderOne!,220,"PO History by House","PO History by House","")
+menuSub9!.setStartType(2)
+
+menuHeaderTwo! = menu!.addMenuItem(menu!.getRoot(),105,"Job Cost","Job Cost","")
+menuHeaderTwo!.setStartType(2)
+
+menuSub1! = menu!.addMenuItem(menuHeaderTwo!,221,"House File Maintenance","House File Maintenance","")
+menuSub1!.setStartType(2)
+
+menuSub2! = menu!.addMenuItem(menuHeaderTwo!,222,"Update Elevation Prices","Update Elevation Prices","")
+menuSub2!.setStartType(2)
+
+menuSub3! = menu!.addMenuItem(menuHeaderTwo!,223,"Update Elevation Budget","Update Elevation Budget","")
+menuSub3!.setStartType(2)
+
+menuSub4! = menu!.addMenuItem(menuHeaderTwo!,224,"Spe/Model Price Update","Spe/Model Price Update","")
+menuSub4!.setStartType(2)
+
+menuSub5! = menu!.addMenuItem(menuHeaderTwo!,225,"Budget Entry","Budget Entry","")
+menuSub5!.setStartType(2)
+
+menuSub6! = menu!.addMenuItem(menuHeaderTwo!,226,"Option File","Option File","")
+menuSub6!.setStartType(2)
+
+menuSub7! = menu!.addMenuItem(menuHeaderTwo!,227,"Budget Maintenance","Budget Maintenance","")
+menuSub7!.setStartType(2)
+
+menuSub8! = menu!.addMenuItem(menuHeaderTwo!,228,"Elevation Comparison Report","Elevation Comparison Report","")
+menuSub8!.setStartType(2)
+
+hiddenmenu! = new Menu()
+menuItem! = hiddenmenu!.addMenuItem(hiddenmenu!.getRoot(),65001,"preview","preview","printer")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DocViewerPanel.bbj::DocViewerPanel")
+menuItem!.addRouteParameter("file")
+menuItem!.setStartType(0)
+ 
+menuItem! = menu!.addMenuItem(menu!.getRoot(),98,"Printing","Printing","printer")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/PrintShowcase.bbj::PrintShowcase")
+menuItem!.setStartType(0)
+
+
+declare MarkSystemsFrame portal!
+
+portal! = new MarkSystemsFrame()
+portal!.setMenu(menu!)
+portal!.setHiddenMenu(hiddenmenu!)
+portal!.setLogoUrl("WebKit/demo/assets/basislogo_svg.svg")
+portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_svg.svg")
+portal!.setShowHeaderIcon(0)
+rem favorites! = menu!.getItem(menu!.getRoot(),50,"Favorites","Favorites","star")
+rem favoritesProvider! = SampleFavoritesProvider.getInstance()
+rem favoritesProvider!.setFavoritesItem(favorites!)
+rem favoritesProvider!.setMenu(menu!)
+rem favoritesProvider!.setUser(authProvider!.getUser())
+
+portal!.doModal()
+
+release 

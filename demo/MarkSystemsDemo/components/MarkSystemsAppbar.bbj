@@ -1,0 +1,57 @@
+use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
+use ::WebKit/widgets/DropDownWidget/DropDownWidget.bbj::DropDownWidget
+use ::WebKit/util/Icons.bbj::Icons
+
+class public MarkSystemsAppbar extends Appbar
+    
+    field public static BBjNumber ON_FIRST_DROPDOWN_SELECTED = 1100
+    field public static BBjNumber ON_SECOND_DROPDOWN_SELECTED = 1101
+    
+    
+    method public MarkSystemsAppbar(BBjWindow wnd!)
+        #super!(wnd!)
+    methodend
+    
+    rem @Override
+    method public void createCustomComponents(BBjChildWindow area!)
+        declare DropDownWidget showCaseDropDown!
+        declare DropDownWidget showCaseDropDown2!
+        showCaseDropDown! = new DropDownWidget(area!)
+        showCaseDropDown!.setCallback(DropDownWidget.ON_ITEM_SELECTED,#this!,"showOneSelected")
+        showCaseDropDown2! = new DropDownWidget(area!)
+        showCaseDropDown2!.setCallback(DropDownWidget.ON_ITEM_SELECTED,#this!,"showTwoSelected")
+        showCaseDropDown!.setLabel("Operation-Mode")
+        showCaseDropDown2!.setLabel("Company")
+        
+        showCaseDropDown2!.setLabel("Company")
+        declare BBjVector showCaseData!
+        showCaseData! = new BBjVector()
+        showCaseData!.add("Purchasing")
+        showCaseData!.add("Selling")
+        showCaseData!.add("Fixing")
+        showCaseDropDown!.addContent(showCaseData!)
+        declare BBjVector showCaseData2!
+        showCaseData2! = new BBjVector()
+        showCaseData2!.add("Mark Systems, LLC")
+        showCaseData2!.add("Basis Europe GmbH")
+        showCaseData2!.add("Vodafone Germany")
+        showCaseDropDown2!.addContent(showCaseData2!)
+    methodend
+    
+    rem @Override
+    method public void createTrailingComponents(BBjChildWindow area!)
+       searchIcon!  = Icons.getIconOnWindow(area!, null(), "search", "color: white")
+       bellIcon!  = Icons.getIconOnWindow(area!, null(), "bell", "color: white")
+       questionIcon!  = Icons.getIconOnWindow(area!, null(), "questionmark", "color: white")
+       
+    methodend
+    
+    method public void showOneSelected(BBjCustomEvent ev!)
+        #fireEvent(#ON_FIRST_DROPDOWN_SELECTED, ev!.getObject())
+    methodend
+    
+    method public void showTwoSelected(BBjCustomEvent ev!)
+        #fireEvent(#ON_SECOND_DROPDOWN_SELECTED, ev!.getObject())
+    methodend
+    
+classend

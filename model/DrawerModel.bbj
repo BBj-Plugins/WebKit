@@ -9,6 +9,7 @@ class public DrawerModel
     field public BBjVector MenuTiles!
     field public BBjVector FooterMenuTiles!
     field public BBjVector HeaderMenuTiles!
+    field public boolean ShowHeaderIcon!
 
     field public BBjString OpenIcon!
     field public BBjString CloseIcon!
@@ -26,6 +27,8 @@ class public DrawerModel
 
         #CloseIcon! = ""
         #OpenIcon! = ""
+        
+        #ShowHeaderIcon! = Boolean.TRUE
 
         #FooterTitle! = "David Williams"
         #FooterSubTitle! = "Art Director"

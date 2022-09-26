@@ -65,19 +65,19 @@ class public DrawerHeader extends BBjWidget
             smallLogo!.addStyle("drawerHeaderLogoSmallOpen")
             
             rem iconBtn! = new DrawerCloseIcon(#logoContainer!, #closeIcon!)
-
-            openIconButton! = #logoContainer!.addButton(#logoContainer!.getAvailableControlID(), 0,0,0,0, #drawerDataModel!.getOpenIcon())
-            openIconButton!.setAttribute("theme", "")
-            openIconButton!.addStyle("drawerOpenIcon")
-            openIconButton!.addStyle("drawerRoundButton")
-            openIconButton!.setCallback(BBjAPI.ON_BUTTON_PUSH, #this!,"onCloseIconPush")
-
-            closeIconButton! = #logoContainer!.addButton(#logoContainer!.getAvailableControlID(), 0,0,0,0, #drawerDataModel!.getCloseIcon())
-            closeIconButton!.setAttribute("theme", "")
-            closeIconButton!.addStyle("drawerRoundButton")
-            closeIconButton!.addStyle("drawerCloseIcon")
-            closeIconButton!.setCallback(BBjAPI.ON_BUTTON_PUSH, #this!,"onOpenIconPush")
-
+            if #drawerDataModel!.getShowHeaderIcon() then
+                openIconButton! = #logoContainer!.addButton(#logoContainer!.getAvailableControlID(), 0,0,0,0, #drawerDataModel!.getOpenIcon())
+                openIconButton!.setAttribute("theme", "")
+                openIconButton!.addStyle("drawerOpenIcon")
+                openIconButton!.addStyle("drawerRoundButton")
+                openIconButton!.setCallback(BBjAPI.ON_BUTTON_PUSH, #this!,"onCloseIconPush")
+    
+                closeIconButton! = #logoContainer!.addButton(#logoContainer!.getAvailableControlID(), 0,0,0,0, #drawerDataModel!.getCloseIcon())
+                closeIconButton!.setAttribute("theme", "")
+                closeIconButton!.addStyle("drawerRoundButton")
+                closeIconButton!.addStyle("drawerCloseIcon")
+                closeIconButton!.setCallback(BBjAPI.ON_BUTTON_PUSH, #this!,"onOpenIconPush")
+            fi
             declare DrawerMenuTileEntry entry!
             declare BBjChildWindow spacer!
             templateRows! = ""
