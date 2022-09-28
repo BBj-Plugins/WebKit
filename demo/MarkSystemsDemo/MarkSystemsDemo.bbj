@@ -114,20 +114,28 @@ menuItem! = menu!.addMenuItem(menu!.getRoot(),98,"Printing","Printing","printer"
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/PrintShowcase.bbj::PrintShowcase")
 menuItem!.setStartType(0)
 
+declare Menu headerMenu!
+declare MenuItem headerMenuItem!
+headerMenu! = new Menu()
+dashboard! = headerMenu!.addMenuItem(headerMenu!.getRoot(),51,"Dashboard","Dashboard","table")
+recent! = headerMenu!.addMenuItem(headerMenu!.getRoot(),52,"Recent","Recent","clock")
+favorites! = headerMenu!.addMenuItem(headerMenu!.getRoot(),50,"Favorites","Favorites","star")
+
+favoritesProvider! = SampleFavoritesProvider.getInstance()
+favoritesProvider!.setFavoritesItem(favorites!)
+favoritesProvider!.setMenu(menu!)
+favoritesProvider!.setUser(authProvider!.getUser())
 
 declare MarkSystemsFrame portal!
 
 portal! = new MarkSystemsFrame()
 portal!.setMenu(menu!)
 portal!.setHiddenMenu(hiddenmenu!)
+portal!.setHeaderMenu(headerMenu!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setShowHeaderIcon(0)
-rem favorites! = menu!.getItem(menu!.getRoot(),50,"Favorites","Favorites","star")
-rem favoritesProvider! = SampleFavoritesProvider.getInstance()
-rem favoritesProvider!.setFavoritesItem(favorites!)
-rem favoritesProvider!.setMenu(menu!)
-rem favoritesProvider!.setUser(authProvider!.getUser())
+
 
 portal!.doModal()
 

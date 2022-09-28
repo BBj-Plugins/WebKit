@@ -125,8 +125,6 @@
 
 .drawerFooterOverlayContentWrapper {
     cursor: pointer;
-    display: grid;
-    grid-template-rows: 50% 50%;
 }
 
 .drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child {

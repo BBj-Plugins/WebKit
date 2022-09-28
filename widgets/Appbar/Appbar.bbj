@@ -22,17 +22,17 @@ class public Appbar extends BBjWidget
         declare BBjChildWindow childWindow!
         childWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         childWindow!.addStyle("menu")
-        menuIcon! = Icons.getIconOnWindow(childWindow!, null(), "menu", "color: white")
-        
+         menuIcon! = Icons.getIconOnWindow(childWindow!, null(), "menu", "color: white")
         #logoWrapper! = childWindow!.addChildWindow(childWindow!.getAvailableControlID(),0,0,10,10,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        
+       
         #customArea! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #customArea!.setStyle("display","flex")
         #createCustomComponents(#customArea!)
-        #logoWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuClick")
+        childWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuClick")
         #trailingArea! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #trailingArea!.addStyle("trailingArea")
         #createTrailingComponents(#trailingArea!)
+        
     fi 
     methodend
     

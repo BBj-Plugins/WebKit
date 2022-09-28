@@ -38,7 +38,7 @@ class public Drawer extends BBjWidget
     
     field private BBjChildWindow customContainer!
     
-    field private DrawerModel drawerDataModel! 
+    field protected DrawerModel drawerDataModel! 
     
     field public HashMap MenuItemTiles! = new HashMap()
     
@@ -96,11 +96,7 @@ class public Drawer extends BBjWidget
         if init!
             
             #open! = 1
-            header! = new DrawerHeader(#window!, #drawerDataModel!)
-            header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH, #this!,"closeDrawer")
-            header!.setCallback(DrawerHeader.ON_DRAWER_OPEN_ICON_PUSH, #this!,"openDrawer")
-
-            header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
+            #buildHeader()
             
             #customContainer! = #window!.addChildWindow(#window!.getAvailableControlID(), 0, 0, 0, 0, "", $00108800$, BBjAPI().getSysGui().getAvailableContext())
             #renderCustomContainer(#customContainer!)
@@ -127,6 +123,14 @@ class public Drawer extends BBjWidget
             #buildDrawerTiles(#tiles!,#tilesWrapper!)
             
         endif
+    methodend
+    
+    method public void buildHeader()
+            header! = new DrawerHeader(#window!, #drawerDataModel!)
+            header!.setCallback(DrawerHeader.ON_DRAWER_CLOSE_ICON_PUSH, #this!,"closeDrawer")
+            header!.setCallback(DrawerHeader.ON_DRAWER_OPEN_ICON_PUSH, #this!,"openDrawer")
+
+            header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
     methodend
     method public void buildDrawerTiles(BBjVector tiles!, BBjWindow tilesWrapper!)
             declare MenuItem entry!

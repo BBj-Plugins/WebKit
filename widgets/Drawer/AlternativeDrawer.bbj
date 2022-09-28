@@ -6,7 +6,8 @@ use ::WebKit/model/DrawerModel.bbj::DrawerModel
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
-
+use ::WebKit/widgets/Drawer/components/DrawerHeader/AlternativeDrawerHeader.bbj::AlternativeDrawerHeader
+use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
 
 class public AlternativeDrawer extends Drawer
     
@@ -72,6 +73,14 @@ class public AlternativeDrawer extends Drawer
         
        
         
+    methodend
+    
+    rem @Override
+    method public void buildHeader()
+            header! = new AlternativeDrawerHeader(#window!, #drawerDataModel!)
+            
+
+            header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
     methodend
     
     rem @Override

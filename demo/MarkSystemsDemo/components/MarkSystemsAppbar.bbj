@@ -22,8 +22,8 @@ class public MarkSystemsAppbar extends Appbar
         showCaseDropDown2!.setCallback(DropDownWidget.ON_ITEM_SELECTED,#this!,"showTwoSelected")
         showCaseDropDown!.setLabel("Operation-Mode")
         showCaseDropDown2!.setLabel("Company")
-        
-        showCaseDropDown2!.setLabel("Company")
+        showCaseDropDown!.setOpenWidth(300)
+        showCaseDropDown2!.setOpenWidth(300)
         declare BBjVector showCaseData!
         showCaseData! = new BBjVector()
         showCaseData!.add("Purchasing")
@@ -42,7 +42,7 @@ class public MarkSystemsAppbar extends Appbar
     method public void createTrailingComponents(BBjChildWindow area!)
        searchIcon!  = Icons.getIconOnWindow(area!, null(), "search", "color: white")
        bellIcon!  = Icons.getIconOnWindow(area!, null(), "bell", "color: white")
-       questionIcon!  = Icons.getIconOnWindow(area!, null(), "questionmark", "color: white")
+       questionIcon!  = Icons.getIconOnWindow(area!, null(), "question-mark", "color: white")
        
     methodend
     

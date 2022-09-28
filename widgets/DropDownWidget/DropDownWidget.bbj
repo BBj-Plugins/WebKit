@@ -46,6 +46,10 @@ class public DropDownWidget extends BBjWidget
         #fireEvent(#ON_ITEM_SELECTED,ev!.getSelectedItem())
     methodend
     
+    method public void setOpenWidth(BBjNumber width!)
+        #dropDown!.setOpenWidth(width!)
+    methodend
+    
     method public static DropDownWidget createDropDown(BBjWindow wnd!, BBjString title!, BBjVector content!)
         declare DropDownWidget dropDown!
         dropDown! = new DropDownWidget(wnd!)

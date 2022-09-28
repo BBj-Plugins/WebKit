@@ -176,8 +176,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         while it!.hasNext()
             declare auto MenuItem headerMenuItem!
             headerMenuItem! = it!.next()
-            id% = headerMenuItem!.getNodeId()
-            headerMenuTiles!.add(new DrawerMenuTileEntry(id%, headerMenuItem!.getCaption(), headerMenuItem!.getIcon()))
+            
+            headerMenuTiles!.add(headerMenuItem!)
         wend
         
         #registerPageNotFound()
