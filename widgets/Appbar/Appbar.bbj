@@ -65,7 +65,7 @@ class public Appbar extends BBjWidget
     methodend
     
     method public void onMenuClick(BBjMouseDownEvent event!)
-        #toggleIcon()
+        rem #toggleIcon()
         #fireEvent(#ON_APPBAR_TOOGLE, null()) 
     methodend
 classend
