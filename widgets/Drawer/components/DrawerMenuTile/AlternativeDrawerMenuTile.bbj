@@ -25,4 +25,24 @@ class public AlternativeDrawerMenuTile extends ListTile
         REM         #letterWrapper! = #btn!.addChildWindow(#btn!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         REM         #letterWrapper!.addStyle("letterWrapper"
     methodend
+    
+    rem @Override
+    method public void createFavoritesIcon()
+        #starWrapper! = #iconWrapper!.addChildWindow(#iconWrapper!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #starIcon! = #starWrapper!.addStaticText(#starWrapper!.getAvailableControlID(),0,0,200,22,Icons.get("star"))
+        #starWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onFavoriteClick")
+        #starWrapper!.addStyle("trailingIcon")
+    methodend
+    
+    rem @Override
+    method public void toggleExpand()
+        if #expanded! then
+            #arrowIcon!.removeStyle("rotate")
+            
+        else
+            #arrowIcon!.addStyle("rotate")
+            
+        endif
+        #expanded! = !#expanded!
+    methodend
 classend

@@ -51,6 +51,7 @@
 }
 
 .arrowIcon {
+    display: none;
     height: 20px;
     width: 15px;
 }
@@ -106,6 +107,9 @@
 @media (hover: hover) {
     .menutile:hover {
         background: var(--menutile-hover-color);
+    }
+    .menutile:hover .arrowIcon {
+        display: block;
     }
     .child:hover .iconWrapper {
         display: flex;
