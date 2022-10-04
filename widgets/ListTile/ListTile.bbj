@@ -53,7 +53,7 @@ class public ListTile extends BBjWidget
             #iconWrapper! = #tile!.addChildWindow(#tile!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #iconWrapper!.addStyle("iconWrapper")
             #createFavoritesIcon()
-            #createMenuIcon()
+            rem #createMenuIcon()
         FI
     methodend
 

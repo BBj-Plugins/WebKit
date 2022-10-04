@@ -116,7 +116,7 @@ class public PortalFrame implements RouterProtocol
         drawerDataModel!.setCloseIcon(Icons.get("chevron-left"))
         drawerDataModel!.setShowHeaderIcon(#ShowHeaderIcon!)
         
-        drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
+        
         
         if #Profile! <> null() then
             drawerDataModel!.setAvatarUrl(#Profile!.getPictureUrl())

@@ -121,8 +121,11 @@ class public Drawer extends BBjWidget
             footer!.setCallback(DrawerFooter.ON_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
             
             #buildDrawerTiles(#tiles!,#tilesWrapper!)
-            
+            #disableFooter(footerWrapper!)
         endif
+    methodend
+    
+    method public void disableFooter(BBjWindow footerWrapper!)
     methodend
     
     method public void buildHeader()

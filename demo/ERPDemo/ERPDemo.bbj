@@ -6,19 +6,24 @@ use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/demo/ERPDemo/components/ERPFrame.bbj::MarkSystemsFrame
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
-
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
 REM open(999,mode="O_create, O_trunk")"C:\Users\Admin123\eclipse-workspace\temp\my.trace"
 REM setTrace(999)
+web! = BBjAPI().getWebManager()
+web!.injectLinkUrl("https://fonts.googleapis.com",1,"rel=preconnect")
+web!.injectLinkUrl("https://fonts.gstatic.com",1,"crossorigin")
+web!.injectLinkUrl("https://fonts.gstatic.com",1,"crossorigin")
+web!.injectStyleUrl("https://fonts.googleapis.com/css2?family=Rubik&display=swap")
 
 ClientUtil.init()
 
 ClientUtil.addStyleURL("https://fonts.googleapis.com/icon?family=Material+Icons")
 ClientUtil.addStyleURL("https://fonts.googleapis.com/css?family=Lato")
-ClientUtil.loadThemeFile("WebKit/demo/ChileCompanyCustomerPortal/ChileCompany.css")
 ClientUtil.addLocalCSS("WebKit/css/webkit.css")
+ClientUtil.addLocalCSS("WebKit/demo/ERPDemo/ERPDemo.css")
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 

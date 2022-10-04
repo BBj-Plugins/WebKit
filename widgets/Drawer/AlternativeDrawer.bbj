@@ -105,6 +105,10 @@ class public AlternativeDrawer extends Drawer
         #fireEvent(#ON_DRAWER_STATE_CHANGED, 1)
     methodend
     
+    method public void disableFooter(BBjWindow footerWrapper!)
+    footerWrapper!.setVisible(0)
+    methodend
+    
     method public void onMenuItemClick(BBjCustomEvent ev!)
         
         declare auto MenuItem node!
