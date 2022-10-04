@@ -25,6 +25,7 @@ class public AlternativeDrawerHeader extends DrawerHeader
             if item!.getCaption() <> "404"
                 declare ListTile tile!
                 tile! = new ListTile(tilesWrapper!)
+                
                 tile!.setText(item!.getCaption())
                 tile!.setStyle("padding-left", "5 px")
                 tile!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")

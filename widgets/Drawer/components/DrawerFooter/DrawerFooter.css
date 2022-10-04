@@ -127,9 +127,7 @@
     cursor: pointer;
 }
 
-.drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child {
-    margin-bottom: 1em;
-}
+.drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child {}
 
 .drawerFooterOverlayLogoutPanel {
     grid-template-columns: 24px auto;

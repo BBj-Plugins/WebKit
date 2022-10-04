@@ -35,6 +35,17 @@ class public AlternativeDrawerMenuTile extends ListTile
     methodend
     
     rem @Override
+    method public void setHeader()
+        #header! = Boolean.TRUE
+        #textField!.setStyle("font-weight","700")
+        
+        #tile!.removePanelStyle("child")
+        #arrowIcon!.setVisible(1)
+        #letterField!.setVisible(0)
+        #iconWrapper!.setVisible(0)
+    methodend
+    
+    rem @Override
     method public void toggleExpand()
         if #expanded! then
             #arrowIcon!.removeStyle("rotate")
