@@ -8,6 +8,9 @@ class public Appbar extends BBjWidget
     field private BBjChildWindow logoWrapper!    
     field private BBjChildWindow customArea!
     field private BBjChildWindow trailingArea!
+    field protected BBjStaticText menuIcon!
+    field protected boolean drawerOpen! = Boolean.TRUE
+    
     field public static BBjNumber ON_APPBAR_TOOGLE = 1996
 
     method public Appbar(BBjWindow wnd!)
@@ -22,7 +25,8 @@ class public Appbar extends BBjWidget
         declare BBjChildWindow childWindow!
         childWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         childWindow!.addStyle("menu")
-         menuIcon! = Icons.getIconOnWindow(childWindow!, null(), "menu", "color: white")
+        #menuIcon! = Icons.getIconOnWindow(childWindow!, null(), "menu-2", "color: white")
+        
         #logoWrapper! = childWindow!.addChildWindow(childWindow!.getAvailableControlID(),0,0,10,10,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
        
         #customArea! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
@@ -34,6 +38,18 @@ class public Appbar extends BBjWidget
         #createTrailingComponents(#trailingArea!)
         
     fi 
+    methodend
+    
+    method public void toggleIcon()
+        if #drawerOpen! then
+            #menuIcon!.setStyle("transform","rotate(90deg)")
+           
+        else
+            #menuIcon!.setStyle("transform","rotate(0deg)")
+        fi
+        #drawerOpen! = !#drawerOpen!
+        
+        
     methodend
     
     method public void createCustomComponents(BBjChildWindow area!)
@@ -49,6 +65,7 @@ class public Appbar extends BBjWidget
     methodend
     
     method public void onMenuClick(BBjMouseDownEvent event!)
+        #toggleIcon()
         #fireEvent(#ON_APPBAR_TOOGLE, null()) 
     methodend
 classend

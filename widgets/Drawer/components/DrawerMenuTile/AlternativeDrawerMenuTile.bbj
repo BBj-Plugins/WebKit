@@ -1,0 +1,28 @@
+use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/util/Icons.bbj::Icons
+
+class public AlternativeDrawerMenuTile extends ListTile
+    method public AlternativeDrawerMenuTile(BBjWindow wnd!)
+    
+    #super!(wnd!)
+    DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/components/DrawerMenuTile/AlternativeDrawerMenuTile.css")
+    methodend
+    
+    rem @Override
+    method public void createLabel()
+        #letterField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
+        #letterField!.addStyle("letterField")
+        #letterField!.setStyle("text-align","center")
+        #textField! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,"")
+        #textField!.addStyle("alternativeTileLabel")
+        
+        #arrowIcon! = #btn!.addStaticText(#btn!.getAvailableControlID(),0,0,200,22,Icons.get("chevron-down"))
+        #arrowIcon!.setStyle("margin-left","auto")
+        #arrowIcon!.setStyle("margin-right","10px")
+        #arrowIcon!.addStyle("arrowIcon")
+        #arrowIcon!.setVisible(0)
+        REM         #letterWrapper! = #btn!.addChildWindow(#btn!.getAvailableControlID(),0,0,200,22,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        REM         #letterWrapper!.addStyle("letterWrapper"
+    methodend
+classend

@@ -1,0 +1,32 @@
+.dropDownButton {
+    display: flex;
+}
+
+.textArea {}
+
+.iconArea {}
+
+.titleArea {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.contentAreaButton {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+}
+
+.contentArea {
+    max-height: 50vh;
+    max-width: 120px;
+    top: 25px;
+    left: 200px;
+}

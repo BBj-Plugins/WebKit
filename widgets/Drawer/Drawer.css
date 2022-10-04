@@ -141,6 +141,7 @@
     height: 100%;
     max-height: calc(100vh - var(--drawerFooter-height));
     flex: 2;
+    cursor: pointer;
 }
 
 .drawerFooterWrapper {

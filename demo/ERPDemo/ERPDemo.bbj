@@ -3,7 +3,7 @@ use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
-use ::WebKit/demo/MarkSystemsDemo/components/MarkSystemsFrame.bbj::MarkSystemsFrame
+use ::WebKit/demo/ERPDemo/components/ERPFrame.bbj::MarkSystemsFrame
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 

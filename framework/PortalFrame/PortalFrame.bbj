@@ -64,7 +64,7 @@ class public PortalFrame implements RouterProtocol
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
-    
+     
     field public boolean ShowHeaderIcon! = Boolean.FALSE
     
 

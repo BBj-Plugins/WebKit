@@ -1,5 +1,6 @@
 use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
 use ::WebKit/widgets/DropDownWidget/DropDownWidget.bbj::DropDownWidget
+use ::WebKit/widgets/SearchDropDown/SearchDropDown.bbj::SearchDropDown
 use ::WebKit/util/Icons.bbj::Icons
 
 class public MarkSystemsAppbar extends Appbar
@@ -36,6 +37,12 @@ class public MarkSystemsAppbar extends Appbar
         showCaseData2!.add("Basis Europe GmbH")
         showCaseData2!.add("Vodafone Germany")
         showCaseDropDown2!.addContent(showCaseData2!)
+        
+        rem declare SearchDropDown searchDropDown!
+        rem searchDropDown! = new SearchDropDown(area!)
+        rem searchDropDown!.setTitle("testTitle")
+        rem searchDropDown!.setContent("testContent")
+        
     methodend
     
     rem @Override

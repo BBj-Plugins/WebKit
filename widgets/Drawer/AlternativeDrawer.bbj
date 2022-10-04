@@ -8,6 +8,8 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/Drawer/components/DrawerHeader/AlternativeDrawerHeader.bbj::AlternativeDrawerHeader
 use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
+use ::WebKit/widgets/Drawer/components/DrawerMenuTile/AlternativeDrawerMenuTile.bbj::AlternativeDrawerMenuTile
+
 
 class public AlternativeDrawer extends Drawer
     
@@ -39,7 +41,7 @@ class public AlternativeDrawer extends Drawer
             
             if item!.getCaption() <> "404"
                 declare ListTile tile!
-                tile! = new ListTile(tilesWrapper!)
+                tile! = new AlternativeDrawerMenuTile(tilesWrapper!)
                 tile!.setText(item!.getCaption())
                 tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
                 tile!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
@@ -47,12 +49,12 @@ class public AlternativeDrawer extends Drawer
                 
                 tile!.enableLetterField(0)
                 
-                tile!.toggleFavoritesButton(0)
                 
-                if item!.getIcon() <> "" AND item!.getIcon() <> null() then
                 
-                    tile!.setIcon(item!.getIcon())
-                endif
+                rem if item!.getIcon() <> "" AND item!.getIcon() <> null() then
+                rem 
+                rem     tile!.setIcon(item!.getIcon())
+                rem endif
                 tile!.setItemId(item!.getNodeId())
                            
                 #MenuItemTiles!.put(item!.getNodeId(),tile!)

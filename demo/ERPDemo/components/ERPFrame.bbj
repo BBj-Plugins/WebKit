@@ -2,7 +2,7 @@ use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
-use ::WebKit/demo/MarkSystemsDemo/components/MarkSystemsAppbar.bbj::MarkSystemsAppbar
+use ::WebKit/demo/ERPDemo/components/ERPAppbar.bbj::MarkSystemsAppbar
 
 use ::Webkit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
@@ -16,7 +16,7 @@ class public MarkSystemsFrame extends PortalFrame
     method protected void createAppBarObject(BBjWindow window!)
         appbar! = new MarkSystemsAppbar(window!)
         appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
-        appbar!.setLogo("WebKit/demo/Showcase/MarkSystems.png")
+        appbar!.setLogo("WebKit/demo/ERPDemo/ERP.png")
         
     methodend
     

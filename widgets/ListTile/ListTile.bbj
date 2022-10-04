@@ -4,25 +4,25 @@ use ::WebKit/util/Icons.bbj::Icons
 
 class public ListTile extends BBjWidget
 
-    field private BBjStaticText textField!
-    field private BBjStaticText letterField!
-    field private BBjStaticText arrowIcon!
-    field private BBjStaticText starIcon!
-    field private BBjStaticText dotIcon!
-    field private BBjStaticText trailingIcon!
-    field private BBjImageCtrl  iconField!
-    field private BBjVector colors!
-    field private BBjChildWindow btn!
-    field private BBjChildWindow tile!
-    field private BBjChildWindow iconWrapper!
-    field private BBjChildWindow starWrapper!
-    field private BBjChildWindow dotWrapper!
-    field private BBjChildWindow letterWrapper!
-    field private Boolean expanded! = Boolean.FALSE
-    field private Boolean favorite! = Boolean.FALSE
-    field private Boolean header! = Boolean.FALSE
-    field private Boolean isChild! = Boolean.FALSE
-    field private BBjNumber itemId!
+    field protected BBjStaticText textField!
+    field protected BBjStaticText letterField!
+    field protected BBjStaticText arrowIcon!
+    field protected BBjStaticText starIcon!
+    field protected BBjStaticText dotIcon!
+    field protected BBjStaticText trailingIcon!
+    field protected BBjImageCtrl  iconField!
+    field protected BBjVector colors!
+    field protected BBjChildWindow btn!
+    field protected BBjChildWindow tile!
+    field protected BBjChildWindow iconWrapper!
+    field protected BBjChildWindow starWrapper!
+    field protected BBjChildWindow dotWrapper!
+    field protected BBjChildWindow letterWrapper!
+    field protected Boolean expanded! = Boolean.FALSE
+    field protected Boolean favorite! = Boolean.FALSE
+    field protected Boolean header! = Boolean.FALSE
+    field protected Boolean isChild! = Boolean.FALSE
+    field protected BBjNumber itemId!
     
     field public static BBjNumber ON_FAVORITES_BUTTON_CLICK = 500
     field public static BBjNumber ON_TEXTPART_CLICK = 550

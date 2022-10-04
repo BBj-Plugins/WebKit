@@ -1,0 +1,160 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+use ::WebKit/util/Icons.bbj::Icons
+
+class public SearchDropDown extends BBjWidget
+    
+    field private BBjChildWindow window!  
+    field private BBjChildWindow buttonPart!
+    field private BBjChildWindow textArea!
+    field private BBjTopLevelWindow contentArea!
+    field private BBjStaticText title!
+    field private BBjStaticText content!
+    field private BBjSysGui sysgui!
+    field private BBjStaticText icon!
+    field private Boolean expanded! = Boolean.FALSE
+    
+    
+    field private BBjChildWindow iconArea!
+    
+    method public SearchDropDown(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/SearchDropDown/SearchDropDown.css")
+        #sysgui! = BBjAPI().openSysGui("X0")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if init! then
+            #window! = #getCanvas()
+            #buttonPart! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #buttonPart!.addStyle("dropDownButton") 
+            #buttonPart!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"expand")
+            #buttonPart!.setAttribute("id","dropDownButton" + str(#this!.getID()))
+            #textArea! = #buttonPart!.addChildWindow(#buttonPart!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #textArea!.addStyle("textArea") 
+            #iconArea! = #buttonPart!.addChildWindow(#buttonPart!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #iconArea!.addStyle("iconArea") 
+            #icon! = Icons.getIconOnWindow(#iconArea!, null(), "chevron-down", "color: white")
+            #buildTextArea()
+            #buildContentPart()
+        fi
+    methodend
+    
+    method public String getTopPosition(String elementId!)
+        declare String script!
+        script! = "" +
+:       "(() => {" +
+:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
+:       "console.log(rec.top + window.scrollY);" + 
+:       "return rec.top + window.scrollY;" +
+:       "})()"
+  
+        value! = str(#sysgui!.executeScript(script!))
+      
+        methodret value!
+    methodend
+    
+    
+    method public String getBotPosition(String elementId!)
+        declare String script!
+        script! = "" +
+:       "(() => {" +
+:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
+:       "console.log(rec.bottom + window.scrollY);" + 
+:       "return rec.bottom + window.scrollY;" +
+:       "})()"
+  
+        value! = str(#sysgui!.executeScript(script!))
+      
+        methodret value!
+    methodend
+    
+    
+    method public String getLeftPosition(String elementId!)
+        declare String script!
+        script! = "" +
+:       "(() => {" +
+:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
+:       "console.log(rec.left + window.scrollX);" + 
+:       "return rec.left + window.scrollX;" +
+:       "})()"
+  
+        value! = str(#sysgui!.executeScript(script!))
+      
+        methodret value!
+    methodend
+    
+    method public String getRightPosition(String elementId!)
+        declare String script!
+        script! = "" +
+:       "(() => {" +
+:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
+:       "console.log(rec.right + window.scrollX);" + 
+:       "return rec.right + window.scrollX;" +
+:       "})()"
+  
+        value! = str(#sysgui!.executeScript(script!))
+      
+        methodret value!
+    methodend
+    
+    method public void buildTextArea()
+        declare BBjChildWindow titleAreaButton!
+        declare BBjChildWindow contentAreaButton!
+        
+        titleAreaButton! = #textArea!.addChildWindow(#textArea!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        titleAreaButton!.addStyle("titleArea") 
+        contentAreaButton! = #textArea!.addChildWindow(#textArea!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        contentAreaButton!.addStyle("contentAreaButton") 
+        #title! = titleAreaButton!.addStaticText(titleAreaButton!.getAvailableControlID(),0,0,0,0,"") 
+        #content! = contentAreaButton!.addStaticText(contentAreaButton!.getAvailableControlID(),0,0,0,0,"") 
+    methodend
+    
+    method public void buildContentPart()
+        
+        #contentArea! = #sysgui!.addWindow(#sysgui!.getAvailableContext(),0,0,0,0,"",$01101083$)
+        #contentArea!.addStyle("contentArea")
+        
+        
+        
+        test! = #contentArea!.addStaticText(#contentArea!.getAvailableControlID(),0,0,0,0,"test") 
+        
+    methodend
+    
+    method public void setTitle(BBjString newTitle!)
+        #title!.setText(newTitle!)
+    methodend
+    
+    method public void setContent(BBjString newContent!)
+        #content!.setText(newContent!)
+    methodend
+    
+    method public void flipIcon()
+        if #expanded! then
+            #icon!.setText(Icons.get("chevron-down"))
+        else
+            #icon!.setText(Icons.get("chevron-up"))
+        fi
+        #expanded! = !#expanded!
+    methodend
+    
+    method public void expand(BBjEvent ev!)
+        #flipIcon()
+        #contentArea!.setVisible(!#expanded!)
+        #contentArea!.setDockStyle("top",#getBotPosition("dropDownButton" + str(#this!.getID())) + "px")
+        #contentArea!.setStyle("top",#getBotPosition("dropDownButton" + str(#this!.getID()))+ "px")
+        
+              
+        #contentArea!.setDockStyle("left",#getLeftPosition("dropDownButton" + str(#this!.getID())) + "px")
+        #contentArea!.setStyle("left",#getLeftPosition("dropDownButton" + str(#this!.getID()))+ "px")
+        
+    methodend
+    
+    method public void buildIconArea()
+    
+    methodend
+    
+    
+    
+classend
