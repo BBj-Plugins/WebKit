@@ -66,6 +66,7 @@ class public AlternativeDrawer extends Drawer
                 if item!.hasChildren() then
                    tile!.setHeader()
                 endif 
+                #buildMenuTiles!.add(tile!)
                 templateRows! = templateRows! + " 48px" 
                 rem templateRows! = templateRows! + " 12px"
                 rem spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
@@ -75,6 +76,21 @@ class public AlternativeDrawer extends Drawer
         
        
         
+    methodend
+    
+    rem @Override
+    method public void rebuildDrawerTiles(BBjVector newTiles!, Menu menu!)
+           #menu! = menu!
+           it! = #buildMenuTiles!.iterator()
+           while it!.hasNext()
+                declare auto AlternativeDrawerMenuTile tile!               
+                tile! = it!.next()
+                tile!.destroy()  
+                                         
+           wend
+           #buildMenuTiles!.clear()
+           
+           #buildDrawerTiles(newTiles!,#tilesWrapper!)
     methodend
     
     rem @Override

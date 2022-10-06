@@ -3,13 +3,13 @@ use ::WebKit/widgets/DropDownWidget/DropDownWidget.bbj::DropDownWidget
 use ::WebKit/widgets/SearchDropDown/SearchDropDown.bbj::SearchDropDown
 use ::WebKit/util/Icons.bbj::Icons
 
-class public MarkSystemsAppbar extends Appbar
+class public ERPAppbar extends Appbar
     
     field public static BBjNumber ON_FIRST_DROPDOWN_SELECTED = 1100
     field public static BBjNumber ON_SECOND_DROPDOWN_SELECTED = 1101
-    
-    
-    method public MarkSystemsAppbar(BBjWindow wnd!)
+     
+     
+    method public ERPAppbar(BBjWindow wnd!)
         #super!(wnd!)
     methodend
     

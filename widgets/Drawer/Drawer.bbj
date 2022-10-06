@@ -32,7 +32,7 @@ class public Drawer extends BBjWidget
     
     field private BBjVector tiles! = new BBjVector()
     
-    field private BBjChildWindow tilesWrapper!
+    field protected BBjChildWindow tilesWrapper!
     
     field private BBjChildWindow optionalControl!
     
@@ -40,9 +40,12 @@ class public Drawer extends BBjWidget
     
     field protected DrawerModel drawerDataModel! 
     
-    field public HashMap MenuItemTiles! = new HashMap()
-    
     field public Menu menu!
+    
+    field protected BBjVector buildMenuTiles! = new BBjVector()
+    
+    field protected HashMap MenuItemTiles! = new HashMap()
+    
     
 
     field public static BBjNumber ON_DRAWER_TILE_PRESSED = 122 
@@ -150,8 +153,20 @@ class public Drawer extends BBjWidget
                     spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
                     spacer!.setDockStyle("height","12px")
                 endif
+                #buildMenuTiles!.add(tile!)
             wend
             tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+    methodend
+    
+    method public void rebuildDrawerTiles(BBjVector newTiles!, Menu menu!)
+           #menu! = menu!
+           it! = #buildMenuTiles!.iterator()
+           while it!.hasNext()
+                declare DrawerMenuTile tile!               
+                tile! = it!.Next()
+                tile!.destroy()                           
+           wend
+           #buildDrawerTiles(newTiles!,#tilesWrapper!)
     methodend
     
     method public BBjChildWindow getOptionalControlAboveTiles()

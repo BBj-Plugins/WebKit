@@ -3,7 +3,7 @@ use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
-use ::WebKit/demo/ERPDemo/components/ERPFrame.bbj::MarkSystemsFrame
+use ::WebKit/demo/ERPDemo/components/ERPFrame.bbj::ERPFrame
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
@@ -131,12 +131,41 @@ favoritesProvider!.setFavoritesItem(favorites!)
 favoritesProvider!.setMenu(menu!)
 favoritesProvider!.setUser(authProvider!.getUser())
 
-declare MarkSystemsFrame portal!
+declare Menu menu2!
+menu2! = new Menu()
+menuSub1! = menu2!.addMenuItem(menu2!.getRoot(),231,"Maintenance","Maintenance","")
+menuSub1!.setStartType(2)
 
-portal! = new MarkSystemsFrame()
+menuSub2! = menu2!.addMenuItem(menu2!.getRoot(),232,"Prices","Prices","")
+menuSub2!.setStartType(2)
+
+menuSub3! = menu2!.addMenuItem(menu2!.getRoot(),233,"Budget","Budget","")
+menuSub3!.setStartType(2)
+
+menuSub4! = menu2!.addMenuItem(menu2!.getRoot(),234,"Update","Update","")
+menuSub4!.setStartType(2)
+
+menuSub5! = menu2!.addMenuItem(menu2!.getRoot(),235,"Budget","Budget","")
+menuSub5!.setStartType(2)
+
+menuSub6! = menu2!.addMenuItem(menu2!.getRoot(),236,"OptionFile","OptionFile","")
+menuSub6!.setStartType(2)
+
+menuSub7! = menu2!.addMenuItem(menu2!.getRoot(),237,"Budget Maintenance","Budget Maintenance","")
+menuSub7!.setStartType(2)
+
+menuSub8! = menu2!.addMenuItem(menu2!.getRoot(),238,"Elevation Comparison Report","Elevation Comparison Report","")
+menuSub8!.setStartType(2)
+
+declare ERPFrame portal!
+
+portal! = new ERPFrame()
 portal!.setMenu(menu!)
 portal!.setHiddenMenu(hiddenmenu!)
 portal!.setHeaderMenu(headerMenu!)
+portal!.addMenu("Purchasing",menu!)
+portal!.addMenu("Selling",menu2!)
+
 portal!.setLogoUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setShowHeaderIcon(0)
