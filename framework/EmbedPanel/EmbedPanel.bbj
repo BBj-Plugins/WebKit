@@ -129,8 +129,11 @@ class public EmbedPanel extends BBjWidget
     method public void loadDWC(BBjString title$,BBjString pgm$)
         appname$=#publishStub()
         uid$ = java.util.UUID.randomUUID().toString()
+        params! = new HashMap()
         url$=#baseUri!+"webapp/"+appname$+"?launch="+uid$ 
-        BBjAPI().getGlobalNamespace().setValue(uid$,pgm$)
+        params!.put("_program",pgm$)
+        params!.put("_completeUrl",url$)
+        BBjAPI().getGlobalNamespace().setValue(uid$,params!)
         BBjAPI().getGlobalNamespace().setCallbackForVariableChange(uid$,#this!,"onEmbeddedCommand")
         #HtmlView!.setUrl(url$)
     methodend    
