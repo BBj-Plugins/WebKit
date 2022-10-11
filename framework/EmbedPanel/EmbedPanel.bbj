@@ -107,7 +107,7 @@ class public EmbedPanel extends BBjWidget
     
     method public void loadBUI(BBjString title$,BBjString pgm$, HashMap menuParameters!, HashMap queryParameters!,HashMap routeParameters!)
         
-        appname$=#publishStub()
+        appname$=#publishBUI()
         uid$ = java.util.UUID.randomUUID().toString()     
         declare HashMap params! 
         params! = new HashMap()
@@ -127,7 +127,7 @@ class public EmbedPanel extends BBjWidget
     methodend    
 
     method public void loadDWC(BBjString title$,BBjString pgm$)
-        appname$=#publishStub()
+        appname$=#publishDWC()
         uid$ = java.util.UUID.randomUUID().toString()
         params! = new HashMap()
         url$=#baseUri!+"webapp/"+appname$+"?launch="+uid$ 
@@ -139,7 +139,7 @@ class public EmbedPanel extends BBjWidget
     methodend    
     
     
-    method private BBjString publishStub()
+    method private BBjString publishBUI()
         source$=BBjAPI().getFileSystem().resolvePath("WebKit/framework/EmbedPanel/EmbedPanel.bbj")
         path$=dsk("")+dir("")
         config$ = BBjAPI().getConfig().getCurrentCommandLineObject().getConfigFile()
@@ -153,6 +153,40 @@ class public EmbedPanel extends BBjWidget
         appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
         appConfig! = appServer!.makeEmptyAppConfig()
         cssFile! = appServer!.addStyleSheet(BBjAPI().getFileSystem().resolvePath(STBL("buiDwcCss")))
+        
+        appConfig!.setProgramName(source$)
+        appConfig!.setDwcEnabled(1)
+        appConfig!.setBuiEnabled(1)
+        appConfig!.setConfigFile(config$)
+        appConfig!.setStyleSheet(cssFile!)
+        
+        if classpath! <> null() then
+            appConfig!.setClasspathName(classpath!)
+        fi
+        appConfig!.setWorkingDirectory(path$)
+        app! = appConfig!.buildApplication(appname$)
+        published = appServer!.isPublished(app!)
+        if (published) then
+            appServer!.unpublish(appname$)
+        fi
+        appServer!.publish(app!)        
+        methodret appname$
+    methodend
+    
+    method private BBjString publishDWC()
+        source$=BBjAPI().getFileSystem().resolvePath("WebKit/framework/EmbedPanel/EmbedPanel.bbj")
+        path$=dsk("")+dir("")
+        config$ = BBjAPI().getConfig().getCurrentCommandLineObject().getConfigFile()
+        classpath! = BBjAPI().getConfig().getCurrentCommandLineObject().getOriginalClasspathName()
+        
+        
+        appname$ = "EmbedPanel"
+
+        bbjHome! = System.getProperty("basis.BBjHome")
+        
+        appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
+        appConfig! = appServer!.makeEmptyAppConfig()
+        
         
         appConfig!.setProgramName(source$)
         appConfig!.setDwcEnabled(1)
