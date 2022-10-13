@@ -2,17 +2,21 @@ use ::BBjWidget/BBjWidget.bbj::BBjWidget
 use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 
 use ::WebKit/util/Icons.bbj::Icons
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/framework/DialogPanel/DialogPanel.bbj::DialogPanel
+
 
 class public SearchDropDown extends BBjWidget
     
     field private BBjChildWindow window!  
     field private BBjChildWindow buttonPart!
     field private BBjChildWindow textArea!
-    field private BBjTopLevelWindow contentArea!
     field private BBjStaticText title!
     field private BBjStaticText content!
     field private BBjSysGui sysgui!
     field private BBjStaticText icon!
+    field protected Overlay overlay!
     field private Boolean expanded! = Boolean.FALSE
     
     
@@ -29,7 +33,7 @@ class public SearchDropDown extends BBjWidget
             #window! = #getCanvas()
             #buttonPart! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #buttonPart!.addStyle("dropDownButton") 
-            #buttonPart!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"expand")
+            #buttonPart!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"openDialog")
             #buttonPart!.setAttribute("id","dropDownButton" + str(#this!.getID()))
             #textArea! = #buttonPart!.addChildWindow(#buttonPart!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
             #textArea!.addStyle("textArea") 
@@ -37,7 +41,8 @@ class public SearchDropDown extends BBjWidget
             #iconArea!.addStyle("iconArea") 
             #icon! = Icons.getIconOnWindow(#iconArea!, null(), "chevron-down", "color: white")
             #buildTextArea()
-            #buildContentPart()
+      
+      
         fi
     methodend
     
@@ -111,16 +116,6 @@ class public SearchDropDown extends BBjWidget
         #content! = contentAreaButton!.addStaticText(contentAreaButton!.getAvailableControlID(),0,0,0,0,"") 
     methodend
     
-    method public void buildContentPart()
-        
-        #contentArea! = #sysgui!.addWindow(#sysgui!.getAvailableContext(),0,0,0,0,"",$01101083$)
-        #contentArea!.addStyle("contentArea")
-        
-        
-        
-        test! = #contentArea!.addStaticText(#contentArea!.getAvailableControlID(),0,0,0,0,"test") 
-        
-    methodend
     
     method public void setTitle(BBjString newTitle!)
         #title!.setText(newTitle!)
@@ -139,16 +134,60 @@ class public SearchDropDown extends BBjWidget
         #expanded! = !#expanded!
     methodend
     
-    method public void expand(BBjEvent ev!)
-        #flipIcon()
-        #contentArea!.setVisible(!#expanded!)
-        #contentArea!.setDockStyle("top",#getBotPosition("dropDownButton" + str(#this!.getID())) + "px")
-        #contentArea!.setStyle("top",#getBotPosition("dropDownButton" + str(#this!.getID()))+ "px")
+    method public void openDialog(BBjMouseDownEvent ev!)
+        rem declare BBjChildWindow wnd!
+        rem declare BBjChildWindow dialog!
+        rem 
+        rem wnd! = PortalFrame.getInstance().getDialogWindow()
+        rem dialog! = wnd!.addChildWindow(wnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        rem dialog!.setStyle("background","white")
+        rem test! = dialog!.addStaticText(dialog!.getAvailableControlID(),0,0,0,0,"test")
+        rem #overlay! = new Overlay(wnd!, dialog!)
+        rem #overlay!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmissed")
+        rem #overlay!.setBackgroundColor("rgba(0,0,0,0.35)")
+        declare BBjChildWindow parent!
+        declare DialogPanel dialog!
+        declare BBjChildWindow dialogBody!
+        declare BBjListButton companyListButton!
+        declare BBjChildWindow companyListButtonArea!
+        declare BBjChildWindow developmentListButtonArea!
         
-              
-        #contentArea!.setDockStyle("left",#getLeftPosition("dropDownButton" + str(#this!.getID())) + "px")
-        #contentArea!.setStyle("left",#getLeftPosition("dropDownButton" + str(#this!.getID()))+ "px")
+        parent! = PortalFrame.getInstance().getDialogWindow()
+        dialog! = new DialogPanel(parent!)
+        dialog!.setHeaderVisible(0)
+        dialog!.setDividerVisible(0)
+        dialog!.setDialogWindowCustomCssClass("simpleDialog")
+        dialog!.setSubmitBtnCustomCssClass("selectButton")
+        dialog!.setCancelBtnCustomCssClass("cancelButton")
+        dialog!.setFooterCustomCssClass("footer")
+        dialog!.setCloseByOutsideClick(1)
         
+        dialogBody! = dialog!.getBody()
+        dialogBody!.addStyle("dialogBody")
+        
+        
+        header! = dialogBody!.addStaticText(dialogBody!.getAvailableControlID(),0,0,0,0,"Select Company and Development")
+        header!.addStyle("dialogHeader")
+        companyListButtonArea! = dialogBody!.addChildWindow(dialogBody!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        companyListButtonHeader! = companyListButtonArea!.addStaticText(companyListButtonArea!.getAvailableControlID(),0,0,0,0,"Company")
+        companyListButtonHeader!.addStyle("listButtonHeader")
+        companyListButton! = companyListButtonArea!.addListButton(companyListButtonArea!.getAvailableControlID(),0,0,0,0,"")
+        companyListButton!.setAttribute("item-label","Select Company")
+        companyListButton!.setAttribute("button-height","40px")
+        companyListButton!.addStyle("dialogDropdown")
+        developmentListButtonArea! = dialogBody!.addChildWindow(dialogBody!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        developmentListButtonHeader! = developmentListButtonArea!.addStaticText(developmentListButtonArea!.getAvailableControlID(),0,0,0,0,"Development")
+        developmentListButtonHeader!.addStyle("listButtonHeader")
+        developmentListButton! = developmentListButtonArea!.addListButton(developmentListButtonArea!.getAvailableControlID(),0,0,0,0,"Development")
+        developmentListButton!.setAttribute("item-label","Select Development")
+        developmentListButton!.setAttribute("button-height","40px")
+        developmentListButton!.addStyle("dialogDropdown")
+        dialog!.show()
+        
+    methodend
+    
+    method public void onOverlayDissmissed(BBjCustomEvent event!)
+        PortalFrame.getInstance().destroyDialogWindow()
     methodend
     
     method public void buildIconArea()

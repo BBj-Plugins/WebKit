@@ -19,29 +19,22 @@ class public ERPAppbar extends Appbar
         declare DropDownWidget showCaseDropDown2!
         showCaseDropDown! = new DropDownWidget(area!)
         showCaseDropDown!.setCallback(DropDownWidget.ON_ITEM_SELECTED,#this!,"showOneSelected")
-        showCaseDropDown2! = new DropDownWidget(area!)
-        showCaseDropDown2!.setCallback(DropDownWidget.ON_ITEM_SELECTED,#this!,"showTwoSelected")
         showCaseDropDown!.setLabel("Operation-Mode")
-        showCaseDropDown2!.setLabel("Company")
         showCaseDropDown!.setOpenWidth(300)
-        showCaseDropDown2!.setOpenWidth(300)
         declare BBjVector showCaseData!
         showCaseData! = new BBjVector()
         showCaseData!.add("Purchasing")
         showCaseData!.add("Selling")
         showCaseData!.add("Fixing")
         showCaseDropDown!.addContent(showCaseData!)
-        declare BBjVector showCaseData2!
-        showCaseData2! = new BBjVector()
-        showCaseData2!.add("Mark Systems, LLC")
-        showCaseData2!.add("Basis Europe GmbH")
-        showCaseData2!.add("Vodafone Germany")
-        showCaseDropDown2!.addContent(showCaseData2!)
+        showCaseDropDown!.addStyle("erpDropDown")
         
-        rem declare SearchDropDown searchDropDown!
-        rem searchDropDown! = new SearchDropDown(area!)
-        rem searchDropDown!.setTitle("testTitle")
-        rem searchDropDown!.setContent("testContent")
+       
+        
+        declare SearchDropDown searchDropDown!
+        searchDropDown! = new SearchDropDown(area!)
+        searchDropDown!.setTitle("testTitle")
+        searchDropDown!.setContent("testContent")
         
     methodend
     

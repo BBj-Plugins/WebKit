@@ -16,6 +16,8 @@ class public DialogPanel extends BBjWidget
     REM dialog body related
     field private BBjChildWindow body!
     
+    field private Divider bottomDivider!
+    
     REM dialog footer related
     field private BBjChildWindow footer!
     field private BBjButton submitBtn!
@@ -91,8 +93,8 @@ class public DialogPanel extends BBjWidget
     methodend
 
     method public void renderFooter()
-        bottomDivider! = new Divider(#dialogWnd!)
-        bottomDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
+        #bottomDivider! = new Divider(#dialogWnd!)
+        #bottomDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
 
         #footer! = #dialogWnd!.addChildWindow(#dialogWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #footer!.addStyle("footerWnd")
@@ -144,6 +146,18 @@ class public DialogPanel extends BBjWidget
         #renderTopBar()
         #initializeBody()
         #renderFooter()
+    methodend
+    
+    method public void setDividerVisible(Boolean value!)
+        #bottomDivider!.setVisible(value!)
+    methodend
+    
+    method public void setDialogWindowCustomCssClass(BBjString text!)
+        #dialogWnd!.addStyle(text!)
+    methodend
+    
+    method public void setFooterCustomCssClass(BBjString text!)
+        #footer!.addStyle(text!)
     methodend
     
     method public void setShowCloseIcon(Boolean f_show!)
@@ -206,6 +220,10 @@ class public DialogPanel extends BBjWidget
 
     method public void setFooterVisible(Boolean value!)
         #footer!.setVisible(value!)
+    methodend
+    
+    method public void setHeaderVisible(Boolean value!)
+        #header!.setVisible(value!)
     methodend
     
     rem @Override

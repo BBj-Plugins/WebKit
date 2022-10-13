@@ -1,3 +1,9 @@
 :root {
     --bbj-font-family: 'Rubik', sans-serif
 }
+
+.erpDropDown {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

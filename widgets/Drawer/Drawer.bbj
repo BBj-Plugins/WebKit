@@ -19,7 +19,7 @@ use com.basiscomponents.db.ResultSet
 use com.basiscomponents.db.DataRow
 use com.basiscomponents.db.DataField
 
-
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
 use java.util.HashMap
 
 class public Drawer extends BBjWidget 
@@ -45,6 +45,8 @@ class public Drawer extends BBjWidget
     field protected BBjVector buildMenuTiles! = new BBjVector()
     
     field protected HashMap MenuItemTiles! = new HashMap()
+    
+    field protected Overlay overlay!
     
     
 
