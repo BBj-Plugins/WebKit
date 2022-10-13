@@ -7,7 +7,7 @@ sysgui! = BBjAPI().openSysGui("X0")
 
 bui! = bbjapi().getBuiManager()
 
-window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),0,0,750,750,"Bui Demo Program"))
+window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),0,0,750,750,"GridExWidget Demo Program"))
 window!.setCallback(window!.ON_CLOSE,"byebye")
 declare SqlQueryBC sbc!
 declare ResultSet rs!
