@@ -58,12 +58,15 @@ menuItem!.addRouteParameter("table")
 rem menuItem!.addMenuParameter("database","ChileCompany")
 rem menuItem!.addMenuParameter("table","CUSTOMER")
 
-rem menuItem!.addMenuParameter("database","CDStore")
-rem menuItem!.addMenuParameter("table","CDINVENTORY")
+menuItem!.addMenuParameter("database","CDStore")
+menuItem!.addMenuParameter("table","CDINVENTORY")
 
 
-menuItem!.setStartType(1)
+menuItem!.setStartType(2)
 
+menuItem! = menu!.addMenuItem(menu!.getRoot(),102,"GridExDemo","GridExDemo","world")
+menuItem!.setProgram("WebKit/demo/demoprograms/dwcGridExDemo.bbj")
+menuItem!.setStartType(2)
 
 declare PortalFrame portal!
 
