@@ -1,0 +1,89 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/widgets/CompanyTile/CompanyModel.bbj::CompanyModel
+use ::WebKit/util/Icons.bbj::Icons
+
+class public CompanyTile extends BBjWidget
+    
+    field private BBjChildWindow window!
+    field private BBjChildWindow textArea!
+    field private BBjChildWindow iconArea!
+    field private BBjChildWindow buttonPart!
+    field private BBjStaticText title!
+    field private BBjStaticText content!
+    field private BBjStaticText icon!
+    field private CompanyModel model!
+    
+    
+    
+    method public CompanyTile(BBjWindow wnd!, CompanyModel model!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/CompanyTile/CompanyTile.css")
+        #model! = model!
+        
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if init! then
+            #window! = #getCanvas()
+            #buttonPart! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #buttonPart!.addStyle("companyTile")
+            #buttonPart!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"tileClicked")
+            #iconArea! = #buttonPart!.addChildWindow(#buttonPart!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #iconArea!.addStyle("iconArea") 
+            #icon! = Icons.getIconOnWindow(#iconArea!, null(), #model!.getIcon(), "color: black")
+            
+            #textArea! = #buttonPart!.addChildWindow(#buttonPart!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #textArea!.addStyle("textArea") 
+           
+            #buildTextArea()
+      
+      
+        fi
+    methodend
+    
+     method public void buildTextArea()
+        declare BBjChildWindow titleArea!
+        declare BBjChildWindow contentArea!
+        
+        titleArea! = #textArea!.addChildWindow(#textArea!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        contentArea! = #textArea!.addChildWindow(#textArea!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext()) 
+        #title! = titleArea!.addStaticText(titleArea!.getAvailableControlID(),0,0,0,0,#model!.getCompany()) 
+        #title!.addStyle("title")
+        #content! = contentArea!.addStaticText(contentArea!.getAvailableControlID(),0,0,0,0,#model!.getDevelopment())
+        #content!.addStyle("content")
+    methodend
+    
+    method public void setTitle(BBjString newTitle!)
+        #title!.setText(newTitle!)
+    methodend
+    
+    method public void setContent(BBjString newContent!)
+        #content!.setText(newContent!)
+    methodend
+    
+    method public void setCompany(BBjString company!)
+        #company! = company!
+        #title!.setText(company!)
+    methodend
+    
+    method public BBjString getCompany()
+        methodret #company!
+    methodend
+    
+    method public void setDevelopment(BBjString development!)
+        #development! = development!
+        #content!.setText(development!)
+    methodend
+    
+    method public BBjString getDevelopment()
+        methodret #development!
+    methodend
+    
+    method public void tileClicked(BBjMouseDownEvent ev!)
+    
+    methodend
+    
+    
+    
+classend

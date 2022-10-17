@@ -111,9 +111,10 @@ class public DialogPanel extends BBjWidget
     methodend
 
     method public void onSubmit(BBjButtonPushEvent ev!)
+        
         #dialogWnd!.destroy()
         #parent!.destroy()
-        #fireEvent(ON_SUBMIT, "")
+        #fireEvent(#ON_SUBMIT, "")
     methodend
 
     method public void onCancel(BBjButtonPushEvent ev!)
@@ -150,6 +151,10 @@ class public DialogPanel extends BBjWidget
     
     method public void setDividerVisible(Boolean value!)
         #bottomDivider!.setVisible(value!)
+    methodend
+    
+    method public void setSubmitButtonDisabled(Boolean value!)
+        #submitBtn!.setEnabled(value!)
     methodend
     
     method public void setDialogWindowCustomCssClass(BBjString text!)

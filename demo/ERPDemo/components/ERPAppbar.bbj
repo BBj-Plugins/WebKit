@@ -2,6 +2,7 @@ use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
 use ::WebKit/widgets/DropDownWidget/DropDownWidget.bbj::DropDownWidget
 use ::WebKit/widgets/SearchDropDown/SearchDropDown.bbj::SearchDropDown
 use ::WebKit/util/Icons.bbj::Icons
+use ::WebKit/widgets/CompanyTile/CompanyModel.bbj::CompanyModel
 
 class public ERPAppbar extends Appbar
     
@@ -35,7 +36,33 @@ class public ERPAppbar extends Appbar
         searchDropDown! = new SearchDropDown(area!)
         searchDropDown!.setTitle("testTitle")
         searchDropDown!.setContent("testContent")
+        searchDropDown!.setFavorites(#getFavorites())
+        searchDropDown!.setRecents(#getRecents())
         
+        
+    methodend
+    
+    method public BBjVector getFavorites()
+        declare BBjVector data!
+        data! = new BBjVector()
+        firstFavorite! = new CompanyModel("001 - MarkSystems, LLC","0A - Development","building-warehouse")
+        secondFavorite! = new CompanyModel("101 - Rendition Homes","1B - Lafayette","building-warehouse")
+        thirdFavorite! = new CompanyModel("125 - Knutson Companies","1A - Langley Meadows","building-warehouse")
+        data!.add(firstFavorite!)
+        data!.add(secondFavorite!)
+        data!.add(thirdFavorite!)
+        methodret data!
+        
+    methodend
+    
+    method public BBjVector getRecents()
+    declare BBjVector data!
+        data! = new BBjVector()
+        firstRecent! = new CompanyModel("001 - MarkSystems, LLC","0A - Development","building-warehouse")
+        secondRecent! = new CompanyModel("101 - Rendition Homes","1B - Lafayette","building-warehouse")
+        data!.add(firstRecent!)
+        data!.add(secondRecent!)
+        methodret data!
     methodend
     
     rem @Override

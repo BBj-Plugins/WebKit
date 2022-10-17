@@ -2,7 +2,14 @@
     display: flex;
 }
 
-.textArea {}
+.favsHeader {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    color: rgba(0, 0, 0, 0.6);
+}
 
 .iconArea {
     display: flex;
@@ -36,7 +43,7 @@
 }
 
 .simpleDialog {
-    max-width: 500px !important;
+    max-width: 780px !important;
     max-height: 292px !important;
     background: #FAFAFB;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.16);
@@ -131,6 +138,20 @@
 
 .dialogBody {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rightBody {
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
+    max-width: 500px;
+}
+
+.leftBody {
+    display: flex;
+    flex-direction: column;
+    max-width: 280px;
+    gap: 8px;
 }

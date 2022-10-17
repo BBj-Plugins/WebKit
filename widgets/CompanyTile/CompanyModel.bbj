@@ -1,0 +1,28 @@
+class public CompanyModel
+    field private BBjString company! = ""
+    field private BBjString development! = ""
+    field private BBjString icon! = ""
+    
+    method public CompanyModel(BBjString company!, BBjString development!)
+        #company! = company!
+        #development! = development!
+    methodend
+    
+    method public CompanyModel(BBjString company!, BBjString development!, BBjString icon!)
+        #company! = company!
+        #development! = development!
+        #icon! = icon!
+    methodend
+    
+    method public BBjString getCompany()
+        methodret #company!
+    methodend
+    
+    method public BBjString getDevelopment()
+        methodret #development!
+    methodend
+    
+    method public BBjString getIcon()
+        methodret #icon!
+    methodend
+classend
