@@ -34,8 +34,8 @@ class public ERPAppbar extends Appbar
         
         declare SearchDropDown searchDropDown!
         searchDropDown! = new SearchDropDown(area!)
-        searchDropDown!.setTitle("testTitle")
-        searchDropDown!.setContent("testContent")
+        searchDropDown!.setTitle("001 MarkSystems, LLC")
+        searchDropDown!.setContent("1A Langley Meadows")
         searchDropDown!.setFavorites(#getFavorites())
         searchDropDown!.setRecents(#getRecents())
         

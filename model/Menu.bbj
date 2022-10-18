@@ -228,7 +228,8 @@ class public Menu
 
     method public Menu()
         #RootItem! = #addMenuItem(null(),0, "root", "","")
-        #favorites! = new MenuItem(null(),1, "Favorites","","")
+        #favorites! = new MenuItem(#RootItem!,1, "Favorites","","")
+        #menuMap!.put(1,#favorites!)
     methodend
 
     method public MenuItem addMenuItem(MenuItem parentItem!, BBjString caption!, BBjString toolTip!, BBjString iconFilename!)
@@ -245,6 +246,10 @@ class public Menu
 
     method public MenuItem getRoot()
         methodret #RootItem!
+    methodend
+    
+    method public MenuItem getFavorites()
+        methodret #favorites!
     methodend
     
     method public BBjVector getChildren(MenuItem item!)

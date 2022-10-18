@@ -1,5 +1,6 @@
 .dropDownButton {
     display: flex;
+    cursor: pointer;
 }
 
 .favsHeader {
@@ -44,7 +45,7 @@
 
 .simpleDialog {
     max-width: 780px !important;
-    max-height: 292px !important;
+    max-height: 350px !important;
     background: #FAFAFB;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.16);
     border-radius: 12px;

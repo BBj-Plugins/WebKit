@@ -14,6 +14,8 @@ class public CompanyTile extends BBjWidget
     field private BBjStaticText icon!
     field private CompanyModel model!
     
+    field public static BBjNumber ON_COMPANYTILE_CLICK = 560
+    
     
     
     method public CompanyTile(BBjWindow wnd!, CompanyModel model!)
@@ -81,7 +83,7 @@ class public CompanyTile extends BBjWidget
     methodend
     
     method public void tileClicked(BBjMouseDownEvent ev!)
-    
+        #fireEvent(#ON_COMPANYTILE_CLICK,#model!)
     methodend
     
     

@@ -51,6 +51,7 @@ class public AlternativeDrawer extends Drawer
                 
                 
                 
+                
                 rem if item!.getIcon() <> "" AND item!.getIcon() <> null() then
                 rem 
                 rem     tile!.setIcon(item!.getIcon())

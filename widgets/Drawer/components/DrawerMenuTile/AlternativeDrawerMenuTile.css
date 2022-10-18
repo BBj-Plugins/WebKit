@@ -25,3 +25,21 @@
     padding-left: 5px;
     background: var(--bbj-window-background);
 }
+.trailingIcon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 30px;
+    
+    border-radius: 8px;
+    margin-right: 5px;
+    
+}
+@media (hover: hover) {
+    .menutile:hover .trailingIcon{
+        display: block;
+    }
+}
+

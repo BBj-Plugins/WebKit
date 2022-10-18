@@ -19,7 +19,7 @@ class public SearchDropDown extends BBjWidget
     field private BBjStaticText content!
     field private BBjSysGui sysgui!
     field private BBjStaticText icon!
-    field protected Overlay overlay!
+    
     field private Boolean expanded! = Boolean.FALSE
     field protected BBjListButton companyListButton!
     field protected BBjListButton developmentListButton!
@@ -28,7 +28,7 @@ class public SearchDropDown extends BBjWidget
     field protected BBjString currentDevelopment!
     field protected BBjVector favorites!
     field protected BBjVector recent!
-    
+    field protected BBjWindow overlay!    
     
     field private BBjChildWindow iconArea!
     
@@ -155,7 +155,7 @@ class public SearchDropDown extends BBjWidget
         rem #overlay! = new Overlay(wnd!, dialog!)
         rem #overlay!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmissed")
         rem #overlay!.setBackgroundColor("rgba(0,0,0,0.35)")
-        declare BBjChildWindow parent!
+        
         
         declare BBjChildWindow dialogBody!
         declare BBjChildWindow leftBody!
@@ -163,8 +163,8 @@ class public SearchDropDown extends BBjWidget
         
         
         
-        parent! = PortalFrame.getInstance().getDialogWindow()
-        #dialog! = new DialogPanel(parent!)
+        #overlay! = PortalFrame.getInstance().getDialogWindow()
+        #dialog! = new DialogPanel(#overlay!)
         #dialog!.setHeaderVisible(0)
         #dialog!.setDividerVisible(0)
         #dialog!.setDialogWindowCustomCssClass("simpleDialog")
@@ -240,11 +240,13 @@ class public SearchDropDown extends BBjWidget
         favsHeader!.addStyle("favsHeader")
         for i = 0 to #favorites!.size() - 1
             companyTile! = new CompanyTile(area!, cast(CompanyModel,#favorites!.get(i)))
+            companyTile!.setCallback(companyTile!.ON_COMPANYTILE_CLICK,#this!,"recOrFavClick")
         next i
         recentHeader! = area!.addStaticText(area!.getAvailableControlID(),0,0,0,0,"Recent")
         recentHeader!.addStyle("favsHeader")
          for i = 0 to #recent!.size() - 1
             companyTile! = new CompanyTile(area!, cast(CompanyModel,#recent!.get(i)))
+            companyTile!.setCallback(companyTile!.ON_COMPANYTILE_CLICK,#this!,"recOrFavClick")
         next i
     methodend
     
@@ -280,13 +282,17 @@ class public SearchDropDown extends BBjWidget
         PortalFrame.getInstance().destroyDialogWindow()
     methodend
     
-    method public void buildIconArea()
-    
+    method public void recOrFavClick(BBjCustomEvent ev!)
+        #title!.setText(cast(CompanyModel,ev!.getObject()).getCompany())
+        #content!.setText(cast(CompanyModel,ev!.getObject()).getDevelopment())
+        #dialog!.doCancel()
+        #overlay!.destroy()
     methodend
     
     method public void submit(BBjEvent ev!)
         #title!.setText(#currentCompany!)
         #content!.setText(#currentDevelopment!)
+        #overlay!.destroy()
         
     methodend
     

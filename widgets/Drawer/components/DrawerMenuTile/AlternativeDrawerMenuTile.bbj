@@ -32,6 +32,7 @@ class public AlternativeDrawerMenuTile extends ListTile
         #starIcon! = #starWrapper!.addStaticText(#starWrapper!.getAvailableControlID(),0,0,200,22,Icons.get("star"))
         #starWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onFavoriteClick")
         #starWrapper!.addStyle("trailingIcon")
+        
     methodend
     
     rem @Override

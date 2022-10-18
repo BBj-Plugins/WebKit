@@ -36,12 +36,6 @@ class public ShowCaseFrame extends PortalFrame
     methodend
     
     
-    method protected void createAppBarObject(BBjWindow window!)
-        appbar! = new ShowCaseAppbar(window!)
-        appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
-        appbar!.setLogo("WebKit/demo/ERPDemo/ERP.png")
-    methodend
-    
     rem @Override
     method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!, Menu menu!)
         

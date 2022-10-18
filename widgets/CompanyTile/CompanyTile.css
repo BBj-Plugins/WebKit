@@ -1,5 +1,6 @@
 .companyTile {
     display: flex;
+    cursor: pointer;
 }
 
 .content {
