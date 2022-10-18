@@ -28,6 +28,8 @@ class public SearchDropDown extends BBjWidget
     field protected BBjString currentDevelopment!
     field protected BBjVector favorites!
     field protected BBjVector recent!
+    field protected BBjVector companies!
+    field protected BBjVector developments!
     field protected BBjWindow overlay!    
     
     field private BBjChildWindow iconArea!
@@ -54,64 +56,6 @@ class public SearchDropDown extends BBjWidget
             
       
         fi
-    methodend
-    
-    method public String getTopPosition(String elementId!)
-        declare String script!
-        script! = "" +
-:       "(() => {" +
-:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
-:       "console.log(rec.top + window.scrollY);" + 
-:       "return rec.top + window.scrollY;" +
-:       "})()"
-  
-        value! = str(#sysgui!.executeScript(script!))
-      
-        methodret value!
-    methodend
-    
-    
-    method public String getBotPosition(String elementId!)
-        declare String script!
-        script! = "" +
-:       "(() => {" +
-:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
-:       "console.log(rec.bottom + window.scrollY);" + 
-:       "return rec.bottom + window.scrollY;" +
-:       "})()"
-  
-        value! = str(#sysgui!.executeScript(script!))
-      
-        methodret value!
-    methodend
-    
-    
-    method public String getLeftPosition(String elementId!)
-        declare String script!
-        script! = "" +
-:       "(() => {" +
-:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
-:       "console.log(rec.left + window.scrollX);" + 
-:       "return rec.left + window.scrollX;" +
-:       "})()"
-  
-        value! = str(#sysgui!.executeScript(script!))
-      
-        methodret value!
-    methodend
-    
-    method public String getRightPosition(String elementId!)
-        declare String script!
-        script! = "" +
-:       "(() => {" +
-:       "var rec = document.getElementById('" + elementId! + "').getBoundingClientRect();" +
-:       "console.log(rec.right + window.scrollX);" + 
-:       "return rec.right + window.scrollX;" +
-:       "})()"
-  
-        value! = str(#sysgui!.executeScript(script!))
-      
-        methodret value!
     methodend
     
     method public void buildTextArea()
@@ -145,18 +89,6 @@ class public SearchDropDown extends BBjWidget
     methodend
     
     method public void openDialog(BBjMouseDownEvent ev!)
-        rem declare BBjChildWindow wnd!
-        rem declare BBjChildWindow dialog!
-        rem 
-        rem wnd! = PortalFrame.getInstance().getDialogWindow()
-        rem dialog! = wnd!.addChildWindow(wnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
-        rem dialog!.setStyle("background","white")
-        rem test! = dialog!.addStaticText(dialog!.getAvailableControlID(),0,0,0,0,"test")
-        rem #overlay! = new Overlay(wnd!, dialog!)
-        rem #overlay!.setCallback(Overlay.ON_OVERLAY_DISSMISSED,#this!,"onOverlayDissmissed")
-        rem #overlay!.setBackgroundColor("rgba(0,0,0,0.35)")
-        
-        
         declare BBjChildWindow dialogBody!
         declare BBjChildWindow leftBody!
         declare BBjChildWindow rightBody!
@@ -174,6 +106,7 @@ class public SearchDropDown extends BBjWidget
         #dialog!.setCloseByOutsideClick(1)
         #dialog!.setSubmitButtonDisabled(0)
         #dialog!.setCallback(DialogPanel.ON_SUBMIT,#this!,"submit")
+        #dialog!.setCallback(DialogPanel.ON_CLOSE,#this!,"closedDialog")
         dialogBody! = #dialog!.getBody()
         dialogBody!.addStyle("dialogBody")
         
@@ -199,11 +132,10 @@ class public SearchDropDown extends BBjWidget
         #companyListButton!.setAttribute("item-label","Select Company")
         #companyListButton!.setAttribute("button-height","40px")
         #companyListButton!.addStyle("dialogDropdown")
-        for i = 0 to #companyDemoData().size() - 1
-           #companyListButton!.addItem(str(#companyDemoData().get(i)))
-        next i
         #companyListButton!.setCallback(#companyListButton!.ON_LIST_SELECT,#this!,"companySelected")
-        
+        for i = 0 to #companies!.size() - 1
+           #companyListButton!.addItem(str(#companies!.get(i)))
+        next i
     methodend
     
     method public void companySelected(BBjListSelectEvent ev!)
@@ -222,12 +154,11 @@ class public SearchDropDown extends BBjWidget
         #developmentListButton!.setAttribute("item-label","Select Development")
         #developmentListButton!.setAttribute("button-height","40px")
         #developmentListButton!.addStyle("dialogDropdown")
-        for i = 0 to #developmentDemoData().size() - 1
-           #developmentListButton!.addItem(str(#developmentDemoData().get(i)))
-        next i
         #developmentListButton!.setCallback(#developmentListButton!.ON_LIST_SELECT,#this!,"developmentSelected")
         #developmentListButton!.setAttribute("disabled","true")
-        
+        for i = 0 to #developments!.size() - 1
+           #developmentListButton!.addItem(str(#developments!.get(i)))
+        next i
     methodend
     
     method public void developmentSelected(BBjListSelectEvent ev!)
@@ -258,24 +189,26 @@ class public SearchDropDown extends BBjWidget
         #favorites! = favorites!
     methodend
     
-    method public BBjVector companyDemoData()
-        declare BBjVector data!
-        data! = new BBjVector()
-        data!.add("100 - Mark Systems, LLC")
-        data!.add("001 - Management Company")
-        data!.add("025 - Builders Building Buildings")
-        data!.add("050 - IHMS Land Company")
-        data!.add("099 - Generic Management Company")
-        methodret data!
+    method public void setCompanyData(BBjVector companies!)
+        #companies! = companies!
     methodend
     
-    method public BBjVector developmentDemoData()
-        declare BBjVector data!
-        data! = new BBjVector()
-        data!.add("1A - Langley Meadows")
-        data!.add("1B - Lafayette")
-        data!.add("1C - Brownsburg")
-        methodret data!
+    method public void setDevelopmentData(BBjVector developments!)
+        #developments! = developments!
+    methodend
+    
+    method public void setNewCompanyData(BBjVector data!)
+        #companyListButton!.removeAllItems()
+        for i = 0 to data!.size() - 1
+           #companyListButton!.addItem(str(data!.get(i)))
+        next i
+    methodend
+    
+    method public void setNewDevelopmentData(BBjVector data!)
+        #developmentListButton!.removeAllItems()
+        for i = 0 to data!.size() - 1
+           #developmentListButton!.addItem(str(data!.get(i)))
+        next i
     methodend
     
     method public void onOverlayDissmissed(BBjCustomEvent event!)
@@ -295,6 +228,11 @@ class public SearchDropDown extends BBjWidget
         #overlay!.destroy()
         
     methodend
+    
+    method public void closedDialog(BBjEvent ev!)
+        #overlay!.destroy()
+      
+    methodend 
     
     
     

@@ -124,7 +124,7 @@ declare MenuItem headerMenuItem!
 headerMenu! = new Menu()
 dashboard! = headerMenu!.addMenuItem(headerMenu!.getRoot(),51,"Dashboard","Dashboard","table")
 recent! = headerMenu!.addMenuItem(headerMenu!.getRoot(),52,"Recent","Recent","clock")
-favorites! = menu!.addMenuItem(menu!.getFavorites(),53,"Favorites","Favorites","star")
+favorites! = menu!.getFavorites()
 
 
 favoritesProvider! = SampleFavoritesProvider.getInstance()

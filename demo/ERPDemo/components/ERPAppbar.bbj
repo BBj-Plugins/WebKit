@@ -36,10 +36,32 @@ class public ERPAppbar extends Appbar
         searchDropDown! = new SearchDropDown(area!)
         searchDropDown!.setTitle("001 MarkSystems, LLC")
         searchDropDown!.setContent("1A Langley Meadows")
+        searchDropDown!.setCompanyData(#getCompanyData())
+        searchDropDown!.setDevelopmentData(#getDevelopmentData())
         searchDropDown!.setFavorites(#getFavorites())
         searchDropDown!.setRecents(#getRecents())
         
         
+    methodend
+    
+    method public BBjVector getCompanyData()
+        declare BBjVector data!
+        data! = new BBjVector()
+        data!.add("100 - Mark Systems, LLC")
+        data!.add("001 - Management Company")
+        data!.add("025 - Builders Building Buildings")
+        data!.add("050 - IHMS Land Company")
+        data!.add("099 - Generic Management Company")
+        methodret data!
+    methodend
+    
+    method public BBjVector getDevelopmentData()
+        declare BBjVector data!
+        data! = new BBjVector()
+        data!.add("1A - Langley Meadows")
+        data!.add("1B - Lafayette")
+        data!.add("1C - Brownsburg")
+        methodret data!
     methodend
     
     method public BBjVector getFavorites()

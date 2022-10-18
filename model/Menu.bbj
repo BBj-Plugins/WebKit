@@ -228,7 +228,7 @@ class public Menu
 
     method public Menu()
         #RootItem! = #addMenuItem(null(),0, "root", "","")
-        #favorites! = new MenuItem(#RootItem!,1, "Favorites","","")
+        #favorites! = new MenuItem(null(),1, "Favorites","","")
         #menuMap!.put(1,#favorites!)
     methodend
 

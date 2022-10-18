@@ -31,7 +31,7 @@ class public DialogPanel extends BBjWidget
     field private BBjString cancelBtnText$ = "Cancel"
     field private BBjString cancelBtnTheme$ = "default"
     field private BBjString cancelBtnCustomCssClass$ = "footerBtn"
-    field public static BBjNumber ON_CLOSE = BBjAPI.ON_CLOSE
+    field public static BBjNumber ON_CLOSE = 555
     
     field private BBjStaticText lblTitle!
 
@@ -133,7 +133,8 @@ class public DialogPanel extends BBjWidget
     method public void doCancel()
         #dialogWnd!.destroy()
         #parent!.destroy()
-        #fireEvent(ON_CLOSE, "")    
+        #fireEvent(#ON_CLOSE, "")    
+        
     methodend
 
     method public void onOutsideClick(BBjEvent ev!)
