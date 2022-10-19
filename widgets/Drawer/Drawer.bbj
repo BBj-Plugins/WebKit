@@ -84,6 +84,29 @@ class public Drawer extends BBjWidget
         #redraw(1)
     methodend
     
+    method public Drawer(BBjWindow parent!, DrawerModel dataModel!)
+        rem parent!.setCallback(BBjAPI().ON_RESIZE, #this!, "onResizeScreen")
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/Drawer.css")
+        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #window!.addStyle("drawerStyle") 
+        #window!.addStyle("drawerShow")       
+        #window!.addStyle("drawerOpen")
+        #window!.addPanelStyle("drawerPanelStyle")
+        #window!.addPanelStyle("drawerAnimationOpen")
+        #window!.addPanelStyle("drawerAnimationClose")
+      
+ 
+        #shadowWindow! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #shadowWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onShadowTapped")
+        #shadowWindow!.addPanelStyle("drawerMobileShadowPanelStyle")
+        #shadowWindow!.addStyle("drawerShadow")
+        #drawerDataModel! = dataModel!
+        #tiles! = dataModel!.getMenuTiles()
+        #setCanvas(#window!)
+      
+        #redraw(1)
+    methodend
+    
     method public void redraw(Boolean init!)
         declare DrawerHeader header!
         declare DashboardWidget dashboard!
