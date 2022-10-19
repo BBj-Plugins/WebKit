@@ -1,0 +1,19 @@
+use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
+use ::WebKit/widgets/DropDownWidget/DropDownWidget.bbj::DropDownWidget
+
+
+class public ShowCaseAppbar extends Appbar
+    
+    
+    method public ShowCaseAppbar(BBjWindow wnd!)
+        #super!(wnd!)
+    methodend
+    
+    rem @Override
+    method public void createCustomComponents(BBjChildWindow area!)
+        
+    methodend
+    
+   
+    
+classend

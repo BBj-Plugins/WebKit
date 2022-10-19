@@ -1,5 +1,5 @@
 .menutile {
-    height: 50px;
+    height: 40px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,6 +51,7 @@
 }
 
 .arrowIcon {
+    display: none;
     height: 20px;
     width: 15px;
 }
@@ -67,7 +68,7 @@
 }
 
 .btnPart {
-    height: 50px;
+    height: 40px;
     width: 500px;
     display: flex;
     flex-direction: row;
@@ -106,6 +107,9 @@
 @media (hover: hover) {
     .menutile:hover {
         background: var(--menutile-hover-color);
+    }
+    .menutile:hover .arrowIcon {
+        display: block;
     }
     .child:hover .iconWrapper {
         display: flex;

@@ -16,6 +16,8 @@ class public DialogPanel extends BBjWidget
     REM dialog body related
     field private BBjChildWindow body!
     
+    field private Divider bottomDivider!
+    
     REM dialog footer related
     field private BBjChildWindow footer!
     field private BBjButton submitBtn!
@@ -29,7 +31,7 @@ class public DialogPanel extends BBjWidget
     field private BBjString cancelBtnText$ = "Cancel"
     field private BBjString cancelBtnTheme$ = "default"
     field private BBjString cancelBtnCustomCssClass$ = "footerBtn"
-    field public static BBjNumber ON_CLOSE = BBjAPI.ON_CLOSE
+    field public static BBjNumber ON_CLOSE = 555
     
     field private BBjStaticText lblTitle!
 
@@ -91,8 +93,8 @@ class public DialogPanel extends BBjWidget
     methodend
 
     method public void renderFooter()
-        bottomDivider! = new Divider(#dialogWnd!)
-        bottomDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
+        #bottomDivider! = new Divider(#dialogWnd!)
+        #bottomDivider!.setColor("var(--bbj-divider-color, #DDE0E1)")
 
         #footer! = #dialogWnd!.addChildWindow(#dialogWnd!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         #footer!.addStyle("footerWnd")
@@ -109,9 +111,10 @@ class public DialogPanel extends BBjWidget
     methodend
 
     method public void onSubmit(BBjButtonPushEvent ev!)
+        
         #dialogWnd!.destroy()
         #parent!.destroy()
-        #fireEvent(ON_SUBMIT, "")
+        #fireEvent(#ON_SUBMIT, "")
     methodend
 
     method public void onCancel(BBjButtonPushEvent ev!)
@@ -130,7 +133,8 @@ class public DialogPanel extends BBjWidget
     method public void doCancel()
         #dialogWnd!.destroy()
         #parent!.destroy()
-        #fireEvent(ON_CLOSE, "")    
+        #fireEvent(#ON_CLOSE, "")    
+        
     methodend
 
     method public void onOutsideClick(BBjEvent ev!)
@@ -144,6 +148,22 @@ class public DialogPanel extends BBjWidget
         #renderTopBar()
         #initializeBody()
         #renderFooter()
+    methodend
+    
+    method public void setDividerVisible(Boolean value!)
+        #bottomDivider!.setVisible(value!)
+    methodend
+    
+    method public void setSubmitButtonDisabled(Boolean value!)
+        #submitBtn!.setEnabled(value!)
+    methodend
+    
+    method public void setDialogWindowCustomCssClass(BBjString text!)
+        #dialogWnd!.addStyle(text!)
+    methodend
+    
+    method public void setFooterCustomCssClass(BBjString text!)
+        #footer!.addStyle(text!)
     methodend
     
     method public void setShowCloseIcon(Boolean f_show!)
@@ -206,6 +226,10 @@ class public DialogPanel extends BBjWidget
 
     method public void setFooterVisible(Boolean value!)
         #footer!.setVisible(value!)
+    methodend
+    
+    method public void setHeaderVisible(Boolean value!)
+        #header!.setVisible(value!)
     methodend
     
     rem @Override

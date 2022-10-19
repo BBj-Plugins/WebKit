@@ -125,13 +125,9 @@
 
 .drawerFooterOverlayContentWrapper {
     cursor: pointer;
-    display: grid;
-    grid-template-rows: 50% 50%;
 }
 
-.drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child {
-    margin-bottom: 1em;
-}
+.drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child {}
 
 .drawerFooterOverlayLogoutPanel {
     grid-template-columns: 24px auto;

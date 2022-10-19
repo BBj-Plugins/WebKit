@@ -1,0 +1,244 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+use ::WebKit/util/Icons.bbj::Icons
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/widgets/common/Overlay/Overlay.bbj::Overlay
+use ::WebKit/framework/DialogPanel/DialogPanel.bbj::DialogPanel
+
+use ::WebKit/widgets/CompanyTile/CompanyModel.bbj::CompanyModel
+use ::WebKit/widgets/CompanyTile/CompanyTile.bbj::CompanyTile
+
+
+class public SearchDropDown extends BBjWidget
+    
+    field private BBjChildWindow window!  
+    field private BBjChildWindow buttonPart!
+    field private BBjChildWindow textArea!
+    field private BBjStaticText title!
+    field private BBjStaticText content!
+    field private BBjSysGui sysgui!
+    field private BBjStaticText icon!
+    
+    field private Boolean expanded! = Boolean.FALSE
+    field protected BBjListButton companyListButton!
+    field protected BBjListButton developmentListButton!
+    field protected DialogPanel dialog!
+    field protected BBjString currentCompany!
+    field protected BBjString currentDevelopment!
+    field protected BBjVector favorites!
+    field protected BBjVector recent!
+    field protected BBjVector companies!
+    field protected BBjVector developments!
+    field protected BBjWindow overlay!    
+    
+    field private BBjChildWindow iconArea!
+    
+    field public static BBjNumber ON_NEW_COMPANY_SELECTED = 777
+    
+    method public SearchDropDown(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/SearchDropDown/SearchDropDown.css")
+        #sysgui! = BBjAPI().openSysGui("X0")
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public void redraw(Boolean init!)
+        if init! then
+            #window! = #getCanvas()
+            #buttonPart! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #buttonPart!.addStyle("dropDownButton") 
+            #buttonPart!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"openDialog")
+            #buttonPart!.setAttribute("id","dropDownButton" + str(#this!.getID()))
+            #textArea! = #buttonPart!.addChildWindow(#buttonPart!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #textArea!.addStyle("textArea") 
+            #iconArea! = #buttonPart!.addChildWindow(#buttonPart!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+            #iconArea!.addStyle("iconArea") 
+            #icon! = Icons.getIconOnWindow(#iconArea!, null(), "chevron-down", "color: white")
+            #buildTextArea()
+            
+      
+        fi
+    methodend
+    
+    method public void buildTextArea()
+        declare BBjChildWindow titleAreaButton!
+        declare BBjChildWindow contentAreaButton!
+        
+        titleAreaButton! = #textArea!.addChildWindow(#textArea!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        titleAreaButton!.addStyle("titleArea") 
+        contentAreaButton! = #textArea!.addChildWindow(#textArea!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        contentAreaButton!.addStyle("contentAreaButton") 
+        #title! = titleAreaButton!.addStaticText(titleAreaButton!.getAvailableControlID(),0,0,0,0,"") 
+        #content! = contentAreaButton!.addStaticText(contentAreaButton!.getAvailableControlID(),0,0,0,0,"") 
+    methodend
+    
+    
+    method public void setTitle(BBjString newTitle!)
+        #title!.setText(newTitle!)
+    methodend
+    
+    method public void setContent(BBjString newContent!)
+        #content!.setText(newContent!)
+    methodend
+    
+    method public void flipIcon()
+        if #expanded! then
+            #icon!.setText(Icons.get("chevron-down"))
+        else
+            #icon!.setText(Icons.get("chevron-up"))
+        fi
+        #expanded! = !#expanded!
+    methodend
+    
+    method public void openDialog(BBjMouseDownEvent ev!)
+        declare BBjChildWindow dialogBody!
+        declare BBjChildWindow leftBody!
+        declare BBjChildWindow rightBody!
+        
+        
+        
+        #overlay! = PortalFrame.getInstance().getDialogWindow()
+        #dialog! = new DialogPanel(#overlay!)
+        #dialog!.setHeaderVisible(0)
+        #dialog!.setDividerVisible(0)
+        #dialog!.setDialogWindowCustomCssClass("simpleDialog")
+        #dialog!.setSubmitBtnCustomCssClass("selectButton")
+        #dialog!.setCancelBtnCustomCssClass("cancelButton")
+        #dialog!.setFooterCustomCssClass("footer")
+        #dialog!.setCloseByOutsideClick(1)
+        #dialog!.setSubmitButtonDisabled(0)
+        #dialog!.setCallback(DialogPanel.ON_SUBMIT,#this!,"submit")
+        #dialog!.setCallback(DialogPanel.ON_CLOSE,#this!,"closedDialog")
+        dialogBody! = #dialog!.getBody()
+        dialogBody!.addStyle("dialogBody")
+        
+        leftBody! = dialogBody!.addChildWindow(dialogBody!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        leftBody!.addStyle("leftBody")
+        rightBody! = dialogBody!.addChildWindow(dialogBody!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        rightBody!.addStyle("rightBody")
+        header! = rightBody!.addStaticText(rightBody!.getAvailableControlID(),0,0,0,0,"Select Company and Development")
+        header!.addStyle("dialogHeader")
+        #buildCompanyListButton(rightBody!)
+        #buildDevelopmentListButton(rightBody!)
+        #buildRecentsAndFavs(leftBody!)
+        #dialog!.show()
+        
+    methodend
+    
+    method public void buildCompanyListButton(BBjChildWindow dialogBody!)
+        declare BBjChildWindow companyListButtonArea!
+        companyListButtonArea! = dialogBody!.addChildWindow(dialogBody!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        companyListButtonHeader! = companyListButtonArea!.addStaticText(companyListButtonArea!.getAvailableControlID(),0,0,0,0,"Company")
+        companyListButtonHeader!.addStyle("listButtonHeader")
+        #companyListButton! = companyListButtonArea!.addListButton(companyListButtonArea!.getAvailableControlID(),0,0,0,0,"")
+        #companyListButton!.setAttribute("item-label","Select Company")
+        #companyListButton!.setAttribute("button-height","40px")
+        #companyListButton!.addStyle("dialogDropdown")
+        #companyListButton!.setCallback(#companyListButton!.ON_LIST_SELECT,#this!,"companySelected")
+        for i = 0 to #companies!.size() - 1
+           #companyListButton!.addItem(str(#companies!.get(i)))
+        next i
+    methodend
+    
+    method public void companySelected(BBjListSelectEvent ev!)
+        #developmentListButton!.setAttribute("disabled","false")
+        #currentCompany! = ev!.getSelectedItem()
+        
+    methodend
+    
+    method public void buildDevelopmentListButton(BBjChildWindow dialogBody!)
+        
+        declare BBjChildWindow developmentListButtonArea!
+        developmentListButtonArea! = dialogBody!.addChildWindow(dialogBody!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        developmentListButtonHeader! = developmentListButtonArea!.addStaticText(developmentListButtonArea!.getAvailableControlID(),0,0,0,0,"Development")
+        developmentListButtonHeader!.addStyle("listButtonHeader")
+        #developmentListButton! = developmentListButtonArea!.addListButton(developmentListButtonArea!.getAvailableControlID(),0,0,0,0,"")
+        #developmentListButton!.setAttribute("item-label","Select Development")
+        #developmentListButton!.setAttribute("button-height","40px")
+        #developmentListButton!.addStyle("dialogDropdown")
+        #developmentListButton!.setCallback(#developmentListButton!.ON_LIST_SELECT,#this!,"developmentSelected")
+        #developmentListButton!.setAttribute("disabled","true")
+        for i = 0 to #developments!.size() - 1
+           #developmentListButton!.addItem(str(#developments!.get(i)))
+        next i
+    methodend
+    
+    method public void developmentSelected(BBjListSelectEvent ev!)
+        #dialog!.setSubmitButtonDisabled(1)
+        #currentDevelopment! = ev!.getSelectedItem()
+    methodend
+    
+    method public void buildRecentsAndFavs(BBjChildWindow area!)
+        favsHeader! = area!.addStaticText(area!.getAvailableControlID(),0,0,0,0,"Favorites")
+        favsHeader!.addStyle("favsHeader")
+        for i = 0 to #favorites!.size() - 1
+            companyTile! = new CompanyTile(area!, cast(CompanyModel,#favorites!.get(i)))
+            companyTile!.setCallback(companyTile!.ON_COMPANYTILE_CLICK,#this!,"recOrFavClick")
+        next i
+        recentHeader! = area!.addStaticText(area!.getAvailableControlID(),0,0,0,0,"Recent")
+        recentHeader!.addStyle("favsHeader")
+         for i = 0 to #recent!.size() - 1
+            companyTile! = new CompanyTile(area!, cast(CompanyModel,#recent!.get(i)))
+            companyTile!.setCallback(companyTile!.ON_COMPANYTILE_CLICK,#this!,"recOrFavClick")
+        next i
+    methodend
+    
+    method public void setRecents(BBjVector recents!)
+        #recent! = recents!
+    methodend
+    
+    method public void setFavorites(BBjVector favorites!)
+        #favorites! = favorites!
+    methodend
+    
+    method public void setCompanyData(BBjVector companies!)
+        #companies! = companies!
+    methodend
+    
+    method public void setDevelopmentData(BBjVector developments!)
+        #developments! = developments!
+    methodend
+    
+    method public void setNewCompanyData(BBjVector data!)
+        #companyListButton!.removeAllItems()
+        for i = 0 to data!.size() - 1
+           #companyListButton!.addItem(str(data!.get(i)))
+        next i
+    methodend
+    
+    method public void setNewDevelopmentData(BBjVector data!)
+        #developmentListButton!.removeAllItems()
+        for i = 0 to data!.size() - 1
+           #developmentListButton!.addItem(str(data!.get(i)))
+        next i
+    methodend
+    
+    method public void onOverlayDissmissed(BBjCustomEvent event!)
+        PortalFrame.getInstance().destroyDialogWindow()
+    methodend
+    
+    method public void recOrFavClick(BBjCustomEvent ev!)
+        #title!.setText(cast(CompanyModel,ev!.getObject()).getCompany())
+        #content!.setText(cast(CompanyModel,ev!.getObject()).getDevelopment())
+        #dialog!.doCancel()
+        #fireEvent(#ON_NEW_COMPANY_SELECTED,ev!.getObject())
+        
+    methodend
+    
+    method public void submit(BBjEvent ev!)
+        #title!.setText(#currentCompany!)
+        #content!.setText(#currentDevelopment!)
+        #overlay!.destroy()
+        model! = new CompanyModel(#currentCompany!,#currentDevelopment!)
+        #fireEvent(#ON_NEW_COMPANY_SELECTED,model!)
+        
+    methodend
+    
+    method public void closedDialog(BBjEvent ev!)
+        #overlay!.destroy()
+      
+    methodend 
+    
+    
+    
+classend

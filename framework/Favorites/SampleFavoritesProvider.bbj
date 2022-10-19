@@ -88,6 +88,7 @@ class public SampleFavoritesProvider implements IFavoritesProvider
     
     method public void setFavoritesItem(MenuItem item!)
         #favoritesItem! = item!
+     
     methodend
 
 classend

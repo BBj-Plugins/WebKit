@@ -1,13 +1,30 @@
-
 .appbarStyle {
-    display: none;
+    display: flex;
+    flex-direction: row;
+    background: #012042;
+    align-items: center;
+    padding: 10px;
+    height: 56px;
+}
+
+.trailingArea {
+    border-style: none;
+    margin-left: auto;
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 .menu {
-    height: 30px;
-    width: 30px;
+    gap: 10px;
     margin-top: 7px;
+    margin-bottom: 7px;
     margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    width: fit-content;
+    align-items: center;
 }
 
 @media screen and (max-width: 425px) {
@@ -19,13 +36,16 @@
         height: 40px !important;
         width: 100% !important;
         display: block;
-    } 
-
-    .menu {
-        height: 30px;
-        width: 30px;
-        margin-top: 7px;
-        margin-left: 20px;
     }
-    
+    .menu {
+        gap: 10px;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        margin-left: 20px;
+        display: flex;
+        flex-direction: row;
+        height: fit-content;
+        width: fit-content;
+        align-items: center;
+    }
 }

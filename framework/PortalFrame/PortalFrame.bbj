@@ -35,7 +35,7 @@ use ::WebKit/framework/Router/Router.bbj::Router
 class public PortalFrame implements RouterProtocol
 
     field private BBjTopLevelWindow window!
-    field private Drawer Drawer!
+    field protected Drawer Drawer!
     field private BBjChildWindow Main!
     field private BBjChildWindow AccountDisplay!
     field private BBjChildWindow Avatar!
@@ -52,9 +52,9 @@ class public PortalFrame implements RouterProtocol
     field private MenuItem pageNotFoundPanel!
     field public AccountProfile Profile!
     
-    field private Boolean drawerOpen! = Boolean.FALSE
-    field private Boolean drawerHidden! = Boolean.FALSE
-    field private Boolean isMobile! = Boolean.FALSE
+    field protected Boolean drawerOpen! = Boolean.FALSE
+    field protected Boolean drawerHidden! = Boolean.FALSE
+    field protected Boolean isMobile! = Boolean.FALSE
     field private HashMap win_list! = new HashMap()
     field public BBjWidget currWindow! 
     
@@ -64,6 +64,9 @@ class public PortalFrame implements RouterProtocol
 
     field public BBjString LogoUrl!
     field public BBjString LogoSmallUrl!
+     
+    field public boolean ShowHeaderIcon! = Boolean.FALSE
+    
 
     field public static BBjString ON_NAVIGATION$ = "navigation"
     field private Router router!
@@ -111,8 +114,9 @@ class public PortalFrame implements RouterProtocol
         drawerDataModel!.setTilesTextHeader("Browse")
         drawerDataModel!.setOpenIcon(Icons.get("chevron-right"))
         drawerDataModel!.setCloseIcon(Icons.get("chevron-left"))
+        drawerDataModel!.setShowHeaderIcon(#ShowHeaderIcon!)
         
-        drawerDataModel!.setAvatarUrl("/files/prodinRes/drawerAvatar.png")
+        
         
         if #Profile! <> null() then
             drawerDataModel!.setAvatarUrl(#Profile!.getPictureUrl())
@@ -129,8 +133,9 @@ class public PortalFrame implements RouterProtocol
         while it!.hasNext()
             declare auto MenuItem menuitem!
             menuitem! = it!.next()
-            id% = menuitem!.getNodeId()
-            menuTiles!.add(new DrawerMenuTileEntry(id%, menuitem!.getCaption(), menuitem!.getIcon()))
+            menuTiles!.add(menuItem!)
+            
+            
             REM btn! = new IconTile(#Drawer!,id%)
             REM btn!.setText(menuitem!.getCaption())
             REM btn!.setIcon(menuitem!.getIcon())
@@ -171,8 +176,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         while it!.hasNext()
             declare auto MenuItem headerMenuItem!
             headerMenuItem! = it!.next()
-            id% = headerMenuItem!.getNodeId()
-            headerMenuTiles!.add(new DrawerMenuTileEntry(id%, headerMenuItem!.getCaption(), headerMenuItem!.getIcon()))
+            
+            headerMenuTiles!.add(headerMenuItem!)
         wend
         
         #registerPageNotFound()
@@ -183,21 +188,22 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
         drawerDataModel!.setHeaderMenuTiles(headerMenuTiles!)
     
         drawerDataModel!.setMenuTiles(menuTiles!)
-        #Drawer! = #createDrawerObject(#window!, drawerDataModel!)
+        #Drawer! = #createDrawerObject(#window!, drawerDataModel!,menu!)
+        
         #Drawer!.setCallback(Drawer.ON_DRAWER_TILE_PRESSED, #this!, "onMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_FOOTER_TILE_PRESSED, #this!, "onFooterMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
         #Drawer!.setCallback(Drawer.ON_DRAWER_STATE_CHANGED, #this!, "onDrawerToggle")
         #Drawer!.setCallback(Drawer.ON_LOGOUT, "logout")
         
-        header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
-        
-        header!.setDockStyle("grid-row-start","1")
-        header!.setDockStyle("height", "30px")
-        header!.setDockStyle("margin-bottom","8px")
-        header!.setDockStyle("margin-left","40px")
-        header!.addTextStyle("drawerTilesTextHeaderStyle")
-        header!.setTextStyle("display","block")
+        rem header! = new TilesTextHeader(#Drawer!.getOptionalControlAboveTiles(), drawerDataModel!.getTilesTextHeader())
+        rem 
+        rem header!.setDockStyle("grid-row-start","1")
+        rem header!.setDockStyle("height", "30px")
+        rem header!.setDockStyle("margin-bottom","8px")
+        rem header!.setDockStyle("margin-left","40px")
+        rem header!.addTextStyle("drawerTilesTextHeaderStyle")
+        rem header!.setTextStyle("display","block")
     methodend
     
     rem /**
@@ -205,7 +211,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     rem  * override this method if you want to create a custom drawer class 
     rem  * that extends Drawer 
     rem  */
-    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!)
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!,Menu menu!)
         methodret new Drawer(window!, drawerDataModel!)
     methodend
     
@@ -221,11 +227,11 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             
             
             main! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,100,80,"",$00100800$,#sysgui!.getAvailableContext())
-
-            appbar! = new Appbar(main!)
-            appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
+            #createAppBarObject(#window!)
+                
 
             main!.addStyle("mainarea")
+            
             #Main! = cast(BBjChildWindow,main!)
             #Main!.addStyle("shrinked")
 
@@ -252,6 +258,11 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                 #sysgui!.executeScript("window.location.reload()")
                 methodret 1
        
+    methodend
+    
+    method protected void createAppBarObject(BBjWindow window!)
+        rem appbar! = new Appbar(window!)
+        rem appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
     methodend
 
     method public void onResizeScreen(BBjResizeEvent ev!)

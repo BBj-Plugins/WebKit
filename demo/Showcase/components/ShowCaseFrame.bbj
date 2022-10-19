@@ -4,6 +4,14 @@ use ::WebKit/demo/Showcase/components/ShowCaseMenuPanel.bbj::ShowCaseMenuPanel
 use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEntry
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/demo/Showcase/components/ShowCaseAppbar.bbj::ShowCaseAppbar
+use ::Webkit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
+
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
 
 class public ShowCaseFrame extends PortalFrame
 
@@ -25,6 +33,13 @@ class public ShowCaseFrame extends PortalFrame
         
         methodret menuPanel!
         
+    methodend
+    
+    
+    rem @Override
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!, Menu menu!)
+        
+        methodret new Drawer(window!, drawerDataModel!,menu!)
     methodend
     
     

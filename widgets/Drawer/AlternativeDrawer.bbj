@@ -1,0 +1,166 @@
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
+use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
+use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+use ::WebKit/widgets/Drawer/components/DrawerHeader/AlternativeDrawerHeader.bbj::AlternativeDrawerHeader
+use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
+use ::WebKit/widgets/Drawer/components/DrawerMenuTile/AlternativeDrawerMenuTile.bbj::AlternativeDrawerMenuTile
+use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
+use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
+
+class public AlternativeDrawer extends Drawer
+	field public IFavoritesProvider favoritesProvider!
+    
+    method public AlternativeDrawer(BBjWindow parent!, DrawerModel dataModel!, Menu menu!)
+        
+        #super!(parent!,dataModel!,menu!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/AlternativeDrawer.css")
+        #favoritesProvider! = SampleFavoritesProvider.getInstance()
+    methodend
+    rem @Override
+    
+    method public void buildDrawerTiles(BBjVector tiles!, BBjWindow tilesWrapper!)
+            #buildTiles(#menu!.getRoot().getNodeId(),0,tilesWrapper!)
+            
+    methodend
+    
+    method public void buildTiles(BBjNumber nodeId,BBjNumber i,BBjWindow tilesWrapper!)
+        declare MenuItem node!
+        declare MenuItem item!
+        node! = #menu!.getItem(nodeId)
+        v! = node!.getChildren()
+        it! = v!.iterator()
+       
+        templateRows! = "40px"
+        rem escape
+        while it!.hasNext()
+            item! = cast(MenuItem,it!.next())
+            id%  = item!.getNodeId()
+            
+            if item!.getCaption() <> "404"
+                declare ListTile tile!
+                tile! = new AlternativeDrawerMenuTile(tilesWrapper!)
+                tile!.setText(item!.getCaption())
+                tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
+                tile!.setCallback(AlternativeDrawerMenuTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
+                tile!.setCallback(AlternativeDrawerMenuTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
+                
+                tile!.enableLetterField(0)
+                
+                
+                
+                
+                rem if item!.getIcon() <> "" AND item!.getIcon() <> null() then
+                rem 
+                rem     tile!.setIcon(item!.getIcon())
+                rem endif
+                tile!.setItemId(item!.getNodeId())
+                           
+                #MenuItemTiles!.put(item!.getNodeId(),tile!)
+                #buildTiles(id%,i+1,tilesWrapper!)
+                if i > 0 then
+                    tile!.setChild(1)
+                    tile!.setVisible(0)
+                endif
+                if item!.hasChildren() then
+                   tile!.setHeader()
+                endif 
+                #buildMenuTiles!.add(tile!)
+                templateRows! = templateRows! + " 48px" 
+                rem templateRows! = templateRows! + " 12px"
+                rem spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+                rem spacer!.setDockStyle("height","12px")
+            fi
+        wend      
+        
+       
+        
+    methodend
+    
+    rem @Override
+    method public void rebuildDrawerTiles(BBjVector newTiles!, Menu menu!)
+           #menu! = menu!
+           it! = #buildMenuTiles!.iterator()
+           while it!.hasNext()
+                declare auto AlternativeDrawerMenuTile tile!               
+                tile! = it!.next()
+                tile!.destroy()  
+                                         
+           wend
+           #buildMenuTiles!.clear()
+           
+           #buildDrawerTiles(newTiles!,#tilesWrapper!)
+    methodend
+    
+    method public void setFavorite(BBjCustomEvent event!)
+      	
+        favorite! = #menu!.getItem(num(event!.getObject()))
+    
+        if #favoritesProvider!.isItemFavorite(favorite!) then
+            #favoritesProvider!.removeFavorite(favorite!)
+        else
+            #favoritesProvider!.addFavorite(favorite!)
+        endif
+        #redraw(0)
+    methodend
+    
+    rem @Override
+    method public void buildHeader()
+            header! = new AlternativeDrawerHeader(#window!, #drawerDataModel!)
+            
+
+            header!.setCallback(DrawerHeader.ON_DRAWER_HEADER_TILE_PRESSED, #this!, "onHeaderMenuItemClick")
+    methodend
+    
+    rem @Override
+    method public void closeDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerClosed")
+        #window!.removeStyle("drawerOpen")
+        #window!.setVisible(0)
+        
+        #shadowWindow!.removeStyle("drawerShadow")
+        #open! = !#open!
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, 0)
+    methodend
+    
+    rem @Override
+    method public void openDrawer(BBjCustomEvent event!)
+        #window!.addStyle("drawerOpen")
+        #window!.removeStyle("drawerClosed")
+        #window!.setVisible(1)
+        #open! = !#open!
+        #fireEvent(#ON_DRAWER_STATE_CHANGED, 1)
+    methodend
+    
+    method public void disableFooter(BBjWindow footerWrapper!)
+    footerWrapper!.setVisible(0)
+    methodend
+    
+    method public void onMenuItemClick(BBjCustomEvent ev!)
+        
+        declare auto MenuItem node!
+        declare auto MenuItem item!
+        declare auto ListTile tile!
+        declare auto BBjNumber nodeId
+        nodeId=ev!.getObject()
+        
+        node!=#menu!.getItem(nodeId)
+        if node!.hasChildren() then
+            v! = node!.getChildren()
+            it! = v!.iterator()
+            while it!.hasNext()
+                item! = it!.next()
+                id%  = item!.getNodeId()            
+                tile! = #MenuItemTiles!.get(id%)
+                tile!.setVisible(!tile!.isVisible())
+            
+        wend
+        else
+            #fireEvent(#ON_DRAWER_TILE_PRESSED, ev!.getObject())
+        fi
+    methodend
+classend
