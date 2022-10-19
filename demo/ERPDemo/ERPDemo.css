@@ -7,3 +7,10 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.mainarea {
+    position: fixed;
+    background: var(--portalFrame-background);
+    height: 100vh;
+    margin-top:56px;
+}

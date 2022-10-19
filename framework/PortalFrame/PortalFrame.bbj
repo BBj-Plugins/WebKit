@@ -231,6 +231,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                 
 
             main!.addStyle("mainarea")
+            
             #Main! = cast(BBjChildWindow,main!)
             #Main!.addStyle("shrinked")
 
@@ -260,8 +261,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     methodend
     
     method protected void createAppBarObject(BBjWindow window!)
-        appbar! = new Appbar(window!)
-        appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
+        rem appbar! = new Appbar(window!)
+        rem appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
     methodend
 
     method public void onResizeScreen(BBjResizeEvent ev!)

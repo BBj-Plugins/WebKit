@@ -17,6 +17,7 @@ class public ERPFrame extends PortalFrame
 
     
     method protected void createAppBarObject(BBjWindow window!)
+        
         appbar! = new ERPAppbar(window!)
         appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
         appbar!.setLogo("WebKit/demo/ERPDemo/ERP.png")

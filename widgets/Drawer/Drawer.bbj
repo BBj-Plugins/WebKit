@@ -143,7 +143,7 @@ class public Drawer extends BBjWidget
     method public void buildDrawerTiles(BBjVector tiles!, BBjWindow tilesWrapper!)
             declare MenuItem entry!
             declare BBjChildWindow spacer!
-            templateRows! = "40px"
+            templateRows! = ""
             it! = tiles!.iterator()
             while it!.hasNext()
                 menuItem! = cast(MenuItem,it!.next())

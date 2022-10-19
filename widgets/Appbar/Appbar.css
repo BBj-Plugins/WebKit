@@ -3,7 +3,8 @@
     flex-direction: row;
     background: #012042;
     align-items: center;
-    padding: 10px
+    padding: 10px;
+    height: 56px;
 }
 
 .trailingArea {

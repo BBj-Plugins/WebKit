@@ -9,6 +9,7 @@
     position: fixed;
     background: var(--portalFrame-background);
     height: 100vh;
+    
 }
 
 .mainarea>div,
