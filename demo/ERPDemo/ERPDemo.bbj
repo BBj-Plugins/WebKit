@@ -124,13 +124,6 @@ declare MenuItem headerMenuItem!
 headerMenu! = new Menu()
 dashboard! = headerMenu!.addMenuItem(headerMenu!.getRoot(),51,"Dashboard","Dashboard","table")
 recent! = headerMenu!.addMenuItem(headerMenu!.getRoot(),52,"Recent","Recent","clock")
-favorites! = menu!.getFavorites()
-
-
-favoritesProvider! = SampleFavoritesProvider.getInstance()
-favoritesProvider!.setFavoritesItem(favorites!)
-favoritesProvider!.setMenu(menu!)
-favoritesProvider!.setUser(authProvider!.getUser())
 
 declare Menu menu2!
 menu2! = new Menu()
@@ -158,6 +151,12 @@ menuSub7!.setStartType(2)
 menuSub8! = menu2!.addMenuItem(menu2!.getRoot(),238,"Elevation Comparison Report","Elevation Comparison Report","")
 menuSub8!.setStartType(2)
 
+rem favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","star")
+rem favoritesProvider! = SampleFavoritesProvider.getInstance()
+rem favoritesProvider!.setFavoritesItem(favorites!)
+rem favoritesProvider!.setMenu(menu!)
+rem favoritesProvider!.setUser(authProvider!.getUser())
+
 declare ERPFrame portal!
 
 portal! = new ERPFrame()
@@ -170,7 +169,6 @@ portal!.addMenu("Selling",menu2!)
 portal!.setLogoUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setLogoSmallUrl("WebKit/demo/assets/basislogo_svg.svg")
 portal!.setShowHeaderIcon(0)
-
 
 portal!.doModal()
 

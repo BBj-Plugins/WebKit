@@ -40,8 +40,13 @@ class public ERPAppbar extends Appbar
         searchDropDown!.setDevelopmentData(#getDevelopmentData())
         searchDropDown!.setFavorites(#getFavorites())
         searchDropDown!.setRecents(#getRecents())
+        searchDropDown!.setCallback(SearchDropDown.ON_NEW_COMPANY_SELECTED,#this!,"switchCompany")
         
         
+    methodend
+    
+    method public void switchCompany(BBjCustomEvent ev!)
+        newCompany! = cast(CompanyModel,ev!.getObject())
     methodend
     
     method public BBjVector getCompanyData()

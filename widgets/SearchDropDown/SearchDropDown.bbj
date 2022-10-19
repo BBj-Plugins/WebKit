@@ -34,6 +34,8 @@ class public SearchDropDown extends BBjWidget
     
     field private BBjChildWindow iconArea!
     
+    field public static BBjNumber ON_NEW_COMPANY_SELECTED = 777
+    
     method public SearchDropDown(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/SearchDropDown/SearchDropDown.css")
         #sysgui! = BBjAPI().openSysGui("X0")
@@ -219,13 +221,16 @@ class public SearchDropDown extends BBjWidget
         #title!.setText(cast(CompanyModel,ev!.getObject()).getCompany())
         #content!.setText(cast(CompanyModel,ev!.getObject()).getDevelopment())
         #dialog!.doCancel()
-        #overlay!.destroy()
+        #fireEvent(#ON_NEW_COMPANY_SELECTED,ev!.getObject())
+        
     methodend
     
     method public void submit(BBjEvent ev!)
         #title!.setText(#currentCompany!)
         #content!.setText(#currentDevelopment!)
         #overlay!.destroy()
+        model! = new CompanyModel(#currentCompany!,#currentDevelopment!)
+        #fireEvent(#ON_NEW_COMPANY_SELECTED,model!)
         
     methodend
     

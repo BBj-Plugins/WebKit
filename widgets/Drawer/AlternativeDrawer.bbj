@@ -9,15 +9,17 @@ use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
 use ::WebKit/widgets/Drawer/components/DrawerHeader/AlternativeDrawerHeader.bbj::AlternativeDrawerHeader
 use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
 use ::WebKit/widgets/Drawer/components/DrawerMenuTile/AlternativeDrawerMenuTile.bbj::AlternativeDrawerMenuTile
-
+use ::WebKit/framework/Favorites/IFavoritesProvider.bbj::IFavoritesProvider
+use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 class public AlternativeDrawer extends Drawer
+	field public IFavoritesProvider favoritesProvider!
     
     method public AlternativeDrawer(BBjWindow parent!, DrawerModel dataModel!, Menu menu!)
         
         #super!(parent!,dataModel!,menu!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/AlternativeDrawer.css")
-        
+        #favoritesProvider! = SampleFavoritesProvider.getInstance()
     methodend
     rem @Override
     
@@ -44,8 +46,8 @@ class public AlternativeDrawer extends Drawer
                 tile! = new AlternativeDrawerMenuTile(tilesWrapper!)
                 tile!.setText(item!.getCaption())
                 tile!.setStyle("padding-left",str(5 + (i * 20)) + "px")
-                tile!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
-                rem tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
+                tile!.setCallback(AlternativeDrawerMenuTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
+                tile!.setCallback(AlternativeDrawerMenuTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
                 
                 tile!.enableLetterField(0)
                 
@@ -92,6 +94,18 @@ class public AlternativeDrawer extends Drawer
            #buildMenuTiles!.clear()
            
            #buildDrawerTiles(newTiles!,#tilesWrapper!)
+    methodend
+    
+    method public void setFavorite(BBjCustomEvent event!)
+      	
+        favorite! = #menu!.getItem(num(event!.getObject()))
+    
+        if #favoritesProvider!.isItemFavorite(favorite!) then
+            #favoritesProvider!.removeFavorite(favorite!)
+        else
+            #favoritesProvider!.addFavorite(favorite!)
+        endif
+        #redraw(0)
     methodend
     
     rem @Override

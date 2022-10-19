@@ -167,7 +167,7 @@ class public ListTile extends BBjWidget
     method public void onFavoriteClick(BBjMouseDownEvent ev!)
         
         #favoriteToggle()
-        #fireEvent(#ON_FAVORITES_BUTTON_CLICK, #tile!.getID())
+        #fireEvent(#ON_FAVORITES_BUTTON_CLICK, #itemId!)
     methodend
 
     method public void favoriteToggle()
