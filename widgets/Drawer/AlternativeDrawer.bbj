@@ -14,6 +14,8 @@ use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesPro
 
 class public AlternativeDrawer extends Drawer
 	field public IFavoritesProvider favoritesProvider!
+	field public ListTile currentlySelectedItem! 
+	
     
     method public AlternativeDrawer(BBjWindow parent!, DrawerModel dataModel!, Menu menu!)
         
@@ -142,25 +144,46 @@ class public AlternativeDrawer extends Drawer
     
     method public void onMenuItemClick(BBjCustomEvent ev!)
         
-        declare auto MenuItem node!
         declare auto MenuItem item!
-        declare auto ListTile tile!
         declare auto BBjNumber nodeId
         nodeId=ev!.getObject()
-        
         node!=#menu!.getItem(nodeId)
         if node!.hasChildren() then
-            v! = node!.getChildren()
-            it! = v!.iterator()
-            while it!.hasNext()
-                item! = it!.next()
-                id%  = item!.getNodeId()            
-                tile! = #MenuItemTiles!.get(id%)
-                tile!.setVisible(!tile!.isVisible())
-            
-        wend
+            #expandAllChildren(nodeId)
         else
+            if #currentlySelectedItem! <> null() then
+                #currentlySelectedItem!.removeStyle("currentlySelected")
+            fi
+            declare auto ListTile tile!
+            tile! = #MenuItemTiles!.get(nodeId)
+            #currentlySelectedItem! = tile!
+            #currentlySelectedItem!.addStyle("currentlySelected")
             #fireEvent(#ON_DRAWER_TILE_PRESSED, ev!.getObject())
         fi
     methodend
+    
+    method public void expandAllChildren(BBjNumber nodeId)
+        declare auto MenuItem node!
+        declare auto MenuItem item!
+        declare auto ListTile tile!
+        node!=#menu!.getItem(nodeId)
+        
+        v! = node!.getChildren()
+        it! = v!.iterator()
+        while it!.hasNext()
+            item! = it!.next()
+            if item!.hasChildren() then
+                #expandAllChildren(item!.getNodeId())
+            fi
+            id%  = item!.getNodeId()            
+            tile! = #MenuItemTiles!.get(id%)
+            tile!.setVisible(!tile!.isVisible())
+        
+        wend
+        
+    
+    methodend
+    
+    
+    
 classend
