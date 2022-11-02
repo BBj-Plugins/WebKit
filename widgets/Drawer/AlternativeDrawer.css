@@ -4,7 +4,7 @@
 }
 
 .drawerTilesWrapper {
-    display:block;
+    display: block;
     overflow: auto !important;
     height: 100%;
     max-height: calc(100vh - var(--drawerFooter-height));
@@ -40,4 +40,9 @@
     z-index: 1;
     overflow: hidden;
     width: var(--drawer-width);
+}
+
+.currentlySelected {
+    background: #FFFFFF !important;
+    border-left: 3px solid #F5333F !important;
 }

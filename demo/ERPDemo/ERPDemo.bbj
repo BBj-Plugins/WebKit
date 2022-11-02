@@ -91,7 +91,7 @@ menuSub1!.setStartType(2)
 menuSub2! = menu!.addMenuItem(menuHeaderTwo!,222,"Update Elevation Prices","Update Elevation Prices","")
 menuSub2!.setStartType(2)
 
-menuSub3! = menu!.addMenuItem(menuHeaderTwo!,223,"Update Elevation Budget","Update Elevation Budget","")
+menuSub3! = menu!.addMenuItem(menuSub2!,223,"Update Elevation Budget","Update Elevation Budget","")
 menuSub3!.setStartType(2)
 
 menuSub4! = menu!.addMenuItem(menuHeaderTwo!,224,"Spe/Model Price Update","Spe/Model Price Update","")
