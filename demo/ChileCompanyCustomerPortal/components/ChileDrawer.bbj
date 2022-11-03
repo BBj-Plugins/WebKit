@@ -31,6 +31,7 @@ class public ChileDrawer extends Drawer
             #searchOverlay!.setTitleFieldname("TITLE")
             #searchOverlay!.setSubtitleFieldname("SUBTITLE")
             #searchOverlay!.setImagePathFieldname("IMAGE")
+            #searchOverlay!.setStyle("background","black")
 
             #searchOverlay!.setInitialSuggestion(#demoData!)
             searchWidget! = new DrawerSearchWidget(customContainer!,#searchOverlay!)

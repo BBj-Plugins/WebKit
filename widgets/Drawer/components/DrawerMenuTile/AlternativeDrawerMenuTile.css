@@ -25,6 +25,7 @@
     padding-left: 5px;
     background: var(--bbj-window-background);
 }
+
 .trailingIcon {
     display: flex;
     flex-direction: row;
@@ -32,14 +33,49 @@
     align-items: center;
     width: 50px;
     height: 30px;
-    
     border-radius: 8px;
     margin-right: 5px;
-    
 }
+
+.drawerMenuTilePanelStyle {
+    display: grid;
+    grid-template-columns: 64px auto;
+}
+
+.drawerMenuTileIconStyle {
+    width: 24px;
+    height: 24px;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    justify-self: end;
+    align-self: center;
+}
+
+.drawerMenuTilePanelStyle:hover {
+    background-color: var(--menutile-hover-color);
+}
+
+div.drawerMenuTilePanelStyle:hover {
+    border-right: medium solid var(--menutile-hover-border-color);
+}
+
+.drawerMenuTilePanelStyle {
+    cursor: pointer;
+}
+
+.drawerMenuTileTextStyle {
+    padding-left: 17px;
+    align-self: center;
+    font-style: normal;
+    color: var(--tiles-font-color);
+    font-weight: normal;
+    font-size: 14px;
+    padding-bottom: .2em;
+    line-height: 17px;
+}
+
 @media (hover: hover) {
-    .menutile:hover .trailingIcon{
+    .menutile:hover .trailingIcon {
         display: block;
     }
 }
-
