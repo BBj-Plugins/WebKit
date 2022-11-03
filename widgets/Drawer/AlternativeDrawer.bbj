@@ -18,8 +18,9 @@ class public AlternativeDrawer extends Drawer
     method public AlternativeDrawer(BBjWindow parent!, DrawerModel dataModel!, Menu menu!)
         
         #super!(parent!,dataModel!,menu!)
+        
         DynamicLoader.addLocalCSS("WebKit/widgets/Drawer/AlternativeDrawer.css")
-        #favoritesProvider! = SampleFavoritesProvider.getInstance()
+        
     methodend
     rem @Override
     
@@ -34,7 +35,7 @@ class public AlternativeDrawer extends Drawer
         node! = #menu!.getItem(nodeId)
         v! = node!.getChildren()
         it! = v!.iterator()
-       
+        #favoritesProvider! = SampleFavoritesProvider.getInstance()
         templateRows! = "40px"
         rem escape
         while it!.hasNext()
@@ -51,6 +52,9 @@ class public AlternativeDrawer extends Drawer
                 
                 tile!.enableLetterField(0)
                 
+                if #favoritesProvider!.isItemFavorite(item!) then
+                    tile!.favoriteToggle()
+                endif
                 
                 
                 
@@ -94,6 +98,20 @@ class public AlternativeDrawer extends Drawer
            #buildMenuTiles!.clear()
            
            #buildDrawerTiles(newTiles!,#tilesWrapper!)
+    methodend
+    
+    rem @Override
+    method public void rebuildDrawerTiles()
+           it! = #buildMenuTiles!.iterator()
+           while it!.hasNext()
+                declare auto AlternativeDrawerMenuTile tile!               
+                tile! = it!.next()
+                tile!.destroy()  
+                                         
+           wend
+           #buildMenuTiles!.clear()
+           
+           #buildDrawerTiles(#tiles!,#tilesWrapper!)
     methodend
     
     method public void setFavorite(BBjCustomEvent event!)

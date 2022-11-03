@@ -51,12 +51,13 @@ menuHeaderOne! = menu!.addMenuItem(menu!.getRoot(),104,"Purchase/Work Orders","P
 menuHeaderOne!.setStartType(2)
 
 menuSub1! = menu!.addMenuItem(menuHeaderOne!,212,"House Material List Maintenance","House Material List Maintenance","")
-rem menuSub1!.setProgram("WebKit/demo/demoprograms/BuiDemo.bbj")
+menuSub1!.setProgram("WebKit/demo/demoprograms/BuiDemo.bbj")
+menuSub1!.changeBasePath("test")
 menuSub1!.setStartType(2)
-rem menuSub1!.addRouteParameter("database")
-rem menuSub1!.addRouteParameter("table")
-rem menuSub1!.addMenuParameter("database","CDStore")
-rem menuSub1!.addMenuParameter("table","CDINVENTORY")
+menuSub1!.addRouteParameter("database")
+menuSub1!.addRouteParameter("table")
+menuSub1!.addMenuParameter("database","CDStore")
+menuSub1!.addMenuParameter("table","CDINVENTORY")
 
 menuSub2! = menu!.addMenuItem(menuHeaderOne!,213,"Auto Create PO'S","Auto Create PO'S","")
 menuSub2!.setStartType(2)
@@ -131,6 +132,8 @@ menuSub1! = menu2!.addMenuItem(menu2!.getRoot(),231,"Maintenance","Maintenance",
 menuSub1!.setStartType(2)
 
 menuSub2! = menu2!.addMenuItem(menu2!.getRoot(),232,"Prices","Prices","")
+menuSub2!.setProgram("WebKit/demo/demoprograms/dwcGridExDemo.bbj")
+menuSub2!.changeBasePath("test2")
 menuSub2!.setStartType(2)
 
 menuSub3! = menu2!.addMenuItem(menu2!.getRoot(),233,"Budget","Budget","")
@@ -151,11 +154,11 @@ menuSub7!.setStartType(2)
 menuSub8! = menu2!.addMenuItem(menu2!.getRoot(),238,"Elevation Comparison Report","Elevation Comparison Report","")
 menuSub8!.setStartType(2)
 
-rem favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","star")
-rem favoritesProvider! = SampleFavoritesProvider.getInstance()
-rem favoritesProvider!.setFavoritesItem(favorites!)
-rem favoritesProvider!.setMenu(menu!)
-rem favoritesProvider!.setUser(authProvider!.getUser())
+favorites! = menu!.addMenuItem(menu!.getRoot(),50,"Favorites","Favorites","star")
+favoritesProvider! = SampleFavoritesProvider.getInstance()
+favoritesProvider!.setFavoritesItem(favorites!)
+favoritesProvider!.setMenu(menu!)
+favoritesProvider!.setUser(authProvider!.getUser())
 
 declare ERPFrame portal!
 

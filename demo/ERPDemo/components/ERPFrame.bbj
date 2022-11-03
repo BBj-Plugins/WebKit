@@ -4,7 +4,7 @@ use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/demo/ERPDemo/components/ERPAppbar.bbj::ERPAppbar
 
-use ::Webkit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
+use ::WebKit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
 use ::WebKit/model/DrawerModel.bbj::DrawerModel
 
 use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
@@ -44,13 +44,12 @@ class public ERPFrame extends PortalFrame
     methodend
     
     method public void changeDrawer(BBjCustomEvent ev!)
-        declare auto Menu menu! 
-        
-        menu! = #Menus!.get(ev!.getObject())
+       
+        #Menu! = cast(Menu,#Menus!.get(ev!.getObject()))
         declare BBjVector menuItems!
-        menuItems! = menu!.getChildren(menu!.getRoot())
+        menuItems! = #Menu!.getChildren(#Menu!.getRoot())
         
-        #Drawer!.rebuildDrawerTiles(menuItems!, menu!)
+        #Drawer!.rebuildDrawerTiles(menuItems!, #Menu!)
     methodend
     
     method public void addMenu(String key!, Menu menu!)

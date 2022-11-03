@@ -387,8 +387,8 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
             methodret #currWindow!
         fi
 
-        if #win_list!.containsKey(item!.getNodeId()) then
-            #currWindow!= CAST(BBjWidget,#win_list!.get(item!.getNodeId()))
+        if #win_list!.containsKey(str(item!.getNodeId()) + item!.getCaption()) then
+            #currWindow!= CAST(BBjWidget,#win_list!.get(str(item!.getNodeId()) + item!.getCaption() ))
             #currWindow!.redraw(0)
             #currWindow!.setVisible(1)
         else
@@ -435,7 +435,7 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                 swend
 
                 if #currWindow! <> null() then
-                    #win_list!.put(item!.getNodeId(),#currWindow!)
+                    #win_list!.put(str(item!.getNodeId()) + item!.getCaption(),#currWindow!)
                 fi
             fi
         fi
@@ -450,8 +450,9 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
     method public void onEmbedPanelClose(BBjCustomEvent ev!)
         item! = ev!.getObject()
         nodeId = item!.getNodeId()
-        if #win_list!.containsKey(nodeId) then
-            #win_list!.remove(nodeId)
+        
+        if #win_list!.containsKey(str(nodeId) + item!.getCaption()) then
+            #win_list!.remove(str(nodeId) + item!.getCaption())
         fi
          
     methodend
