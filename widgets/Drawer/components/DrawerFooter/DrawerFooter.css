@@ -125,6 +125,7 @@
 
 .drawerFooterOverlayContentWrapper {
     cursor: pointer;
+    display: grid;
 }
 
 .drawerFooterOverlayContentWrapper div.BBjSimpleWindow:last-child {}
