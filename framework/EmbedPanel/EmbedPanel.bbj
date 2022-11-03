@@ -114,6 +114,7 @@ class public EmbedPanel extends BBjWidget
         
         params!.put("_program",pgm$)
         params!.put("_menuParams",menuParameters!)
+      
         params!.put("_queryParams",queryParameters!)
         params!.put("_routeParams",routeParameters!)
         
@@ -152,14 +153,17 @@ class public EmbedPanel extends BBjWidget
         
         appServer! = bbjapi().getAdmin("admin","admin123").getWebAppServer()
         appConfig! = appServer!.makeEmptyAppConfig()
-        cssFile! = appServer!.addStyleSheet(BBjAPI().getFileSystem().resolvePath(STBL("buiDwcCss")))
+        
+        cssFile! = appServer!.addStyleSheet(BBjAPI().getFileSystem().resolvePath(STBL("buiDwcCss"),err=*next))
         
         appConfig!.setProgramName(source$)
         appConfig!.setDwcEnabled(1)
         appConfig!.setBuiEnabled(1)
         appConfig!.setConfigFile(config$)
-        appConfig!.setStyleSheet(cssFile!)
         
+        if cssFile! <> null() then 
+            appConfig!.setStyleSheet(cssFile!)
+        fi
         if classpath! <> null() then
             appConfig!.setClasspathName(classpath!)
         fi
