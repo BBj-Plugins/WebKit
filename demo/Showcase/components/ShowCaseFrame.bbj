@@ -5,7 +5,7 @@ use ::WebKit/widgets/DashboardHeader/DashboardHeaderEntry.bbj::DashboardHeaderEn
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/demo/Showcase/components/ShowCaseAppbar.bbj::ShowCaseAppbar
-use ::Webkit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
+use ::WebKit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
 
 use ::WebKit/model/DrawerMenuTileEntry.bbj::DrawerMenuTileEntry
 use ::WebKit/widgets/TilesTextHeader/TilesTextHeader.bbj::TilesTextHeader

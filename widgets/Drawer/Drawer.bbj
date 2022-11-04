@@ -30,7 +30,7 @@ class public Drawer extends BBjWidget
 
     field protected Boolean open! = 0
     
-    field private BBjVector tiles! = new BBjVector()
+    field protected BBjVector tiles! = new BBjVector()
     
     field protected BBjChildWindow tilesWrapper!
     
@@ -150,6 +150,9 @@ class public Drawer extends BBjWidget
             
             #buildDrawerTiles(#tiles!,#tilesWrapper!)
             #disableFooter(footerWrapper!)
+           
+        else 
+            #rebuildDrawerTiles()
         endif
     methodend
     
@@ -181,6 +184,17 @@ class public Drawer extends BBjWidget
                 #buildMenuTiles!.add(tile!)
             wend
             tilesWrapper!.setPanelStyle("grid-template-rows",templateRows!)
+    methodend
+    
+    method public void rebuildDrawerTiles()
+           
+           it! = #buildMenuTiles!.iterator()
+           while it!.hasNext()
+                declare DrawerMenuTile tile!               
+                tile! = it!.Next()
+                tile!.destroy()                           
+           wend
+           #buildDrawerTiles(#tiles!,#tilesWrapper!)
     methodend
     
     method public void rebuildDrawerTiles(BBjVector newTiles!, Menu menu!)
