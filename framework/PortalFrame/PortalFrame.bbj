@@ -55,8 +55,9 @@ class public PortalFrame implements RouterProtocol
     field protected Boolean drawerOpen! = Boolean.FALSE
     field protected Boolean drawerHidden! = Boolean.FALSE
     field protected Boolean isMobile! = Boolean.FALSE
-    field private HashMap win_list! = new HashMap()
+    field protected HashMap win_list! = new HashMap()
     field public BBjWidget currWindow! 
+    
     
     field private BBjPopupMenu AccountMenu!
     
