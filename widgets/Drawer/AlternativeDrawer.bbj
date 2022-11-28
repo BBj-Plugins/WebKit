@@ -190,13 +190,13 @@ class public AlternativeDrawer extends Drawer
         it! = v!.iterator()
         while it!.hasNext()
             item! = it!.next()
-            if item!.hasChildren() then
-                #expandAllChildren(item!.getNodeId())
-            fi
+            
             id%  = item!.getNodeId()            
             tile! = #MenuItemTiles!.get(id%)
             tile!.setVisible(!tile!.isVisible())
-        
+            if item!.hasChildren() and !tile!.isVisible() then
+                #expandAllChildren(item!.getNodeId())
+            fi
         wend
         
     
