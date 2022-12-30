@@ -8,6 +8,7 @@ use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
 use ::WebKit/framework/MenuCardPanel/MenuCardPanel.bbj::MenuCardPanel
 use ::WebKit/framework/MenuCardPanel/MenuCardPanelSorted.bbj::MenuCardPanelSorted
 use ::WebKit/framework/EmbedPanel/EmbedPanel.bbj::EmbedPanel
+use ::WebKit/framework/EmbedDWCJCanvas/EmbedDWCJCanvas.bbj::EmbedDWCJCanvas
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/util/Icons.bbj::Icons
@@ -71,6 +72,8 @@ class public PortalFrame implements RouterProtocol
 
     field private BBjSysGui sysgui!
     field private static PortalFrame ThisInstance!
+    
+    field private Boolean isDwcjInitialized! = Boolean.FALSE
     
     method public PortalFrame()
         DynamicLoader.addLocalCSS("WebKit/framework/PortalFrame/PortalFrame.css")
@@ -418,6 +421,43 @@ REM         footerMenuItem!.setCallback("onChangeTheme")
                         #currWindow! = CAST(BBjWidget,x!)
                         x!.setCallback(BBjAPI().ON_CLOSE,#this!,"onEmbedPanelClose")
                         break
+                    case 4
+                        rem DWCJ
+                       c! = Class.forName("org.dwcj.bridge.IDwcjBBjBridge",err=*next)
+                       if c! = null() then
+                            a=msgbox("DWCJ Environment not found - check your classpath!")
+                            break
+                       fi
+
+                       c! = Class.forName(pgm$,err=*next)
+                       if c! = null() then
+                            a=msgbox(pgm$+ "not found - check your classpath!")
+                            break
+                       fi
+
+                        
+                        if !#isDwcjInitialized! then
+                            rem instantiate DWCJ environment
+                            h! = new ::DWCJ/DwcjHelper.bbj::DwcjHelper() 
+                            org.dwcj.Environment.init(BBjAPI(), h!)
+                            #isDwcjInitialized! = Boolean.TRUE
+                        fi
+                        
+                        x! = new EmbedDWCJCanvas(#Main!)
+                        #currWindow! = CAST(BBjWidget,x!)
+
+                        component! = null()
+                        component! = eval("new "+pgm$+"()",err=*next)
+
+                        if component! = null() then
+                            ClientUtil.consoleLog(str(BBjAPI().getLastBBjException()))
+                            a = msgbox("Error starting "+item!.getCaption(),0,"ERROR")
+                        else
+                            pa! = new org.dwcj.bridge.BBjPanelAdapter(x!.getCanvas())
+                            pa!.add(component!)
+                        fi
+
+                        break                        
                     case default
                         rem ignore
                         break

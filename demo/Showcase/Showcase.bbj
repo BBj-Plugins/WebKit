@@ -117,6 +117,10 @@ menuItem! = menu!.addMenuItem(menu!.getRoot(),98,"Printing","Printing","printer"
 menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/PrintShowcase.bbj::PrintShowcase")
 menuItem!.setStartType(0)
 
+menuItem! = menu!.addMenuItem(menu!.getRoot(),98,"DWCJ Component","DWCJ","world")
+menuItem!.setProgram("org.dwcj.extendeddemos.compoundcomponent.Compound")
+menuItem!.setStartType(4)
+
 
 declare ShowCaseFrame portal!
 
