@@ -1,0 +1,22 @@
+use java.util.HashMap
+use ::BBjGridExWidget/BBjGridExWidget.bbj::BBjGridExWidget
+use com.basiscomponents.db.ResultSet
+use com.basiscomponents.bc.SqlQueryBC
+
+sysgui! = BBjAPI().openSysGui("X0")
+
+bui! = bbjapi().getBuiManager()
+
+window! = CAST(BBjTopLevelWindow, sysgui!.addWindow(sysgui!.getAvailableContext(),0,0,750,750,"GridExWidget Demo Program"))
+window!.setCallback(window!.ON_CLOSE,"byebye")
+declare SqlQueryBC sbc!
+declare ResultSet rs!
+grid! = new BBjGridExWidget(window!,100,0,0,800,600)
+sbc! = new SqlQueryBC(BBjAPI().getJDBCConnection("CDStore"))
+rs! = sbc!.retrieve("SELECT  * FROM CDINVENTORY")
+grid!.setData(rs!)
+
+process_events
+
+byebye:
+bye

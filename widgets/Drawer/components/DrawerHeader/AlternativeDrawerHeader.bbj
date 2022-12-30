@@ -1,0 +1,58 @@
+use ::WebKit/widgets/Drawer/components/DrawerHeader/DrawerHeader.bbj::DrawerHeader
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+use ::WebKit/widgets/ListTile/ListTile.bbj::ListTile
+
+class public AlternativeDrawerHeader extends DrawerHeader
+
+    method public AlternativeDrawerHeader(BBjWindow parent!, DrawerModel drawerDataModel!)
+        #super!(parent!,drawerDataModel!)
+    methodend
+    
+    rem @Override
+    method public void buildTiles(BBjVector tiles!,BBjWindow tilesWrapper!)
+    
+        
+        it! = tiles!.iterator()
+       
+        templateRows! = "40px"
+        rem escape
+        while it!.hasNext()
+            item! = cast(MenuItem,it!.next())
+            id%  = item!.getNodeId()
+            
+            if item!.getCaption() <> "404"
+                declare ListTile tile!
+                tile! = new ListTile(tilesWrapper!)
+                
+                tile!.setText(item!.getCaption())
+                tile!.setStyle("padding-left", "5 px")
+                tile!.setCallback(ListTile.ON_TEXTPART_CLICK,#this!,"onMenuItemClick")
+                rem tile!.setCallback(ListTile.ON_FAVORITES_BUTTON_CLICK,#this!,"setFavorite")
+                
+                tile!.enableLetterField(1)
+                
+                tile!.toggleFavoritesButton(0)
+                
+                if item!.getIcon() <> "" AND item!.getIcon() <> null() then               
+                    tile!.setIcon(item!.getIcon())
+                endif
+                
+                tile!.setItemId(item!.getNodeId())                   
+                tile!.setChild(1)
+               
+                templateRows! = templateRows! + " 48px" 
+                rem templateRows! = templateRows! + " 12px"
+                rem spacer! = tilesWrapper!.addChildWindow(tilesWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+                rem spacer!.setDockStyle("height","12px")
+            fi
+        wend          
+    methodend 
+    
+    
+    rem @Override
+    method public void buildLogoArea()
+        #logoContainer!.setVisible(0)
+    methodend
+classend

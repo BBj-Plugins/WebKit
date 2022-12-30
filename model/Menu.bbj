@@ -43,6 +43,8 @@ class public MenuItem
        
         #paths!.add(#basePath$)
     methodend
+    
+    
 
     method private String buildPath()
         declare StringBuilder pathBuilder!
@@ -234,8 +236,9 @@ class public Menu
     
 
     method public Menu()
-        #RootItem! = new MenuItem(null(),0, "root", "","")
-        #favorites! = new MenuItem(null(),1, "Favorites","","")
+        #RootItem! = #addMenuItem(null(),0, "root", "","")
+        
+        
     methodend
 
     method public MenuItem addMenuItem(MenuItem parentItem!, BBjString caption!, BBjString toolTip!, BBjString iconFilename!)
@@ -252,6 +255,10 @@ class public Menu
 
     method public MenuItem getRoot()
         methodret #RootItem!
+    methodend
+    
+    method public MenuItem getFavorites()
+        methodret #favorites!
     methodend
     
     method public BBjVector getChildren(MenuItem item!)

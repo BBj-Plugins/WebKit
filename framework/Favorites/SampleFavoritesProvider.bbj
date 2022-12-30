@@ -37,8 +37,7 @@ class public SampleFavoritesProvider implements IFavoritesProvider
         if !readList!.isEmpty()
             for i = 0 to readList!.size() -1
                 menuItem! = #menu!.getItem(num(readList!.get(i)))
-                #favorites!.add(menuItem!)
-                #favoritesItem!.addChild(menuItem!)
+                #addFavorite(menuItem!)
             next i
         fi
        
@@ -59,7 +58,13 @@ class public SampleFavoritesProvider implements IFavoritesProvider
     
     method public void addFavorite(MenuItem item!)
         #favorites!.add(item!)
-        #favoritesItem!.addChild(item!)
+        declare MenuItem copy!
+        copy! = #menu!.addMenuItem(#favoritesItem!,item!.getCaption(), item!.getToolTip(),item!.getIcon())
+        if item!.hasProgram() then
+        	copy!.setProgram(item!.getProgram())
+       	fi
+       	copy!.setStartType(item!.getStartType())
+        copy!.changeBasePath(item!.getBasePath())
   
         WriteFavorites.getInstance().writeFavorites(#getFavoriteIds(),#currentUser!)
     methodend
@@ -88,6 +93,7 @@ class public SampleFavoritesProvider implements IFavoritesProvider
     
     method public void setFavoritesItem(MenuItem item!)
         #favoritesItem! = item!
+     
     methodend
 
 classend

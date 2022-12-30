@@ -1,0 +1,60 @@
+use ::BBjWidget/BBjWidget.bbj::BBjWidget
+use ::WebKit/util/DynamicLoader.bbj::DynamicLoader
+
+class public DropDownWidget extends BBjWidget
+    field private BBjChildWindow window!
+    field private BBjListButton dropDown!
+    field private BBjString title! = ""
+    
+    field public static BBjNumber ON_ITEM_SELECTED = 521
+    
+    method public DropDownWidget(BBjWindow wnd!)
+        DynamicLoader.addLocalCSS("WebKit/widgets/DropDownWidget/DropDownWidget.css")
+        #super!.create(wnd!, wnd!.getAvailableControlID())
+    methodend
+    
+    method public void redraw(Boolean init!)
+    if init! then
+            #window! = #getCanvas()
+            #dropDown! = #window!.addListButton(#window!.getAvailableControlID(),0,0,0,0,"")
+            #dropDown!.setCallback(#dropDown!.ON_LIST_SELECT,#this!,"itemSelected")
+            #dropDown!.addStyle("webKitDropDown")
+            
+    fi
+    methodend
+    
+    method public void setLabel(String label!)
+        #dropDown!.setAttribute("item-label",label!)
+    methodend
+    
+    method public void addContent(BBjVector content!)
+        for i = 0 to content!.size() - 1
+            #dropDown!.addItem(str(content!.get(i)))
+        next i 
+        
+    methodend
+    
+    method public void setTitle(BBjString title!)
+        #title! = title!
+    methodend
+    
+    method public BBjString getTitle()
+        methodret #title!
+    methodend
+    
+    method public void itemSelected(BBjListSelectEvent ev!)
+        #fireEvent(#ON_ITEM_SELECTED,ev!.getSelectedItem())
+    methodend
+    
+    method public void setOpenWidth(BBjNumber width!)
+        #dropDown!.setOpenWidth(width!)
+    methodend
+    
+    method public static DropDownWidget createDropDown(BBjWindow wnd!, BBjString title!, BBjVector content!)
+        declare DropDownWidget dropDown!
+        dropDown! = new DropDownWidget(wnd!)
+        dropDown!.setTitle(title!)
+        dropDown!.setContent(content!)
+        methodret dropDown!
+    methodend
+classend

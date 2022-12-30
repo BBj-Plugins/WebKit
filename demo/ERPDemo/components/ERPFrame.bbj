@@ -1,0 +1,62 @@
+use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
+use ::WebKit/framework/TreeListPanel/TreeListPanel.bbj::TreeListPanel
+use ::WebKit/model/Menu.bbj::Menu
+use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/demo/ERPDemo/components/ERPAppbar.bbj::ERPAppbar
+
+use ::WebKit/widgets/Drawer/AlternativeDrawer.bbj::AlternativeDrawer
+use ::WebKit/model/DrawerModel.bbj::DrawerModel
+
+use ::WebKit/widgets/Drawer/Drawer.bbj::Drawer
+use ::WebKit/widgets/Appbar/Appbar.bbj::Appbar
+
+use java.util.HashMap
+
+class public ERPFrame extends PortalFrame
+    field public HashMap Menus! = new HashMap()
+
+    
+    method protected void createAppBarObject(BBjWindow window!)
+        
+        appbar! = new ERPAppbar(window!)
+        appbar!.setCallback(Appbar.ON_APPBAR_TOOGLE, #this!, "onAppbarMenuClick")
+        appbar!.setLogo("WebKit/demo/ERPDemo/ERP.png")
+        appbar!.setCallback(ERPAppbar.ON_FIRST_DROPDOWN_SELECTED,#this!,"changeDrawer")
+    methodend
+    
+    rem @Override
+    method protected Drawer createDrawerObject(BBjWindow window!, DrawerModel drawerDataModel!, Menu menu!)
+        
+        methodret new AlternativeDrawer(window!, drawerDataModel!,menu!)
+    methodend
+    
+    rem @Override
+    method public void onAppbarMenuClick(BBjCustomEvent ev!)
+       
+
+        if #drawerHidden! then
+            #drawerHidden!=Boolean.FALSE
+            #Drawer!.openDrawer(ev!)
+        else
+            #drawerHidden!=Boolean.TRUE
+            #Drawer!.closeDrawer(ev!)
+        fi
+    methodend
+    
+    method public void changeDrawer(BBjCustomEvent ev!)
+       
+        #Menu! = cast(Menu,#Menus!.get(ev!.getObject()))
+        declare BBjVector menuItems!
+        menuItems! = #Menu!.getChildren(#Menu!.getRoot())
+        
+        #Drawer!.rebuildDrawerTiles(menuItems!, #Menu!)
+    methodend
+    
+    method public void addMenu(String key!, Menu menu!)
+    
+        #Menus!.put(key!,menu!)
+       
+    methodend
+    
+
+classend

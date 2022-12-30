@@ -5,20 +5,67 @@ use ::WebKit/util/Icons.bbj::Icons
 class public Appbar extends BBjWidget 
     
     field private BBjChildWindow window!    
+    field private BBjChildWindow logoWrapper!    
+    field private BBjChildWindow customArea!
+    field private BBjChildWindow trailingArea!
+    field protected BBjStaticText menuIcon!
+    field protected boolean drawerOpen! = Boolean.TRUE
+    
     field public static BBjNumber ON_APPBAR_TOOGLE = 1996
 
-    method public Appbar(BBjWindow parent!)
+    method public Appbar(BBjWindow wnd!)
         DynamicLoader.addLocalCSS("WebKit/widgets/Appbar/Appbar.css")
-        #window! = parent!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #super!.create(wnd!,wnd!.getAvailableControlID())
+    methodend
+    
+    method public void redraw(Boolean init!)
+    if init!>0 then
+        #window! = #getCanvas()
         #window!.addStyle("appbarStyle") 
-        childWindow! = #window!.addChildWindow(parent!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        declare BBjChildWindow childWindow!
+        childWindow! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         childWindow!.addStyle("menu")
-        menuIcon! = Icons.getIconOnWindow(childWindow!, null(), "menu", "color: white")
+        #menuIcon! = Icons.getIconOnWindow(childWindow!, null(), "menu-2", "color: white")
+        
+        #logoWrapper! = childWindow!.addChildWindow(childWindow!.getAvailableControlID(),0,0,10,10,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+       
+        #customArea! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #customArea!.setStyle("display","flex")
+        #createCustomComponents(#customArea!)
         childWindow!.setCallback(BBjAPI.ON_MOUSE_DOWN,#this!,"onMenuClick")
-        #setCanvas(#window!)
+        #trailingArea! = #window!.addChildWindow(#window!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        #trailingArea!.addStyle("trailingArea")
+        #createTrailingComponents(#trailingArea!)
+        
+    fi 
+    methodend
+    
+    method public void toggleIcon()
+        if #drawerOpen! then
+            #menuIcon!.setStyle("transform","rotate(90deg)")
+           
+        else
+            #menuIcon!.setStyle("transform","rotate(0deg)")
+        fi
+        #drawerOpen! = !#drawerOpen!
+        
+        
+    methodend
+    
+    method public void createCustomComponents(BBjChildWindow area!)
+    methodend
+    
+    method public void createTrailingComponents(BBjChildWindow area!)
+    methodend
+    
+    method public void setLogo(String file!)
+        logo! = #logoWrapper!.addImageCtrl(#logoWrapper!.getAvailableControlID(),0,0,0,0,file!)
+        logo!.setStyle("height","24px")
+        
     methodend
     
     method public void onMenuClick(BBjMouseDownEvent event!)
+        rem #toggleIcon()
         #fireEvent(#ON_APPBAR_TOOGLE, null()) 
     methodend
 classend

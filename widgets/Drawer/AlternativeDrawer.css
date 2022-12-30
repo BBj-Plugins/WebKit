@@ -1,0 +1,48 @@
+:root {
+    --drawer-close-width: 0px;
+    --portal-frame-main-area-width-with-drawer-close: 100vw;
+}
+
+.drawerTilesWrapper {
+    display: block;
+    overflow: auto !important;
+    height: 100%;
+    max-height: calc(100vh - var(--drawerFooter-height));
+    flex: 2;
+    cursor: pointer;
+}
+
+.drawerFooterWrapper {
+    background: var(--drawer-color);
+    width: inherit;
+    display: grid;
+    display: grid;
+    /* align-items: center; */
+    align-content: center;
+    z-index: 20;
+}
+
+.drawerTilesTextHeaderStyle {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #A1A5A7;
+}
+
+.drawerPanelStyle {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--drawer-color);
+    margin-top: 0px;
+    position: fixed !important;
+    height: 100vh;
+    z-index: 1;
+    overflow: hidden;
+    width: var(--drawer-width);
+}
+
+.currentlySelected {
+    background: #FFFFFF !important;
+    border-left: 3px solid #F5333F !important;
+}

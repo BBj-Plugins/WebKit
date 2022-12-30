@@ -1,16 +1,16 @@
 .embedframe {
-	width:100%;
-    height:100vh;
-    margin-top:0px;
-    border-width:0px !important;
+    width: 100%;
+    height: 100vh;
+    margin-top: 0px;
+    border-width: 0px !important;
 }
 
 .dragvertical {
-    cursor:col-resize !important;
+    cursor: col-resize !important;
 }
 
 .draggutter {
-	min-height:4px;
-    background-color:#f0f0f0;
-    cursor:row-resize;
+    min-height: 4px;
+    background-color: #f0f0f0;
+    cursor: row-resize;
 }

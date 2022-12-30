@@ -1,0 +1,45 @@
+.alternativeTileLabel {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.rotate {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.menutile {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px #E5E5E5 solid;
+    padding-left: 5px;
+    background: var(--bbj-window-background);
+}
+.trailingIcon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 30px;
+    
+    border-radius: 8px;
+    margin-right: 5px;
+    
+}
+@media (hover: hover) {
+    .menutile:hover .trailingIcon{
+        display: block;
+    }
+}
+
