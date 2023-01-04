@@ -7,9 +7,9 @@ use java.util.HashMap
 
 class public EmbedPanel extends BBjWidget
 
-    field private BBjHtmlView HtmlView!
-    field private MenuItem MenuItem!
-    field private String baseUri!
+    field protected BBjHtmlView HtmlView!
+    field protected MenuItem MenuItem!
+    field protected String baseUri!
     
     
     method public EmbedPanel(BBjWindow wnd!)

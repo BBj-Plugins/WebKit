@@ -35,12 +35,12 @@ use ::WebKit/framework/Router/Router.bbj::Router
 
 class public PortalFrame implements RouterProtocol
 
-    field private BBjTopLevelWindow window!
+    field protected BBjTopLevelWindow window!
     field protected Drawer Drawer!
-    field private BBjChildWindow Main!
-    field private BBjChildWindow AccountDisplay!
-    field private BBjChildWindow Avatar!
-    field private BBjChildWindow dialogWindow!
+    field protected BBjChildWindow Main!
+    field protected BBjChildWindow AccountDisplay!
+    field protected BBjChildWindow Avatar!
+    field protected BBjChildWindow dialogWindow!
     
     field public BBjString Username!
     field public BBjString Title!
@@ -49,8 +49,8 @@ class public PortalFrame implements RouterProtocol
     field public Menu HeaderMenu! = new Menu()
     field public Menu HiddenMenu! = new Menu()
 
-    field private MenuItem startingPanel!
-    field private MenuItem pageNotFoundPanel!
+    field protected MenuItem startingPanel!
+    field protected MenuItem pageNotFoundPanel!
     field public AccountProfile Profile!
     
     field protected Boolean drawerOpen! = Boolean.FALSE
@@ -60,7 +60,7 @@ class public PortalFrame implements RouterProtocol
     field public BBjWidget currWindow! 
     
     
-    field private BBjPopupMenu AccountMenu!
+    field protected BBjPopupMenu AccountMenu!
     
     field private IFavoritesProvider favoritesProvider! 
 
