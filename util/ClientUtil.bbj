@@ -192,12 +192,17 @@ class public ClientUtil
       #InjHtml!.executeScript(script$)
   methodend
 
-
   method public static BBjString getUrlAnchor()   
       script$="window.location.pathname"
       path! = #InjHtml!.executeScript(script$)
       query$ = #InjHtml!.executeScript("window.location.search")
       methodret path!.replace(#basePath$, "") + query$
+  methodend
+
+  method public static BBjString getUrl()   
+      script$="window.location.href"
+      path! = #InjHtml!.executeScript(script$)
+      methodret path!
   methodend
 
   method public static void consoleLog(BBjString output!)
