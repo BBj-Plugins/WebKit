@@ -107,7 +107,8 @@
 }
 
 .forgotPwStlye.hover {
-    color: var(--bbj-color-primary)
+    color: var(--bbj-color-primary);
+    cursor: pointer;
 }
 
 .loginPageTitle {

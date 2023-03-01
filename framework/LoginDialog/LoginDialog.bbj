@@ -236,7 +236,7 @@ class public LoginDialog
         fi
 
         if #AllowAccountCreation! then 
-            LoginDialogBuilder.addAccountRedirect(wnd!, I18n.getTranslation("account-creation"), "gotoRegisterLink")  
+            LoginDialogBuilder.addAccountRedirect(wnd!, I18n.getTranslation("account-creation-intro"), I18n.getTranslation("account-creation"), "gotoRegisterLink")  
         fi
     methodend
 
@@ -311,10 +311,10 @@ class public LoginDialog
     methodend
 
     method public void gotoRegisterLink()
-        declare BBjThinClient thinClient!
-        thinClient! = BBjAPI().getThinClient()
+        manager! = BBjAPI().getBuiManager()
         if #AccountCreationLink! <> "" then
-            thinClient!.browse(#AccountCreationLink!)
+            manager!.setEndAction(manager!.urlAction(#AccountCreationLink!))
+            bye
         fi
     methodend
 
