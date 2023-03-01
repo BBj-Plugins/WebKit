@@ -160,9 +160,10 @@ class public LoginDialogBuilder extends BBjWidget
         redirectText!.setCallback(BBjAPI.ON_MOUSE_EXIT,dialog!,"onForgotPwHoverExit")
     methodend
 
-    method public static void addAccountRedirect(LoginDialogWindow dialog!, BBjString redirectText!, BBjString methodName!)
+    method public static void addAccountRedirect(LoginDialogWindow dialog!,BBjString introText!, BBjString redirectText!, BBjString methodName!)
         declare BBjStaticText redirectText!
         declare BBjChildWindow linkWrapper!
+        declare BBjStaticText introText!
     
         linkWrapper! = dialog!.getContent().addChildWindow(dialog!.getContent().getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
         linkWrapper!.setCallback(BBjAPI.ON_MOUSE_DOWN,dialog!,methodName!)
@@ -172,7 +173,10 @@ class public LoginDialogBuilder extends BBjWidget
         linkWrapper!.setDockStyle("height","fit-content")
         linkWrapper!.setDockStyle("width","fit-content")
         
-        redirectText! = linkWrapper!.addStaticText(linkWrapper!.getAvailableControlID(),0,0,0,0,redirectText!)
+        redirectWrapper! = linkWrapper!.addChildWindow(linkWrapper!.getAvailableControlID(),0,0,0,0,"",$00108800$,BBjAPI().getSysGui().getAvailableContext())
+        redirectWrapper!.addStyle("redirectWrapper")
+        introText! = redirectWrapper!.addStaticText(redirectWrapper!.getAvailableControlID(),0,0,0,0,introText!)
+        redirectText! = redirectWrapper!.addStaticText(redirectWrapper!.getAvailableControlID(),0,0,0,0,redirectText!)
         dialog!.setAccountText(redirectText!)
         redirectText!.addStyle("forgotPwStlye")
         redirectText!.setCallback(BBjAPI.ON_MOUSE_ENTER,dialog!,"onAccountCreateHover")
