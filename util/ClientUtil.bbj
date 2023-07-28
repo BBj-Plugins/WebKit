@@ -55,7 +55,9 @@ class public ClientUtil
     style! = style!.replaceAll("\r","")
     style! = style!.replaceAll("\n","")
     
-    #getWnd().setAttribute("@app-style-bottom",style!)
+    BBjAPI().getBuiManager().injectStyle(style!)
+
+    rem #getWnd().setAttribute("@app-style-bottom",style!)
 
   methodend
 
