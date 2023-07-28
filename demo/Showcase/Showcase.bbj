@@ -5,6 +5,8 @@ use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
 use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
+use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
+use ::WebKit/widgets/WebComponents/AvatarIcon/AvatarIcon.bbj::AvatarIcon
 use ::WebKit/demo/Showcase/components/ShowCaseFrame.bbj::ShowCaseFrame
 use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
 use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
@@ -24,7 +26,6 @@ ClientUtil.addLocalCSS("WebKit/css/webkit.css")
 
 bbjutils! = new ::BBUtils.bbj::BBUtils()
 
-REM iconPool$ = STBL("icon-pool", "fa")
 iconPool$ = STBL("icon-pool", "tabler")
 
 authProvider! = new SampleAuthProvider()
@@ -81,6 +82,14 @@ showCaseItem!.setStartType(2)
 
 showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
 showCaseItem!.setStartType(2)
+
+menuItem! = menu!.addMenuItem(menu!.getRoot(),108,"Avatar Initial","Avatar Initial Demo","typography")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/AvatarInitial.bbj::AvatarInitial")
+menuItem!.setStartType(0)
+
+menuItem! = menu!.addMenuItem(menu!.getRoot(),100,"Dialog","Dialog Panel Demo","message-circle")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/DialogShowcase.bbj::DialogShowcase")
+menuItem!.setStartType(0)
 
 showCaseSubItem! = menu!.addMenuItem(showCaseItem!,202,"Personal - Sale","Personal - Sale","table")
 showCaseSubItem!.setStartType(2)

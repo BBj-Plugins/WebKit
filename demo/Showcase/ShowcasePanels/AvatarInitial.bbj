@@ -1,0 +1,68 @@
+use ::WebKit/demo/Showcase/ShowcaseWidget/ShowcaseWidget.bbj::ShowcaseWidget
+use ::WebKit/widgets/InputField/InputField.bbj::InputField
+use ::WebKit/framework/DialogPanel/DialogPanel.bbj::DialogPanel
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+use ::WebKit/widgets/WebComponents/WebComponents.bbj::WebComponents
+use ::WebKit/widgets/WebComponents/AvatarIcon/AvatarIcon.bbj::AvatarIcon
+
+class public AvatarInitial extends ShowcaseWidget
+
+    field private BBjChildWindow window!
+    field private BBjHtmlView avatarWnd!
+    field private InputField avatarSize!
+    field private InputField AvatarName!
+    field private BBjCheckBox CbModal!
+    field private BBjCheckBox CbCloseIcon!
+    field private BBjCheckBox CbCloseOutside!
+    field private BBjChildWindow panel!
+
+    method public AvatarInitial(BBjWindow wnd!)
+        #super!(wnd!)
+        
+        #setTitle("Avatar Initial Demo")
+        #setIntro("This demo shows the Avatar initial")
+    methodend
+    method public void redraw(Boolean init!)
+    #super!.redraw(init!)
+   
+    if init! then
+        
+        #panel! = #getContentWindow()
+        #panel!.setStyle("display","flex")
+        #panel!.setStyle("flex-direction","column")
+        #panel!.setStyle("row-gap","10px")
+        
+        #AvatarName! = new InputField(#panel!)
+        #AvatarName!.setLabel("Avatar Name")
+        #AvatarName!.setInput("Stephan Wald")
+
+        #avatarSize! = new InputField(#panel!)
+        #avatarSize!.setLabel("Size")
+        #avatarSize!.setInput("50")
+        
+        BtnShow! = #panel!.addButton(#panel!.getAvailableControlID(),0,0,0,0,"Create Avatar")
+        BtnShow!.setStyle("display","flex")
+        BtnShow!.setStyle("justify-content","flex-end")
+        BtnShow!.setAttribute("theme","primary")
+        BtnShow!.setAttribute("expanse","l")
+        BtnShow!.setCallback(BBjAPI().ON_BUTTON_PUSH,#this!,"onShowDialog")    
+
+    endif
+methodend
+
+method public void onShowDialog(BBjButtonPushEvent ev!)
+
+    if #avatarWnd! <> null() then  
+        #avatarWnd!.destroy()
+    endif
+
+    webComponents! = new AvatarIcon(#panel!)
+    #avatarWnd! = CAST(BBjHtmlView, webComponents!.getView())
+    webComponents!.setName(#AvatarName!.getInput())
+    webComponents!.setSize(#avatarSize!.getInput())
+
+    #avatarWnd!.setStyle("margin","auto")
+    
+methodend
+    
+classend
